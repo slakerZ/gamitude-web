@@ -2,22 +2,17 @@
     display: grid;
     gap: 1%;
     padding: 1%;
-    height: 100vh;
+    height: 92.5vh;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 2fr 3fr 2fr;
+    grid-template-rows: 1fr 2fr 1fr;
     grid-template-areas:
-        "nav nav"
         "rank stats"
         "projects projects"
         "energies energies";
-    .nav {
-        grid-area: nav;
-        background-color: rgb(56, 161, 168);
-    }
     .rank {
         grid-area: rank;
         background-color: rgb(182, 56, 56);
-        background-image: url("../../assets/ranks_default/0-0-0-0-desktop.jpg");
+        background-image: url("../../assets/ranks_default/0-0-0-0.jpg");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -38,9 +33,8 @@
 @media (min-width: 768px) {
     .homepage {
         grid-template-columns: 1fr 2fr;
-        grid-template-rows: 1fr 2fr 3fr;
+        grid-template-rows: 1fr 2fr;
         grid-template-areas:
-            "nav nav"
             "rank stats"
             "energies projects";
     }
@@ -48,9 +42,8 @@
 @media (min-width: 1200px) {
     .homepage {
         grid-template-columns: 1fr 2fr 2fr;
-        grid-template-rows: 1fr 3fr 3fr;
+        grid-template-rows: 1fr 1fr;
         grid-template-areas:
-            "nav nav nav"
             "rank projects energies"
             "rank projects stats";
     }
