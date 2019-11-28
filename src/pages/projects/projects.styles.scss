@@ -1,0 +1,50 @@
+.projects-page {
+    display: grid;
+    gap: 1%;
+    padding: 1%;
+    height: 92.5vh;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-areas:
+        "rank stats"
+        "projects projects"
+        "energies energies";
+    .rank {
+        grid-area: rank;
+        background-color: rgb(182, 56, 56);
+        background-image: url("../../assets/ranks_default/0-0-0-0.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .projects {
+        grid-area: projects;
+        background-color: rgb(86, 86, 202);
+    }
+    .energies {
+        grid-area: energies;
+        background-color: rgb(44, 158, 44);
+    }
+    .stats {
+        grid-area: stats;
+        background-color: rgb(179, 179, 45);
+    }
+}
+@media (min-width: 768px) {
+    .projects-page {
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 1fr 2fr;
+        grid-template-areas:
+            "rank stats"
+            "energies projects";
+    }
+}
+@media (min-width: 1200px) {
+    .projects-page {
+        grid-template-columns: 1fr 2fr 2fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+            "rank projects energies"
+            "rank projects stats";
+    }
+}
