@@ -32,8 +32,10 @@ class Navigation extends React.Component {
     };
     render() {
         const iconStyles = { width: "6vh", height: "6vh" };
+        const iconStylesMobile = { width: "4vh", height: "4vh" };
         const isMobile = this.state.width < 768;
-        return isMobile ? (
+        const patology = { position: "fixed", bottom: 0, left: 0 };
+        return !isMobile ? (
             <Paper square>
                 <Tabs
                     className="navigation"
@@ -63,18 +65,18 @@ class Navigation extends React.Component {
                 </Tabs>
             </Paper>
         ) : (
-            <BottomNavigation showLabels>
+            <BottomNavigation style={patology} showLabels>
                 <BottomNavigationAction
                     label="Home"
-                    icon={<Logo style={iconStyles} />}
+                    icon={<Logo style={iconStylesMobile} />}
                 />
                 <BottomNavigationAction
                     label="Projects"
-                    icon={<ProjectsIcon style={iconStyles} />}
+                    icon={<ProjectsIcon style={iconStylesMobile} />}
                 />{" "}
                 <BottomNavigationAction
                     label="BulletJournal"
-                    icon={<BulletJournalIcon style={iconStyles} />}
+                    icon={<BulletJournalIcon style={iconStylesMobile} />}
                 />
             </BottomNavigation>
         );
