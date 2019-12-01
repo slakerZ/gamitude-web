@@ -16,29 +16,25 @@
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
-        min-height: 200px;
     }
     .projects {
         grid-area: projects;
         background-color: rgb(86, 86, 202);
-        min-height: 200px;
     }
     .energies {
         grid-area: energies;
         background-color: rgb(44, 158, 44);
-        min-height: 200px;
     }
     .stats {
         grid-area: stats;
         background-color: rgb(179, 179, 45);
-        min-height: 200px;
     }
 }
 @media (min-width: 768px) {
     .projects-page {
         grid-template-columns: 1fr 2fr;
         grid-template-rows: 1fr 2fr;
-        height: 89vh;
+        height: 87vh;
         grid-template-areas:
             "rank stats"
             "energies projects";
