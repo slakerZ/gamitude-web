@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 });
 
 export default function NavigationDesktop() {
-    // Temporarely
+    // Tests
     const isSignedIn = false;
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
@@ -40,37 +40,42 @@ export default function NavigationDesktop() {
                 variant="fullWidth"
                 indicatorColor="primary"
                 textColor="primary"
-                aria-label="icon tabs example"
+                aria-label="Gamitude's Navigation"
             >
                 <Tab
                     icon={<Logo className={classes.icons} />}
                     aria-label="Home"
                     component={Link}
                     to="/"
+                    label="Home"
                 />
                 <Tab
                     icon={<ProjectsIcon className={classes.icons} />}
                     aria-label="Projects"
                     component={Link}
                     to="/projects"
+                    label="Projects"
                 />
                 <Tab
                     icon={<BulletJournalIcon className={classes.icons} />}
                     aria-label="Bullet Journal"
                     component={Link}
                     to="/bulletJournal"
+                    label="Bullet Journal"
                 />
                 {isSignedIn ? (
                     <Tab
                         icon={<ProfileIcon className={classes.icons} />}
                         component={Link}
                         to="/profile"
+                        label="Profile"
                     />
                 ) : (
                     <Tab
                         icon={<GuestIcon className={classes.icons} />}
                         component={Link}
                         to="/signInSignUp"
+                        label="Sign In / Sign Up"
                     />
                 )}
             </Tabs>
