@@ -1,6 +1,4 @@
 import React from "react";
-//Styles
-import "./navigation.styles.scss";
 // Components
 import NavigationDesktop from "../navigation-desktop/navigation-desktop.component.jsx";
 import NavigationMobile from "../navigation-mobile/navigation-mobile.component.jsx";
