@@ -4,7 +4,7 @@
     padding: 1%;
     height: 92.5vh;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 1.5fr 1fr;
     grid-template-areas:
         "rank stats"
         "projects projects"
@@ -16,24 +16,29 @@
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
+        min-height: 200px;
     }
     .projects {
         grid-area: projects;
         background-color: rgb(86, 86, 202);
+        min-height: 200px;
     }
     .energies {
         grid-area: energies;
         background-color: rgb(44, 158, 44);
+        min-height: 200px;
     }
     .stats {
         grid-area: stats;
         background-color: rgb(179, 179, 45);
+        min-height: 200px;
     }
 }
 @media (min-width: 768px) {
     .projects-page {
         grid-template-columns: 1fr 2fr;
         grid-template-rows: 1fr 2fr;
+        height: 89vh;
         grid-template-areas:
             "rank stats"
             "energies projects";

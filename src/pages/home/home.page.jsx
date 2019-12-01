@@ -4,6 +4,46 @@ const HomePage = () => {
     return (
         <div>
             <h1>Home</h1>
+            <div>
+                Icons made by{" "}
+                <a
+                    href="https://www.flaticon.com/authors/freepik"
+                    title="Freepik"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Freepik
+                </a>{" "}
+                from{" "}
+                <a
+                    href="https://www.flaticon.com/"
+                    title="Flaticon"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    www.flaticon.com
+                </a>
+            </div>{" "}
+            <div>
+                Icons made by{" "}
+                <a
+                    href="https://www.flaticon.com/authors/smashicons"
+                    title="Smashicons"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Smashicons
+                </a>{" "}
+                from{" "}
+                <a
+                    href="https://www.flaticon.com/"
+                    title="Flaticon"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    www.flaticon.com
+                </a>
+            </div>
         </div>
     );
 };
