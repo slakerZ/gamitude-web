@@ -15,13 +15,15 @@ const useStyles = makeStyles({
         bottom: 0,
         left: 0,
     },
+    icons: {
+        width: "4vh",
+        height: "4vh",
+    },
 });
 
 export default function NavigationMobile() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-
-    const iconStylesMobile = { width: "4vh", height: "4vh" };
 
     return (
         <BottomNavigation
@@ -36,19 +38,19 @@ export default function NavigationMobile() {
                 component={Link}
                 to="/"
                 label="Home"
-                icon={<Logo style={iconStylesMobile} />}
+                icon={<Logo className={classes.icons} />}
             />
             <BottomNavigationAction
                 component={Link}
                 to="/projects"
                 label="Projects"
-                icon={<ProjectsIcon style={iconStylesMobile} />}
+                icon={<ProjectsIcon className={classes.icons} />}
             />
             <BottomNavigationAction
                 component={Link}
                 to="/bulletJournal"
                 label="Bullet Journal"
-                icon={<BulletJournalIcon style={iconStylesMobile} />}
+                icon={<BulletJournalIcon className={classes.icons} />}
             />
         </BottomNavigation>
     );

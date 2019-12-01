@@ -6,6 +6,9 @@ import Navigation from "./components/navigation/navigation.component.jsx";
 import HomePage from "./pages/home/home.page.jsx";
 import ProjectsPage from "./pages/projects/projects.page.jsx";
 import BulletJournalPage from "./pages/bullet-journal/bullet-journal.page.jsx";
+import SignInSignUpPage from "./pages/signInSignUp/sign-in-sign-up.page.jsx";
+import ProfilePage from "./pages/profile/profile.page.jsx";
+
 // Styles
 import "./App.css";
 
@@ -26,6 +29,11 @@ class App extends React.Component {
                         <Route
                             path="/bulletJournal"
                             component={BulletJournalPage}
+                        />
+                        <Route path="/profile" component={ProfilePage} />
+                        <Route
+                            path="/signInSignUp"
+                            component={SignInSignUpPage}
                         />
                     </Switch>
                 </div>
