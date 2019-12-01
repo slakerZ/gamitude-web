@@ -3,9 +3,10 @@ import React from "react";
 import NavigationDesktop from "../navigation-desktop/navigation-desktop.component.jsx";
 import NavigationMobile from "../navigation-mobile/navigation-mobile.component.jsx";
 
+//TODO replace this method of handling resizing with a better one - react-sizes library
 class Navigation extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             width: window.innerWidth,
         };
