@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 // Components
 import Navigation from "./components/navigation/navigation.component.jsx";
 // Pages
@@ -19,25 +19,20 @@ class App extends React.Component {
     }
     render() {
         return (
-            <Router>
-                <div className="app">
-                    <Navigation />
+            <div className="app">
+                <Navigation />
 
-                    <Switch>
-                        <Route exact path="/" component={HomePage} />
-                        <Route path="/projects" component={ProjectsPage} />
-                        <Route
-                            path="/bulletJournal"
-                            component={BulletJournalPage}
-                        />
-                        <Route path="/profile" component={ProfilePage} />
-                        <Route
-                            path="/signInSignUp"
-                            component={SignInSignUpPage}
-                        />
-                    </Switch>
-                </div>
-            </Router>
+                <Switch>
+                    <Route exact path="/" component={HomePage} />
+                    <Route path="/projects" component={ProjectsPage} />
+                    <Route
+                        path="/bulletJournal"
+                        component={BulletJournalPage}
+                    />
+                    <Route path="/profile" component={ProfilePage} />
+                    <Route path="/signInSignUp" component={SignInSignUpPage} />
+                </Switch>
+            </div>
         );
     }
 }

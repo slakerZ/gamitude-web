@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 // Styles
 import "./stats-and-energies.styles.scss";
 // SVG's
@@ -9,12 +10,11 @@ import { ReactComponent as Soul } from "../../assets/icons/energies/soul.svg";
 import { ReactComponent as Strength } from "../../assets/icons/stats/strength.svg";
 import { ReactComponent as Creativity } from "../../assets/icons/stats/creativity.svg";
 import { ReactComponent as Intelligence } from "../../assets/icons/stats/intelligence.svg";
-import { ReactComponent as Adaptability } from "../../assets/icons/stats/adaptability.svg";
+import { ReactComponent as Fluency } from "../../assets/icons/stats/fluency.svg";
 
-const StatsAndEnergies = ({ which }) => {
-    const bodyEnergy = 50;
+const StatsAndEnergies = ({ which, body }) => {
     const bodyStyle = {
-        width: `${bodyEnergy}%`,
+        width: `${body}%`,
     };
     return (
         <div className={which}>
@@ -56,7 +56,7 @@ const StatsAndEnergies = ({ which }) => {
                     {which === "energies" ? (
                         <Soul className="icon" />
                     ) : (
-                        <Adaptability className="icon" />
+                        <Fluency className="icon" />
                     )}
                     <div className="bar soul"></div>
                 </div>
@@ -65,4 +65,8 @@ const StatsAndEnergies = ({ which }) => {
     );
 };
 
-export default StatsAndEnergies;
+const mapStateToProps = state => ({
+    body: state.statsAndEnergies.body,
+});
+
+export default connect(mapStateToProps)(StatsAndEnergies);

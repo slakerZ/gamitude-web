@@ -5,11 +5,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 // SVG's
-import { ReactComponent as ProjectsIcon } from "../../assets/icons/projects.svg";
-import { ReactComponent as BulletJournalIcon } from "../../assets/icons/journal.svg";
-import { ReactComponent as Logo } from "../../assets/icons/sloth.svg";
-import { ReactComponent as ProfileIcon } from "../../assets/icons/profile.svg";
-import { ReactComponent as GuestIcon } from "../../assets/icons/guest.svg";
+import { ReactComponent as ProjectsIcon } from "../../assets/icons/navigation/projects.svg";
+import { ReactComponent as BulletJournalIcon } from "../../assets/icons/navigation/journal.svg";
+import { ReactComponent as Logo } from "../../assets/icons/navigation/sloth.svg";
+import { ReactComponent as ProfileIcon } from "../../assets/icons/navigation/profile.svg";
+import { ReactComponent as GuestIcon } from "../../assets/icons/navigation/guest.svg";
 
 const useStyles = makeStyles({
     root: {
