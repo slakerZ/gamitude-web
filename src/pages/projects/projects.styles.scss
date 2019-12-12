@@ -2,13 +2,15 @@
     display: grid;
     gap: 1%;
     padding: 1%;
+    min-height: 600px;
     height: 92.5vh;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1.5fr 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 2fr 1fr;
     grid-template-areas:
-        "rank stats"
-        "projects projects"
-        "energies energies";
+        "rank"
+        "energies"
+        "projects"
+        "stats";
     .rank {
         grid-area: rank;
         background-color: rgb(182, 56, 56);
