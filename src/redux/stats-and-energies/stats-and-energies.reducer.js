@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-    body: 40,
+    body: 100,
     emotions: 100,
     mind: 100,
     soul: 100,
