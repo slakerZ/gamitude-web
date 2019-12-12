@@ -4,12 +4,24 @@
     .energy-container {
         display: flex;
         flex-direction: column;
+        .energy-icon {
+            width: 50px;
+            height: 50px;
+            float: left;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            background-color: rgba(16, 44, 80, 0.877);
+            padding: 5px;
+        }
+        &::after {
+            clear: both;
+        }
         .progress {
             max-width: 100%;
             height: 50px;
             margin: 35px;
             border-radius: 20px;
-            background: #f9f9f9;
+            background-color: rgba(16, 44, 80, 0.877);
             .bar {
                 border-radius: 20px;
                 width: 80%;
