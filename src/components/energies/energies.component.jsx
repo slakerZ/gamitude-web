@@ -8,11 +8,25 @@ import { ReactComponent as Emotions } from "../../assets/icons/energies/emotions
 import { ReactComponent as Mind } from "../../assets/icons/energies/mind.svg";
 import { ReactComponent as Soul } from "../../assets/icons/energies/soul.svg";
 // Actions
-import { setBody, setEmotions } from "../../redux/energies/energies.actions.js";
+import {
+    setBody,
+    setEmotions,
+    setMind,
+    setSoul,
+} from "../../redux/energies/energies.actions.js";
 // Components
 import ProgressBar from "../progress-bar/progress-bar.component.jsx";
 
-const Energies = ({ body, emotions, mind, soul, setBody, setEmotions }) => {
+const Energies = ({
+    body,
+    emotions,
+    mind,
+    soul,
+    setBody,
+    setEmotions,
+    setMind,
+    setSoul,
+}) => {
     return (
         <div className="energies">
             <ProgressBar barType="body" stat={body}>
@@ -25,10 +39,10 @@ const Energies = ({ body, emotions, mind, soul, setBody, setEmotions }) => {
                 />
             </ProgressBar>
             <ProgressBar barType="mind" stat={mind}>
-                <Mind className="icon" />
+                <Mind className="icon" onClick={() => setMind(mind - 10)} />
             </ProgressBar>
             <ProgressBar barType="soul" stat={soul}>
-                <Soul className="icon" />
+                <Soul className="icon" onClick={() => setSoul(soul - 10)} />
             </ProgressBar>
         </div>
     );
@@ -44,6 +58,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     setBody: value => dispatch(setBody(value)),
     setEmotions: value => dispatch(setEmotions(value)),
+    setMind: value => dispatch(setMind(value)),
+    setSoul: value => dispatch(setSoul(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Energies);

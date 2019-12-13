@@ -19,6 +19,16 @@ const energiesReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 emotions: action.payload,
             };
+        case EnergiesActionTypes.SET_MIND:
+            return {
+                ...state,
+                mind: action.payload,
+            };
+        case EnergiesActionTypes.SET_SOUL:
+            return {
+                ...state,
+                soul: action.payload,
+            };
         default:
             return state;
     }

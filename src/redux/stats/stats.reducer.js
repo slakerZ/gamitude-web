@@ -1,10 +1,10 @@
 import { StatsActionTypes } from "./stats.types";
 
 const INITIAL_STATE = {
-    strength: 0,
-    creativity: 0,
-    intelligence: 0,
-    fluency: 0,
+    strength: 100,
+    creativity: 100,
+    intelligence: 100,
+    fluency: 100,
 };
 
 const statsReducer = (state = INITIAL_STATE, action) => {
@@ -13,6 +13,21 @@ const statsReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 strength: action.payload,
+            };
+        case StatsActionTypes.SET_CREATIVITY:
+            return {
+                ...state,
+                creativity: action.payload,
+            };
+        case StatsActionTypes.SET_INTELLIGENCE:
+            return {
+                ...state,
+                intelligence: action.payload,
+            };
+        case StatsActionTypes.SET_FLUENCY:
+            return {
+                ...state,
+                fluency: action.payload,
             };
         default:
             return state;
