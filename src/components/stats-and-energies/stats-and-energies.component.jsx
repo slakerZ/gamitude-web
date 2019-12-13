@@ -26,16 +26,19 @@ const StatsAndEnergies = ({
     intelligence,
     soul,
     fluency,
+    setBodyEnergy,
 }) => {
     return (
         <div className={which}>
             <ProgressBar
                 barType="body"
                 stat={which === "energies" ? body : strength}
-                onClick={() => setBodyEnergy(50)}
             >
                 {which === "energies" ? (
-                    <Body className="icon" />
+                    <Body
+                        className="icon"
+                        onClick={() => setBodyEnergy(body - 1)}
+                    />
                 ) : (
                     <Strength className="icon" />
                 )}
