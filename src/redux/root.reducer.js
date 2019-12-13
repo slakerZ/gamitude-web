@@ -1,7 +1,9 @@
 import { combineReducers } from "redux";
 // Reducers
-import statsAndEnergiesReducer from "./stats-and-energies/stats-and-energies.reducer";
+import energiesReducer from "./energies/energies.reducer";
+import statsReducer from "./stats/stats.reducer";
 
 export default combineReducers({
-    statsAndEnergies: statsAndEnergiesReducer,
+    energies: energiesReducer,
+    stats: statsReducer,
 });

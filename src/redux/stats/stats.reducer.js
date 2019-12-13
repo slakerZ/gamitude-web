@@ -1,24 +1,22 @@
+import { StatsActionTypes } from "./stats.types";
+
 const INITIAL_STATE = {
-    body: 100,
-    emotions: 100,
-    mind: 100,
-    soul: 100,
     strength: 0,
     creativity: 0,
     intelligence: 0,
     fluency: 0,
 };
 
-const statsAndEnergiesReducer = (state = INITIAL_STATE, action) => {
+const statsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case "SET_BODY_ENERGY":
+        case StatsActionTypes.SET_STRENGTH:
             return {
                 ...state,
-                body: action.payload,
+                strength: action.payload,
             };
         default:
             return state;
     }
 };
 
-export default statsAndEnergiesReducer;
+export default statsReducer;
