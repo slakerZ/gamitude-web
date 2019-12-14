@@ -12,29 +12,20 @@ import ProfilePage from "./pages/profile/profile.page.jsx";
 // Styles
 import "./App.css";
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-    render() {
-        return (
-            <div className="app">
-                <Navigation />
+const App = () => {
+    return (
+        <div className="app">
+            <Navigation />
 
-                <Switch>
-                    <Route exact path="/" component={HomePage} />
-                    <Route path="/projects" component={ProjectsPage} />
-                    <Route
-                        path="/bulletJournal"
-                        component={BulletJournalPage}
-                    />
-                    <Route path="/profile" component={ProfilePage} />
-                    <Route path="/signInSignUp" component={SignInSignUpPage} />
-                </Switch>
-            </div>
-        );
-    }
-}
+            <Switch>
+                <Route exact path="/" component={HomePage} />
+                <Route path="/projects" component={ProjectsPage} />
+                <Route path="/bulletJournal" component={BulletJournalPage} />
+                <Route path="/profile" component={ProfilePage} />
+                <Route path="/signInSignUp" component={SignInSignUpPage} />
+            </Switch>
+        </div>
+    );
+};
 
 export default App;
