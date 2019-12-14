@@ -1,5 +1,7 @@
-html {
+html,
+:root {
     box-sizing: border-box;
+    font-size: 14px;
 }
 *,
 *:before,
@@ -18,4 +20,11 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
+}
+
+@media (max-width: 360px) {
+    html,
+    :root {
+        font-size: 12px;
+    }
 }

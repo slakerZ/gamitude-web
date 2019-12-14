@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+// Actions
+import { setTab } from "../../redux/navigation/navigation.actions";
 // Material UI
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -23,18 +26,16 @@ const useStyles = makeStyles({
         height: "4vh",
     },
 });
-
-export default function NavigationMobile() {
+const NavigationMobile = ({ tab, setTab }) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-    // Tests
     const isSignedIn = true;
+    const handleChange = (event, newValue) => {
+        setTab(newValue);
+    };
     return (
         <BottomNavigation
-            value={value}
-            onChange={(event, newValue) => {
-                setValue(newValue);
-            }}
+            value={tab}
+            onChange={handleChange}
             showLabels
             className={classes.root}
         >
@@ -73,4 +74,14 @@ export default function NavigationMobile() {
             )}
         </BottomNavigation>
     );
-}
+};
+
+const mapStateToProps = state => ({
+    tab: state.navigation.tab,
+});
+
+const mapDispatchToProps = dispatch => ({
+    setTab: value => dispatch(setTab(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationMobile);

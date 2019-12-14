@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 // Material UI
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -11,6 +12,8 @@ import { ReactComponent as BulletJournalIcon } from "../../assets/icons/navigati
 import { ReactComponent as Logo } from "../../assets/icons/navigation/sloth.svg";
 import { ReactComponent as ProfileIcon } from "../../assets/icons/navigation/profile.svg";
 import { ReactComponent as GuestIcon } from "../../assets/icons/navigation/guest.svg";
+// Actions
+import { setTab } from "../../redux/navigation/navigation.actions";
 
 const useStyles = makeStyles({
     root: {
@@ -23,19 +26,17 @@ const useStyles = makeStyles({
     },
 });
 
-export default function NavigationDesktop() {
-    // Tests
+const NavigationDesktop = ({ tab, setTab }) => {
     const isSignedIn = false;
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        setTab(newValue);
     };
     return (
         <Paper square className={classes.root}>
             <Tabs
-                value={value}
+                value={tab}
                 onChange={handleChange}
                 variant="fullWidth"
                 indicatorColor="primary"
@@ -81,4 +82,14 @@ export default function NavigationDesktop() {
             </Tabs>
         </Paper>
     );
-}
+};
+
+const mapStateToProps = state => ({
+    tab: state.navigation.tab,
+});
+
+const mapDispatchToProps = dispatch => ({
+    setTab: tab => dispatch(setTab(tab)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationDesktop);

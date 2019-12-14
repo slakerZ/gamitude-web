@@ -1,31 +1,23 @@
 import React from "react";
+import { connect } from "react-redux";
 // Components
 import NavigationDesktop from "../navigation-desktop/navigation-desktop.component.jsx";
 import NavigationMobile from "../navigation-mobile/navigation-mobile.component.jsx";
+// Actions
+import { setWidth } from "../../redux/navigation/navigation.actions";
 
-//TODO replace this method of handling resizing with a better one - react-sizes library
-class Navigation extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            width: window.innerWidth,
-        };
-        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this);
-    }
-    UNSAFE_componentWillMount() {
-        window.addEventListener("resize", this.handleWindowSizeChange);
-    }
-    componentWillUnmount() {
-        window.removeEventListener("resize", this.handleWindowSizeChange);
-    }
-    handleWindowSizeChange() {
-        this.setState({ width: window.innerWidth });
-    }
-    render() {
-        const isMobile = this.state.width < 768;
+const Navigation = ({ width, setWidth }) => {
+    window.addEventListener("resize", value => setWidth(value));
+    const isMobile = width < 768;
+    return isMobile ? <NavigationMobile /> : <NavigationDesktop />;
+};
 
-        return isMobile ? <NavigationMobile /> : <NavigationDesktop />;
-    }
-}
+const mapStateToProps = state => ({
+    width: state.navigation.width,
+});
 
-export default Navigation;
+const mapDispatchToProps = dispatch => ({
+    setWidth: value => dispatch(setWidth(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
