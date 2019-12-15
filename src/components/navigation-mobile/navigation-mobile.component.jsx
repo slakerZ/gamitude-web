@@ -1,15 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+// Actions
+import { setTab } from "../../redux/navigation/navigation.actions";
 // Material UI
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 // SVG's
-import { ReactComponent as ProjectsIcon } from "../../assets/icons/projects.svg";
-import { ReactComponent as BulletJournalIcon } from "../../assets/icons/journal.svg";
-import { ReactComponent as Logo } from "../../assets/icons/sloth.svg";
-import { ReactComponent as ProfileIcon } from "../../assets/icons/profile.svg";
-import { ReactComponent as GuestIcon } from "../../assets/icons/guest.svg";
+import { ReactComponent as ProjectsIcon } from "../../assets/icons/navigation/projects.svg";
+import { ReactComponent as BulletJournalIcon } from "../../assets/icons/navigation/journal.svg";
+import { ReactComponent as Logo } from "../../assets/icons/navigation/sloth.svg";
+import { ReactComponent as ProfileIcon } from "../../assets/icons/navigation/profile.svg";
+import { ReactComponent as GuestIcon } from "../../assets/icons/navigation/guest.svg";
 
 const useStyles = makeStyles({
     root: {
@@ -23,18 +26,16 @@ const useStyles = makeStyles({
         height: "4vh",
     },
 });
-
-export default function NavigationMobile() {
+const NavigationMobile = ({ tab, setTab }) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-    // Tests
     const isSignedIn = true;
+    const handleChange = (event, newValue) => {
+        setTab(newValue);
+    };
     return (
         <BottomNavigation
-            value={value}
-            onChange={(event, newValue) => {
-                setValue(newValue);
-            }}
+            value={tab}
+            onChange={handleChange}
             showLabels
             className={classes.root}
         >
@@ -73,4 +74,14 @@ export default function NavigationMobile() {
             )}
         </BottomNavigation>
     );
-}
+};
+
+const mapStateToProps = state => ({
+    tab: state.navigation.tab,
+});
+
+const mapDispatchToProps = dispatch => ({
+    setTab: value => dispatch(setTab(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationMobile);

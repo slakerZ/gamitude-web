@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 // Components
 import Navigation from "./components/navigation/navigation.component.jsx";
 // Pages
@@ -12,34 +12,20 @@ import ProfilePage from "./pages/profile/profile.page.jsx";
 // Styles
 import "./App.css";
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-    render() {
-        return (
-            <Router>
-                <div className="app">
-                    <Navigation />
+const App = () => {
+    return (
+        <div className="app">
+            <Navigation />
 
-                    <Switch>
-                        <Route exact path="/" component={HomePage} />
-                        <Route path="/projects" component={ProjectsPage} />
-                        <Route
-                            path="/bulletJournal"
-                            component={BulletJournalPage}
-                        />
-                        <Route path="/profile" component={ProfilePage} />
-                        <Route
-                            path="/signInSignUp"
-                            component={SignInSignUpPage}
-                        />
-                    </Switch>
-                </div>
-            </Router>
-        );
-    }
-}
+            <Switch>
+                <Route exact path="/" component={HomePage} />
+                <Route path="/projects" component={ProjectsPage} />
+                <Route path="/bulletJournal" component={BulletJournalPage} />
+                <Route path="/profile" component={ProfilePage} />
+                <Route path="/signInSignUp" component={SignInSignUpPage} />
+            </Switch>
+        </div>
+    );
+};
 
 export default App;

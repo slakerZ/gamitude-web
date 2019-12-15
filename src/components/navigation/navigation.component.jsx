@@ -3,29 +3,23 @@ import React from "react";
 import NavigationDesktop from "../navigation-desktop/navigation-desktop.component.jsx";
 import NavigationMobile from "../navigation-mobile/navigation-mobile.component.jsx";
 
-//TODO replace this method of handling resizing with a better one - react-sizes library
-class Navigation extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            width: window.innerWidth,
-        };
-        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this);
-    }
-    UNSAFE_componentWillMount() {
-        window.addEventListener("resize", this.handleWindowSizeChange);
-    }
-    componentWillUnmount() {
-        window.removeEventListener("resize", this.handleWindowSizeChange);
-    }
-    handleWindowSizeChange() {
-        this.setState({ width: window.innerWidth });
-    }
-    render() {
-        const isMobile = this.state.width < 768;
+const Navigation = () => {
+    const [width, setWidth] = React.useState(window.innerWidth);
 
-        return isMobile ? <NavigationMobile /> : <NavigationDesktop />;
-    }
-}
+    React.useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        };
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    });
+
+    const isMobile = width < 768;
+
+    return isMobile ? <NavigationMobile /> : <NavigationDesktop />;
+};
 
 export default Navigation;
