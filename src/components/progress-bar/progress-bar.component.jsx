@@ -9,7 +9,7 @@ const ProgressBar = ({ children, barType, stat }) => {
         <div className="container">
             <div className="progress">
                 {children}
-                <div className={`bar ${barType}`} style={barStyle}></div>
+                <div className={`bar ${barType}`} style={barStyle} />
             </div>
         </div>
     );
