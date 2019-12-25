@@ -1,4 +1,7 @@
 .rank-displays {
+    grid-area: rank-displays;
+    background-color: royalblue;
     display: flex;
-    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 }

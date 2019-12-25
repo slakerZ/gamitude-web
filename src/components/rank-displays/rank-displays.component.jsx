@@ -20,19 +20,19 @@ const RankDisplays = ({ strength, creativity, intelligence, fluency }) => {
         <div className="rank-displays">
             <RankDisplay
                 Icon={Strength}
-                Diff={slothRequirements.strength - strength}
+                Diff={strength - slothRequirements.strength}
             />
             <RankDisplay
                 Icon={Creativity}
-                Diff={slothRequirements.creativity - creativity}
+                Diff={creativity - slothRequirements.creativity}
             />
             <RankDisplay
                 Icon={Intelligence}
-                Diff={slothRequirements.intelligence - intelligence}
+                Diff={intelligence - slothRequirements.intelligence}
             />
             <RankDisplay
                 Icon={Fluency}
-                Diff={slothRequirements.fluency - fluency}
+                Diff={fluency - slothRequirements.fluency}
             />
         </div>
     );

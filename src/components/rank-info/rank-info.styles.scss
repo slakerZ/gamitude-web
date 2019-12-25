@@ -1,23 +1,24 @@
 .rank-info {
     display: grid;
+    gap: 15px;
     grid-template-columns: 2fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 2fr 1fr 2fr;
     grid-template-areas:
-        "rank-img tier"
-        "rank-img rank-name";
-    .rank-img {
-        background-image: url("../../assets/ranks_default/sloth-1.jpg");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        grid-area: rank-img;
-        min-width: 200px;
-        min-height: 200px;
-    }
+        "rank-img rank-name"
+        "rank-img rank-displays"
+        "rank-img tier";
     .tier {
         grid-area: tier;
+        background-color: red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .rank-name {
         grid-area: rank-name;
+        background-color: rebeccapurple;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }

@@ -1,8 +1,14 @@
 .rank-display {
+    $icon-dims: 50px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     .stat-icon {
-        width: 40px;
-        height: 40px;
+        width: $icon-dims;
+        height: $icon-dims;
+    }
+    .stat-value {
+        font-weight: bold;
     }
 }
