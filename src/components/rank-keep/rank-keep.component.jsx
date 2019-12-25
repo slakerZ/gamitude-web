@@ -6,12 +6,14 @@ import { ReactComponent as Creativity } from "../../assets/icons/stats/creativit
 import { ReactComponent as Intelligence } from "../../assets/icons/stats/intelligence.svg";
 import { ReactComponent as Fluency } from "../../assets/icons/stats/fluency.svg";
 
-import HelpIcon from "../help-icon/help-icon.component.jsx";
+import RankDisplay from "../rank-display/rank-display.component.jsx";
 
 const RankKeep = () => (
     <div className="rank-keep">
-        12 Strength 10 Creativity 10 Intelligence 10 Fluency
-        <HelpIcon text="This indicates by how much you have to increase given stat to keep your current rank" />
+        <RankDisplay Icon={Strength} />
+        <RankDisplay Icon={Creativity} />
+        <RankDisplay Icon={Intelligence} />
+        <RankDisplay Icon={Fluency} />
     </div>
 );
 export default RankKeep;

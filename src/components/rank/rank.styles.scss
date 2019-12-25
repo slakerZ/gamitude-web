@@ -5,6 +5,7 @@
     grid-template-areas:
         "rank-info"
         "rank-keep";
+    padding: 10px;
     .rank-info {
         grid-area: rank-info;
     }

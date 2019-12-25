@@ -8,14 +8,24 @@ const useStyles = makeStyles({
         width: "25px",
         height: "25px",
     },
+    tooltip: {
+        position: "absolute",
+        bottom: "0",
+        right: "0",
+    },
+    rel: {
+        position: "relative",
+    },
 });
 
 const HelpIcon = ({ text }) => {
     const classes = useStyles();
     return (
-        <Tooltip title={text}>
-            <Help className={classes.icon} />
-        </Tooltip>
+        <div className={classes.rel}>
+            <Tooltip className={classes.tooltip} title={text}>
+                <Help className={classes.icon} />
+            </Tooltip>
+        </div>
     );
 };
 
