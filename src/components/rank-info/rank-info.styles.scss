@@ -1,0 +1,23 @@
+.rank-info {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+        "rank-img tier"
+        "rank-img rank-name";
+    .rank-img {
+        background-image: url("../../assets/ranks_default/sloth-1.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        grid-area: rank-img;
+        min-width: 200px;
+        min-height: 200px;
+    }
+    .tier {
+        grid-area: tier;
+    }
+    .rank-name {
+        grid-area: rank-name;
+    }
+}
