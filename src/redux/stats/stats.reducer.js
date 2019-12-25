@@ -1,10 +1,10 @@
 import { StatsActionTypes } from "./stats.types";
 
 const INITIAL_STATE = {
-    strength: 100,
-    creativity: 100,
-    intelligence: 100,
-    fluency: 100,
+    strength: 0,
+    creativity: 0,
+    intelligence: 0,
+    fluency: 0,
 };
 
 const statsReducer = (state = INITIAL_STATE, action) => {
