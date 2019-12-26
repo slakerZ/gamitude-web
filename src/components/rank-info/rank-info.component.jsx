@@ -1,32 +1,17 @@
 import React from "react";
 import "./rank-info.styles.scss";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 
 import RankDisplays from "../rank-displays/rank-displays.component.jsx";
+import RankImage from "../rank-image/rank-image.component.jsx";
+import RankTier from "../rank-tier/rank-tier.component.jsx";
+import RankName from "../rank-name/rank-name.component.jsx";
 
 const RankInfo = ({ rankName, rankTier, rankImage }) => {
-    const useStyles = makeStyles({
-        rankImg: {
-            backgroundImage: `url(${rankImage})`,
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            gridArea: "rank-img",
-            borderRadius: "15px",
-            border: "10px inset silver",
-        },
-    });
-    const classes = useStyles();
     return (
         <div className="rank-info">
-            <div className={classes.rankImg} />
-            <Typography variant="h2" component="h2" className="tier">
-                Tier {rankTier}
-            </Typography>
-            <Typography variant="h2" component="h2" className="rank-name">
-                {rankName}
-            </Typography>
+            <RankImage rankImage={rankImage} />
+            <RankTier rankTier={rankTier} />
+            <RankName rankName={rankName} />
             <RankDisplays />
         </div>
     );

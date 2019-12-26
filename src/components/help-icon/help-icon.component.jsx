@@ -10,8 +10,8 @@ const useStyles = makeStyles({
     },
     tooltip: {
         position: "absolute",
-        bottom: "0",
-        right: "0",
+        bottom: "0px",
+        right: "0px",
     },
     rel: {
         position: "relative",

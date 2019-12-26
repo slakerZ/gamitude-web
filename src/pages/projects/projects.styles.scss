@@ -34,3 +34,12 @@
             "projects stats";
     }
 }
+@media (min-width: 1200px) {
+    .projects-page {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+            "rank projects energies"
+            "rank projects stats";
+    }
+}
