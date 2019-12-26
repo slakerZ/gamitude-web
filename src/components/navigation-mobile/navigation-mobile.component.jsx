@@ -20,6 +20,7 @@ const useStyles = makeStyles({
         position: "fixed",
         bottom: 0,
         left: 0,
+        backgroundColor: "rgba(187, 171, 5, 1)",
     },
     icons: {
         width: "4vh",

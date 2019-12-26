@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import Particles from "react-particles-js";
 // Components
 import Navigation from "./components/navigation/navigation.component.jsx";
 // Pages
@@ -11,10 +12,13 @@ import ProfilePage from "./pages/profile/profile.page.jsx";
 
 // Styles
 import "./App.css";
+// Config
+import particleOptions from "./particlesjs-config.json";
 
 const App = () => {
     return (
         <div className="app">
+            <Particles params={particleOptions} className="particles" />
             <Navigation />
 
             <Switch>
