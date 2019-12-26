@@ -1,8 +1,8 @@
 .projects-page {
-    background-color: rgba(11, 86, 148, 0.486);
+    background-color: rgba(35, 121, 190, 0.486);
     display: grid;
-    gap: 1%;
-    padding: 1%;
+    gap: 2rem;
+    padding: 2rem;
     min-height: 600px;
     height: 89.75vh;
     grid-template-columns: 1fr 1fr;
@@ -16,7 +16,8 @@
     }
     .projects {
         grid-area: projects;
-        background-color: rgb(86, 86, 202);
+        box-shadow: 2px 2px 10px #000000;
+        background-color: transparent;
     }
     .energies {
         grid-area: energies;

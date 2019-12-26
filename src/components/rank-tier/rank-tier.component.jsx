@@ -4,9 +4,11 @@ import Typography from "@material-ui/core/Typography";
 
 const RankTier = ({ rankTier }) => {
     return (
-        <Typography variant="h2" component="h2" className="tier">
-            Tier {rankTier}
-        </Typography>
+        <div className="tier">
+            <Typography variant="h2" component="h2">
+                Tier {rankTier}
+            </Typography>
+        </div>
     );
 };
 

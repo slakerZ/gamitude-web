@@ -11,7 +11,7 @@ const RankImage = ({ rankImage }) => {
             backgroundSize: "cover",
             gridArea: "rank-img",
             borderRadius: "1.5rem",
-            border: "0.8rem inset silver",
+            boxShadow: "2px 2px 10px #000000",
         },
     });
 
