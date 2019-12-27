@@ -23,6 +23,46 @@ import { ReactComponent as CreativityIcon } from "../../assets/icons/stats/creat
 import { ReactComponent as IntelligenceIcon } from "../../assets/icons/stats/intelligence.svg";
 import { ReactComponent as FluencyIcon } from "../../assets/icons/stats/fluency.svg";
 
+import Timer from "react-compound-timer";
+
+const CustomTimer = ({ time }) => {
+    const timeForTimer = time * 60 * 1000;
+    return (
+        <Timer
+            initialTime={timeForTimer}
+            direction="backward"
+            lastUnit="m"
+            startImmediately={false}
+            formatValue={value => `${value < 10 ? `0${value}` : value}:`}
+            checkpoints={[
+                {
+                    time: 60 * 1000,
+                    callback: () =>
+                        console.log("1 minute left...*playing sound*"),
+                },
+                {
+                    time: 0,
+                    callback: () => console.log("Updating stats...."),
+                },
+            ]}
+        >
+            {({ start, stop, reset }) => (
+                <React.Fragment>
+                    <div>
+                        <Timer.Minutes />
+                        <Timer.Seconds />
+                    </div>
+                    <div>
+                        <button onClick={start}>Start</button>
+                        <button onClick={stop}>Stop</button>
+                        <button onClick={reset}>Reset</button>
+                    </div>
+                </React.Fragment>
+            )}
+        </Timer>
+    );
+};
+
 const Project = ({ title, Icon }) => {
     const useStyles = makeStyles({
         icons: {
@@ -33,7 +73,6 @@ const Project = ({ title, Icon }) => {
             backgroundColor: "transparent",
         },
         expansionPanelSummary: {
-            width: "100%",
             backgroundColor: "rgba(74, 2, 89, 0.4)",
         },
         expansionPanelDetails: {
@@ -54,16 +93,9 @@ const Project = ({ title, Icon }) => {
                     {title}
                 </Typography>
             </ExpansionPanelSummary>
+
             <ExpansionPanelDetails className={classes.expansionPanelDetails}>
-                <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Suspendisse malesuada lacus ex, sit amet blandit leo
-                    lobortis eget. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Suspendisse malesuada lacus ex, sit amet
-                    blandit leo lobortis eget. Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                    sit amet blandit leo lobortis eget.
-                </Typography>
+                <CustomTimer time={25} />
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );
@@ -106,6 +138,7 @@ const Projects = () => {
             gridArea: "projects",
             boxShadow: "5px 5px 10px #000000",
             position: "relative",
+            overflow: "auto",
         },
         appBar: {
             backgroundColor: "transparent",
