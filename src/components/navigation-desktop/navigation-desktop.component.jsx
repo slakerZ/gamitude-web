@@ -26,7 +26,7 @@ const useStyles = makeStyles({
         height: "6vh",
     },
     tabs: {
-        backgroundColor: "rgba(187, 171, 5, 0.6)",
+        backgroundColor: "rgba(196, 195, 81, 0.6)",
     },
 });
 
