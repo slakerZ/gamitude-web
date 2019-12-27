@@ -21,6 +21,7 @@ const useStyles = makeStyles({
         bottom: 0,
         left: 0,
         backgroundColor: "rgba(196, 195, 81, 0.6)",
+        zIndex: 10,
     },
     icons: {
         width: "4vh",
