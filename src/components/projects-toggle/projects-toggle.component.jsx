@@ -15,7 +15,7 @@ export default function ToggleButtons() {
     const [methodology, setMethodology] = React.useState(25);
 
     const handleMethodology = (event, newMethodology) => {
-        setMethodology(newMethodology);
+        setMethodology(newMethodology || methodology);
     };
 
     const classes = useStyles();

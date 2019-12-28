@@ -1,16 +1,12 @@
 import React from "react";
-
-import PropTypes from "prop-types";
+// UI core
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-
+// UI icons
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
-
 // SVG's
 import { ReactComponent as ActiveIcon } from "../../assets/icons/projects/active.svg";
 import { ReactComponent as OnHoldIcon } from "../../assets/icons/projects/onHold.svg";
@@ -19,30 +15,9 @@ import { ReactComponent as StrengthIcon } from "../../assets/icons/stats/strengt
 import { ReactComponent as CreativityIcon } from "../../assets/icons/stats/creativity.svg";
 import { ReactComponent as IntelligenceIcon } from "../../assets/icons/stats/intelligence.svg";
 import { ReactComponent as FluencyIcon } from "../../assets/icons/stats/fluency.svg";
-
+// Components
 import Project from "../project/project.component.jsx";
-
-const TabPanel = props => {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box p={0}>{children}</Box>}
-        </Typography>
-    );
-};
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
+import ProjectTab from "../project-tab/project-tab.component.jsx";
 
 const a11yProps = index => {
     return {
@@ -116,24 +91,24 @@ const Projects = () => {
                 </Tabs>
             </AppBar>
 
-            <TabPanel value={value} index={0} className={classes.tabPanel}>
+            <ProjectTab value={value} index={0} className={classes.tabPanel}>
                 <Project title="React" Icon={IntelligenceIcon} />
-            </TabPanel>
-            <TabPanel value={value} index={0}>
+            </ProjectTab>
+            <ProjectTab value={value} index={0}>
                 <Project title="Python" Icon={IntelligenceIcon} />
-            </TabPanel>
-            <TabPanel value={value} index={0}>
+            </ProjectTab>
+            <ProjectTab value={value} index={0}>
                 <Project title="UX Design" Icon={CreativityIcon} />
-            </TabPanel>
-            <TabPanel value={value} index={0}>
+            </ProjectTab>
+            <ProjectTab value={value} index={0}>
                 <Project title="HIIT" Icon={StrengthIcon} />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
+            </ProjectTab>
+            <ProjectTab value={value} index={1}>
                 <Project title="Spanish" Icon={FluencyIcon} />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
+            </ProjectTab>
+            <ProjectTab value={value} index={2}>
                 <Project title="English" Icon={FluencyIcon} />
-            </TabPanel>
+            </ProjectTab>
 
             <Fab color="secondary" aria-label="add" className={classes.add}>
                 <AddIcon />

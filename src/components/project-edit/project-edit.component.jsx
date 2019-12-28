@@ -1,23 +1,18 @@
 import React from "react";
-
+// UI core
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+// UI icons
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+// Components
+import ProjectStats from "../project-stats/project-stats.component.jsx";
 
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-//Components
-import CustomTimer from "../custom-timer/custom-timer.component.jsx";
-import ToggleButtons from "../projects-toggle/projects-toggle.component.jsx";
-import ProjectEdit from "../project-edit/project-edit.component.jsx";
-
-const Project = ({ title, Icon }) => {
+const ProjectEdit = ({ title }) => {
     const useStyles = makeStyles({
-        icons: {
-            height: "5vh",
-            width: "5vh",
-        },
         expansionPanel: {
             backgroundColor: "transparent",
         },
@@ -30,7 +25,8 @@ const Project = ({ title, Icon }) => {
         },
     });
     const classes = useStyles();
-
+    // mocked
+    const sessionInProgress = false;
     return (
         <ExpansionPanel square className={classes.expansionPanel}>
             <ExpansionPanelSummary
@@ -38,20 +34,24 @@ const Project = ({ title, Icon }) => {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
                 className={classes.expansionPanelSummary}
+                disabled={sessionInProgress}
             >
-                <Icon className={classes.icons} />
-                <Typography component="h3" variant="h3">
-                    {title}
+                <Typography component="h4" variant="h4">
+                    Edit Project
                 </Typography>
             </ExpansionPanelSummary>
 
             <ExpansionPanelDetails className={classes.expansionPanelDetails}>
-                <CustomTimer time={25} />
-                <ToggleButtons />
-                <ProjectEdit title={title} />
+                <TextField
+                    id={`${title}-name`}
+                    label="PROJECT NAME"
+                    variant="outlined"
+                    value={title}
+                />
+                <ProjectStats />
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );
 };
 
-export default Project;
+export default ProjectEdit;
