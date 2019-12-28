@@ -1,4 +1,5 @@
 import React from "react";
+
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -10,10 +11,6 @@ import Box from "@material-ui/core/Box";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // SVG's
 import { ReactComponent as ActiveIcon } from "../../assets/icons/projects/active.svg";
 import { ReactComponent as OnHoldIcon } from "../../assets/icons/projects/onHold.svg";
@@ -23,83 +20,7 @@ import { ReactComponent as CreativityIcon } from "../../assets/icons/stats/creat
 import { ReactComponent as IntelligenceIcon } from "../../assets/icons/stats/intelligence.svg";
 import { ReactComponent as FluencyIcon } from "../../assets/icons/stats/fluency.svg";
 
-import Timer from "react-compound-timer";
-
-const CustomTimer = ({ time }) => {
-    const timeForTimer = time * 60 * 1000;
-    return (
-        <Timer
-            initialTime={timeForTimer}
-            direction="backward"
-            lastUnit="m"
-            startImmediately={false}
-            formatValue={value => `${value < 10 ? `0${value}` : value}:`}
-            checkpoints={[
-                {
-                    time: 60 * 1000,
-                    callback: () =>
-                        console.log("1 minute left...*playing sound*"),
-                },
-                {
-                    time: 0,
-                    callback: () => console.log("Updating stats...."),
-                },
-            ]}
-        >
-            {({ start, stop, reset }) => (
-                <React.Fragment>
-                    <div>
-                        <Timer.Minutes />
-                        <Timer.Seconds />
-                    </div>
-                    <div>
-                        <button onClick={start}>Start</button>
-                        <button onClick={stop}>Stop</button>
-                        <button onClick={reset}>Reset</button>
-                    </div>
-                </React.Fragment>
-            )}
-        </Timer>
-    );
-};
-
-const Project = ({ title, Icon }) => {
-    const useStyles = makeStyles({
-        icons: {
-            height: "5vh",
-            width: "5vh",
-        },
-        expansionPanel: {
-            backgroundColor: "transparent",
-        },
-        expansionPanelSummary: {
-            backgroundColor: "rgba(74, 2, 89, 0.4)",
-        },
-        expansionPanelDetails: {
-            backgroundColor: "rgba(49, 0, 59, 0.4)",
-        },
-    });
-    const classes = useStyles();
-    return (
-        <ExpansionPanel square className={classes.expansionPanel}>
-            <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-                className={classes.expansionPanelSummary}
-            >
-                <Icon className={classes.icons} />
-                <Typography component="h3" variant="h3">
-                    {title}
-                </Typography>
-            </ExpansionPanelSummary>
-
-            <ExpansionPanelDetails className={classes.expansionPanelDetails}>
-                <CustomTimer time={25} />
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
-    );
-};
+import Project from "../project/project.component.jsx";
 
 const TabPanel = props => {
     const { children, value, index, ...other } = props;
