@@ -21,7 +21,8 @@ $icon-dimension-mobile: 40px;
         max-width: 100%;
         height: $icon-dimension;
         border-radius: $progress-border-radius;
-        background-color: $progress-background;
+        box-shadow: 2px 2px 10px #000000;
+        background-color: transparent;
         .bar {
             border-radius: $progress-border-radius;
             height: 100%;

@@ -32,25 +32,25 @@ const Stats = ({
             <ProgressBar barType="strength" stat={strength}>
                 <Strength
                     className="icon"
-                    onClick={() => setStrength(strength - 10)}
+                    onClick={() => setStrength(strength + 5)}
                 />
             </ProgressBar>
             <ProgressBar barType="creativity" stat={creativity}>
                 <Creativity
                     className="icon"
-                    onClick={() => setCreativity(creativity - 10)}
+                    onClick={() => setCreativity(creativity + 5)}
                 />
             </ProgressBar>
             <ProgressBar barType="intelligence" stat={intelligence}>
                 <Intelligence
                     className="icon"
-                    onClick={() => setIntelligence(intelligence - 10)}
+                    onClick={() => setIntelligence(intelligence + 5)}
                 />
             </ProgressBar>
             <ProgressBar barType="fluency" stat={fluency}>
                 <Fluency
                     className="icon"
-                    onClick={() => setFluency(fluency - 10)}
+                    onClick={() => setFluency(fluency + 5)}
                 />
             </ProgressBar>
         </div>
