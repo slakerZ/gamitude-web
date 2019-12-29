@@ -1,15 +1,14 @@
 import React from "react";
-
+// UI core
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+// UI icons
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 //Components
-import CustomTimer from "../custom-timer/custom-timer.component.jsx";
-import ToggleButtons from "../projects-toggle/projects-toggle.component.jsx";
+import ProjectWork from "../project-work/project-work.component.jsx";
 import ProjectEdit from "../project-edit/project-edit.component.jsx";
 
 const Project = ({ title, Icon }) => {
@@ -18,13 +17,13 @@ const Project = ({ title, Icon }) => {
             height: "5vh",
             width: "5vh",
         },
-        expansionPanel: {
+        container: {
             backgroundColor: "transparent",
         },
-        expansionPanelSummary: {
+        summary: {
             backgroundColor: "rgba(74, 2, 89, 0.4)",
         },
-        expansionPanelDetails: {
+        details: {
             backgroundColor: "rgba(49, 0, 59, 0.4)",
             flexDirection: "column",
         },
@@ -32,12 +31,10 @@ const Project = ({ title, Icon }) => {
     const classes = useStyles();
 
     return (
-        <ExpansionPanel square className={classes.expansionPanel}>
+        <ExpansionPanel square className={classes.container}>
             <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-                className={classes.expansionPanelSummary}
+                className={classes.summary}
             >
                 <Icon className={classes.icons} />
                 <Typography component="h3" variant="h3">
@@ -45,9 +42,8 @@ const Project = ({ title, Icon }) => {
                 </Typography>
             </ExpansionPanelSummary>
 
-            <ExpansionPanelDetails className={classes.expansionPanelDetails}>
-                <CustomTimer time={25} />
-                <ToggleButtons />
+            <ExpansionPanelDetails className={classes.details}>
+                <ProjectWork />
                 <ProjectEdit title={title} />
             </ExpansionPanelDetails>
         </ExpansionPanel>

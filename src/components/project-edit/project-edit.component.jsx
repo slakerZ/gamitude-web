@@ -3,17 +3,16 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 // UI icons
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import SaveIcon from "@material-ui/icons/Save";
 // Components
 import ProjectStats from "../project-stats/project-stats.component.jsx";
 import ProjectsStatsDominant from "../project-stats-dominant/project-stats-dominant.component.jsx";
-import Button from "@material-ui/core/Button";
-// UI icons
-import SaveIcon from "@material-ui/icons/Save";
 
 const ProjectEdit = ({ title }) => {
     const useStyles = makeStyles({
@@ -35,8 +34,6 @@ const ProjectEdit = ({ title }) => {
         <ExpansionPanel square className={classes.expansionPanel}>
             <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
                 className={classes.expansionPanelSummary}
                 disabled={sessionInProgress}
             >
