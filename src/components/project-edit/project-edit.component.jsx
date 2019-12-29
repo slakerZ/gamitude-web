@@ -10,6 +10,10 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // Components
 import ProjectStats from "../project-stats/project-stats.component.jsx";
+import ProjectsStatsDominant from "../project-stats-dominant/project-stats-dominant.component.jsx";
+import Button from "@material-ui/core/Button";
+// UI icons
+import SaveIcon from "@material-ui/icons/Save";
 
 const ProjectEdit = ({ title }) => {
     const useStyles = makeStyles({
@@ -46,9 +50,20 @@ const ProjectEdit = ({ title }) => {
                     id={`${title}-name`}
                     label="PROJECT NAME"
                     variant="outlined"
-                    value={title}
+                    defaultValue={title}
                 />
+
                 <ProjectStats />
+                <ProjectsStatsDominant />
+
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    startIcon={<SaveIcon />}
+                >
+                    Save
+                </Button>
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );

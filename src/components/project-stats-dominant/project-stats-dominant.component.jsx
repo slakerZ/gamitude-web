@@ -11,7 +11,14 @@ import { ReactComponent as Creativity } from "../../assets/icons/stats/creativit
 import { ReactComponent as Intelligence } from "../../assets/icons/stats/intelligence.svg";
 import { ReactComponent as Fluency } from "../../assets/icons/stats/fluency.svg";
 
-const ProjectStats = () => {
+const ProjectStatsDominant = () => {
+    const [dominant, setDominant] = React.useState("strength");
+
+    const handleChange = (event, newDominant) => {
+        console.log(newDominant);
+        setDominant(newDominant || dominant);
+    };
+
     const useStyles = makeStyles({
         container: {
             display: "flex",
@@ -28,23 +35,16 @@ const ProjectStats = () => {
         },
     });
     const classes = useStyles();
-
-    const [stats, setStats] = React.useState(["strength"]);
-
-    const handleChange = (event, newStats) => {
-        console.log(newStats);
-        setStats(newStats || stats);
-    };
-
     return (
         <div className={classes.container}>
-            <Typography component="h5" variant="h5" align="center">
-                Select stats that this projects boosts
+            <Typography variant="h5" component="h5" align="center">
+                Select the dominant stat
             </Typography>
             <ToggleButtonGroup
-                value={stats}
+                value={dominant}
+                exclusive
                 onChange={handleChange}
-                aria-label="boosted stats"
+                aria-label="dominant stat"
                 className={classes.btnGroup}
             >
                 <ToggleButton value="strength" aria-label="strength">
@@ -67,4 +67,4 @@ const ProjectStats = () => {
     );
 };
 
-export default ProjectStats;
+export default ProjectStatsDominant;
