@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -14,7 +15,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import ProjectStats from "../project-stats/project-stats.component.jsx";
 import ProjectsStatsDominant from "../project-stats-dominant/project-stats-dominant.component.jsx";
 
-const ProjectEdit = ({ title }) => {
+const ProjectEdit = ({ projects, index }) => {
     const useStyles = makeStyles({
         expansionPanel: {
             backgroundColor: "transparent",
@@ -30,6 +31,7 @@ const ProjectEdit = ({ title }) => {
     const classes = useStyles();
     // mocked
     const sessionInProgress = false;
+    const project = projects[index];
     return (
         <ExpansionPanel square className={classes.expansionPanel}>
             <ExpansionPanelSummary
@@ -44,14 +46,14 @@ const ProjectEdit = ({ title }) => {
 
             <ExpansionPanelDetails className={classes.expansionPanelDetails}>
                 <TextField
-                    id={`${title}-name`}
+                    id={`${project.name}-name`}
                     label="PROJECT NAME"
                     variant="outlined"
-                    defaultValue={title}
+                    defaultValue={project.name}
                 />
 
-                <ProjectStats />
-                <ProjectsStatsDominant />
+                <ProjectStats index={index} />
+                <ProjectsStatsDominant index={index} />
 
                 <Button
                     variant="contained"
@@ -66,4 +68,8 @@ const ProjectEdit = ({ title }) => {
     );
 };
 
-export default ProjectEdit;
+const mapStateToProps = state => ({
+    projects: state.projects.projects,
+});
+
+export default connect(mapStateToProps)(ProjectEdit);

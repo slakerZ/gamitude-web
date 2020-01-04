@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -11,7 +12,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ProjectWork from "../project-work/project-work.component.jsx";
 import ProjectEdit from "../project-edit/project-edit.component.jsx";
 
-const Project = ({ title, Icon }) => {
+const Project = ({ projects, index, Icon }) => {
     const useStyles = makeStyles({
         icons: {
             height: "5vh",
@@ -29,7 +30,7 @@ const Project = ({ title, Icon }) => {
         },
     });
     const classes = useStyles();
-
+    const project = projects[index];
     return (
         <ExpansionPanel square className={classes.container}>
             <ExpansionPanelSummary
@@ -38,16 +39,20 @@ const Project = ({ title, Icon }) => {
             >
                 <Icon className={classes.icons} />
                 <Typography component="h3" variant="h3">
-                    {title}
+                    {project.name}
                 </Typography>
             </ExpansionPanelSummary>
 
             <ExpansionPanelDetails className={classes.details}>
                 <ProjectWork />
-                <ProjectEdit title={title} />
+                <ProjectEdit index={project.index} />
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );
 };
 
-export default Project;
+const mapStateToProps = state => ({
+    projects: state.projects.projects,
+});
+
+export default connect(mapStateToProps)(Project);

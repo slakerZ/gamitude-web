@@ -20,13 +20,6 @@ import { ReactComponent as FluencyIcon } from "../../assets/icons/stats/fluency.
 import Project from "../project/project.component.jsx";
 import ProjectTab from "../project-tab/project-tab.component.jsx";
 
-const a11yProps = index => {
-    return {
-        id: `simple-tab-${index}`,
-        "aria-controls": `simple-tabpanel-${index}`,
-    };
-};
-
 const Projects = ({ projects }) => {
     const useStyles = makeStyles({
         root: {
@@ -97,17 +90,14 @@ const Projects = ({ projects }) => {
                     <Tab
                         icon={<ActiveIcon className={classes.icons} />}
                         label="ACTIVE"
-                        {...a11yProps(0)}
                     />
                     <Tab
                         icon={<OnHoldIcon className={classes.icons} />}
                         label="ON HOLD"
-                        {...a11yProps(1)}
                     />
                     <Tab
                         icon={<DoneIcon className={classes.icons} />}
                         label="COMPLETE"
-                        {...a11yProps(2)}
                     />
                 </Tabs>
             </AppBar>
@@ -116,13 +106,13 @@ const Projects = ({ projects }) => {
                 return (
                     <ProjectTab
                         // TODO think whether it is safe to do so
-                        key={project.name}
+                        key={project.index}
                         value={value}
                         index={project.status}
                     >
                         <Project
-                            title={project.name}
-                            Icon={handleIcons(project.stats.dominant)}
+                            Icon={handleIcons(project.dominant)}
+                            index={projects.indexOf(project)}
                         />
                     </ProjectTab>
                 );
