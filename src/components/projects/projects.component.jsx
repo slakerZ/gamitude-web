@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -26,7 +27,7 @@ const a11yProps = index => {
     };
 };
 
-const Projects = () => {
+const Projects = ({ projects }) => {
     const useStyles = makeStyles({
         root: {
             flexGrow: 1,
@@ -61,6 +62,26 @@ const Projects = () => {
         setValue(newValue);
     };
 
+    const handleIcons = dominant => {
+        switch (dominant) {
+            case "strength": {
+                return StrengthIcon;
+            }
+            case "creativity": {
+                return CreativityIcon;
+            }
+            case "intelligence": {
+                return IntelligenceIcon;
+            }
+            case "fluency": {
+                return FluencyIcon;
+            }
+            default: {
+                return IntelligenceIcon;
+            }
+        }
+    };
+
     return (
         <div className={classes.root}>
             <AppBar position="static" className={classes.appBar}>
@@ -91,24 +112,21 @@ const Projects = () => {
                 </Tabs>
             </AppBar>
 
-            <ProjectTab value={value} index={0} className={classes.tabPanel}>
-                <Project title="React" Icon={IntelligenceIcon} />
-            </ProjectTab>
-            <ProjectTab value={value} index={0}>
-                <Project title="Python" Icon={IntelligenceIcon} />
-            </ProjectTab>
-            <ProjectTab value={value} index={0}>
-                <Project title="UX Design" Icon={CreativityIcon} />
-            </ProjectTab>
-            <ProjectTab value={value} index={0}>
-                <Project title="HIIT" Icon={StrengthIcon} />
-            </ProjectTab>
-            <ProjectTab value={value} index={1}>
-                <Project title="Spanish" Icon={FluencyIcon} />
-            </ProjectTab>
-            <ProjectTab value={value} index={2}>
-                <Project title="English" Icon={FluencyIcon} />
-            </ProjectTab>
+            {projects.map(project => {
+                return (
+                    <ProjectTab
+                        // TODO think whether it is safe to do so
+                        key={project.name}
+                        value={value}
+                        index={project.status}
+                    >
+                        <Project
+                            title={project.name}
+                            Icon={handleIcons(project.stats.dominant)}
+                        />
+                    </ProjectTab>
+                );
+            })}
 
             <Fab color="secondary" aria-label="add" className={classes.add}>
                 <AddIcon />
@@ -117,4 +135,8 @@ const Projects = () => {
     );
 };
 
-export default Projects;
+const mapStateToProps = state => ({
+    projects: state.projects.projects,
+});
+
+export default connect(mapStateToProps)(Projects);

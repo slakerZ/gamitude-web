@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 
-const CustomTimer = ({ time }) => {
+const ProjectTimer = ({ time }) => {
     const timeForTimer = time * 60 * 1000;
     return (
         <Timer
@@ -47,4 +47,4 @@ const CustomTimer = ({ time }) => {
         </Timer>
     );
 };
-export default CustomTimer;
+export default ProjectTimer;
