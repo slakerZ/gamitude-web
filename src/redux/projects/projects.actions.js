@@ -1,8 +1,8 @@
 import { ProjectsActionTypes } from "./projects.types";
 
-export const setBoosted = (newStats, index) => ({
+export const setBoosted = ({ index, stats }) => ({
     type: ProjectsActionTypes.SET_BOOSTED,
-    stats: newStats,
+    stats: stats,
     index: index,
 });
 

@@ -41,14 +41,13 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
     const [stats, setStats] = React.useState(project.boosted);
 
     const handleChange = (event, newStats) => {
-        console.log(newStats);
         if (newStats.length > 0) {
             setStats(newStats || stats);
         }
     };
 
     const handleSave = () => {
-        setBoosted(stats, index);
+        setBoosted({ stats, index });
     };
 
     return (
