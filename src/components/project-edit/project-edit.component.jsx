@@ -1,5 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
+// Actions
+import { setName } from "../../redux/projects/projects.actions";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -13,7 +15,9 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ProjectStats from "../project-stats/project-stats.component.jsx";
 import ProjectsStatsDominant from "../project-stats-dominant/project-stats-dominant.component.jsx";
 
-const ProjectEdit = ({ projects, index }) => {
+const ProjectEdit = ({ projects, index, sessionInProgress, setName }) => {
+    const project = projects[index];
+
     const useStyles = makeStyles({
         expansionPanel: {
             backgroundColor: "transparent",
@@ -27,9 +31,13 @@ const ProjectEdit = ({ projects, index }) => {
         },
     });
     const classes = useStyles();
-    // mocked
-    const sessionInProgress = false;
-    const project = projects[index];
+
+    const handleChange = event => {
+        console.log(event.target.value);
+        console.log(index);
+        setName({ index: index, name: event.target.value });
+    };
+
     return (
         <ExpansionPanel square className={classes.expansionPanel}>
             <ExpansionPanelSummary
@@ -47,7 +55,8 @@ const ProjectEdit = ({ projects, index }) => {
                     id={`${project.name}-name`}
                     label="PROJECT NAME"
                     variant="outlined"
-                    defaultValue={project.name}
+                    value={project.name}
+                    onChange={handleChange}
                 />
 
                 <ProjectStats index={index} />
@@ -59,6 +68,11 @@ const ProjectEdit = ({ projects, index }) => {
 
 const mapStateToProps = state => ({
     projects: state.projects.projects,
+    sessionInProgress: state.projects.sessionInProgress,
 });
 
-export default connect(mapStateToProps)(ProjectEdit);
+const mapDispatchToProps = dispatch => ({
+    setName: value => dispatch(setName(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectEdit);

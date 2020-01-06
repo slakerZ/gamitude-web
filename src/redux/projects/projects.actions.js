@@ -11,3 +11,9 @@ export const setDominant = ({ index, newDominant }) => ({
     dominant: newDominant,
     index: index,
 });
+
+export const setName = ({ index, name }) => ({
+    type: ProjectsActionTypes.SET_NAME,
+    index: index,
+    name: name,
+});
