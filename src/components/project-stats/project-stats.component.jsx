@@ -7,12 +7,9 @@ import { selectProjects } from "../../redux/projects/projects.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 // UI lab
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-// UI icons
-import SaveIcon from "@material-ui/icons/Save";
 // SVG's
 import { ReactComponent as Strength } from "../../assets/icons/stats/strength.svg";
 import { ReactComponent as Creativity } from "../../assets/icons/stats/creativity.svg";
@@ -37,17 +34,12 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
     });
     const classes = useStyles();
 
-    const project = projects[index];
-    const [stats, setStats] = React.useState(project.boosted);
+    const boosted = projects[index].boosted;
 
-    const handleChange = (event, newStats) => {
-        if (newStats.length > 0) {
-            setStats(newStats || stats);
+    const handleChange = (event, stats) => {
+        if (stats.length > 0) {
+            setBoosted({ stats, index });
         }
-    };
-
-    const handleSave = () => {
-        setBoosted({ stats, index });
     };
 
     return (
@@ -56,7 +48,7 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
                 Select stats that this projects boosts
             </Typography>
             <ToggleButtonGroup
-                value={stats}
+                value={boosted}
                 onChange={handleChange}
                 aria-label="boosted stats"
                 className={classes.btnGroup}
@@ -77,16 +69,6 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
                     <Fluency className={classes.icon} />
                 </ToggleButton>
             </ToggleButtonGroup>
-
-            <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                startIcon={<SaveIcon />}
-                onClick={handleSave}
-            >
-                Save
-            </Button>
         </div>
     );
 };

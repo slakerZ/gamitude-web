@@ -1,4 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
+// Actions
+import { setDominant } from "../../redux/projects/projects.actions";
+// Selectors
+import { selectProjects } from "../../redux/projects/projects.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
@@ -11,12 +16,14 @@ import { ReactComponent as Creativity } from "../../assets/icons/stats/creativit
 import { ReactComponent as Intelligence } from "../../assets/icons/stats/intelligence.svg";
 import { ReactComponent as Fluency } from "../../assets/icons/stats/fluency.svg";
 
-const ProjectStatsDominant = () => {
-    const [dominant, setDominant] = React.useState("strength");
+const ProjectStatsDominant = ({ index, projects, setDominant }) => {
+    const boosted = projects[index].boosted;
+    const dominant = projects[index].dominant;
 
     const handleChange = (event, newDominant) => {
-        console.log(newDominant);
-        setDominant(newDominant || dominant);
+        if (boosted.includes(newDominant)) {
+            setDominant({ index, newDominant });
+        }
     };
 
     const useStyles = makeStyles({
@@ -67,4 +74,15 @@ const ProjectStatsDominant = () => {
     );
 };
 
-export default ProjectStatsDominant;
+const mapStateToProps = state => ({
+    projects: selectProjects(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+    setDominant: value => dispatch(setDominant(value)),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ProjectStatsDominant);

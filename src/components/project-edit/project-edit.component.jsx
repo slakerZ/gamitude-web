@@ -4,13 +4,11 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 // UI icons
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import SaveIcon from "@material-ui/icons/Save";
 // Components
 import ProjectStats from "../project-stats/project-stats.component.jsx";
 import ProjectsStatsDominant from "../project-stats-dominant/project-stats-dominant.component.jsx";
@@ -54,15 +52,6 @@ const ProjectEdit = ({ projects, index }) => {
 
                 <ProjectStats index={index} />
                 <ProjectsStatsDominant index={index} />
-
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    startIcon={<SaveIcon />}
-                >
-                    Save
-                </Button>
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );

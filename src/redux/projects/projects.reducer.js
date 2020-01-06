@@ -13,6 +13,11 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
             return {
                 projects: tempProjects,
             };
+        case ProjectsActionTypes.SET_DOMINANT:
+            tempProjects[action.index].dominant = action.dominant;
+            return {
+                projects: tempProjects,
+            };
         default:
             return state;
     }

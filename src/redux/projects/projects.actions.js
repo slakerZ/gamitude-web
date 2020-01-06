@@ -6,7 +6,8 @@ export const setBoosted = ({ index, stats }) => ({
     index: index,
 });
 
-export const setDominant = value => ({
+export const setDominant = ({ index, newDominant }) => ({
     type: ProjectsActionTypes.SET_DOMINANT,
-    payload: value,
+    dominant: newDominant,
+    index: index,
 });
