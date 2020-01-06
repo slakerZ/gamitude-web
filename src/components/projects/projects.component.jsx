@@ -108,7 +108,7 @@ const Projects = ({ projects }) => {
                         // TODO think whether it is safe to do so
                         key={project.index}
                         value={value}
-                        index={project.status}
+                        currTab={project.status}
                     >
                         <Project
                             Icon={handleIcons(project.dominant)}

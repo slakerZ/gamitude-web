@@ -27,6 +27,12 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
                 projects: tempProjects,
                 sessionInProgress: state.sessionInProgress,
             };
+        case ProjectsActionTypes.SET_METHOD:
+            tempProjects[action.index].method = action.method;
+            return {
+                projects: tempProjects,
+                sessionInProgress: state.sessionInProgress,
+            };
         default:
             return state;
     }

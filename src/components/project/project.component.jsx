@@ -44,7 +44,7 @@ const Project = ({ projects, index, Icon }) => {
             </ExpansionPanelSummary>
 
             <ExpansionPanelDetails className={classes.details}>
-                <ProjectWork />
+                <ProjectWork index={project.index} />
                 <ProjectEdit index={project.index} />
             </ExpansionPanelDetails>
         </ExpansionPanel>

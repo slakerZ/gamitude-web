@@ -2,7 +2,7 @@ const PROJECTS_DATA = [
     {
         index: 0,
         name: "React",
-        method: "25",
+        method: 90,
         status: 0,
         boosted: ["intelligence", "creativity"],
         dominant: "intelligence",
@@ -10,7 +10,7 @@ const PROJECTS_DATA = [
     {
         index: 1,
         name: "Python",
-        method: "25",
+        method: 25,
         status: 0,
         boosted: ["intelligence", "fluency"],
         dominant: "intelligence",
@@ -18,7 +18,7 @@ const PROJECTS_DATA = [
     {
         index: 2,
         name: "UX Design",
-        method: "25",
+        method: 25,
         status: 0,
         boosted: ["intelligence", "creativity"],
         dominant: "creativity",
@@ -26,7 +26,7 @@ const PROJECTS_DATA = [
     {
         index: 3,
         name: "HIIT",
-        method: "25",
+        method: 25,
         status: 0,
         boosted: ["strength"],
         dominant: "strength",
@@ -34,7 +34,7 @@ const PROJECTS_DATA = [
     {
         index: 4,
         name: "Spanish",
-        method: "25",
+        method: 25,
         status: 1,
         boosted: ["fluency"],
         dominant: "fluency",
@@ -42,7 +42,7 @@ const PROJECTS_DATA = [
     {
         index: 5,
         name: "English",
-        method: "25",
+        method: 25,
         status: 2,
         boosted: ["intelligence", "fluency"],
         dominant: "fluency",

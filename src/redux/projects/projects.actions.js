@@ -17,3 +17,9 @@ export const setName = ({ index, name }) => ({
     index: index,
     name: name,
 });
+
+export const setMethod = ({ index, method }) => ({
+    type: ProjectsActionTypes.SET_METHOD,
+    method: method,
+    index: index,
+});

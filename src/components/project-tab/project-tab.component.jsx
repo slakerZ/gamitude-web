@@ -5,24 +5,24 @@ import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 
 const ProjectTab = props => {
-    const { children, value, index, ...other } = props;
+    const { children, value, currTab, ...other } = props;
 
     return (
         <Typography
             component="div"
             role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
+            hidden={value !== currTab}
+            id={`simple-tabpanel-${currTab}`}
+            aria-labelledby={`simple-tab-${currTab}`}
             {...other}
         >
-            {value === index && <Box p={0}>{children}</Box>}
+            {value === currTab && <Box p={0}>{children}</Box>}
         </Typography>
     );
 };
 ProjectTab.propTypes = {
     children: PropTypes.node,
-    index: PropTypes.any.isRequired,
+    currTab: PropTypes.any.isRequired,
     value: PropTypes.any.isRequired,
 };
 

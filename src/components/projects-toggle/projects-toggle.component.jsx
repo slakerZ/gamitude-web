@@ -1,6 +1,13 @@
 import React from "react";
+import { connect } from "react-redux";
+// Actions
+import { setMethod } from "../../redux/projects/projects.actions";
+// Selectors
+import { selectProjects } from "../../redux/projects/projects.selectors";
+// UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+// UI lab
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
@@ -10,11 +17,11 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function ToggleButtons() {
-    const [methodology, setMethodology] = React.useState(25);
+const ProjectsToggle = ({ index, projects, setMethod }) => {
+    const method = projects[index].method;
 
-    const handleMethodology = (event, newMethodology) => {
-        setMethodology(newMethodology || methodology);
+    const handleMethod = (event, newMethod) => {
+        setMethod({ index: index, method: newMethod || method });
     };
 
     const classes = useStyles();
@@ -22,9 +29,9 @@ export default function ToggleButtons() {
     return (
         <div className={classes.toggleContainer}>
             <ToggleButtonGroup
-                value={methodology}
+                value={method}
                 exclusive
-                onChange={handleMethodology}
+                onChange={handleMethod}
                 aria-label="text alignment"
             >
                 <ToggleButton value={25} aria-label="Pomodoro">
@@ -40,4 +47,14 @@ export default function ToggleButtons() {
             </ToggleButtonGroup>
         </div>
     );
-}
+};
+
+const mapStateToProps = state => ({
+    projects: selectProjects(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+    setMethod: value => dispatch(setMethod(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectsToggle);

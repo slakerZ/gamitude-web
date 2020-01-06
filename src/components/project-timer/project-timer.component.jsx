@@ -3,8 +3,11 @@ import Timer from "react-compound-timer";
 import Typography from "@material-ui/core/Typography";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
+import { selectProjects } from "../../redux/projects/projects.selectors";
+import { connect } from "react-redux";
 
-const ProjectTimer = ({ time }) => {
+const ProjectTimer = ({ index, projects }) => {
+    const time = projects[index].method;
     const timeForTimer = time * 60 * 1000;
     return (
         <Timer
@@ -47,4 +50,9 @@ const ProjectTimer = ({ time }) => {
         </Timer>
     );
 };
-export default ProjectTimer;
+
+const mapStateToProps = state => ({
+    projects: selectProjects(state),
+});
+
+export default connect(mapStateToProps)(ProjectTimer);

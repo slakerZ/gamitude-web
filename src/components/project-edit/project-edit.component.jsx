@@ -33,17 +33,18 @@ const ProjectEdit = ({ projects, index, sessionInProgress, setName }) => {
     const classes = useStyles();
 
     const handleChange = event => {
-        console.log(event.target.value);
-        console.log(index);
         setName({ index: index, name: event.target.value });
     };
 
     return (
-        <ExpansionPanel square className={classes.expansionPanel}>
+        <ExpansionPanel
+            square
+            className={classes.expansionPanel}
+            disabled={sessionInProgress}
+        >
             <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 className={classes.expansionPanelSummary}
-                disabled={sessionInProgress}
             >
                 <Typography component="h4" variant="h4">
                     Edit Project
