@@ -1,15 +1,11 @@
 import React from "react";
-import { connect } from "react-redux";
-// Selectors
-import { selectProjects } from "../../redux/projects/projects.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core";
 // Components
 import ProjectTimer from "../project-timer/project-timer.component.jsx";
 import ProjectsToggle from "../projects-toggle/projects-toggle.component.jsx";
 
-const ProjectWork = ({ index, projects }) => {
-    const project = projects[index];
+const ProjectWork = ({ index }) => {
     const useStyles = makeStyles({
         container: {
             display: "flex",
@@ -27,8 +23,4 @@ const ProjectWork = ({ index, projects }) => {
     );
 };
 
-const mapStateToProps = state => ({
-    projects: selectProjects(state),
-});
-
-export default connect(mapStateToProps)(ProjectWork);
+export default ProjectWork;

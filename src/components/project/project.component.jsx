@@ -48,7 +48,7 @@ const Project = ({ projects, index, Icon }) => {
                     <ProjectWork index={project.index} />
                     <ProjectEdit index={project.index} />
                 </ExpansionPanelDetails>
-            ) : project.status == 1 ? (
+            ) : project.status === 1 ? (
                 <ExpansionPanelDetails className={classes.details}>
                     <div>Hold</div>
                 </ExpansionPanelDetails>

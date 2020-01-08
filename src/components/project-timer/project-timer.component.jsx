@@ -48,11 +48,11 @@ const ProjectTimer = ({
 
     useEffect(() => {
         setSessionInProgress(localSession);
-    }, [localSession]);
+    }, [localSession, setSessionInProgress]);
 
     useEffect(() => {
         setBreakInProgress(localBreak);
-    }, [localBreak]);
+    }, [localBreak, setBreakInProgress]);
 
     useEffect(() => {
         const handleBreak = methodBaseTime => {
@@ -115,8 +115,10 @@ const ProjectTimer = ({
     }, [
         sessionTime,
         localSession,
-        duration(project.method, "minutes"),
+        project.method,
         sessionsComplete,
+        breakTime,
+        setSessionsComplete,
     ]);
 
     useEffect(() => {
