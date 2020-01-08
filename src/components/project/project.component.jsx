@@ -43,10 +43,20 @@ const Project = ({ projects, index, Icon }) => {
                 </Typography>
             </ExpansionPanelSummary>
 
-            <ExpansionPanelDetails className={classes.details}>
-                <ProjectWork index={project.index} />
-                <ProjectEdit index={project.index} />
-            </ExpansionPanelDetails>
+            {project.status === 0 ? (
+                <ExpansionPanelDetails className={classes.details}>
+                    <ProjectWork index={project.index} />
+                    <ProjectEdit index={project.index} />
+                </ExpansionPanelDetails>
+            ) : project.status == 1 ? (
+                <ExpansionPanelDetails className={classes.details}>
+                    <div>Hold</div>
+                </ExpansionPanelDetails>
+            ) : (
+                <ExpansionPanelDetails className={classes.details}>
+                    <div>Done</div>
+                </ExpansionPanelDetails>
+            )}
         </ExpansionPanel>
     );
 };

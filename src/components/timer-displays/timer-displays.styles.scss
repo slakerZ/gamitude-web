@@ -1,0 +1,15 @@
+.timer-displays {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+    .hours {
+        font-size: 4rem;
+    }
+    .minutes {
+        font-size: 3rem;
+    }
+    .seconds {
+        font-size: 2rem;
+    }
+}

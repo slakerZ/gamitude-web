@@ -23,3 +23,18 @@ export const setMethod = ({ index, method }) => ({
     method: method,
     index: index,
 });
+
+export const setBreakInProgress = value => ({
+    type: ProjectsActionTypes.SET_BREAK_IN_PROGRESS,
+    payload: value,
+});
+
+export const setSessionInProgress = value => ({
+    type: ProjectsActionTypes.SET_SESSION_IN_PROGRESS,
+    payload: value,
+});
+
+export const setSessionsComplete = value => ({
+    type: ProjectsActionTypes.SET_SESSIONS_COMPLETE,
+    payload: value,
+});
