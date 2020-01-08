@@ -5,9 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-// UI icons
-import AddIcon from "@material-ui/icons/Add";
-import Fab from "@material-ui/core/Fab";
 // SVG's
 import { ReactComponent as ActiveIcon } from "../../assets/icons/projects/active.svg";
 import { ReactComponent as OnHoldIcon } from "../../assets/icons/projects/onHold.svg";
@@ -19,6 +16,7 @@ import { ReactComponent as FluencyIcon } from "../../assets/icons/stats/fluency.
 // Components
 import Project from "../project/project.component.jsx";
 import ProjectTab from "../project-tab/project-tab.component.jsx";
+import ProjectAdd from "../project-add/project-add.component.jsx";
 
 const Projects = ({ projects }) => {
     const useStyles = makeStyles({
@@ -35,17 +33,11 @@ const Projects = ({ projects }) => {
         },
         tabs: {
             backgroundColor: "rgba(196, 195, 81, 0.8)",
+            justifyContent: "center",
         },
         icons: {
             height: "4vh",
             width: "4vh",
-        },
-        add: {
-            position: "absolute",
-            right: "2%",
-            bottom: "2%",
-            boxShadow: "5px 5px 10px #000000",
-            backgroundColor: "rgba(196, 195, 81, 0.8)",
         },
     });
     const classes = useStyles();
@@ -90,6 +82,7 @@ const Projects = ({ projects }) => {
                     <Tab
                         icon={<ActiveIcon className={classes.icons} />}
                         label="ACTIVE"
+                        className={classes.tab}
                     />
                     <Tab
                         icon={<OnHoldIcon className={classes.icons} />}
@@ -117,10 +110,7 @@ const Projects = ({ projects }) => {
                     </ProjectTab>
                 );
             })}
-
-            <Fab color="secondary" aria-label="add" className={classes.add}>
-                <AddIcon />
-            </Fab>
+            <ProjectAdd />
         </div>
     );
 };

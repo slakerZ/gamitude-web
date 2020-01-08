@@ -44,3 +44,7 @@ export const setSessionsComplete = value => ({
     type: ProjectsActionTypes.SET_SESSIONS_COMPLETE,
     payload: value,
 });
+
+export const addProject = () => ({
+    type: ProjectsActionTypes.ADD_PROJECT,
+});

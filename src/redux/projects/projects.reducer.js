@@ -42,6 +42,7 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 projects: tempProjects,
             };
+
         case ProjectsActionTypes.SET_BREAK_IN_PROGRESS:
             return {
                 ...state,
@@ -57,6 +58,21 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 sessionsComplete: action.payload,
             };
+
+        case ProjectsActionTypes.ADD_PROJECT:
+            tempProjects.push({
+                index: tempProjects.length,
+                name: "New Project",
+                method: 25,
+                status: 0,
+                boosted: ["intelligence"],
+                dominant: "intelligence",
+            });
+            return {
+                ...state,
+                projects: tempProjects,
+            };
+
         default:
             return state;
     }
