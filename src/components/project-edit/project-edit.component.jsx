@@ -9,7 +9,6 @@ import TextField from "@material-ui/core/TextField";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-
 // UI icons
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // Components

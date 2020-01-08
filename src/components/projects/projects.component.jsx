@@ -105,6 +105,7 @@ const Projects = ({ projects }) => {
                     >
                         <Project
                             Icon={handleIcons(project.dominant)}
+                            // TODO change to the method that get's rid of drilling index down
                             index={projects.indexOf(project)}
                         />
                     </ProjectTab>

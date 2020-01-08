@@ -5,7 +5,6 @@ const INITIAL_STATE = {
     projects: PROJECTS_DATA,
     sessionInProgress: false,
     breakInProgress: false,
-    breakTime: 5,
     sessionsComplete: 0,
 };
 
