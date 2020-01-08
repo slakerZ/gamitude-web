@@ -11,6 +11,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 //Components
 import ProjectWork from "../project-work/project-work.component.jsx";
 import ProjectEdit from "../project-edit/project-edit.component.jsx";
+import ProjectStatus from "../project-status/project-status.component.jsx";
 
 const Project = ({ projects, index, Icon }) => {
     const useStyles = makeStyles({
@@ -50,11 +51,13 @@ const Project = ({ projects, index, Icon }) => {
                 </ExpansionPanelDetails>
             ) : project.status === 1 ? (
                 <ExpansionPanelDetails className={classes.details}>
-                    <div>Hold</div>
+                    <ProjectStatus index={index} destination={0} />
+                    <ProjectStatus index={index} destination={2} />
                 </ExpansionPanelDetails>
             ) : (
                 <ExpansionPanelDetails className={classes.details}>
-                    <div>Done</div>
+                    <ProjectStatus index={index} destination={0} />
+                    <ProjectStatus index={index} destination={1} />
                 </ExpansionPanelDetails>
             )}
         </ExpansionPanel>

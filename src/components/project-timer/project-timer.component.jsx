@@ -152,7 +152,9 @@ const ProjectTimer = ({
                 <Button
                     onClick={() => setLocalSession(!localSession)}
                     variant={localSession ? "outlined" : "contained"}
-                    disabled={!localSession && sessionInProgress}
+                    disabled={
+                        (!localSession && sessionInProgress) || breakInProgress
+                    }
                 >
                     <Typography variant="h6" component="h6">
                         {localSession ? "Give Up" : "Start"}

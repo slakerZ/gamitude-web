@@ -9,11 +9,13 @@ import TextField from "@material-ui/core/TextField";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+
 // UI icons
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // Components
 import ProjectStats from "../project-stats/project-stats.component.jsx";
 import ProjectsStatsDominant from "../project-stats-dominant/project-stats-dominant.component.jsx";
+import ProjectStatus from "../project-status/project-status.component.jsx";
 
 const ProjectEdit = ({ projects, index, sessionInProgress, setName }) => {
     const project = projects[index];
@@ -62,6 +64,9 @@ const ProjectEdit = ({ projects, index, sessionInProgress, setName }) => {
 
                 <ProjectStats index={index} />
                 <ProjectsStatsDominant index={index} />
+
+                <ProjectStatus index={index} destination={1} />
+                <ProjectStatus index={index} destination={2} />
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );

@@ -36,6 +36,12 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 projects: tempProjects,
             };
+        case ProjectsActionTypes.SET_STATUS:
+            tempProjects[action.index].status = action.status;
+            return {
+                ...state,
+                projects: tempProjects,
+            };
         case ProjectsActionTypes.SET_BREAK_IN_PROGRESS:
             return {
                 ...state,

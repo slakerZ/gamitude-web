@@ -24,6 +24,12 @@ export const setMethod = ({ index, method }) => ({
     index: index,
 });
 
+export const setStatus = ({ index, status }) => ({
+    type: ProjectsActionTypes.SET_STATUS,
+    status: status,
+    index: index,
+});
+
 export const setBreakInProgress = value => ({
     type: ProjectsActionTypes.SET_BREAK_IN_PROGRESS,
     payload: value,
