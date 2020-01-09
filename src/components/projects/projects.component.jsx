@@ -111,7 +111,7 @@ const Projects = ({ projects }) => {
                     </ProjectTab>
                 );
             })}
-            <ProjectAdd />
+            {value === 0 ? <ProjectAdd /> : null}
         </div>
     );
 };
