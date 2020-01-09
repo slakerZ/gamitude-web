@@ -25,7 +25,6 @@ const Projects = ({ projects }) => {
             backgroundColor: "transparent",
             gridArea: "projects",
             boxShadow: "5px 5px 10px #000000",
-            position: "relative",
             overflow: "auto",
         },
         appBar: {

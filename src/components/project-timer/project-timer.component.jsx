@@ -36,6 +36,20 @@ const ProjectTimer = ({
     const [breakTime, setBreakTime] = useState(duration(0, "minutes"));
     const [localBreak, setLocalBreak] = useState(false);
 
+    const handleBreak = methodBaseTime => {
+        switch (methodBaseTime) {
+            case 25:
+                if ((sessionsComplete + 1) % 5 === 0) {
+                    return 15;
+                } else {
+                    return 5;
+                }
+            case 90:
+                return 30;
+            default:
+                return 0;
+        }
+    };
     useEffect(() => {
         setSessionTime(duration(method, "minutes"));
     }, [method]);
@@ -49,20 +63,6 @@ const ProjectTimer = ({
     }, [localBreak, setBreakInProgress]);
 
     useEffect(() => {
-        const handleBreak = methodBaseTime => {
-            switch (methodBaseTime) {
-                case 25:
-                    if ((sessionsComplete + 1) % 5 === 0) {
-                        return 15;
-                    } else {
-                        return 5;
-                    }
-                case 90:
-                    return 30;
-                default:
-                    return 0;
-            }
-        };
         const interval = localSession
             ? setInterval(
                   () =>

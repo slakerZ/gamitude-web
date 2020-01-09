@@ -12,8 +12,6 @@ const ProjectTab = props => {
             component="div"
             role="tabpanel"
             hidden={value !== currTab}
-            id={`simple-tabpanel-${currTab}`}
-            aria-labelledby={`simple-tab-${currTab}`}
             {...other}
         >
             {value === currTab && <Box p={0}>{children}</Box>}
