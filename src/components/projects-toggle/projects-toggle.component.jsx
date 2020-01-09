@@ -3,10 +3,7 @@ import { connect } from "react-redux";
 // Actions
 import { setMethod } from "../../redux/projects/projects.actions";
 // Selectors
-import {
-    selectProjects,
-    selectSessionInProgress,
-} from "../../redux/projects/projects.selectors";
+import { selectSessionInProgress } from "../../redux/projects/projects.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -20,10 +17,10 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const ProjectsToggle = ({ index, projects, setMethod, sessionInProgress }) => {
-    const handleMethod = (event, method) => {
-        method = method || projects[index].method;
-        setMethod({ index: index, method: method });
+const ProjectsToggle = ({ index, method, setMethod, sessionInProgress }) => {
+    const handleMethod = (event, newMethod) => {
+        newMethod = newMethod || method;
+        setMethod({ index: index, method: newMethod });
     };
 
     const classes = useStyles();
@@ -31,7 +28,7 @@ const ProjectsToggle = ({ index, projects, setMethod, sessionInProgress }) => {
     return (
         <div className={classes.toggleContainer}>
             <ToggleButtonGroup
-                value={projects[index].method}
+                value={method}
                 exclusive
                 onChange={handleMethod}
                 aria-label="text alignment"
@@ -60,7 +57,6 @@ const ProjectsToggle = ({ index, projects, setMethod, sessionInProgress }) => {
 };
 
 const mapStateToProps = state => ({
-    projects: selectProjects(state),
     sessionInProgress: selectSessionInProgress(state),
 });
 

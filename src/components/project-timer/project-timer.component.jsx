@@ -8,7 +8,6 @@ import Button from "@material-ui/core/Button";
 import { duration } from "moment/moment";
 // Selectors
 import {
-    selectProjects,
     selectSessionInProgress,
     selectSessionsComplete,
     selectBreakInProgress,
@@ -23,8 +22,7 @@ import {
 } from "../../redux/projects/projects.actions";
 
 const ProjectTimer = ({
-    index,
-    projects,
+    method,
     sessionInProgress,
     breakInProgress,
     sessionsComplete,
@@ -32,19 +30,15 @@ const ProjectTimer = ({
     setSessionsComplete,
     setBreakInProgress,
 }) => {
-    const project = projects[index];
-
-    const [sessionTime, setSessionTime] = useState(
-        duration(project.method, "minutes")
-    );
+    const [sessionTime, setSessionTime] = useState(duration(method, "minutes"));
     const [localSession, setLocalSession] = useState(false);
 
     const [breakTime, setBreakTime] = useState(duration(0, "minutes"));
     const [localBreak, setLocalBreak] = useState(false);
 
     useEffect(() => {
-        setSessionTime(duration(project.method, "minutes"));
-    }, [project.method]);
+        setSessionTime(duration(method, "minutes"));
+    }, [method]);
 
     useEffect(() => {
         setSessionInProgress(localSession);
@@ -85,13 +79,10 @@ const ProjectTimer = ({
                               setSessionsComplete(newCount);
 
                               // Reset timer
-                              setSessionTime(
-                                  duration(project.method, "minutes")
-                              );
+                              setSessionTime(duration(method, "minutes"));
                               // Add time to break timer
                               const accumulatedBreak =
-                                  breakTime.asMinutes() +
-                                  handleBreak(project.method);
+                                  breakTime.asMinutes() + handleBreak(method);
                               setBreakTime(
                                   duration(accumulatedBreak, "minutes")
                               );
@@ -104,10 +95,10 @@ const ProjectTimer = ({
         if (!localSession) {
             if (
                 sessionTime.asSeconds() > 0 &&
-                duration(project.method, "minutes").asSeconds() !==
+                duration(method, "minutes").asSeconds() !==
                     sessionTime.asSeconds()
             ) {
-                setSessionTime(duration(duration(project.method, "minutes")));
+                setSessionTime(duration(duration(method, "minutes")));
             }
             clearInterval(interval);
         }
@@ -115,7 +106,7 @@ const ProjectTimer = ({
     }, [
         sessionTime,
         localSession,
-        project.method,
+        method,
         sessionsComplete,
         breakTime,
         setSessionsComplete,
@@ -178,7 +169,6 @@ const ProjectTimer = ({
 };
 
 const mapStateToProps = state => ({
-    projects: selectProjects(state),
     sessionInProgress: selectSessionInProgress(state),
     sessionsComplete: selectSessionsComplete(state),
     breakInProgress: selectBreakInProgress(state),

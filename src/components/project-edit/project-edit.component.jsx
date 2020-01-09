@@ -5,6 +5,7 @@ import { setName } from "../../redux/projects/projects.actions";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -16,9 +17,7 @@ import ProjectStats from "../project-stats/project-stats.component.jsx";
 import ProjectsStatsDominant from "../project-stats-dominant/project-stats-dominant.component.jsx";
 import ProjectStatus from "../project-status/project-status.component.jsx";
 
-const ProjectEdit = ({ projects, index, sessionInProgress, setName }) => {
-    const project = projects[index];
-
+const ProjectEdit = ({ name, index, sessionInProgress, setName }) => {
     const useStyles = makeStyles({
         expansionPanel: {
             backgroundColor: "transparent",
@@ -33,8 +32,15 @@ const ProjectEdit = ({ projects, index, sessionInProgress, setName }) => {
     });
     const classes = useStyles();
 
+    const [isExpanded, setIsExpanded] = React.useState(false);
+
     const handleChange = event => {
         setName({ index: index, name: event.target.value });
+    };
+
+    const handleSave = () => {
+        //TODO: Add proper API call
+        setIsExpanded(false);
     };
 
     return (
@@ -42,6 +48,8 @@ const ProjectEdit = ({ projects, index, sessionInProgress, setName }) => {
             square
             className={classes.expansionPanel}
             disabled={sessionInProgress}
+            expanded={isExpanded}
+            onChange={(e, expanded) => setIsExpanded(expanded)}
         >
             <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -54,10 +62,9 @@ const ProjectEdit = ({ projects, index, sessionInProgress, setName }) => {
 
             <ExpansionPanelDetails className={classes.expansionPanelDetails}>
                 <TextField
-                    id={`${project.name}-name`}
                     label="PROJECT NAME"
                     variant="outlined"
-                    value={project.name}
+                    value={name}
                     onChange={handleChange}
                 />
 
@@ -66,13 +73,17 @@ const ProjectEdit = ({ projects, index, sessionInProgress, setName }) => {
 
                 <ProjectStatus index={index} destination={1} />
                 <ProjectStatus index={index} destination={2} />
+                <Button onClick={() => handleSave()} variant="outlined">
+                    <Typography component="h6" variant="h6">
+                        Save
+                    </Typography>
+                </Button>
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );
 };
 
 const mapStateToProps = state => ({
-    projects: state.projects.projects,
     sessionInProgress: state.projects.sessionInProgress,
 });
 

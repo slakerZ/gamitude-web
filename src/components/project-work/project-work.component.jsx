@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core";
 import ProjectTimer from "../project-timer/project-timer.component.jsx";
 import ProjectsToggle from "../projects-toggle/projects-toggle.component.jsx";
 
-const ProjectWork = ({ index }) => {
+const ProjectWork = ({ index, method }) => {
     const useStyles = makeStyles({
         container: {
             display: "flex",
@@ -17,8 +17,8 @@ const ProjectWork = ({ index }) => {
 
     return (
         <div className={classes.container}>
-            <ProjectTimer index={index} />
-            <ProjectsToggle index={index} />
+            <ProjectTimer method={method} />
+            <ProjectsToggle index={index} method={method} />
         </div>
     );
 };

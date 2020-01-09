@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -13,7 +12,7 @@ import ProjectWork from "../project-work/project-work.component.jsx";
 import ProjectEdit from "../project-edit/project-edit.component.jsx";
 import ProjectStatus from "../project-status/project-status.component.jsx";
 
-const Project = ({ projects, index, Icon }) => {
+const Project = ({ index, name, status, method, Icon }) => {
     const useStyles = makeStyles({
         icons: {
             height: "5vh",
@@ -31,7 +30,6 @@ const Project = ({ projects, index, Icon }) => {
         },
     });
     const classes = useStyles();
-    const project = projects[index];
     return (
         <ExpansionPanel square className={classes.container}>
             <ExpansionPanelSummary
@@ -40,16 +38,16 @@ const Project = ({ projects, index, Icon }) => {
             >
                 <Icon className={classes.icons} />
                 <Typography component="h3" variant="h3">
-                    {project.name}
+                    {name}
                 </Typography>
             </ExpansionPanelSummary>
 
-            {project.status === 0 ? (
+            {status === 0 ? (
                 <ExpansionPanelDetails className={classes.details}>
-                    <ProjectWork index={project.index} />
-                    <ProjectEdit index={project.index} />
+                    <ProjectWork index={index} method={method} />
+                    <ProjectEdit index={index} name={name} />
                 </ExpansionPanelDetails>
-            ) : project.status === 1 ? (
+            ) : status === 1 ? (
                 <ExpansionPanelDetails className={classes.details}>
                     <ProjectStatus index={index} destination={0} />
                     <ProjectStatus index={index} destination={2} />
@@ -64,8 +62,4 @@ const Project = ({ projects, index, Icon }) => {
     );
 };
 
-const mapStateToProps = state => ({
-    projects: state.projects.projects,
-});
-
-export default connect(mapStateToProps)(Project);
+export default Project;

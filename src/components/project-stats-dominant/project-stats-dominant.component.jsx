@@ -30,6 +30,7 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
         container: {
             display: "flex",
             flexDirection: "column",
+            marginBottom: "1rem",
         },
         btnGroup: {
             backgroundColor: "transparent",
