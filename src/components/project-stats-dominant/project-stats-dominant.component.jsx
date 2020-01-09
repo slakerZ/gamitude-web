@@ -40,6 +40,14 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
             width: "4vh",
             height: "4vh",
         },
+        btn: {
+            "&.Mui-selected": {
+                background: "#CAC99F",
+                "&:hover": {
+                    background: "#C1C59B",
+                },
+            },
+        },
     });
     const classes = useStyles();
     return (
@@ -54,19 +62,35 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
                 aria-label="dominant stat"
                 className={classes.btnGroup}
             >
-                <ToggleButton value="strength" aria-label="strength">
+                <ToggleButton
+                    value="strength"
+                    aria-label="strength"
+                    className={classes.btn}
+                >
                     <Strength className={classes.icon} />
                 </ToggleButton>
 
-                <ToggleButton value="creativity" aria-label="creativity">
+                <ToggleButton
+                    value="creativity"
+                    aria-label="creativity"
+                    className={classes.btn}
+                >
                     <Creativity className={classes.icon} />
                 </ToggleButton>
 
-                <ToggleButton value="intelligence" aria-label="intelligence">
+                <ToggleButton
+                    value="intelligence"
+                    aria-label="intelligence"
+                    className={classes.btn}
+                >
                     <Intelligence className={classes.icon} />
                 </ToggleButton>
 
-                <ToggleButton value="fluency" aria-label="fluency">
+                <ToggleButton
+                    value="fluency"
+                    aria-label="fluency"
+                    className={classes.btn}
+                >
                     <Fluency className={classes.icon} />
                 </ToggleButton>
             </ToggleButtonGroup>
