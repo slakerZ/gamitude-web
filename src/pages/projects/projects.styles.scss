@@ -1,10 +1,14 @@
 .projects-page {
-    background-color: rgba(35, 121, 190, 0.486);
+    background-image: radial-gradient(
+        circle,
+        rgba(128, 105, 133, 0.6),
+        rgba(116, 55, 129, 0.6),
+        rgba(49, 0, 59, 0.6)
+    );
     display: grid;
     gap: 2rem;
     padding: 2rem;
-    min-height: 600px;
-    height: 89.75vh;
+
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 2fr;
     grid-template-areas:
@@ -28,6 +32,7 @@
 }
 @media (min-width: 768px) {
     .projects-page {
+        height: 89.75vh;
         grid-template-columns: 2fr 1fr;
         grid-template-rows: 1fr 1fr;
         grid-template-areas:

@@ -3,6 +3,7 @@ import React from "react";
 import Stats from "../../components/stats/stats.component.jsx";
 import Energies from "../../components/energies/energies.component.jsx";
 import Rank from "../../components/rank/rank.component.jsx";
+import Projects from "../../components/projects/projects.component.jsx";
 // Styles
 import "./projects.styles.scss";
 
@@ -10,7 +11,7 @@ const ProjectsPage = () => {
     return (
         <div className="projects-page">
             <Rank />
-            <div className="projects">projects</div>
+            <Projects />
             <Stats />
             <Energies />
         </div>

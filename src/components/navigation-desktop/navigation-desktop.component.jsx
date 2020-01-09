@@ -19,10 +19,14 @@ const useStyles = makeStyles({
     root: {
         flexGrow: 1,
         maxWidth: "100vw",
+        backgroundColor: "transparent",
     },
     icons: {
         width: "6vh",
         height: "6vh",
+    },
+    tabs: {
+        backgroundColor: "rgba(196, 195, 81, 0.6)",
     },
 });
 
@@ -42,6 +46,7 @@ const NavigationDesktop = ({ tab, setTab }) => {
                 indicatorColor="primary"
                 textColor="primary"
                 aria-label="Gamitude's Navigation"
+                className={classes.tabs}
             >
                 <Tab
                     icon={<Logo className={classes.icons} />}

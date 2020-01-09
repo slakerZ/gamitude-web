@@ -1,0 +1,51 @@
+const PROJECTS_DATA = [
+    {
+        index: 0,
+        name: "React",
+        method: 90,
+        status: 0,
+        boosted: ["intelligence", "creativity"],
+        dominant: "intelligence",
+    },
+    {
+        index: 1,
+        name: "Python",
+        method: 25,
+        status: 0,
+        boosted: ["intelligence", "fluency"],
+        dominant: "intelligence",
+    },
+    {
+        index: 2,
+        name: "UX Design",
+        method: 25,
+        status: 0,
+        boosted: ["intelligence", "creativity"],
+        dominant: "creativity",
+    },
+    {
+        index: 3,
+        name: "HIIT",
+        method: 25,
+        status: 0,
+        boosted: ["strength"],
+        dominant: "strength",
+    },
+    {
+        index: 4,
+        name: "Spanish",
+        method: 25,
+        status: 1,
+        boosted: ["fluency"],
+        dominant: "fluency",
+    },
+    {
+        index: 5,
+        name: "English",
+        method: 25,
+        status: 2,
+        boosted: ["intelligence", "fluency"],
+        dominant: "fluency",
+    },
+];
+export default PROJECTS_DATA;
