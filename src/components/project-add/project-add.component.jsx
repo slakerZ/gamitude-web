@@ -12,9 +12,10 @@ const ProjectAdd = ({ addProject }) => {
     // TODO button won't be in the right place after projects go into scrollable
     const useStyles = makeStyles({
         add: {
-            position: "absolute",
-            right: "1vh",
-            bottom: "1vh",
+            position: "sticky",
+            margin: "10px 10px 10px 0",
+            float: "right",
+            top: "calc(100vh - 50px)",
             boxShadow: "5px 5px 10px #000000",
             backgroundColor: "rgba(196, 195, 81, 0.8)",
         },
