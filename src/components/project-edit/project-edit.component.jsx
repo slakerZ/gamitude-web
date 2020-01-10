@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 // Actions
-import { setName } from "../../redux/projects/projects.actions";
+import { setName, deleteProject } from "../../redux/projects/projects.actions";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -17,7 +17,13 @@ import ProjectStats from "../project-stats/project-stats.component.jsx";
 import ProjectsStatsDominant from "../project-stats-dominant/project-stats-dominant.component.jsx";
 import ProjectStatus from "../project-status/project-status.component.jsx";
 
-const ProjectEdit = ({ name, index, sessionInProgress, setName }) => {
+const ProjectEdit = ({
+    name,
+    index,
+    sessionInProgress,
+    setName,
+    deleteProject,
+}) => {
     const useStyles = makeStyles({
         expansionPanel: {
             backgroundColor: "transparent",
@@ -41,6 +47,10 @@ const ProjectEdit = ({ name, index, sessionInProgress, setName }) => {
     const handleSave = () => {
         //TODO: Add proper API call
         setIsExpanded(false);
+    };
+
+    const handleDeletion = () => {
+        deleteProject(index);
     };
 
     return (
@@ -73,6 +83,11 @@ const ProjectEdit = ({ name, index, sessionInProgress, setName }) => {
 
                 <ProjectStatus index={index} destination={1} />
                 <ProjectStatus index={index} destination={2} />
+                <Button onClick={() => handleDeletion()} variant="contained">
+                    <Typography component="h6" variant="h6">
+                        Delete Project
+                    </Typography>
+                </Button>
                 <Button onClick={() => handleSave()} variant="outlined">
                     <Typography component="h6" variant="h6">
                         Save
@@ -89,6 +104,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     setName: value => dispatch(setName(value)),
+    deleteProject: value => dispatch(deleteProject(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectEdit);

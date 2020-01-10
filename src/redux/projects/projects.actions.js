@@ -48,3 +48,8 @@ export const setSessionsComplete = value => ({
 export const addProject = () => ({
     type: ProjectsActionTypes.ADD_PROJECT,
 });
+
+export const deleteProject = index => ({
+    type: ProjectsActionTypes.DELETE_PROJECT,
+    index: index,
+});

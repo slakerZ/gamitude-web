@@ -94,14 +94,11 @@ const Projects = ({ projects }) => {
                 </Tabs>
             </AppBar>
 
-            {projects.map(({ index, status, dominant, name, method }) => {
+            {projects.map(project => {
+                const { status, dominant, name, method } = project;
+                const index = projects.indexOf(project);
                 return (
-                    <ProjectTab
-                        // TODO think whether it is safe to do so
-                        key={index}
-                        value={value}
-                        currTab={status}
-                    >
+                    <ProjectTab key={index} value={value} currTab={status}>
                         <Project
                             Icon={handleIcons(dominant)}
                             // TODO change to the method that get's rid of drilling index down
