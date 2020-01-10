@@ -1,9 +1,9 @@
 import { ProjectsActionTypes } from "./projects.types";
 
-export const setBoosted = ({ index, stats }) => ({
+export const setBoosted = ({ index, newBoosted }) => ({
     type: ProjectsActionTypes.SET_BOOSTED,
-    stats: stats,
     index: index,
+    boosted: newBoosted,
 });
 
 export const setDominant = ({ index, newDominant }) => ({
