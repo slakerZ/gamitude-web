@@ -1,9 +1,9 @@
 import { ProjectsActionTypes } from "./projects.types";
 
-export const setBoosted = ({ index, stats }) => ({
+export const setBoosted = ({ index, newBoosted }) => ({
     type: ProjectsActionTypes.SET_BOOSTED,
-    stats: stats,
     index: index,
+    boosted: newBoosted,
 });
 
 export const setDominant = ({ index, newDominant }) => ({
@@ -47,4 +47,9 @@ export const setSessionsComplete = value => ({
 
 export const addProject = () => ({
     type: ProjectsActionTypes.ADD_PROJECT,
+});
+
+export const deleteProject = index => ({
+    type: ProjectsActionTypes.DELETE_PROJECT,
+    index: index,
 });

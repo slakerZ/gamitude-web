@@ -1,6 +1,5 @@
 const PROJECTS_DATA = [
     {
-        index: 0,
         name: "React",
         method: 90,
         status: 0,
@@ -8,7 +7,6 @@ const PROJECTS_DATA = [
         dominant: "intelligence",
     },
     {
-        index: 1,
         name: "Python",
         method: 25,
         status: 0,
@@ -16,7 +14,6 @@ const PROJECTS_DATA = [
         dominant: "intelligence",
     },
     {
-        index: 2,
         name: "UX Design",
         method: 25,
         status: 0,
@@ -24,7 +21,6 @@ const PROJECTS_DATA = [
         dominant: "creativity",
     },
     {
-        index: 3,
         name: "HIIT",
         method: 25,
         status: 0,
@@ -32,7 +28,6 @@ const PROJECTS_DATA = [
         dominant: "strength",
     },
     {
-        index: 4,
         name: "Spanish",
         method: 25,
         status: 1,
@@ -40,7 +35,6 @@ const PROJECTS_DATA = [
         dominant: "fluency",
     },
     {
-        index: 5,
         name: "English",
         method: 25,
         status: 2,

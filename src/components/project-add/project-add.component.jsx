@@ -9,7 +9,6 @@ import { makeStyles } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 
 const ProjectAdd = ({ addProject }) => {
-    // TODO button won't be in the right place after projects go into scrollable
     const useStyles = makeStyles({
         add: {
             position: "sticky",

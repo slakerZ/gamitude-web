@@ -43,10 +43,11 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
     const classes = useStyles();
 
     const boosted = projects[index].boosted;
+    const dominant = projects[index].dominant;
 
-    const handleChange = (event, stats) => {
-        if (stats.length > 0) {
-            setBoosted({ stats, index });
+    const handleChange = (event, newBoosted) => {
+        if (newBoosted.length > 0 && newBoosted.includes(dominant)) {
+            setBoosted({ index, newBoosted });
         }
     };
 

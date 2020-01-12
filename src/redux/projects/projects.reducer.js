@@ -12,7 +12,7 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
     const tempProjects = [...state.projects];
     switch (action.type) {
         case ProjectsActionTypes.SET_BOOSTED:
-            tempProjects[action.index].boosted = action.stats;
+            tempProjects[action.index].boosted = action.boosted;
             return {
                 ...state,
                 projects: tempProjects,
@@ -60,13 +60,18 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
 
         case ProjectsActionTypes.ADD_PROJECT:
             tempProjects.push({
-                index: tempProjects.length,
                 name: "New Project",
                 method: 25,
                 status: 0,
                 boosted: ["intelligence"],
                 dominant: "intelligence",
             });
+            return {
+                ...state,
+                projects: tempProjects,
+            };
+        case ProjectsActionTypes.DELETE_PROJECT:
+            tempProjects.splice(action.index, 1);
             return {
                 ...state,
                 projects: tempProjects,
