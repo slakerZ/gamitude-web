@@ -13,4 +13,10 @@ html {
     bottom: 0;
     left: 0;
     z-index: -1;
+    background-image: radial-gradient(
+        circle,
+        rgba(128, 105, 133, 0.6),
+        rgba(116, 55, 129, 0.6),
+        rgba(49, 0, 59, 0.6)
+    );
 }

@@ -1,7 +1,28 @@
 import React from "react";
+// UI core
+import { makeStyles } from "@material-ui/core";
+// Components
+import SignIn from "../../components/signIn/sign-in.component.jsx";
+import SignUp from "../../components/signUp/sign-up.component.jsx";
 
 const SignInSignUpPage = () => {
-    return <h1>SignInSignUpPage</h1>;
+    const useStyles = makeStyles({
+        SignInSignUp: {
+            width: "100vw",
+            height: "89.75vh",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+        },
+    });
+    const classes = useStyles();
+
+    return (
+        <div className={classes.SignInSignUp}>
+            <SignUp />
+            <SignIn />
+        </div>
+    );
 };
 
 export default SignInSignUpPage;
