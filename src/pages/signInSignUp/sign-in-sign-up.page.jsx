@@ -12,7 +12,9 @@ const SignInSignUpPage = () => {
             height: "87vh",
             display: "flex",
             justifyContent: "space-around",
-            alignItems: "center",
+            alignContent: "space-around",
+            flexWrap: "wrap",
+            padding: "2%",
         },
     });
     const classes = useStyles();

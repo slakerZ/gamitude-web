@@ -18,6 +18,7 @@ const SignUp = () => {
             justifyContent: "space-around",
             alignContent: "space-around",
             height: "50%",
+            margin: "2%",
         },
     });
     const classes = useStyles();
