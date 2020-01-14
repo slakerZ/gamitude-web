@@ -9,7 +9,7 @@ const SignInSignUpPage = () => {
     const useStyles = makeStyles({
         SignInSignUp: {
             width: "100vw",
-            height: "89.75vh",
+            height: "87vh",
             display: "flex",
             justifyContent: "space-around",
             alignItems: "center",
