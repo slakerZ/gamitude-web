@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 const SignIn = () => {
     const useStyles = makeStyles({
         signIn: {
-            backgroundColor: "transparent",
+            backgroundColor: "rgba(180, 192, 79, 0.5)",
             boxShadow: "5px 5px 10px #000000",
             padding: "2%",
             display: "flex",
