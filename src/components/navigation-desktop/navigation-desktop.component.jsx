@@ -30,7 +30,12 @@ const useStyles = makeStyles({
     },
 });
 
-const NavigationDesktop = ({ tab, setTab }) => {
+const NavigationDesktop = ({
+    tab,
+    setTab,
+    sessionInProgress,
+    breakInProgress,
+}) => {
     const isSignedIn = false;
     const classes = useStyles();
 
@@ -54,6 +59,7 @@ const NavigationDesktop = ({ tab, setTab }) => {
                     component={Link}
                     to="/"
                     label="Home"
+                    disabled={sessionInProgress || breakInProgress}
                 />
                 <Tab
                     icon={<ProjectsIcon className={classes.icons} />}
@@ -68,6 +74,7 @@ const NavigationDesktop = ({ tab, setTab }) => {
                     component={Link}
                     to="/bulletJournal"
                     label="Bullet Journal"
+                    disabled={sessionInProgress || breakInProgress}
                 />
                 {isSignedIn ? (
                     <Tab
@@ -75,6 +82,7 @@ const NavigationDesktop = ({ tab, setTab }) => {
                         component={Link}
                         to="/profile"
                         label="Profile"
+                        disabled={sessionInProgress || breakInProgress}
                     />
                 ) : (
                     <Tab
@@ -82,6 +90,7 @@ const NavigationDesktop = ({ tab, setTab }) => {
                         component={Link}
                         to="/signInSignUp"
                         label="Sign In / Sign Up"
+                        disabled={sessionInProgress || breakInProgress}
                     />
                 )}
             </Tabs>
@@ -91,6 +100,8 @@ const NavigationDesktop = ({ tab, setTab }) => {
 
 const mapStateToProps = state => ({
     tab: state.navigation.tab,
+    sessionInProgress: state.projects.sessionInProgress,
+    breakInProgress: state.projects.breakInProgress,
 });
 
 const mapDispatchToProps = dispatch => ({

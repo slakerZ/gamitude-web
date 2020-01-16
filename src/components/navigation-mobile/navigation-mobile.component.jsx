@@ -28,7 +28,12 @@ const useStyles = makeStyles({
         height: "4vh",
     },
 });
-const NavigationMobile = ({ tab, setTab }) => {
+const NavigationMobile = ({
+    tab,
+    setTab,
+    sessionInProgress,
+    breakInProgress,
+}) => {
     const classes = useStyles();
     const isSignedIn = true;
     const handleChange = (event, newValue) => {
@@ -46,6 +51,7 @@ const NavigationMobile = ({ tab, setTab }) => {
                 to="/"
                 label="Home"
                 icon={<Logo className={classes.icons} />}
+                disabled={sessionInProgress || breakInProgress}
             />
             <BottomNavigationAction
                 component={Link}
@@ -58,6 +64,7 @@ const NavigationMobile = ({ tab, setTab }) => {
                 to="/bulletJournal"
                 label="Bullet Journal"
                 icon={<BulletJournalIcon className={classes.icons} />}
+                disabled={sessionInProgress || breakInProgress}
             />
             {isSignedIn ? (
                 <BottomNavigationAction
@@ -65,6 +72,7 @@ const NavigationMobile = ({ tab, setTab }) => {
                     component={Link}
                     to="/profile"
                     label="Profile"
+                    disabled={sessionInProgress || breakInProgress}
                 />
             ) : (
                 <BottomNavigationAction
@@ -72,6 +80,7 @@ const NavigationMobile = ({ tab, setTab }) => {
                     component={Link}
                     to="/signInSignUp"
                     label="Sign In / Sign Up"
+                    disabled={sessionInProgress || breakInProgress}
                 />
             )}
         </BottomNavigation>
@@ -80,6 +89,8 @@ const NavigationMobile = ({ tab, setTab }) => {
 
 const mapStateToProps = state => ({
     tab: state.navigation.tab,
+    sessionInProgress: state.projects.sessionInProgress,
+    breakInProgress: state.projects.breakInProgress,
 });
 
 const mapDispatchToProps = dispatch => ({
