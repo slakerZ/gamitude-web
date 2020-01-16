@@ -2,8 +2,8 @@ import React from "react";
 // UI core
 import { makeStyles } from "@material-ui/core";
 // Components
-import SignIn from "../../components/signIn/sign-in.component.jsx";
-import SignUp from "../../components/signUp/sign-up.component.jsx";
+import { SignIn } from "../../components/signIn/sign-in.component.jsx";
+import { SignUp } from "../../components/signUp/sign-up.component.jsx";
 
 const SignInSignUpPage = () => {
     const useStyles = makeStyles({
