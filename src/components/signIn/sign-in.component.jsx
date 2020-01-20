@@ -6,8 +6,10 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+import { signIn } from "../../firebase/ducks/actions";
 
-const SignIn = () => {
+const SignInComponent = ({ signIn }) => {
     const useStyles = makeStyles({
         signIn: {
             backgroundColor: "rgba(180, 192, 79, 0.5)",
@@ -31,6 +33,13 @@ const SignIn = () => {
     const handleChange = prop => event => {
         setFormData({ ...formData, [prop]: event.target.value });
     };
+
+    const loginEmailPassword = (email, password) => signIn({ email, password });
+
+    const loginSocial = provider =>
+        signIn({
+            provider,
+        });
 
     return (
         <div className={classes.signIn}>
@@ -56,14 +65,38 @@ const SignIn = () => {
                 />
             </FormControl>
 
-            <Button variant="contained" color="primary" size="large">
+            <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={() =>
+                    loginEmailPassword(formData.email, formData.password)
+                }
+            >
                 Submit
             </Button>
-            <Button variant="contained" color="primary" size="large">
+            <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={() => loginSocial("google")}
+            >
                 Log In with Google
             </Button>
         </div>
     );
 };
 
-export default SignIn;
+const mapStateToProps = state => ({ auth: state.auth });
+
+const mapDispatchToProps = dispatch => {
+    return {
+        signIn: ({ email, password, provider }) =>
+            dispatch(signIn({ email, password, provider })),
+    };
+};
+
+export const SignIn = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignInComponent);

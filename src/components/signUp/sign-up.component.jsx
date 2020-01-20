@@ -6,8 +6,10 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+import { register } from "../../firebase/ducks/actions";
 
-const SignUp = () => {
+const SignUpComponent = ({ register }) => {
     const useStyles = makeStyles({
         signUp: {
             backgroundColor: "rgba(180, 192, 79, 0.5)",
@@ -29,8 +31,14 @@ const SignUp = () => {
         confirmPassword: "",
     });
 
+    console.log(register);
+
     const handleChange = prop => event => {
         setFormData({ ...formData, [prop]: event.target.value });
+    };
+
+    const registerEmailPassword = (email, password) => {
+        return register({ email, password });
     };
 
     return (
@@ -66,11 +74,30 @@ const SignUp = () => {
                 />
             </FormControl>
 
-            <Button variant="contained" color="primary" size="large">
+            <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={() =>
+                    registerEmailPassword(formData.email, formData.password)
+                }
+            >
                 Submit
             </Button>
         </div>
     );
 };
 
-export default SignUp;
+const mapStateToProps = state => ({ auth: state.auth });
+
+const mapDispatchToProps = dispatch => {
+    return {
+        register: ({ email, password, provider }) =>
+            dispatch(register({ email, password, provider })),
+    };
+};
+
+export const SignUp = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignUpComponent);
