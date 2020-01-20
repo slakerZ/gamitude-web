@@ -24,4 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .cache/
-/src/firebase/devConfig.js
+

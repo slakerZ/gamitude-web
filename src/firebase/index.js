@@ -11,7 +11,7 @@ export const AUTH_REGISTER_FAILED = "auth-register-failed";
 export const firebaseConfig = {
     apiKey:
         process.env.FIREBASE_API_KEY ||
-        require("./devConfig").devFirebaseConfig.apiKey,
+        require("./devConfig").devFirebaseConfig.apiKey || '',
     authDomain: "gamitude-b2a6d.firebaseapp.com",
     databaseURL: "https://gamitude-b2a6d.firebaseio.com",
     projectId: "gamitude-b2a6d",
