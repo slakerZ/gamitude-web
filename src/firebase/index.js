@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import devFirebaseConfig from "./devConfig";
 
 // AUTH STATUSES
 export const AUTH_UNKNOWN = "auth-unknown";
@@ -11,7 +12,7 @@ export const AUTH_REGISTER_FAILED = "auth-register-failed";
 export const firebaseConfig = {
     apiKey:
         process.env.REACT_APP_FIREBASE_API_KEY ||
-        require("./devConfig").devFirebaseConfig.apiKey ||
+        devFirebaseConfig.apiKey ||
         "",
     authDomain: "gamitude-b2a6d.firebaseapp.com",
     databaseURL: "https://gamitude-b2a6d.firebaseio.com",
@@ -19,12 +20,10 @@ export const firebaseConfig = {
     storageBucket: "gamitude-b2a6d.appspot.com",
     messagingSenderId:
         process.env.REACT_APP_FIREBASE_MSG_ID ||
-        require("./devConfig").devFirebaseConfig.messagingSenderId ||
+        devFirebaseConfig.messagingSenderId ||
         "",
     appId:
-        process.env.REACT_APP_FIREBASE_APP_ID ||
-        require("./devConfig").devFirebaseConfig.appId ||
-        "",
+        process.env.REACT_APP_FIREBASE_APP_ID || devFirebaseConfig.appId || "",
 };
 
 export const errorCodes = {
