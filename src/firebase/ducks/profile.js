@@ -1,4 +1,5 @@
 export const getUserProfile = async (firebaseId, sdk) => {
+    console.log(sdk);
     try {
         const userProfile = await sdk.user.getByFirebase(firebaseId);
         return userProfile;

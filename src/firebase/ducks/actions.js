@@ -83,6 +83,7 @@ export const register = ({ email, password, provider }) => {
 };
 
 export const login = (user, sdk) => {
+    console.log(user);
     return async dispatch => {
         //set firebase user
         dispatch({ type: types.AUTH_LOGIN_SUCCESS, user });

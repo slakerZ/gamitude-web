@@ -31,8 +31,6 @@ const SignUpComponent = ({ register }) => {
         confirmPassword: "",
     });
 
-    console.log(register);
-
     const handleChange = prop => event => {
         setFormData({ ...formData, [prop]: event.target.value });
     };
