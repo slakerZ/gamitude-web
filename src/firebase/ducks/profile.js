@@ -1,7 +1,9 @@
-export const getUserProfile = async (firebaseId, sdk) => {
-    console.log(sdk);
+import { getByFirebase } from "../../sdk/user/get";
+import { createUser } from "../../sdk/user/post";
+
+export const getUserProfile = async firebaseId => {
     try {
-        const userProfile = await sdk.user.getByFirebase(firebaseId);
+        const userProfile = await getByFirebase()(firebaseId);
         return userProfile;
     } catch (error) {
         console.error(`Error getting profile: ${JSON.stringify(error)}`);
@@ -9,14 +11,13 @@ export const getUserProfile = async (firebaseId, sdk) => {
     }
 };
 
-export const assureUserProfile = async (user, sdk) => {
+export const assureUserProfile = async user => {
     try {
-        const profile = await getUserProfile(user.uid, sdk);
+        const profile = await getUserProfile(user.uid);
         if (!profile) {
-            const { displayName, email, photoURL, uid: firebaseId } = user;
-            return await sdk.user.createUser({
-                displayName,
-                avatarUrl: photoURL,
+            const { email, uid: firebaseId } = user;
+            console.log(user);
+            return await createUser()({
                 email,
                 firebaseId,
             });

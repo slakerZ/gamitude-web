@@ -6,15 +6,15 @@ export const getByFirebase = (
 ) => async firebaseId => {
     try {
         const requestConfig = {
-            params: { firebaseId: firebaseId },
+            responseType: "json",
             ...headerConfig,
         };
         const { data } = await axios.get(
-            `${apiEndpoint}/workflow/user`,
+            `${apiEndpoint}/workflow/user/${firebaseId}`,
             requestConfig
         );
-        if (!data || !data.length) return null; // no user returned
-        return data[0];
+        if (!data) return null; // no user returned
+        return data;
     } catch (e) {
         console.error(`Error getting profile: ${JSON.stringify(e)}`);
         return null;
