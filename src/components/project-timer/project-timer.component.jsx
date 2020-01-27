@@ -4,6 +4,12 @@ import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
+// UIfx
+import UIfx from "uifx";
+// Sounds
+import bellSound from "../../assets/sounds/bell.mp3";
+import congratzSound from "../../assets/sounds/congratulations.mp3";
+import whistleSound from "../../assets/sounds/whistle.mp3";
 // Moment
 import { duration } from "moment/moment";
 // Selectors
@@ -36,6 +42,23 @@ const ProjectTimer = ({
     const [breakTime, setBreakTime] = useState(duration(0, "minutes"));
     const [localBreak, setLocalBreak] = useState(false);
 
+    const sessionEndSound = new UIfx(congratzSound, {
+        volume: 0.5,
+    });
+    const minuteLeftSound = new UIfx(bellSound, {
+        volume: 1,
+    });
+
+    const breakCompleteSound = new UIfx(whistleSound, {
+        volume: 1,
+    });
+
+    useEffect(() => {
+        if (breakTime.asSeconds() === 0 && localBreak) {
+            breakCompleteSound.play();
+        }
+    }, [breakTime, localBreak, breakCompleteSound]);
+
     useEffect(() => {
         setSessionTime(duration(method, "minutes"));
     }, [method]);
@@ -47,6 +70,18 @@ const ProjectTimer = ({
     useEffect(() => {
         setBreakInProgress(localBreak);
     }, [localBreak, setBreakInProgress]);
+
+    useEffect(() => {
+        if (sessionTime.asSeconds() === 60) {
+            minuteLeftSound.play();
+        }
+    }, [sessionTime, minuteLeftSound]);
+
+    useEffect(() => {
+        if (sessionTime.asSeconds() === 0) {
+            sessionEndSound.play();
+        }
+    }, [sessionTime, sessionEndSound]);
 
     useEffect(() => {
         const handleBreak = methodBaseTime => {
@@ -89,7 +124,7 @@ const ProjectTimer = ({
                               return sessionTime;
                           }
                       }),
-                  1
+                  process.env.NODE_ENV === "development" ? 1 : 1000
               )
             : null;
         if (!localSession) {
@@ -110,6 +145,8 @@ const ProjectTimer = ({
         sessionsComplete,
         breakTime,
         setSessionsComplete,
+        sessionEndSound,
+        minuteLeftSound,
     ]);
 
     useEffect(() => {

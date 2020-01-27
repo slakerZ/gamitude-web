@@ -10,14 +10,20 @@ export const AUTH_LOGIN_FAILED = "auth-login-failed";
 export const AUTH_REGISTER_FAILED = "auth-register-failed";
 
 export const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY || devFirebaseConfig.apiKey,
+    apiKey:
+        process.env.REACT_APP_FIREBASE_API_KEY ||
+        devFirebaseConfig.apiKey ||
+        "",
     authDomain: "gamitude-b2a6d.firebaseapp.com",
     databaseURL: "https://gamitude-b2a6d.firebaseio.com",
     projectId: "gamitude-b2a6d",
     storageBucket: "gamitude-b2a6d.appspot.com",
     messagingSenderId:
-        process.env.FIREBASE_MSG_ID || devFirebaseConfig.messagingSenderId,
-    appId: process.env.FIREBASE_APP_ID || devFirebaseConfig.appId,
+        process.env.REACT_APP_FIREBASE_MSG_ID ||
+        devFirebaseConfig.messagingSenderId ||
+        "",
+    appId:
+        process.env.REACT_APP_FIREBASE_APP_ID || devFirebaseConfig.appId || "",
 };
 
 export const errorCodes = {
