@@ -83,12 +83,11 @@ export const register = ({ email, password, provider }) => {
 };
 
 export const login = (user, sdk) => {
-    console.log(user);
     return async dispatch => {
         //set firebase user
         dispatch({ type: types.AUTH_LOGIN_SUCCESS, user });
         if (sdk) {
-            const userProfile = await getUserProfile(user.uid, sdk);
+            const userProfile = await getUserProfile(user.user.uid, sdk);
             if (!userProfile) {
                 return dispatch({
                     type: types.USER_FETCH_FAILED,
@@ -111,6 +110,7 @@ export const signIn = ({ email, password, provider }) => {
                   firebase.auth().signInWithEmailAndPassword(email, password);
         try {
             const user = await loginFunc();
+            login(user, true)(dispatch);
             return user;
         } catch (error) {
             dispatch({ type: types.AUTH_LOGIN_FAILED, error });

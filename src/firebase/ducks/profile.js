@@ -16,7 +16,6 @@ export const assureUserProfile = async user => {
         const profile = await getUserProfile(user.uid);
         if (!profile) {
             const { email, uid: firebaseId } = user;
-            console.log(user);
             return await createUser()({
                 email,
                 firebaseId,
