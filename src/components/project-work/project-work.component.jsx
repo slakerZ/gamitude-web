@@ -17,7 +17,7 @@ const ProjectWork = ({ index, method }) => {
 
     return (
         <div className={classes.container}>
-            <ProjectTimer method={method} />
+            <ProjectTimer method={method} index={index} />
             <ProjectsToggle index={index} method={method} />
         </div>
     );
