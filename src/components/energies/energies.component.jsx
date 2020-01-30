@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 // Styles
 import "./energies.styles.scss";
@@ -7,6 +7,8 @@ import { ReactComponent as Body } from "../../assets/icons/energies/body.svg";
 import { ReactComponent as Emotions } from "../../assets/icons/energies/emotions.svg";
 import { ReactComponent as Mind } from "../../assets/icons/energies/mind.svg";
 import { ReactComponent as Soul } from "../../assets/icons/energies/soul.svg";
+// Selectors
+import { selectSessionsComplete } from "../../redux/projects/projects.selectors";
 // Actions
 import {
     setBody,
@@ -26,23 +28,34 @@ const Energies = ({
     setEmotions,
     setMind,
     setSoul,
+    sessionsComplete,
 }) => {
+    useEffect(() => {
+        const updateEnergies = () => {
+            if (sessionsComplete > 0) {
+                // TODO: Mocked for REACT 25
+                setBody(body - 5);
+                setEmotions(emotions - 10);
+                setMind(mind - 15);
+                setSoul(soul - 5);
+            }
+        };
+        updateEnergies();
+    }, [sessionsComplete]);
+
     return (
         <div className="energies">
             <ProgressBar barType="body" stat={body}>
-                <Body className="icon" onClick={() => setBody(body - 10)} />
+                <Body className="icon" />
             </ProgressBar>
             <ProgressBar barType="emotions" stat={emotions}>
-                <Emotions
-                    className="icon"
-                    onClick={() => setEmotions(emotions - 10)}
-                />
+                <Emotions className="icon" />
             </ProgressBar>
             <ProgressBar barType="mind" stat={mind}>
-                <Mind className="icon" onClick={() => setMind(mind - 10)} />
+                <Mind className="icon" />
             </ProgressBar>
             <ProgressBar barType="soul" stat={soul}>
-                <Soul className="icon" onClick={() => setSoul(soul - 10)} />
+                <Soul className="icon" />
             </ProgressBar>
         </div>
     );
@@ -53,6 +66,7 @@ const mapStateToProps = state => ({
     emotions: state.energies.emotions,
     mind: state.energies.mind,
     soul: state.energies.soul,
+    sessionsComplete: selectSessionsComplete(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -10,31 +10,25 @@ import { ReactComponent as Fluency } from "../../assets/icons/stats/fluency.svg"
 import RankDisplay from "../rank-display/rank-display.component.jsx";
 
 const RankDisplays = ({ strength, creativity, intelligence, fluency }) => {
-    const orcaRequirements = {
-        strength: 15,
-        creativity: 25,
-        intelligence: 35,
-        fluency: 55,
+    const gepardReq = {
+        strength: 0,
+        creativity: 5,
+        intelligence: 10,
+        fluency: 0,
     };
 
     return (
         <div className="rank-displays">
-            <RankDisplay
-                Icon={Strength}
-                Diff={strength - orcaRequirements.strength}
-            />
+            <RankDisplay Icon={Strength} Diff={strength - gepardReq.strength} />
             <RankDisplay
                 Icon={Creativity}
-                Diff={creativity - orcaRequirements.creativity}
+                Diff={creativity - gepardReq.creativity}
             />
             <RankDisplay
                 Icon={Intelligence}
-                Diff={intelligence - orcaRequirements.intelligence}
+                Diff={intelligence - gepardReq.intelligence}
             />
-            <RankDisplay
-                Icon={Fluency}
-                Diff={fluency - orcaRequirements.fluency}
-            />
+            <RankDisplay Icon={Fluency} Diff={fluency - gepardReq.fluency} />
         </div>
     );
 };
