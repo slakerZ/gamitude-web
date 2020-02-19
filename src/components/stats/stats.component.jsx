@@ -41,6 +41,7 @@ const Stats = ({
             }
         };
         updateEnergies();
+        // eslint-disable-next-line
     }, [sessionsComplete]);
     return (
         <div className="stats">

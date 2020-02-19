@@ -19,7 +19,7 @@ import ProjectTab from "../project-tab/project-tab.component.jsx";
 import ProjectAdd from "../project-add/project-add.component.jsx";
 
 const Projects = ({ projects }) => {
-    const useStyles = makeStyles({
+    const useStyles = makeStyles(theme => ({
         root: {
             flexGrow: 1,
             backgroundColor: "transparent",
@@ -31,14 +31,14 @@ const Projects = ({ projects }) => {
             backgroundColor: "transparent",
         },
         tabs: {
-            backgroundColor: "rgba(196, 195, 81, 0.8)",
+            backgroundColor: theme.palette.secondary.dark,
             justifyContent: "center",
         },
         icons: {
             height: "4vh",
             width: "4vh",
         },
-    });
+    }));
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 

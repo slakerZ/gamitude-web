@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
-// UIfx
-import UIfx from "uifx";
-// Sounds
-import bellSound from "../../assets/sounds/bell.mp3";
-import congratzSound from "../../assets/sounds/congratulations.mp3";
-import whistleSound from "../../assets/sounds/whistle.mp3";
+// // UIfx
+// import UIfx from "uifx";
+// // Sounds
+// import bellSound from "../../assets/sounds/bell.mp3";
+// import congratzSound from "../../assets/sounds/congratulations.mp3";
+// import whistleSound from "../../assets/sounds/whistle.mp3";
 // Moment
 import { duration } from "moment/moment";
 // Selectors
@@ -35,6 +35,9 @@ const ProjectTimer = ({
     setSessionInProgress,
     setSessionsComplete,
     setBreakInProgress,
+    minuteLeftSound,
+    breakCompleteSound,
+    sessionEndSound,
 }) => {
     const [sessionTime, setSessionTime] = useState(duration(method, "minutes"));
     const [localSession, setLocalSession] = useState(false);
@@ -42,16 +45,16 @@ const ProjectTimer = ({
     const [breakTime, setBreakTime] = useState(duration(0, "minutes"));
     const [localBreak, setLocalBreak] = useState(false);
 
-    const sessionEndSound = new UIfx(congratzSound, {
-        volume: 0.5,
-    });
-    const minuteLeftSound = new UIfx(bellSound, {
-        volume: 1,
-    });
+    // const sessionEndSound = new UIfx(congratzSound, {
+    //     volume: 0.5,
+    // });
+    // const minuteLeftSound = new UIfx(bellSound, {
+    //     volume: 1,
+    // });
 
-    const breakCompleteSound = new UIfx(whistleSound, {
-        volume: 1,
-    });
+    // const breakCompleteSound = new UIfx(whistleSound, {
+    //     volume: 1,
+    // });
 
     useEffect(() => {
         if (breakTime.asSeconds() === 0 && localBreak) {
@@ -209,6 +212,9 @@ const mapStateToProps = state => ({
     sessionInProgress: selectSessionInProgress(state),
     sessionsComplete: selectSessionsComplete(state),
     breakInProgress: selectBreakInProgress(state),
+    sessionEndSound: state.uifx.projectSounds.sessionEndSound,
+    minuteLeftSound: state.uifx.projectSounds.minuteLeftSound,
+    breakCompleteSound: state.uifx.projectSounds.breakCompleteSound,
 });
 
 const mapDispatchToProps = dispatch => ({

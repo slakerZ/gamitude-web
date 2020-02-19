@@ -1,8 +1,10 @@
 import React from "react";
+import CustomIcon from "../../components/custom-icon/custom-icon.component.jsx";
 
 const HomePage = () => {
     return (
         <div>
+            <CustomIcon />
             <h1>Home</h1>
             <div>
                 Icons made by{" "}

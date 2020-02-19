@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-// Styles
-import "./energies.styles.scss";
+// UI Core
+import { makeStyles } from "@material-ui/core/styles";
 // SVG's
 import { ReactComponent as Body } from "../../assets/icons/energies/body.svg";
 import { ReactComponent as Emotions } from "../../assets/icons/energies/emotions.svg";
@@ -30,6 +30,18 @@ const Energies = ({
     setSoul,
     sessionsComplete,
 }) => {
+    const useStyles = makeStyles({
+        energies: {
+            gridArea: "energies",
+            display: "flex",
+            flexDirection: "column",
+            justifyItems: "stretch",
+            justifyContent: "space-around",
+        },
+    });
+
+    const classes = useStyles();
+
     useEffect(() => {
         const updateEnergies = () => {
             if (sessionsComplete > 0) {
@@ -41,10 +53,11 @@ const Energies = ({
             }
         };
         updateEnergies();
+        // eslint-disable-next-line
     }, [sessionsComplete]);
 
     return (
-        <div className="energies">
+        <div className={classes.energies}>
             <ProgressBar barType="body" stat={body}>
                 <Body className="icon" />
             </ProgressBar>
