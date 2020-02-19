@@ -7,9 +7,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import { register } from "../../firebase/ducks/actions";
 
-const SignUpComponent = ({ register }) => {
+const SignUpComponent = () => {
     const useStyles = makeStyles({
         signUp: {
             backgroundColor: "rgba(180, 192, 79, 0.5)",
@@ -25,20 +24,6 @@ const SignUpComponent = ({ register }) => {
     });
     const classes = useStyles();
 
-    const [formData, setFormData] = React.useState({
-        email: "",
-        password: "",
-        confirmPassword: "",
-    });
-
-    const handleChange = prop => event => {
-        setFormData({ ...formData, [prop]: event.target.value });
-    };
-
-    const registerEmailPassword = (email, password) => {
-        return register({ email, password });
-    };
-
     return (
         <div className={classes.signUp}>
             <Typography variant="h2" component="h2">
@@ -47,55 +32,24 @@ const SignUpComponent = ({ register }) => {
 
             <FormControl>
                 <InputLabel>Email</InputLabel>
-                <Input
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange("email")}
-                />
+                <Input type="email" />
             </FormControl>
 
             <FormControl>
                 <InputLabel>Password</InputLabel>
-                <Input
-                    type="password"
-                    value={formData.password}
-                    onChange={handleChange("password")}
-                />
+                <Input type="password" />
             </FormControl>
 
             <FormControl>
                 <InputLabel>Confirm Password</InputLabel>
-                <Input
-                    type="password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange("confirmPassword")}
-                />
+                <Input type="password" />
             </FormControl>
 
-            <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                onClick={() =>
-                    registerEmailPassword(formData.email, formData.password)
-                }
-            >
+            <Button variant="contained" color="primary" size="large">
                 Submit
             </Button>
         </div>
     );
 };
 
-const mapStateToProps = state => ({ auth: state.auth });
-
-const mapDispatchToProps = dispatch => {
-    return {
-        register: ({ email, password, provider }) =>
-            dispatch(register({ email, password, provider })),
-    };
-};
-
-export const SignUp = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignUpComponent);
+export const SignUp = connect()(SignUpComponent);

@@ -7,9 +7,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import { signIn } from "../../firebase/ducks/actions";
 
-const SignInComponent = ({ signIn }) => {
+const SignInComponent = () => {
     const useStyles = makeStyles({
         signIn: {
             backgroundColor: "rgba(180, 192, 79, 0.5)",
@@ -25,22 +24,6 @@ const SignInComponent = ({ signIn }) => {
     });
     const classes = useStyles();
 
-    const [formData, setFormData] = React.useState({
-        email: "",
-        password: "",
-    });
-
-    const handleChange = prop => event => {
-        setFormData({ ...formData, [prop]: event.target.value });
-    };
-
-    const loginEmailPassword = (email, password) => signIn({ email, password });
-
-    const loginSocial = provider =>
-        signIn({
-            provider,
-        });
-
     return (
         <div className={classes.signIn}>
             <Typography variant="h2" component="h2">
@@ -49,54 +32,22 @@ const SignInComponent = ({ signIn }) => {
 
             <FormControl>
                 <InputLabel>Email</InputLabel>
-                <Input
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange("email")}
-                />
+                <Input type="email" />
             </FormControl>
 
             <FormControl>
                 <InputLabel>Password</InputLabel>
-                <Input
-                    type="password"
-                    value={formData.password}
-                    onChange={handleChange("password")}
-                />
+                <Input type="password" />
             </FormControl>
 
-            <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                onClick={() =>
-                    loginEmailPassword(formData.email, formData.password)
-                }
-            >
+            <Button variant="contained" color="primary" size="large">
                 Submit
             </Button>
-            <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                onClick={() => loginSocial("google")}
-            >
+            <Button variant="contained" color="primary" size="large">
                 Log In with Google
             </Button>
         </div>
     );
 };
 
-const mapStateToProps = state => ({ auth: state.auth });
-
-const mapDispatchToProps = dispatch => {
-    return {
-        signIn: ({ email, password, provider }) =>
-            dispatch(signIn({ email, password, provider })),
-    };
-};
-
-export const SignIn = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignInComponent);
+export const SignIn = connect()(SignInComponent);
