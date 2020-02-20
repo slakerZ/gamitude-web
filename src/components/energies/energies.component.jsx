@@ -1,22 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
+import { useDidUpdate } from "react-hooks-lib";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 // Selectors
 import { selectSessionsComplete } from "../../redux/projects/projects.selectors";
+import { selectEnergies } from "../../redux/energies/energies.selectors";
 // Actions
 import { setEnergies } from "../../redux/energies/energies.actions.js";
 // Components
 import ProgressBar from "../progress-bar/progress-bar.component.jsx";
 
-const Energies = ({
-    body,
-    emotions,
-    mind,
-    soul,
-    setEnergies,
-    sessionsComplete,
-}) => {
+const Energies = ({ energies, setEnergies, sessionsComplete }) => {
+    const { body, emotions, mind, soul } = energies;
+
     const useStyles = makeStyles({
         energies: {
             gridArea: "energies",
@@ -29,21 +26,13 @@ const Energies = ({
 
     const classes = useStyles();
 
-    // TODO: wrap into reference to avoid updating on tab change
-    useEffect(() => {
-        const updateEnergies = () => {
-            if (sessionsComplete > 0) {
-                // TODO: Mocked for REACT 25
-                setEnergies({
-                    body: body - 5,
-                    emotions: emotions - 10,
-                    mind: mind - 15,
-                    soul: soul - 5,
-                });
-            }
-        };
-        updateEnergies();
-        // eslint-disable-next-line
+    useDidUpdate(() => {
+        setEnergies({
+            body: body - 5,
+            emotions: emotions - 10,
+            mind: mind - 15,
+            soul: soul - 5,
+        });
     }, [sessionsComplete]);
 
     return (
@@ -57,10 +46,7 @@ const Energies = ({
 };
 
 const mapStateToProps = state => ({
-    body: state.energies.body,
-    emotions: state.energies.emotions,
-    mind: state.energies.mind,
-    soul: state.energies.soul,
+    energies: selectEnergies(state),
     sessionsComplete: selectSessionsComplete(state),
 });
 

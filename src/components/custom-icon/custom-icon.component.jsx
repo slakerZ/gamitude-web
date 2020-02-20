@@ -20,8 +20,6 @@ const CustomIcon = ({ variant }) => {
             float: "left",
             borderTopLeftRadius: "20px",
             borderBottomLeftRadius: "20px",
-            backgroundColor: theme.palette.secondary.main,
-            padding: "0.3rem",
             "&::after": {
                 clear: "both",
             },
