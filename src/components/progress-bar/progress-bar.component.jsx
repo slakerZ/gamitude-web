@@ -4,7 +4,8 @@ import { makeStyles } from "@material-ui/core";
 // Components
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
-const ProgressBar = ({ variant, stat }) => {
+// TODO: Rethink whether to refactor further
+const ProgressBar = ({ variant, stat, size }) => {
     const useStyles = makeStyles(theme => ({
         bar: {
             width: "100%",
@@ -29,7 +30,7 @@ const ProgressBar = ({ variant, stat }) => {
     return (
         <div className="container">
             <div className={classes.bar}>
-                <CustomIcon variant={variant} />
+                <CustomIcon size={size} variant={variant} />
                 <div className={classes.progress} />
             </div>
         </div>

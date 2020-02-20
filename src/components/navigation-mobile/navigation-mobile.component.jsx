@@ -3,31 +3,23 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // Actions
 import { setTab } from "../../redux/navigation/navigation.actions";
-// Material UI
+// UI Core
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-// SVG's
-import { ReactComponent as ProjectsIcon } from "../../assets/icons/navigation/projects.svg";
-import { ReactComponent as BulletJournalIcon } from "../../assets/icons/navigation/journal.svg";
-import { ReactComponent as Logo } from "../../assets/icons/navigation/sloth.svg";
-import { ReactComponent as ProfileIcon } from "../../assets/icons/navigation/profile.svg";
-import { ReactComponent as GuestIcon } from "../../assets/icons/navigation/guest.svg";
+// Components
+import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     root: {
         width: "100vw",
         position: "fixed",
         bottom: 0,
         left: 0,
-        backgroundColor: "rgba(196, 195, 81, 0.6)",
+        backgroundColor: theme.palette.secondary.light,
         zIndex: 10,
     },
-    icons: {
-        width: "4vh",
-        height: "4vh",
-    },
-});
+}));
 const NavigationMobile = ({
     tab,
     setTab,
@@ -50,25 +42,25 @@ const NavigationMobile = ({
                 component={Link}
                 to="/"
                 label="Home"
-                icon={<Logo className={classes.icons} />}
+                icon={<CustomIcon size="small" variant="Logo" />}
                 disabled={sessionInProgress || breakInProgress}
             />
             <BottomNavigationAction
                 component={Link}
                 to="/projects"
                 label="Projects"
-                icon={<ProjectsIcon className={classes.icons} />}
+                icon={<CustomIcon size="small" variant="Projects" />}
             />
             <BottomNavigationAction
                 component={Link}
                 to="/bulletJournal"
                 label="Bullet Journal"
-                icon={<BulletJournalIcon className={classes.icons} />}
+                icon={<CustomIcon size="small" variant="BulletJournal" />}
                 disabled={sessionInProgress || breakInProgress}
             />
             {isSignedIn ? (
                 <BottomNavigationAction
-                    icon={<ProfileIcon className={classes.icons} />}
+                    icon={<CustomIcon size="small" variant="Profile" />}
                     component={Link}
                     to="/profile"
                     label="Profile"
@@ -76,7 +68,7 @@ const NavigationMobile = ({
                 />
             ) : (
                 <BottomNavigationAction
-                    icon={<GuestIcon className={classes.icons} />}
+                    icon={<CustomIcon size="small" variant="Guest" />}
                     component={Link}
                     to="/signInSignUp"
                     label="Sign In / Sign Up"

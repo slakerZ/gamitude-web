@@ -6,24 +6,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-// SVG's
-import { ReactComponent as ProjectsIcon } from "../../assets/icons/navigation/projects.svg";
-import { ReactComponent as BulletJournalIcon } from "../../assets/icons/navigation/journal.svg";
-import { ReactComponent as Logo } from "../../assets/icons/navigation/sloth.svg";
-import { ReactComponent as ProfileIcon } from "../../assets/icons/navigation/profile.svg";
-import { ReactComponent as GuestIcon } from "../../assets/icons/navigation/guest.svg";
 // Actions
 import { setTab } from "../../redux/navigation/navigation.actions";
+// Components
+import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
 const useStyles = makeStyles({
     root: {
         flexGrow: 1,
         maxWidth: "100vw",
         backgroundColor: "transparent",
-    },
-    icons: {
-        width: "6vh",
-        height: "6vh",
     },
     tabs: {
         backgroundColor: "rgba(196, 195, 81, 0.6)",
@@ -54,7 +46,7 @@ const NavigationDesktop = ({
                 className={classes.tabs}
             >
                 <Tab
-                    icon={<Logo className={classes.icons} />}
+                    icon={<CustomIcon size="large" variant="Logo" />}
                     aria-label="Home"
                     component={Link}
                     to="/"
@@ -62,14 +54,14 @@ const NavigationDesktop = ({
                     disabled={sessionInProgress || breakInProgress}
                 />
                 <Tab
-                    icon={<ProjectsIcon className={classes.icons} />}
+                    icon={<CustomIcon size="large" variant="Projects" />}
                     aria-label="Projects"
                     component={Link}
                     to="/projects"
                     label="Projects"
                 />
                 <Tab
-                    icon={<BulletJournalIcon className={classes.icons} />}
+                    icon={<CustomIcon size="large" variant="BulletJournal" />}
                     aria-label="Bullet Journal"
                     component={Link}
                     to="/bulletJournal"
@@ -78,7 +70,7 @@ const NavigationDesktop = ({
                 />
                 {isSignedIn ? (
                     <Tab
-                        icon={<ProfileIcon className={classes.icons} />}
+                        icon={<CustomIcon size="large" variant="Profile" />}
                         component={Link}
                         to="/profile"
                         label="Profile"
@@ -86,7 +78,7 @@ const NavigationDesktop = ({
                     />
                 ) : (
                     <Tab
-                        icon={<GuestIcon className={classes.icons} />}
+                        icon={<CustomIcon size="large" variant="Guest" />}
                         component={Link}
                         to="/signInSignUp"
                         label="Sign In / Sign Up"

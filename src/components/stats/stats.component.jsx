@@ -41,10 +41,14 @@ const Stats = ({
     }, [sessionsComplete]);
     return (
         <div className="stats">
-            <ProgressBar variant="Strength" stat={strength} />
-            <ProgressBar variant="Creativity" stat={creativity} />
-            <ProgressBar variant="Intelligence" stat={intelligence} />
-            <ProgressBar variant="Fluency" stat={fluency} />
+            <ProgressBar size="bar" variant="Strength" stat={strength} />
+            <ProgressBar size="bar" variant="Creativity" stat={creativity} />
+            <ProgressBar
+                size="bar"
+                variant="Intelligence"
+                stat={intelligence}
+            />
+            <ProgressBar size="bar" variant="Fluency" stat={fluency} />
         </div>
     );
 };

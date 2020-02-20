@@ -38,10 +38,10 @@ const Energies = ({ energies, setEnergies, sessionsComplete }) => {
 
     return (
         <div className={classes.energies}>
-            <ProgressBar stat={body} variant="Body" />
-            <ProgressBar stat={emotions} variant="Emotions" />
-            <ProgressBar stat={mind} variant="Mind" />
-            <ProgressBar stat={soul} variant="Soul" />
+            <ProgressBar size="bar" stat={body} variant="Body" />
+            <ProgressBar size="bar" stat={emotions} variant="Emotions" />
+            <ProgressBar size="bar" stat={mind} variant="Mind" />
+            <ProgressBar size="bar" stat={soul} variant="Soul" />
         </div>
     );
 };
