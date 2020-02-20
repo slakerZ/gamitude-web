@@ -17,6 +17,10 @@ import { ReactComponent as BulletJournalIcon } from "../../assets/icons/navigati
 import { ReactComponent as Logo } from "../../assets/icons/navigation/sloth.svg";
 import { ReactComponent as ProfileIcon } from "../../assets/icons/navigation/profile.svg";
 import { ReactComponent as GuestIcon } from "../../assets/icons/navigation/guest.svg";
+// Projects
+import { ReactComponent as ActiveIcon } from "../../assets/icons/projects/active.svg";
+import { ReactComponent as PausedIcon } from "../../assets/icons/projects/onHold.svg";
+import { ReactComponent as DoneIcon } from "../../assets/icons/projects/done.svg";
 
 const CustomIcon = ({ variant, size }) => {
     const useStyles = makeStyles(theme => ({
@@ -24,12 +28,12 @@ const CustomIcon = ({ variant, size }) => {
             backgroundColor: theme.palette.error.contrastText,
         },
         small: {
-            width: "3vh",
-            height: "3vh",
-        },
-        medium: {
             width: "4vh",
             height: "4vh",
+        },
+        medium: {
+            width: "5vh",
+            height: "5vh",
         },
         large: {
             width: "6vh",
@@ -39,8 +43,6 @@ const CustomIcon = ({ variant, size }) => {
             width: "60px",
             height: "60px",
             float: "left",
-            borderTopLeftRadius: "20px",
-            borderBottomLeftRadius: "20px",
             padding: "7px",
             "&::after": {
                 clear: "both",
@@ -56,6 +58,8 @@ const CustomIcon = ({ variant, size }) => {
                 return classes.bar;
             case "small":
                 return classes.small;
+            case "medium":
+                return classes.medium;
             case "large":
                 return classes.large;
             default:
@@ -91,6 +95,12 @@ const CustomIcon = ({ variant, size }) => {
                 return <ProfileIcon className={setClass(size)} />;
             case "Guest":
                 return <GuestIcon className={setClass(size)} />;
+            case "Active":
+                return <ActiveIcon className={setClass(size)} />;
+            case "Paused":
+                return <PausedIcon className={setClass(size)} />;
+            case "Done":
+                return <DoneIcon className={setClass(size)} />;
             default:
                 return <div>Icon not found</div>;
         }

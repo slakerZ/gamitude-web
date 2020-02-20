@@ -1,22 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
+// Selectors
+import { selectProjects } from "../../redux/projects/projects.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-// SVG's
-import { ReactComponent as ActiveIcon } from "../../assets/icons/projects/active.svg";
-import { ReactComponent as OnHoldIcon } from "../../assets/icons/projects/onHold.svg";
-import { ReactComponent as DoneIcon } from "../../assets/icons/projects/done.svg";
-import { ReactComponent as StrengthIcon } from "../../assets/icons/stats/strength.svg";
-import { ReactComponent as CreativityIcon } from "../../assets/icons/stats/creativity.svg";
-import { ReactComponent as IntelligenceIcon } from "../../assets/icons/stats/intelligence.svg";
-import { ReactComponent as FluencyIcon } from "../../assets/icons/stats/fluency.svg";
 // Components
 import Project from "../project/project.component.jsx";
 import ProjectTab from "../project-tab/project-tab.component.jsx";
 import ProjectAdd from "../project-add/project-add.component.jsx";
+import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
 const Projects = ({ projects }) => {
     const useStyles = makeStyles(theme => ({
@@ -34,36 +29,12 @@ const Projects = ({ projects }) => {
             backgroundColor: theme.palette.secondary.dark,
             justifyContent: "center",
         },
-        icons: {
-            height: "4vh",
-            width: "4vh",
-        },
     }));
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-    };
-
-    const handleIcons = dominant => {
-        switch (dominant) {
-            case "strength": {
-                return StrengthIcon;
-            }
-            case "creativity": {
-                return CreativityIcon;
-            }
-            case "intelligence": {
-                return IntelligenceIcon;
-            }
-            case "fluency": {
-                return FluencyIcon;
-            }
-            default: {
-                return IntelligenceIcon;
-            }
-        }
     };
 
     return (
@@ -79,17 +50,17 @@ const Projects = ({ projects }) => {
                     className={classes.tabs}
                 >
                     <Tab
-                        icon={<ActiveIcon className={classes.icons} />}
+                        icon={<CustomIcon variant="Active" size="medium" />}
                         label="ACTIVE"
                         className={classes.tab}
                     />
                     <Tab
-                        icon={<OnHoldIcon className={classes.icons} />}
-                        label="ON HOLD"
+                        icon={<CustomIcon variant="Paused" size="medium" />}
+                        label="PAUSED"
                     />
                     <Tab
-                        icon={<DoneIcon className={classes.icons} />}
-                        label="COMPLETE"
+                        icon={<CustomIcon variant="Done" size="medium" />}
+                        label="DONE"
                     />
                 </Tabs>
             </AppBar>
@@ -100,8 +71,8 @@ const Projects = ({ projects }) => {
                 return (
                     <ProjectTab key={index} value={value} currTab={status}>
                         <Project
-                            Icon={handleIcons(dominant)}
                             // TODO change to the method that get's rid of drilling index down
+                            dominant={dominant}
                             index={index}
                             status={status}
                             name={name}
@@ -116,7 +87,7 @@ const Projects = ({ projects }) => {
 };
 
 const mapStateToProps = state => ({
-    projects: state.projects.projects,
+    projects: selectProjects(state),
 });
 
 export default connect(mapStateToProps)(Projects);
