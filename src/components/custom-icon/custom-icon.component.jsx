@@ -11,7 +11,7 @@ const CustomIcon = ({ variant }) => {
             float: "left",
             borderTopLeftRadius: "20px",
             borderBottomLeftRadius: "20px",
-            backgroundColor: theme.palette.info.dark,
+            backgroundColor: theme.palette.primary.main,
             padding: "0.3rem",
         },
     }));

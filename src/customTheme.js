@@ -3,13 +3,22 @@ import { createMuiTheme } from "@material-ui/core/styles";
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: "rgba(104, 58,131,1)",
+            main: "rgba(78, 19, 112, 0.5)", // Smooth Purple
         },
         secondary: {
-            main: "rgba(196, 195, 81, 0.8)", // This yellow-goldish one
+            main: "rgba(168, 167, 20, 0.5)", // Smooth Gold-ish
         },
         info: {
-            main: "rgba(30, 129, 146, 0.5)",
+            main: "rgba(94, 15, 111, 0.5)", // Radiant Purple
+        },
+        success: {
+            main: "rgba(149, 165, 19, 0.5)", // Dim Gold-ish
+        },
+        error: {
+            main: "#444444",
+        },
+        warning: {
+            main: "#444444",
         },
     },
 });

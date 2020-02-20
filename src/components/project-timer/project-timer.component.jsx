@@ -4,12 +4,6 @@ import { connect } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
-// // UIfx
-// import UIfx from "uifx";
-// // Sounds
-// import bellSound from "../../assets/sounds/bell.mp3";
-// import congratzSound from "../../assets/sounds/congratulations.mp3";
-// import whistleSound from "../../assets/sounds/whistle.mp3";
 // Moment
 import { duration } from "moment/moment";
 // Selectors
@@ -45,34 +39,12 @@ const ProjectTimer = ({
     const [breakTime, setBreakTime] = useState(duration(0, "minutes"));
     const [localBreak, setLocalBreak] = useState(false);
 
-    // const sessionEndSound = new UIfx(congratzSound, {
-    //     volume: 0.5,
-    // });
-    // const minuteLeftSound = new UIfx(bellSound, {
-    //     volume: 1,
-    // });
-
-    // const breakCompleteSound = new UIfx(whistleSound, {
-    //     volume: 1,
-    // });
-
+    // Sound Effects Hooks
     useEffect(() => {
         if (breakTime.asSeconds() === 0 && localBreak) {
             breakCompleteSound.play();
         }
     }, [breakTime, localBreak, breakCompleteSound]);
-
-    useEffect(() => {
-        setSessionTime(duration(method, "minutes"));
-    }, [method]);
-
-    useEffect(() => {
-        setSessionInProgress(localSession);
-    }, [localSession, setSessionInProgress]);
-
-    useEffect(() => {
-        setBreakInProgress(localBreak);
-    }, [localBreak, setBreakInProgress]);
 
     useEffect(() => {
         if (sessionTime.asSeconds() === 60) {
@@ -85,6 +57,19 @@ const ProjectTimer = ({
             sessionEndSound.play();
         }
     }, [sessionTime, sessionEndSound]);
+    // TODO: Abstract hooks into custom ones then extract hooks into separate files
+    useEffect(() => {
+        setSessionTime(duration(method, "minutes"));
+    }, [method]);
+    // Break/Session in progress TODO: create custom hook that wraps both
+    // https://stackoverflow.com/questions/53179075/with-useeffect-how-can-i-skip-applying-an-effect-upon-the-initial-render
+    useEffect(() => {
+        setSessionInProgress(localSession);
+    }, [localSession, setSessionInProgress]);
+
+    useEffect(() => {
+        setBreakInProgress(localBreak);
+    }, [localBreak, setBreakInProgress]);
 
     useEffect(() => {
         const handleBreak = methodBaseTime => {

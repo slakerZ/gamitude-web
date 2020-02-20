@@ -10,12 +10,7 @@ import { ReactComponent as Soul } from "../../assets/icons/energies/soul.svg";
 // Selectors
 import { selectSessionsComplete } from "../../redux/projects/projects.selectors";
 // Actions
-import {
-    setBody,
-    setEmotions,
-    setMind,
-    setSoul,
-} from "../../redux/energies/energies.actions.js";
+import { setEnergies } from "../../redux/energies/energies.actions.js";
 // Components
 import ProgressBar from "../progress-bar/progress-bar.component.jsx";
 
@@ -24,10 +19,7 @@ const Energies = ({
     emotions,
     mind,
     soul,
-    setBody,
-    setEmotions,
-    setMind,
-    setSoul,
+    setEnergies,
     sessionsComplete,
 }) => {
     const useStyles = makeStyles({
@@ -46,10 +38,12 @@ const Energies = ({
         const updateEnergies = () => {
             if (sessionsComplete > 0) {
                 // TODO: Mocked for REACT 25
-                setBody(body - 5);
-                setEmotions(emotions - 10);
-                setMind(mind - 15);
-                setSoul(soul - 5);
+                setEnergies({
+                    body: body - 5,
+                    emotions: emotions - 10,
+                    mind: mind - 15,
+                    soul: soul - 5,
+                });
             }
         };
         updateEnergies();
@@ -83,10 +77,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    setBody: value => dispatch(setBody(value)),
-    setEmotions: value => dispatch(setEmotions(value)),
-    setMind: value => dispatch(setMind(value)),
-    setSoul: value => dispatch(setSoul(value)),
+    setEnergies: value => dispatch(setEnergies(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Energies);
