@@ -6,7 +6,7 @@ const RankTier = ({ rankTier }) => {
     return (
         <div className="tier">
             <Typography variant="h2" component="h2">
-                Tier {rankTier}
+                {rankTier}
             </Typography>
         </div>
     );

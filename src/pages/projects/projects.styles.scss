@@ -9,14 +9,6 @@
         "rank rank"
         "stats energies"
         "projects projects";
-    .rank {
-        grid-area: rank;
-    }
-    .projects {
-        grid-area: projects;
-        box-shadow: 2px 2px 10px #000000;
-        background-color: transparent;
-    }
 
     .stats {
         grid-area: stats;
