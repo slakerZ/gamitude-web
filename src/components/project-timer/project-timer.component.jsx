@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { useUpdateEffect } from "react-use";
 // UI core
 import Typography from "@material-ui/core/Typography";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -57,20 +58,19 @@ const ProjectTimer = ({
             sessionEndSound.play();
         }
     }, [sessionTime, sessionEndSound]);
-    // TODO: Abstract hooks into custom ones then extract hooks into separate files
+    // Session Time
     useEffect(() => {
         setSessionTime(duration(method, "minutes"));
     }, [method]);
-    // Break/Session in progress TODO: create custom hook that wraps both
-    // https://stackoverflow.com/questions/53179075/with-useeffect-how-can-i-skip-applying-an-effect-upon-the-initial-render
-    useEffect(() => {
+    // Break/Session in progress
+    useUpdateEffect(() => {
         setSessionInProgress(localSession);
-    }, [localSession, setSessionInProgress]);
+    }, [localSession]);
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         setBreakInProgress(localBreak);
-    }, [localBreak, setBreakInProgress]);
-
+    }, [localBreak]);
+    // TODO: Abstract hooks into custom ones then extract hooks into separate files
     useEffect(() => {
         const handleBreak = methodBaseTime => {
             switch (methodBaseTime) {

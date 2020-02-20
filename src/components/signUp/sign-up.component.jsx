@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 // UI core
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
@@ -6,7 +7,6 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
-import { connect } from "react-redux";
 
 const SignUpComponent = () => {
     const useStyles = makeStyles({
