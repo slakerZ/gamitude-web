@@ -14,6 +14,7 @@ import "./App.css";
 import theme from "./customTheme.js";
 // Config
 import particleOptions from "./particlesjs-config.json";
+// UI Core
 import { ThemeProvider } from "@material-ui/core";
 
 const App = () => {

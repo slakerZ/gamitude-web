@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { useDidUpdate } from "react-hooks-lib";
+import { useUpdateEffect } from "react-use";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 // Selectors
@@ -26,7 +26,8 @@ const Energies = ({ energies, setEnergies, sessionsComplete }) => {
 
     const classes = useStyles();
 
-    useDidUpdate(() => {
+    // TODO: Connect to API
+    useUpdateEffect(() => {
         setEnergies({
             body: body - 5,
             emotions: emotions - 10,

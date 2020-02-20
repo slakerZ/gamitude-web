@@ -13,13 +13,17 @@ import { ReactComponent as Fluency } from "../../assets/icons/stats/fluency.svg"
 
 const CustomIcon = ({ variant }) => {
     const useStyles = makeStyles(theme => ({
-        smallIcon: {},
+        smallIcon: {
+            backgroundColor: theme.palette.warning.dark,
+        },
+
         barIcon: {
-            width: "60xp",
+            width: "60px",
             height: "60px",
             float: "left",
             borderTopLeftRadius: "20px",
             borderBottomLeftRadius: "20px",
+            padding: "7px",
             "&::after": {
                 clear: "both",
             },
