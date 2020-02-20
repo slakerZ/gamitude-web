@@ -20,7 +20,7 @@ const Rank = ({ strength, creativity, intelligence, fluency, ranks }) => {
             gridTemplateColumns: "1fr 1fr",
             gridTemplateRows: "1fr 3fr 2fr",
             gridTemplateAreas: `
-                "rank-name tier"
+                "rank-name rank-tier"
                 "rank-img rank-img"
                 "rank-displays rank-displays"
             `,

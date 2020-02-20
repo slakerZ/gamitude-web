@@ -1,46 +1,42 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useUpdateEffect } from "react-use";
 import { connect } from "react-redux";
-// Styles
-import "./stats.styles.scss";
 // Selectors
 import { selectSessionsComplete } from "../../redux/projects/projects.selectors";
-
 // Actions
-import {
-    setStrength,
-    setCreativity,
-    setIntelligence,
-    setFluency,
-} from "../../redux/stats/stats.actions.js";
+import { setStats } from "../../redux/stats/stats.actions.js";
 // Components
 import ProgressBar from "../progress-bar/progress-bar.component.jsx";
+// UI Core
+import { makeStyles } from "@material-ui/core/styles";
 
-const Stats = ({
-    strength,
-    creativity,
-    intelligence,
-    fluency,
-    setStrength,
-    setCreativity,
-    setIntelligence,
-    setFluency,
-    sessionsComplete,
-}) => {
-    useEffect(() => {
-        const updateEnergies = () => {
-            if (sessionsComplete > 0) {
-                // TODO: Mocked for REACT 25
-                setStrength(strength + 0);
-                setCreativity(creativity + 5);
-                setIntelligence(intelligence + 10);
-                setFluency(fluency + 0);
-            }
-        };
-        updateEnergies();
-        // eslint-disable-next-line
+const Stats = ({ stats, setStats, sessionsComplete }) => {
+    const { strength, creativity, intelligence, fluency } = stats;
+
+    const useStyles = makeStyles({
+        stats: {
+            display: "flex",
+            flexDirection: "column",
+            justifyItems: "stretch",
+            justifyContent: "space-around",
+            gridArea: "stats",
+        },
+    });
+
+    const classes = useStyles();
+
+    // TODO: Connect to API
+    useUpdateEffect(() => {
+        setStats({
+            strength: strength + 0,
+            creativity: creativity + 5,
+            intelligence: intelligence + 10,
+            fluency: fluency + 0,
+        });
     }, [sessionsComplete]);
+
     return (
-        <div className="stats">
+        <div className={classes.stats}>
             <ProgressBar size="bar" variant="Strength" stat={strength} />
             <ProgressBar size="bar" variant="Creativity" stat={creativity} />
             <ProgressBar
@@ -54,18 +50,12 @@ const Stats = ({
 };
 
 const mapStateToProps = state => ({
-    strength: state.stats.strength,
-    creativity: state.stats.creativity,
-    intelligence: state.stats.intelligence,
-    fluency: state.stats.fluency,
+    stats: state.stats,
     sessionsComplete: selectSessionsComplete(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-    setStrength: value => dispatch(setStrength(value)),
-    setCreativity: value => dispatch(setCreativity(value)),
-    setIntelligence: value => dispatch(setIntelligence(value)),
-    setFluency: value => dispatch(setFluency(value)),
+    setStats: value => dispatch(setStats(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stats);

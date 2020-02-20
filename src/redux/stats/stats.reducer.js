@@ -9,26 +9,12 @@ const INITIAL_STATE = {
 
 const statsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case StatsActionTypes.SET_STRENGTH:
+        case StatsActionTypes.SET_STATS:
             return {
                 ...state,
-                strength: action.payload,
+                ...action.payload,
             };
-        case StatsActionTypes.SET_CREATIVITY:
-            return {
-                ...state,
-                creativity: action.payload,
-            };
-        case StatsActionTypes.SET_INTELLIGENCE:
-            return {
-                ...state,
-                intelligence: action.payload,
-            };
-        case StatsActionTypes.SET_FLUENCY:
-            return {
-                ...state,
-                fluency: action.payload,
-            };
+
         default:
             return state;
     }
