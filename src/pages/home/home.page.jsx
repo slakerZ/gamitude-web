@@ -4,7 +4,7 @@ import CustomIcon from "../../components/custom-icon/custom-icon.component.jsx";
 const HomePage = () => {
     return (
         <div>
-            <CustomIcon />
+            <CustomIcon variant="Emotions" />
             <h1>Home</h1>
             <div>
                 Icons made by{" "}

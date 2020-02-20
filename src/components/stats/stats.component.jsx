@@ -4,11 +4,7 @@ import { connect } from "react-redux";
 import "./stats.styles.scss";
 // Selectors
 import { selectSessionsComplete } from "../../redux/projects/projects.selectors";
-// SVG's
-import { ReactComponent as Strength } from "../../assets/icons/stats/strength.svg";
-import { ReactComponent as Creativity } from "../../assets/icons/stats/creativity.svg";
-import { ReactComponent as Intelligence } from "../../assets/icons/stats/intelligence.svg";
-import { ReactComponent as Fluency } from "../../assets/icons/stats/fluency.svg";
+
 // Actions
 import {
     setStrength,
@@ -45,18 +41,10 @@ const Stats = ({
     }, [sessionsComplete]);
     return (
         <div className="stats">
-            <ProgressBar barType="strength" stat={strength}>
-                <Strength className="icon" />
-            </ProgressBar>
-            <ProgressBar barType="creativity" stat={creativity}>
-                <Creativity className="icon" />
-            </ProgressBar>
-            <ProgressBar barType="intelligence" stat={intelligence}>
-                <Intelligence className="icon" />
-            </ProgressBar>
-            <ProgressBar barType="fluency" stat={fluency}>
-                <Fluency className="icon" />
-            </ProgressBar>
+            <ProgressBar variant="Strength" stat={strength} />
+            <ProgressBar variant="Creativity" stat={creativity} />
+            <ProgressBar variant="Intelligence" stat={intelligence} />
+            <ProgressBar variant="Fluency" stat={fluency} />
         </div>
     );
 };

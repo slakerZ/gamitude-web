@@ -2,11 +2,6 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
-// SVG's
-import { ReactComponent as Body } from "../../assets/icons/energies/body.svg";
-import { ReactComponent as Emotions } from "../../assets/icons/energies/emotions.svg";
-import { ReactComponent as Mind } from "../../assets/icons/energies/mind.svg";
-import { ReactComponent as Soul } from "../../assets/icons/energies/soul.svg";
 // Selectors
 import { selectSessionsComplete } from "../../redux/projects/projects.selectors";
 // Actions
@@ -34,6 +29,7 @@ const Energies = ({
 
     const classes = useStyles();
 
+    // TODO: wrap into reference to avoid updating on tab change
     useEffect(() => {
         const updateEnergies = () => {
             if (sessionsComplete > 0) {
@@ -52,18 +48,10 @@ const Energies = ({
 
     return (
         <div className={classes.energies}>
-            <ProgressBar barType="body" stat={body}>
-                <Body className="icon" />
-            </ProgressBar>
-            <ProgressBar barType="emotions" stat={emotions}>
-                <Emotions className="icon" />
-            </ProgressBar>
-            <ProgressBar barType="mind" stat={mind}>
-                <Mind className="icon" />
-            </ProgressBar>
-            <ProgressBar barType="soul" stat={soul}>
-                <Soul className="icon" />
-            </ProgressBar>
+            <ProgressBar stat={body} variant="Body" />
+            <ProgressBar stat={emotions} variant="Emotions" />
+            <ProgressBar stat={mind} variant="Mind" />
+            <ProgressBar stat={soul} variant="Soul" />
         </div>
     );
 };
