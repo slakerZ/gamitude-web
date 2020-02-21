@@ -1,7 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 // Selectors
-import { selectProjects } from "../../redux/projects/projects.selectors";
+import {
+    selectProjects,
+    selectBreakInProgress,
+    selectSessionInProgress,
+} from "../../redux/projects/projects.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -13,7 +17,7 @@ import ProjectTab from "../project-tab/project-tab.component.jsx";
 import ProjectAdd from "../project-add/project-add.component.jsx";
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
-const Projects = ({ projects }) => {
+const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
     const useStyles = makeStyles(theme => ({
         root: {
             flexGrow: 1,
@@ -53,14 +57,17 @@ const Projects = ({ projects }) => {
                         icon={<CustomIcon variant="Active" size="medium" />}
                         label="ACTIVE"
                         className={classes.tab}
+                        disabled={sessionInProgress || breakInProgress}
                     />
                     <Tab
                         icon={<CustomIcon variant="Paused" size="medium" />}
                         label="PAUSED"
+                        disabled={sessionInProgress || breakInProgress}
                     />
                     <Tab
                         icon={<CustomIcon variant="Done" size="medium" />}
                         label="DONE"
+                        disabled={sessionInProgress || breakInProgress}
                     />
                 </Tabs>
             </AppBar>
@@ -88,6 +95,8 @@ const Projects = ({ projects }) => {
 
 const mapStateToProps = state => ({
     projects: selectProjects(state),
+    breakInProgress: selectBreakInProgress(state),
+    sessionInProgress: selectSessionInProgress(state),
 });
 
 export default connect(mapStateToProps)(Projects);

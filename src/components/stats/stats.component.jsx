@@ -1,16 +1,12 @@
 import React from "react";
 import { useUpdateEffect } from "react-use";
 import { connect } from "react-redux";
-// Selectors
-import { selectSessionsComplete } from "../../redux/projects/projects.selectors";
-// Actions
-import { setStats } from "../../redux/stats/stats.actions.js";
 // Components
 import ProgressBar from "../progress-bar/progress-bar.component.jsx";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 
-const Stats = ({ stats, setStats, sessionsComplete }) => {
+const Stats = ({ stats }) => {
     const { strength, creativity, intelligence, fluency } = stats;
 
     const useStyles = makeStyles({
@@ -26,14 +22,7 @@ const Stats = ({ stats, setStats, sessionsComplete }) => {
     const classes = useStyles();
 
     // TODO: Connect to API
-    useUpdateEffect(() => {
-        setStats({
-            strength: strength + 0,
-            creativity: creativity + 5,
-            intelligence: intelligence + 10,
-            fluency: fluency + 0,
-        });
-    }, [sessionsComplete]);
+    useUpdateEffect(() => {}, [strength, creativity, intelligence, fluency]);
 
     return (
         <div className={classes.stats}>
@@ -51,11 +40,6 @@ const Stats = ({ stats, setStats, sessionsComplete }) => {
 
 const mapStateToProps = state => ({
     stats: state.stats,
-    sessionsComplete: selectSessionsComplete(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-    setStats: value => dispatch(setStats(value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Stats);
+export default connect(mapStateToProps)(Stats);

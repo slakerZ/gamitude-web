@@ -30,7 +30,7 @@ const App = () => {
             width: "100vw",
             height: "100vh",
             position: "fixed",
-            zIndex: 20,
+            zIndex: 1,
         },
         skeleton: {
             width: "100vw",

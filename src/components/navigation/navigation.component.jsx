@@ -1,15 +1,98 @@
 import React from "react";
-import { useWindowSize } from "react-use";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+// UI Core
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+// Actions
+import { setTab } from "../../redux/navigation/navigation.actions";
 // Components
-import NavigationDesktop from "../navigation-desktop/navigation-desktop.component.jsx";
-import NavigationMobile from "../navigation-mobile/navigation-mobile.component.jsx";
+import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
-const Navigation = () => {
-    const { width, height } = useWindowSize();
+const useStyles = makeStyles({
+    root: {
+        flexGrow: 1,
+        maxWidth: "100vw",
+        backgroundColor: "transparent",
+    },
+    tabs: {
+        backgroundColor: "rgba(196, 195, 81, 0.6)",
+    },
+});
 
-    const isMobile = width < 768 && height < 1600;
+const Navigation = ({ tab, setTab, sessionInProgress, breakInProgress }) => {
+    const isSignedIn = false;
+    const classes = useStyles();
 
-    return isMobile ? <NavigationMobile /> : <NavigationDesktop />;
+    const handleChange = (event, newValue) => {
+        setTab(newValue);
+    };
+    return (
+        <Paper square className={classes.root}>
+            <Tabs
+                value={tab}
+                onChange={handleChange}
+                variant="fullWidth"
+                indicatorColor="primary"
+                textColor="primary"
+                aria-label="Gamitude's Navigation"
+                className={classes.tabs}
+            >
+                <Tab
+                    icon={<CustomIcon size="large" variant="Logo" />}
+                    aria-label="Home"
+                    component={Link}
+                    to="/"
+                    label="Home"
+                    disabled={sessionInProgress || breakInProgress}
+                />
+                <Tab
+                    icon={<CustomIcon size="large" variant="Projects" />}
+                    aria-label="Projects"
+                    component={Link}
+                    to="/projects"
+                    label="Projects"
+                />
+                <Tab
+                    icon={<CustomIcon size="large" variant="BulletJournal" />}
+                    aria-label="Bullet Journal"
+                    component={Link}
+                    to="/bulletJournal"
+                    label="Bullet Journal"
+                    disabled={sessionInProgress || breakInProgress}
+                />
+                {isSignedIn ? (
+                    <Tab
+                        icon={<CustomIcon size="large" variant="Profile" />}
+                        component={Link}
+                        to="/profile"
+                        label="Profile"
+                        disabled={sessionInProgress || breakInProgress}
+                    />
+                ) : (
+                    <Tab
+                        icon={<CustomIcon size="large" variant="Guest" />}
+                        component={Link}
+                        to="/signInSignUp"
+                        label="Sign In / Sign Up"
+                        disabled={sessionInProgress || breakInProgress}
+                    />
+                )}
+            </Tabs>
+        </Paper>
+    );
 };
 
-export default Navigation;
+const mapStateToProps = state => ({
+    tab: state.navigation.tab,
+    sessionInProgress: state.projects.sessionInProgress,
+    breakInProgress: state.projects.breakInProgress,
+});
+
+const mapDispatchToProps = dispatch => ({
+    setTab: tab => dispatch(setTab(tab)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
