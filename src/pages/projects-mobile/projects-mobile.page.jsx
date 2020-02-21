@@ -27,10 +27,18 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
     };
 
     const useStyles = makeStyles(theme => ({
-        center: {
+        container: {
             width: "100%",
             height: "100%",
             overflow: "auto",
+            padding: "25px",
+        },
+        center: {
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
         },
         root: {
             flexGrow: 1,
@@ -50,24 +58,28 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
         toolbar: {
             height: "25vh",
         },
+        stats: {
+            justifyContent: "space-between",
+        },
     }));
     const classes = useStyles();
 
     return (
-        <React.Fragment>
-            <div className={classes.center}>
+        <div>
+            <div className={classes.container}>
                 <ProjectTab value={value} currTab={0}>
-                    <Rank />
+                    <div className={classes.center}>
+                        <Rank />
+                    </div>
                 </ProjectTab>
                 <ProjectTab value={value} currTab={1}>
-                    <Stats />
+                    <Stats className={classes.stats} />
                     <Energies />
                 </ProjectTab>
                 <ProjectTab value={value} currTab={2}>
                     <Projects />
+                    <Toolbar className={classes.toolbar} />
                 </ProjectTab>
-
-                <Toolbar className={classes.toolbar} />
             </div>
             <AppBar position="fixed" className={classes.appBar}>
                 <Tabs
@@ -96,7 +108,7 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
                     />
                 </Tabs>
             </AppBar>
-        </React.Fragment>
+        </div>
     );
 };
 

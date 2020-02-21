@@ -14,8 +14,9 @@ const RankImage = ({ rankImage }) => {
         },
         placeholder: {
             gridArea: "rank-img",
-            width: "100%",
-            height: "100%",
+            maxWidth: "100%",
+            height: "auto",
+            borderRadius: "1.5rem",
         },
         center: {
             display: "flex",
