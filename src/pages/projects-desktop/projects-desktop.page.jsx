@@ -9,22 +9,33 @@ import { makeStyles } from "@material-ui/core/styles";
 //import "./projects.styles.scss";
 
 const ProjectsDesktopPage = () => {
-    const useStyles = makeStyles({
+    const useStyles = makeStyles(theme => ({
         projectsDesktopPage: {
             display: "grid",
             gap: "2rem",
             padding: "2rem",
-
+            overflow: "auto",
             height: "90vh",
 
-            gridTemplateColumns: "1fr 1fr 1fr",
-            gridTemplateRows: "1fr 1fr",
-            gridTemplateAreas: `
-                "rank projects energies"
-                "rank projects stats"
-            `,
+            [theme.breakpoints.down("lg")]: {
+                gridTemplateColumns: "1fr 1fr",
+                gridTemplateRows: "1fr 1fr",
+                gridTemplateAreas: `
+                    "rank projects"
+                    "energies stats"
+                `,
+            },
+
+            [theme.breakpoints.up("lg")]: {
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gridTemplateRows: "1fr 1fr",
+                gridTemplateAreas: `
+                    "rank projects energies"
+                    "rank projects stats"
+                `,
+            },
         },
-    });
+    }));
 
     const classes = useStyles();
 
