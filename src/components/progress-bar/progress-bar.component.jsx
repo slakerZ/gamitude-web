@@ -1,6 +1,7 @@
 import React from "react";
 // UI Core
 import { makeStyles } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 // Components
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
@@ -13,6 +14,7 @@ const ProgressBar = ({ variant, stat, size }) => {
             borderRadius: "20px",
             boxShadow: "2px 2px 10px #000000",
             backgroundColor: "transparent",
+            position: "relative",
         },
         progress: {
             borderRadius: "20px",
@@ -23,6 +25,13 @@ const ProgressBar = ({ variant, stat, size }) => {
             transitionTimingFunction: "linear",
             width: `${stat}%`,
         },
+        statDisplay: {
+            width: "100%",
+            textAlign: "center",
+            position: "absolute",
+            top: "12px",
+            bottom: "12px",
+        },
     }));
 
     const classes = useStyles();
@@ -32,6 +41,13 @@ const ProgressBar = ({ variant, stat, size }) => {
             <div className={classes.bar}>
                 <CustomIcon size={size} variant={variant} />
                 <div className={classes.progress} />
+                <Typography
+                    variant="h4"
+                    component="h4"
+                    className={classes.statDisplay}
+                >
+                    {stat}
+                </Typography>
             </div>
         </div>
     );
