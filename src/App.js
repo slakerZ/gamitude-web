@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import Particles from "react-particles-js";
 // Components
 import Navigation from "./components/navigation/navigation.component.jsx";
+import LoadingScreen from "./components/loading-screen/loading-screen.component.jsx";
 // Pages
 import HomePage from "./pages/home/home.page.jsx";
 // Styles
@@ -12,8 +13,6 @@ import particleOptions from "./particlesjs-config.json";
 // UI Core
 import { ThemeProvider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-// UI Lab
-import Skeleton from "@material-ui/lab/Skeleton";
 // Lazy Loading
 const ProjectsPage = lazy(() => import("./pages/projects/projects.page.jsx"));
 const BulletJournalPage = lazy(() =>
@@ -58,11 +57,7 @@ const App = () => {
                 />
                 <Navigation />
 
-                <Suspense
-                    fallback={
-                        <Skeleton variant="rect" className={classes.skeleton} />
-                    }
-                >
+                <Suspense fallback={<LoadingScreen />}>
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route path="/projects" component={ProjectsPage} />

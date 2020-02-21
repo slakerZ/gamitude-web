@@ -12,7 +12,10 @@ import uifxReducer from "./uifx/uijx.reducer";
 const persistConfig = {
     key: "root",
     storage,
-    whitelist: ["projects"],
+    whitelist:
+        process.env.NODE_ENV === "development"
+            ? []
+            : ["projects", "stats", "energies"],
 };
 
 const rootReducer = combineReducers({
