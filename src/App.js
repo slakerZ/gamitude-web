@@ -60,13 +60,19 @@ const App = () => {
                 <Suspense fallback={<LoadingScreen />}>
                     <Switch>
                         <Route exact path="/" component={HomePage} />
-                        <Route path="/projects" component={ProjectsPage} />
                         <Route
+                            exact
+                            path="/projects"
+                            component={ProjectsPage}
+                        />
+                        <Route
+                            exact
                             path="/bulletJournal"
                             component={BulletJournalPage}
                         />
-                        <Route path="/profile" component={ProfilePage} />
+                        <Route exact path="/profile" component={ProfilePage} />
                         <Route
+                            exact
                             path="/signInSignUp"
                             component={SignInSignUpPage}
                         />

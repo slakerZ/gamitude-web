@@ -11,19 +11,19 @@ import { setTab } from "../../redux/navigation/navigation.actions";
 // Components
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
-const useStyles = makeStyles({
-    root: {
-        flexGrow: 1,
-        maxWidth: "100vw",
-        backgroundColor: "transparent",
-    },
-    tabs: {
-        backgroundColor: "rgba(196, 195, 81, 0.6)",
-    },
-});
-
 const Navigation = ({ tab, setTab, sessionInProgress, breakInProgress }) => {
     const isSignedIn = false;
+
+    const useStyles = makeStyles({
+        root: {
+            flexGrow: 1,
+            maxWidth: "100vw",
+            backgroundColor: "transparent",
+        },
+        tabs: {
+            backgroundColor: "rgba(196, 195, 81, 0.6)",
+        },
+    });
     const classes = useStyles();
 
     const handleChange = (event, newValue) => {
