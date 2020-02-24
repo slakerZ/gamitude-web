@@ -11,19 +11,18 @@ import Typography from "@material-ui/core/Typography";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
-const useStyles = makeStyles(theme => ({
-    toggleContainer: {
-        margin: theme.spacing(2, 0),
-    },
-}));
-
 const ProjectsToggle = ({ index, method, setMethod, sessionInProgress }) => {
+    const useStyles = makeStyles(theme => ({
+        toggleContainer: {
+            margin: theme.spacing(2, 0),
+        },
+    }));
+    const classes = useStyles();
+
     const handleMethod = (event, newMethod) => {
         newMethod = newMethod || method;
         setMethod({ index: index, method: newMethod });
     };
-
-    const classes = useStyles();
 
     return (
         <div className={classes.toggleContainer}>

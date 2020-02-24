@@ -14,6 +14,9 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
 const ProjectStats = ({ index, projects, setBoosted }) => {
+    const boosted = projects[index].boosted;
+    const dominant = projects[index].dominant;
+
     const useStyles = makeStyles({
         container: {
             display: "flex",
@@ -34,9 +37,6 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
         },
     });
     const classes = useStyles();
-
-    const boosted = projects[index].boosted;
-    const dominant = projects[index].dominant;
 
     const handleChange = (event, newBoosted) => {
         if (newBoosted.length > 0 && newBoosted.includes(dominant)) {

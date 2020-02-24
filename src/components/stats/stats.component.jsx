@@ -18,7 +18,6 @@ const Stats = ({ stats }) => {
             gridArea: "stats",
         },
     });
-
     const classes = useStyles();
 
     // TODO: Connect to API

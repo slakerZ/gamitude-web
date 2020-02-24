@@ -14,7 +14,6 @@ const RankName = ({ rankName }) => {
             backgroundColor: "transparent",
         },
     });
-
     const classes = useStyles();
 
     return (

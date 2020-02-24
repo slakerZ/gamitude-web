@@ -27,6 +27,7 @@ const Project = ({ index, name, status, method, dominant }) => {
         },
     });
     const classes = useStyles();
+
     return (
         <ExpansionPanel square className={classes.container}>
             <ExpansionPanelSummary

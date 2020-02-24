@@ -20,12 +20,6 @@ import {
 } from "../../redux/projects/projects.selectors";
 
 const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
     const useStyles = makeStyles(theme => ({
         container: {
             width: "100%",
@@ -63,6 +57,12 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
         },
     }));
     const classes = useStyles();
+
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
     return (
         <div>

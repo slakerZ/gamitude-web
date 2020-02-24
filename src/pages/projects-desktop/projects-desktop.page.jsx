@@ -6,7 +6,6 @@ import Rank from "../../components/rank/rank.component.jsx";
 import Projects from "../../components/projects/projects.component.jsx";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
-//import "./projects.styles.scss";
 
 const ProjectsDesktopPage = () => {
     const useStyles = makeStyles(theme => ({
@@ -36,7 +35,6 @@ const ProjectsDesktopPage = () => {
             },
         },
     }));
-
     const classes = useStyles();
 
     return (

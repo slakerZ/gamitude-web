@@ -14,7 +14,6 @@ const RankDisplay = ({ variant, stat }) => {
             alignItems: "center",
         },
     });
-
     const classes = useStyles();
 
     return (

@@ -33,7 +33,6 @@ const ProgressBar = ({ variant, stat, size }) => {
             bottom: "12px",
         },
     }));
-
     const classes = useStyles();
 
     return (

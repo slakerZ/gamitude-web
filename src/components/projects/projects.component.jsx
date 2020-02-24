@@ -35,6 +35,7 @@ const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
         },
     }));
     const classes = useStyles();
+
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {

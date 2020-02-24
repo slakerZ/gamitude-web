@@ -17,12 +17,6 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
     const boosted = projects[index].boosted;
     const dominant = projects[index].dominant;
 
-    const handleChange = (event, newDominant) => {
-        if (boosted.includes(newDominant)) {
-            setDominant({ index, newDominant });
-        }
-    };
-
     const useStyles = makeStyles({
         container: {
             display: "flex",
@@ -44,6 +38,13 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
         },
     });
     const classes = useStyles();
+
+    const handleChange = (event, newDominant) => {
+        if (boosted.includes(newDominant)) {
+            setDominant({ index, newDominant });
+        }
+    };
+
     return (
         <div className={classes.container}>
             <Typography variant="h5" component="h5" align="center">

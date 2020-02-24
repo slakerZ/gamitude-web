@@ -6,12 +6,9 @@ import Navigation from "./components/navigation/navigation.component.jsx";
 import LoadingScreen from "./components/loading-screen/loading-screen.component.jsx";
 // Pages
 import HomePage from "./pages/home/home.page.jsx";
-// Styles
-import theme from "./customTheme.js";
 // Config
 import particleOptions from "./particlesjs-config.json";
 // UI Core
-import { ThemeProvider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 // Lazy Loading
 const ProjectsPage = lazy(() => import("./pages/projects/projects.page.jsx"));
@@ -49,37 +46,28 @@ const App = () => {
     const classes = useStyles();
 
     return (
-        <ThemeProvider theme={theme}>
-            <div className={classes.app}>
-                <Particles
-                    params={particleOptions}
-                    className={classes.particles}
-                />
-                <Navigation />
+        <div className={classes.app}>
+            <Particles params={particleOptions} className={classes.particles} />
+            <Navigation />
 
-                <Suspense fallback={<LoadingScreen />}>
-                    <Switch>
-                        <Route exact path="/" component={HomePage} />
-                        <Route
-                            exact
-                            path="/projects"
-                            component={ProjectsPage}
-                        />
-                        <Route
-                            exact
-                            path="/bulletJournal"
-                            component={BulletJournalPage}
-                        />
-                        <Route exact path="/profile" component={ProfilePage} />
-                        <Route
-                            exact
-                            path="/signInSignUp"
-                            component={SignInSignUpPage}
-                        />
-                    </Switch>
-                </Suspense>
-            </div>
-        </ThemeProvider>
+            <Suspense fallback={<LoadingScreen />}>
+                <Switch>
+                    <Route exact path="/" component={HomePage} />
+                    <Route exact path="/projects" component={ProjectsPage} />
+                    <Route
+                        exact
+                        path="/bulletJournal"
+                        component={BulletJournalPage}
+                    />
+                    <Route exact path="/profile" component={ProfilePage} />
+                    <Route
+                        exact
+                        path="/signInSignUp"
+                        component={SignInSignUpPage}
+                    />
+                </Switch>
+            </Suspense>
+        </div>
     );
 };
 

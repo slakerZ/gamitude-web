@@ -20,7 +20,6 @@ const Energies = ({ energies }) => {
             justifyContent: "space-around",
         },
     });
-
     const classes = useStyles();
 
     // TODO: Connect to API

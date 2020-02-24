@@ -15,7 +15,6 @@ const RankDisplays = () => {
             alignItems: "center",
         },
     });
-
     const classes = useStyles();
 
     const gepardReq = {

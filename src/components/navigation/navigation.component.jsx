@@ -29,6 +29,7 @@ const Navigation = ({ tab, setTab, sessionInProgress, breakInProgress }) => {
     const handleChange = (event, newValue) => {
         setTab(newValue);
     };
+
     return (
         <Paper square className={classes.root}>
             <Tabs

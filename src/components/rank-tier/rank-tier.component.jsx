@@ -14,7 +14,6 @@ const RankTier = ({ rankTier }) => {
             backgroundColor: "transparent",
         },
     });
-
     const classes = useStyles();
 
     return (

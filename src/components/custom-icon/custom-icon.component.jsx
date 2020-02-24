@@ -49,7 +49,6 @@ const CustomIcon = ({ variant, size }) => {
             },
         },
     }));
-
     const classes = useStyles();
 
     const setClass = size => {
