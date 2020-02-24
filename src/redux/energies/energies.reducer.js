@@ -9,25 +9,10 @@ const INITIAL_STATE = {
 
 const energiesReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case EnergiesActionTypes.SET_BODY:
+        case EnergiesActionTypes.SET_ENERGIES:
             return {
                 ...state,
-                body: action.payload,
-            };
-        case EnergiesActionTypes.SET_EMOTIONS:
-            return {
-                ...state,
-                emotions: action.payload,
-            };
-        case EnergiesActionTypes.SET_MIND:
-            return {
-                ...state,
-                mind: action.payload,
-            };
-        case EnergiesActionTypes.SET_SOUL:
-            return {
-                ...state,
-                soul: action.payload,
+                ...action.payload,
             };
         default:
             return state;

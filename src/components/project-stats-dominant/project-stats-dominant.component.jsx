@@ -10,11 +10,8 @@ import Typography from "@material-ui/core/Typography";
 // UI lab
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-// SVG's
-import { ReactComponent as Strength } from "../../assets/icons/stats/strength.svg";
-import { ReactComponent as Creativity } from "../../assets/icons/stats/creativity.svg";
-import { ReactComponent as Intelligence } from "../../assets/icons/stats/intelligence.svg";
-import { ReactComponent as Fluency } from "../../assets/icons/stats/fluency.svg";
+// Components
+import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
 const ProjectStatsDominant = ({ index, projects, setDominant }) => {
     const boosted = projects[index].boosted;
@@ -36,10 +33,6 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
             backgroundColor: "transparent",
             display: "flex",
             justifyContent: "space-around",
-        },
-        icon: {
-            width: "4vh",
-            height: "4vh",
         },
         btn: {
             "&.Mui-selected": {
@@ -68,7 +61,7 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
                     aria-label="strength"
                     className={classes.btn}
                 >
-                    <Strength className={classes.icon} />
+                    <CustomIcon variant="Strength" size="medium" />
                 </ToggleButton>
 
                 <ToggleButton
@@ -76,7 +69,7 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
                     aria-label="creativity"
                     className={classes.btn}
                 >
-                    <Creativity className={classes.icon} />
+                    <CustomIcon variant="Creativity" size="medium" />
                 </ToggleButton>
 
                 <ToggleButton
@@ -84,7 +77,7 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
                     aria-label="intelligence"
                     className={classes.btn}
                 >
-                    <Intelligence className={classes.icon} />
+                    <CustomIcon variant="Intelligence" size="medium" />
                 </ToggleButton>
 
                 <ToggleButton
@@ -92,7 +85,7 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
                     aria-label="fluency"
                     className={classes.btn}
                 >
-                    <Fluency className={classes.icon} />
+                    <CustomIcon variant="Fluency" size="medium" />
                 </ToggleButton>
             </ToggleButtonGroup>
         </div>

@@ -11,13 +11,10 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ProjectWork from "../project-work/project-work.component.jsx";
 import ProjectEdit from "../project-edit/project-edit.component.jsx";
 import ProjectStatus from "../project-status/project-status.component.jsx";
+import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
-const Project = ({ index, name, status, method, Icon }) => {
+const Project = ({ index, name, status, method, dominant }) => {
     const useStyles = makeStyles({
-        icons: {
-            height: "5vh",
-            width: "5vh",
-        },
         container: {
             backgroundColor: "transparent",
         },
@@ -36,7 +33,12 @@ const Project = ({ index, name, status, method, Icon }) => {
                 expandIcon={<ExpandMoreIcon />}
                 className={classes.summary}
             >
-                <Icon className={classes.icons} />
+                <CustomIcon
+                    variant={`${dominant
+                        .charAt(0)
+                        .toUpperCase()}${dominant.slice(1)}`}
+                    size="medium"
+                />
                 <Typography component="h3" variant="h3">
                     {name}
                 </Typography>

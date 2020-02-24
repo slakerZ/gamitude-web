@@ -1,21 +1,13 @@
 import React from "react";
-// Components
-import Stats from "../../components/stats/stats.component.jsx";
-import Energies from "../../components/energies/energies.component.jsx";
-import Rank from "../../components/rank/rank.component.jsx";
-import Projects from "../../components/projects/projects.component.jsx";
-// Styles
-import "./projects.styles.scss";
+import { useWindowSize } from "react-use";
+// Pages
+import ProjectsDesktopPage from "../projects-desktop/projects-desktop.page.jsx";
+import ProjectsMobilePage from "../projects-mobile/projects-mobile.page.jsx";
 
 const ProjectsPage = () => {
-    return (
-        <div className="projects-page">
-            <Rank />
-            <Projects />
-            <Stats />
-            <Energies />
-        </div>
-    );
+    const { width } = useWindowSize();
+
+    return width < 600 ? <ProjectsMobilePage /> : <ProjectsDesktopPage />;
 };
 
 export default ProjectsPage;

@@ -1,10 +1,33 @@
 import React from "react";
-import "./rank.styles.scss";
 import { connect } from "react-redux";
-
-import RankInfo from "../rank-info/rank-info.component.jsx";
+// UI Core
+import { makeStyles } from "@material-ui/core/styles";
+// Components
+import RankDisplays from "../rank-displays/rank-displays.component.jsx";
+import RankImage from "../rank-image/rank-image.component.jsx";
+import RankTier from "../rank-tier/rank-tier.component.jsx";
+import RankName from "../rank-name/rank-name.component.jsx";
 
 const Rank = ({ strength, creativity, intelligence, fluency, ranks }) => {
+    const useStyles = makeStyles({
+        rank: {
+            boxShadow: "2px 2px 10px #000000",
+            borderRadius: "15px",
+            padding: "25px",
+            gridArea: "rank",
+            display: "grid",
+            gap: "1rem",
+            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "1fr 3fr 2fr",
+            gridTemplateAreas: `
+                "rank-name rank-tier"
+                "rank-img rank-img"
+                "rank-displays rank-displays"
+            `,
+        },
+    });
+    const classes = useStyles();
+
     const defaultRank = {
         name: "Sloth",
         tier: "F",
@@ -17,12 +40,11 @@ const Rank = ({ strength, creativity, intelligence, fluency, ranks }) => {
         defaultRank;
 
     return (
-        <div className="rank">
-            <RankInfo
-                rankName={rankFromDb.name}
-                rankTier={rankFromDb.tier}
-                rankImage={rankFromDb.imageUrl}
-            />
+        <div className={classes.rank}>
+            <RankImage rankImage={rankFromDb.imageUrl} />
+            <RankTier rankTier={rankFromDb.tier} />
+            <RankName rankName={rankFromDb.name} />
+            <RankDisplays />
         </div>
     );
 };

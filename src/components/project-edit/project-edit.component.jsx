@@ -50,6 +50,7 @@ const ProjectEdit = ({
     };
 
     const handleDeletion = () => {
+        setIsExpanded(false);
         deleteProject(index);
     };
 
