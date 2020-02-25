@@ -55,18 +55,18 @@ const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
                     className={classes.tabs}
                 >
                     <Tab
-                        icon={<CustomIcon variant="Active" size="medium" />}
+                        icon={<CustomIcon variant="active" size="medium" />}
                         label="ACTIVE"
                         className={classes.tab}
                         disabled={sessionInProgress || breakInProgress}
                     />
                     <Tab
-                        icon={<CustomIcon variant="Paused" size="medium" />}
+                        icon={<CustomIcon variant="paused" size="medium" />}
                         label="PAUSED"
                         disabled={sessionInProgress || breakInProgress}
                     />
                     <Tab
-                        icon={<CustomIcon variant="Done" size="medium" />}
+                        icon={<CustomIcon variant="done" size="medium" />}
                         label="DONE"
                         disabled={sessionInProgress || breakInProgress}
                     />

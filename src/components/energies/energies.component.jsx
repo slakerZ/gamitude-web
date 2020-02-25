@@ -27,10 +27,10 @@ const Energies = ({ energies }) => {
 
     return (
         <div className={classes.energies}>
-            <ProgressBar size="bar" stat={body} variant="Body" />
-            <ProgressBar size="bar" stat={emotions} variant="Emotions" />
-            <ProgressBar size="bar" stat={mind} variant="Mind" />
-            <ProgressBar size="bar" stat={soul} variant="Soul" />
+            <ProgressBar size="bar" stat={body} variant="body" />
+            <ProgressBar size="bar" stat={emotions} variant="emotions" />
+            <ProgressBar size="bar" stat={mind} variant="mind" />
+            <ProgressBar size="bar" stat={soul} variant="soul" />
         </div>
     );
 };

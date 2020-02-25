@@ -25,14 +25,14 @@ const Stats = ({ stats }) => {
 
     return (
         <div className={classes.stats}>
-            <ProgressBar size="bar" variant="Strength" stat={strength} />
-            <ProgressBar size="bar" variant="Creativity" stat={creativity} />
+            <ProgressBar size="bar" variant="strength" stat={strength} />
+            <ProgressBar size="bar" variant="creativity" stat={creativity} />
             <ProgressBar
                 size="bar"
-                variant="Intelligence"
+                variant="intelligence"
                 stat={intelligence}
             />
-            <ProgressBar size="bar" variant="Fluency" stat={fluency} />
+            <ProgressBar size="bar" variant="fluency" stat={fluency} />
         </div>
     );
 };

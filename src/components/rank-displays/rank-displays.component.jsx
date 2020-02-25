@@ -26,10 +26,10 @@ const RankDisplays = () => {
 
     return (
         <div className={classes.rankDisplays}>
-            <RankDisplay variant="Strength" stat={gepardReq.strength} />
-            <RankDisplay variant="Creativity" stat={gepardReq.creativity} />
-            <RankDisplay variant="Intelligence" stat={gepardReq.intelligence} />
-            <RankDisplay variant="Fluency" stat={gepardReq.fluency} />
+            <RankDisplay variant="strength" stat={gepardReq.strength} />
+            <RankDisplay variant="creativity" stat={gepardReq.creativity} />
+            <RankDisplay variant="intelligence" stat={gepardReq.intelligence} />
+            <RankDisplay variant="fluency" stat={gepardReq.fluency} />
         </div>
     );
 };

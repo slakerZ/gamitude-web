@@ -7,6 +7,7 @@ import statsReducer from "./stats/stats.reducer";
 import rankReducer from "./rank/rank.reducer";
 import projectsReducer from "./projects/projects.reducer";
 import uifxReducer from "./uifx/uijx.reducer";
+import userReducer from "./user/user.reducer";
 
 const persistConfig = {
     key: "root",
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     rank: rankReducer,
     projects: projectsReducer,
     uifx: uifxReducer,
+    user: userReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

@@ -14,18 +14,18 @@ import ProjectStatus from "../project-status/project-status.component.jsx";
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
 const Project = ({ index, name, status, method, dominant }) => {
-    const useStyles = makeStyles({
+    const useStyles = makeStyles(theme => ({
         container: {
             backgroundColor: "transparent",
         },
         summary: {
-            backgroundColor: "rgba(74, 2, 89, 0.4)",
+            backgroundColor: theme.palette.primary.light,
         },
         details: {
-            backgroundColor: "rgba(49, 0, 59, 0.4)",
+            backgroundColor: theme.palette.primary.main,
             flexDirection: "column",
         },
-    });
+    }));
     const classes = useStyles();
 
     return (
@@ -34,12 +34,7 @@ const Project = ({ index, name, status, method, dominant }) => {
                 expandIcon={<ExpandMoreIcon />}
                 className={classes.summary}
             >
-                <CustomIcon
-                    variant={`${dominant
-                        .charAt(0)
-                        .toUpperCase()}${dominant.slice(1)}`}
-                    size="medium"
-                />
+                <CustomIcon variant={dominant} size="medium" />
                 <Typography component="h3" variant="h3">
                     {name}
                 </Typography>

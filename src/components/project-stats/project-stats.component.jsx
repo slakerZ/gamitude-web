@@ -60,7 +60,7 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
                     aria-label="strength"
                     className={classes.btn}
                 >
-                    <CustomIcon variant="Strength" size="medium" />
+                    <CustomIcon variant="strength" size="medium" />
                 </ToggleButton>
 
                 <ToggleButton
@@ -68,7 +68,7 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
                     aria-label="creativity"
                     className={classes.btn}
                 >
-                    <CustomIcon variant="Creativity" size="medium" />
+                    <CustomIcon variant="creativity" size="medium" />
                 </ToggleButton>
 
                 <ToggleButton
@@ -76,7 +76,7 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
                     aria-label="intelligence"
                     className={classes.btn}
                 >
-                    <CustomIcon variant="Intelligence" size="medium" />
+                    <CustomIcon variant="intelligence" size="medium" />
                 </ToggleButton>
 
                 <ToggleButton
@@ -84,7 +84,7 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
                     aria-label="fluency"
                     className={classes.btn}
                 >
-                    <CustomIcon variant="Fluency" size="medium" />
+                    <CustomIcon variant="fluency" size="medium" />
                 </ToggleButton>
             </ToggleButtonGroup>
         </div>
