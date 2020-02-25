@@ -4,7 +4,6 @@ import storage from "redux-persist/lib/storage";
 // Reducers
 import energiesReducer from "./energies/energies.reducer";
 import statsReducer from "./stats/stats.reducer";
-import navigationReducer from "./navigation/navigation.reducer";
 import rankReducer from "./rank/rank.reducer";
 import projectsReducer from "./projects/projects.reducer";
 import uifxReducer from "./uifx/uijx.reducer";
@@ -21,7 +20,6 @@ const persistConfig = {
 const rootReducer = combineReducers({
     energies: energiesReducer,
     stats: statsReducer,
-    navigation: navigationReducer,
     rank: rankReducer,
     projects: projectsReducer,
     uifx: uifxReducer,
