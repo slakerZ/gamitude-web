@@ -24,18 +24,18 @@ const ProjectEdit = ({
     setName,
     deleteProject,
 }) => {
-    const useStyles = makeStyles({
+    const useStyles = makeStyles(theme => ({
         expansionPanel: {
             backgroundColor: "transparent",
         },
         expansionPanelSummary: {
-            backgroundColor: "rgba(74, 2, 89, 0.4)",
+            backgroundColor: theme.palette.secondary.main,
         },
         expansionPanelDetails: {
-            backgroundColor: "rgba(49, 0, 59, 0.4)",
+            backgroundColor: theme.palette.secondary.main,
             flexDirection: "column",
         },
-    });
+    }));
     const classes = useStyles();
 
     const [isExpanded, setIsExpanded] = React.useState(false);

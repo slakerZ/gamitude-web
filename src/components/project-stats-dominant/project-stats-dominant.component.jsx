@@ -17,7 +17,7 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
     const boosted = projects[index].boosted;
     const dominant = projects[index].dominant;
 
-    const useStyles = makeStyles({
+    const useStyles = makeStyles(theme => ({
         container: {
             display: "flex",
             flexDirection: "column",
@@ -30,13 +30,13 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
         },
         btn: {
             "&.Mui-selected": {
-                background: "#CAC99F",
+                background: theme.palette.complement.lighter,
                 "&:hover": {
-                    background: "#C1C59B",
+                    background: theme.palette.complement.light,
                 },
             },
         },
-    });
+    }));
     const classes = useStyles();
 
     const handleChange = (event, newDominant) => {

@@ -13,7 +13,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 // Components
 import Project from "../project/project.component.jsx";
-import ProjectTab from "../project-tab/project-tab.component.jsx";
+import MuiTab from "../mui-tab/mui-tab.component.jsx";
 import ProjectAdd from "../project-add/project-add.component.jsx";
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
@@ -77,7 +77,7 @@ const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
                 const { status, dominant, name, method } = project;
                 const index = projects.indexOf(project);
                 return (
-                    <ProjectTab key={index} value={value} currTab={status}>
+                    <MuiTab key={index} value={value} currTab={status}>
                         <Project
                             // TODO change to the method that get's rid of drilling index down
                             dominant={dominant}
@@ -86,7 +86,7 @@ const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
                             name={name}
                             method={method}
                         />
-                    </ProjectTab>
+                    </MuiTab>
                 );
             })}
             {value === 0 ? <ProjectAdd /> : null}

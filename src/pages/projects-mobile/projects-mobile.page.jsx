@@ -8,7 +8,7 @@ import Tab from "@material-ui/core/Tab";
 import Toolbar from "@material-ui/core/Toolbar";
 // Components
 import CustomIcon from "../../components/custom-icon/custom-icon.component.jsx";
-import ProjectTab from "../../components/project-tab/project-tab.component.jsx";
+import MuiTab from "../../components/mui-tab/mui-tab.component.jsx";
 import Stats from "../../components/stats/stats.component.jsx";
 import Energies from "../../components/energies/energies.component.jsx";
 import Rank from "../../components/rank/rank.component.jsx";
@@ -66,21 +66,21 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
 
     return (
         <div className={classes.container}>
-            <ProjectTab value={value} currTab={0}>
+            <MuiTab value={value} currTab={0}>
                 <div className={classes.center}>
                     <Rank />
                     <Toolbar className={classes.toolbar} />
                 </div>
-            </ProjectTab>
-            <ProjectTab value={value} currTab={1}>
+            </MuiTab>
+            <MuiTab value={value} currTab={1}>
                 <Stats className={classes.stats} />
                 <Energies />
                 <Toolbar className={classes.toolbar} />
-            </ProjectTab>
-            <ProjectTab value={value} currTab={2}>
+            </MuiTab>
+            <MuiTab value={value} currTab={2}>
                 <Projects />
                 <Toolbar className={classes.toolbar} />
-            </ProjectTab>
+            </MuiTab>
 
             <AppBar position="fixed" className={classes.appBar}>
                 <Tabs

@@ -3,7 +3,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-const ProjectTab = props => {
+const MuiTab = props => {
     const { children, value, currTab, ...other } = props;
 
     return (
@@ -18,4 +18,4 @@ const ProjectTab = props => {
     );
 };
 
-export default ProjectTab;
+export default MuiTab;
