@@ -37,6 +37,22 @@ const theme = createMuiTheme({
             fluency: "rgba(93, 38, 115, .5)",
         },
     },
+    typography: {
+        fontFamily: [
+            "Roboto",
+            "-apple - system",
+            "BlinkMacSystemFont",
+            "Segoe UI",
+            "Oxygen",
+            "Ubuntu",
+            "Cantarell",
+            "Fira Sans",
+            "Droid Sans",
+            "Helvetica Neue",
+            "sans - serif",
+            "Atomic Age",
+        ].join(","),
+    },
 });
 
 export default theme;

@@ -7,25 +7,33 @@ import RankDisplays from "../rank-displays/rank-displays.component.jsx";
 import RankImage from "../rank-image/rank-image.component.jsx";
 import RankTier from "../rank-tier/rank-tier.component.jsx";
 import RankName from "../rank-name/rank-name.component.jsx";
+import RankColors from "../rank-colors/rank-colors.component.jsx";
 
 const Rank = ({ strength, creativity, intelligence, fluency, ranks }) => {
-    const useStyles = makeStyles({
+    /**"rank-name rank-tier"
+                "rank-img rank-img"
+                "rank-displays rank-displays" */
+    const useStyles = makeStyles(theme => ({
         rank: {
+            backgroundImage: `linear-gradient(${theme.palette.primary.main}, ${theme.palette.complement.main})`,
             boxShadow: "2px 2px 10px #000000",
             borderRadius: "15px",
-            padding: "25px",
             gridArea: "rank",
             display: "grid",
             gap: "1rem",
-            gridTemplateColumns: "1fr 1fr",
-            gridTemplateRows: "1fr 3fr 2fr",
+            padding: "5px",
+            border: "solid 10px black",
+            gridTemplateColumns: "15px 3fr 80px 3fr 15px",
+            gridTemplateRows: "2fr 350px 1fr 6fr 80px",
             gridTemplateAreas: `
-                "rank-name rank-tier"
-                "rank-img rank-img"
-                "rank-displays rank-displays"
+                ". rank-name rank-name rank-name ."
+                ". rank-img rank-img rank-img ."
+                ". rank-displays rank-displays rank-displays ."
+                ". rank-colors rank-colors rank-colors ."
+                ". . rank-tier . ."  
             `,
         },
-    });
+    }));
     const classes = useStyles();
 
     const defaultRank = {
@@ -45,6 +53,7 @@ const Rank = ({ strength, creativity, intelligence, fluency, ranks }) => {
             <RankTier rankTier={rankFromDb.tier} />
             <RankName rankName={rankFromDb.name} />
             <RankDisplays />
+            <RankColors />
         </div>
     );
 };

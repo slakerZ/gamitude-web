@@ -18,7 +18,7 @@ const RankDisplay = ({ variant, stat }) => {
 
     return (
         <div className={classes.rankDisplay}>
-            <CustomIcon variant={variant} size="large" />
+            <CustomIcon variant={variant} size="medium" />
             <Typography component="h6" variant="h6">
                 {stat}
             </Typography>

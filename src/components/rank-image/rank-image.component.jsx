@@ -9,21 +9,12 @@ const RankImage = ({ rankImage }) => {
         rankImg: {
             maxWidth: "100%",
             height: "auto",
-            borderRadius: "1.5rem",
-            boxShadow: "2px 2px 10px #000000",
-
-            [theme.breakpoints.down("lg")]: {
-                maxHeight: "350px",
-            },
+            border: `solid 2px ${theme.palette.secondary.darker}`,
         },
         placeholder: {
             gridArea: "rank-img",
             maxWidth: "100%",
             height: "auto",
-            borderRadius: "1.5rem",
-            [theme.breakpoints.down("lg")]: {
-                maxHeight: "350px",
-            },
         },
         center: {
             display: "flex",

@@ -17,7 +17,7 @@ const ProjectsDesktopPage = () => {
             height: "90vh",
 
             [theme.breakpoints.down("lg")]: {
-                gridTemplateColumns: "1fr 1.5fr",
+                gridTemplateColumns: "1fr 1fr",
                 gridTemplateRows: "1fr 1fr",
                 gridTemplateAreas: `
                     "rank projects"
