@@ -21,6 +21,10 @@ import { ReactComponent as GuestIcon } from "../../assets/icons/navigation/guest
 import { ReactComponent as ActiveIcon } from "../../assets/icons/projects/active.svg";
 import { ReactComponent as PausedIcon } from "../../assets/icons/projects/onHold.svg";
 import { ReactComponent as DoneIcon } from "../../assets/icons/projects/done.svg";
+// Mobile Menu
+import { ReactComponent as ProjectNav } from "../../assets/icons/navigation/project.svg";
+import { ReactComponent as RankNav } from "../../assets/icons/navigation/rank.svg";
+import { ReactComponent as StatsNav } from "../../assets/icons/navigation/stats.svg";
 
 const CustomIcon = ({ variant, size }) => {
     const useStyles = makeStyles(theme => ({
@@ -100,6 +104,12 @@ const CustomIcon = ({ variant, size }) => {
                 return <PausedIcon className={setClass(size)} />;
             case "done":
                 return <DoneIcon className={setClass(size)} />;
+            case "rankNav":
+                return <RankNav className={setClass(size)} />;
+            case "statsNav":
+                return <StatsNav className={setClass(size)} />;
+            case "projectsNav":
+                return <ProjectNav className={setClass(size)} />;
             default:
                 return <div>Icon not found</div>;
         }

@@ -93,17 +93,19 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
                     className={classes.tabs}
                 >
                     <Tab
-                        icon={<CustomIcon variant="logo" size="medium" />}
+                        icon={<CustomIcon variant="rankNav" size="medium" />}
                         label="RANK"
                         disabled={sessionInProgress || breakInProgress}
                     />
                     <Tab
-                        icon={<CustomIcon variant="logo" size="medium" />}
+                        icon={<CustomIcon variant="statsNav" size="medium" />}
                         label="STATS"
                         disabled={sessionInProgress || breakInProgress}
                     />
                     <Tab
-                        icon={<CustomIcon variant="logo" size="medium" />}
+                        icon={
+                            <CustomIcon variant="projectsNav" size="medium" />
+                        }
                         label="PROJECTS"
                         disabled={sessionInProgress || breakInProgress}
                     />
