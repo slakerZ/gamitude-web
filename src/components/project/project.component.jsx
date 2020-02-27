@@ -1,5 +1,5 @@
 import React from "react";
-// UI core
+// UI Core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";

@@ -22,7 +22,7 @@ const ProgressBar = ({ variant, stat, size }) => {
     return (
         <div className={classes.bar}>
             <CustomIcon size={size} variant={variant} />
-            <CustomProgress stat={stat} />
+            <CustomProgress stat={stat} variant={variant} />
             <CustomOverlayDisplay stat={stat} />
         </div>
     );

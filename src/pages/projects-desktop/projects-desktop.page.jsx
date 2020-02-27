@@ -11,13 +11,13 @@ const ProjectsDesktopPage = () => {
     const useStyles = makeStyles(theme => ({
         projectsDesktopPage: {
             display: "grid",
-            gap: "2rem",
-            padding: "2rem",
+            gap: "20px",
+            padding: "20px",
             overflow: "auto",
             height: "90vh",
 
             [theme.breakpoints.down("lg")]: {
-                gridTemplateColumns: "1fr 1fr",
+                gridTemplateColumns: "1fr 1.5fr",
                 gridTemplateRows: "1fr 1fr",
                 gridTemplateAreas: `
                     "rank projects"
@@ -26,7 +26,7 @@ const ProjectsDesktopPage = () => {
             },
 
             [theme.breakpoints.up("lg")]: {
-                gridTemplateColumns: "1fr 1fr 1fr",
+                gridTemplateColumns: "1fr 1.5fr 1fr",
                 gridTemplateRows: "1fr 1fr",
                 gridTemplateAreas: `
                     "rank projects energies"

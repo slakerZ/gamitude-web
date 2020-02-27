@@ -46,7 +46,7 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
             bottom: "0",
         },
         tabs: {
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: theme.palette.tertriary.main,
             justifyContent: "center",
         },
         toolbar: {
@@ -65,22 +65,23 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
     };
 
     return (
-        <div>
-            <div className={classes.container}>
-                <ProjectTab value={value} currTab={0}>
-                    <div className={classes.center}>
-                        <Rank />
-                    </div>
-                </ProjectTab>
-                <ProjectTab value={value} currTab={1}>
-                    <Stats className={classes.stats} />
-                    <Energies />
-                </ProjectTab>
-                <ProjectTab value={value} currTab={2}>
-                    <Projects />
+        <div className={classes.container}>
+            <ProjectTab value={value} currTab={0}>
+                <div className={classes.center}>
+                    <Rank />
                     <Toolbar className={classes.toolbar} />
-                </ProjectTab>
-            </div>
+                </div>
+            </ProjectTab>
+            <ProjectTab value={value} currTab={1}>
+                <Stats className={classes.stats} />
+                <Energies />
+                <Toolbar className={classes.toolbar} />
+            </ProjectTab>
+            <ProjectTab value={value} currTab={2}>
+                <Projects />
+                <Toolbar className={classes.toolbar} />
+            </ProjectTab>
+
             <AppBar position="fixed" className={classes.appBar}>
                 <Tabs
                     value={value}

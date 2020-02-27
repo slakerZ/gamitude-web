@@ -11,7 +11,7 @@ import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 const Navigation = ({ sessionInProgress, breakInProgress, user }) => {
     const useStyles = makeStyles(theme => ({
         tabs: {
-            backgroundColor: theme.palette.secondary.main,
+            backgroundColor: theme.palette.tertriary.main,
         },
     }));
     const classes = useStyles();
@@ -24,7 +24,7 @@ const Navigation = ({ sessionInProgress, breakInProgress, user }) => {
             onChange={(event, newTab) => setTab(newTab)}
             variant="fullWidth"
             indicatorColor="primary"
-            textColor="primary"
+            textColor="secondary"
             className={classes.tabs}
         >
             <Tab

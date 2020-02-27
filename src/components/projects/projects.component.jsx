@@ -30,7 +30,7 @@ const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
             backgroundColor: "transparent",
         },
         tabs: {
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: theme.palette.tertriary.main,
             justifyContent: "center",
         },
     }));

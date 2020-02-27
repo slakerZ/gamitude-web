@@ -5,25 +5,32 @@ import { makeStyles } from "@material-ui/core/styles";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 const RankImage = ({ rankImage }) => {
-    const useStyles = makeStyles({
+    const useStyles = makeStyles(theme => ({
         rankImg: {
             maxWidth: "100%",
             height: "auto",
             borderRadius: "1.5rem",
             boxShadow: "2px 2px 10px #000000",
+
+            [theme.breakpoints.down("lg")]: {
+                maxHeight: "350px",
+            },
         },
         placeholder: {
             gridArea: "rank-img",
             maxWidth: "100%",
             height: "auto",
             borderRadius: "1.5rem",
+            [theme.breakpoints.down("lg")]: {
+                maxHeight: "350px",
+            },
         },
         center: {
             display: "flex",
             justifyContent: "center",
             gridArea: "rank-img",
         },
-    });
+    }));
     const classes = useStyles();
 
     const [loading, setLoading] = useState(true);
