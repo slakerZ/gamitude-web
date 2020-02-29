@@ -36,6 +36,14 @@ const theme = createMuiTheme({
             intelligence: "rgba(65, 139, 224, .5)",
             fluency: "rgba(93, 38, 115, .5)",
         },
+        tiers: {
+            s: "blue",
+            a: "green",
+            b: "lightgreen",
+            c: "yellow",
+            d: "orange",
+            f: "red",
+        },
     },
     typography: {
         fontFamily: [
