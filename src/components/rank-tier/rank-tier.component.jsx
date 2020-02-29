@@ -15,6 +15,7 @@ const RankTier = ({ rankTier }) => {
             backgroundColor: "transparent",
             fontFamily: "Atomic Age",
             borderRadius: "100%",
+            border: "3px solid black",
         },
     }));
     const classes = useStyles();

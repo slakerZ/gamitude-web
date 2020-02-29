@@ -8,7 +8,6 @@ const RankDisplays = () => {
     const useStyles = makeStyles({
         rankDisplays: {
             gridArea: "rank-displays",
-            boxShadow: "2px 2px 10px #000000",
             backgroundColor: "transparent",
             display: "flex",
             justifyContent: "space-around",
