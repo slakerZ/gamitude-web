@@ -70,8 +70,8 @@ const Navigation = ({ sessionInProgress, breakInProgress, user }) => {
 };
 
 const mapStateToProps = state => ({
-    sessionInProgress: state.projects.sessionInProgress,
-    breakInProgress: state.projects.breakInProgress,
+    sessionInProgress: state.session.sessionInProgress,
+    breakInProgress: state.session.breakInProgress,
     user: state.user.user,
 });
 

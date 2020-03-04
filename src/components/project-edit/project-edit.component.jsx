@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 // Actions
 import { setName, deleteProject } from "../../redux/projects/projects.actions";
+// Selectors
+import { selectSessionInProgress } from "../../redux/session/session.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -100,7 +102,7 @@ const ProjectEdit = ({
 };
 
 const mapStateToProps = state => ({
-    sessionInProgress: state.projects.sessionInProgress,
+    sessionInProgress: selectSessionInProgress(state),
 });
 
 const mapDispatchToProps = dispatch => ({

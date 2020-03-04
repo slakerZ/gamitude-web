@@ -17,7 +17,7 @@ import Projects from "../../components/projects/projects.component.jsx";
 import {
     selectSessionInProgress,
     selectBreakInProgress,
-} from "../../redux/projects/projects.selectors";
+} from "../../redux/session/session.selectors";
 
 const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
     const useStyles = makeStyles(theme => ({

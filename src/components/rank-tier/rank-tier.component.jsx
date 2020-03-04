@@ -19,6 +19,8 @@ const RankTier = ({ rankTier }) => {
                     return theme.palette.tiers.d;
                 case "F":
                     return theme.palette.tiers.f;
+                default:
+                    return theme.palette.error.main;
             }
         };
         return {

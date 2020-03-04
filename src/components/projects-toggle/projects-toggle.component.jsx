@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 // Actions
 import { setMethod } from "../../redux/projects/projects.actions";
 // Selectors
-import { selectSessionInProgress } from "../../redux/projects/projects.selectors";
+import { selectSessionInProgress } from "../../redux/session/session.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";

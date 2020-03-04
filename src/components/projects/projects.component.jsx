@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 // Selectors
+import { selectProjects } from "../../redux/projects/projects.selectors";
 import {
-    selectProjects,
     selectBreakInProgress,
     selectSessionInProgress,
-} from "../../redux/projects/projects.selectors";
+} from "../../redux/session/session.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";

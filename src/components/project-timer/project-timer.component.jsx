@@ -12,7 +12,7 @@ import {
     selectSessionInProgress,
     selectSessionsComplete,
     selectBreakInProgress,
-} from "../../redux/projects/projects.selectors";
+} from "../../redux/session/session.selectors";
 import { selectEnergies } from "../../redux/energies/energies.selectors";
 import { selectStats } from "../../redux/stats/stats.selectors";
 // Components
@@ -22,7 +22,7 @@ import {
     setBreakInProgress,
     setSessionInProgress,
     setSessionsComplete,
-} from "../../redux/projects/projects.actions";
+} from "../../redux/session/session.actions";
 import { setEnergies } from "../../redux/energies/energies.actions";
 import { setStats } from "../../redux/stats/stats.actions";
 
