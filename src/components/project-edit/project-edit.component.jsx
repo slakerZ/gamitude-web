@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 // Actions
 import { setName, deleteProject } from "../../redux/projects/projects.actions";
@@ -55,6 +55,10 @@ const ProjectEdit = ({
         setIsExpanded(false);
         deleteProject(index);
     };
+
+    useEffect(() => {
+        setIsExpanded(false);
+    }, [sessionInProgress]);
 
     return (
         <ExpansionPanel
