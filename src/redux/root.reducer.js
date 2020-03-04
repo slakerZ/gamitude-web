@@ -15,7 +15,7 @@ const persistConfig = {
     storage,
     whitelist:
         process.env.NODE_ENV === "development"
-            ? ["projects", "stats", "energies"]
+            ? []
             : ["projects", "stats", "energies"],
 };
 

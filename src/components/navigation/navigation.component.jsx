@@ -7,6 +7,12 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 // Components
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
+// Selectors
+import {
+    selectSessionInProgress,
+    selectBreakInProgress,
+} from "../../redux/session/session.selectors.js";
+import { selectUser } from "../../redux/user/user.selectors.js";
 
 const Navigation = ({ sessionInProgress, breakInProgress, user }) => {
     const useStyles = makeStyles(theme => ({
@@ -70,9 +76,9 @@ const Navigation = ({ sessionInProgress, breakInProgress, user }) => {
 };
 
 const mapStateToProps = state => ({
-    sessionInProgress: state.session.sessionInProgress,
-    breakInProgress: state.session.breakInProgress,
-    user: state.user.user,
+    sessionInProgress: selectSessionInProgress(state),
+    breakInProgress: selectBreakInProgress(state),
+    user: selectUser(state),
 });
 
 export default connect(mapStateToProps)(Navigation);

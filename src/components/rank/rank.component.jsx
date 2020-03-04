@@ -8,6 +8,9 @@ import RankImage from "../rank-image/rank-image.component.jsx";
 import RankTier from "../rank-tier/rank-tier.component.jsx";
 import RankName from "../rank-name/rank-name.component.jsx";
 import RankColors from "../rank-colors/rank-colors.component.jsx";
+// Selectors
+import { selectStats } from "../../redux/stats/stats.selectors.js";
+import { selectRank } from "../../redux/rank/rank.selectors.js";
 
 const Rank = ({ stats, ranks }) => {
     const { strength, creativity, intelligence, fluency } = stats;
@@ -87,8 +90,8 @@ const Rank = ({ stats, ranks }) => {
 };
 
 const mapStateToProps = state => ({
-    stats: state.stats,
-    ranks: state.rank.ranks,
+    stats: selectStats(state),
+    ranks: selectRank(state),
 });
 
 export default connect(mapStateToProps)(Rank);
