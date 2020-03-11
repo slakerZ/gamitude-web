@@ -12,6 +12,7 @@ import {
     selectSessionInProgress,
     selectSessionsComplete,
     selectBreakInProgress,
+    selectBreakTime,
 } from "../../redux/session/session.selectors";
 import { selectEnergies } from "../../redux/energies/energies.selectors";
 import { selectStats } from "../../redux/stats/stats.selectors";
@@ -22,6 +23,7 @@ import {
     setBreakInProgress,
     setSessionInProgress,
     setSessionsComplete,
+    setBreakTime,
 } from "../../redux/session/session.actions";
 import { setEnergies } from "../../redux/energies/energies.actions";
 import { setStats } from "../../redux/stats/stats.actions";
@@ -33,30 +35,20 @@ const ProjectTimer = ({
     sessionsComplete,
     setSessionInProgress,
     setSessionsComplete,
-    setBreakInProgress,
     minuteLeftSound,
-    breakCompleteSound,
     sessionEndSound,
     setEnergies,
     energies,
     setStats,
     stats,
+    setBreakTime,
+    breakTime,
 }) => {
     const { body, emotions, mind, soul } = energies;
     const { strength, creativity, intelligence, fluency } = stats;
 
     const [sessionTime, setSessionTime] = useState(duration(method, "minutes"));
     const [localSession, setLocalSession] = useState(false);
-
-    const [breakTime, setBreakTime] = useState(duration(0, "minutes"));
-    const [localBreak, setLocalBreak] = useState(false);
-
-    // Sound Effects Hooks
-    useEffect(() => {
-        if (breakTime.asSeconds() === 0 && localBreak) {
-            breakCompleteSound.play();
-        }
-    }, [breakTime, localBreak, breakCompleteSound]);
 
     useEffect(() => {
         if (sessionTime.asSeconds() === 60) {
@@ -78,9 +70,6 @@ const ProjectTimer = ({
         setSessionInProgress(localSession);
     }, [localSession]);
 
-    useUpdateEffect(() => {
-        setBreakInProgress(localBreak);
-    }, [localBreak]);
     // TODO: Abstract hooks into custom ones then extract hooks into separate files
     useEffect(() => {
         const handleBreak = methodBaseTime => {
@@ -131,6 +120,7 @@ const ProjectTimer = ({
                               // Reset timer
                               setSessionTime(duration(method, "minutes"));
                               // Add time to break timer
+
                               const accumulatedBreak =
                                   breakTime.asMinutes() + handleBreak(method);
                               setBreakTime(
@@ -154,11 +144,12 @@ const ProjectTimer = ({
         }
         return () => clearInterval(interval);
     }, [
+        breakTime,
+        setBreakTime,
         sessionTime,
         localSession,
         method,
         sessionsComplete,
-        breakTime,
         setSessionsComplete,
         sessionEndSound,
         minuteLeftSound,
@@ -174,32 +165,9 @@ const ProjectTimer = ({
         soul,
     ]);
 
-    useEffect(() => {
-        const breakInterval = localBreak
-            ? setInterval(
-                  () =>
-                      setBreakTime(() => {
-                          if (breakTime.asSeconds() > 0) {
-                              breakTime.subtract(1, "second");
-                              return duration(duration(breakTime));
-                          } else {
-                              setLocalBreak(false);
-                              return breakTime;
-                          }
-                      }),
-                  1
-              )
-            : null;
-        if (!localBreak) {
-            clearInterval(breakInterval);
-        }
-        return () => clearInterval(breakInterval);
-    }, [breakTime, localBreak]);
-
     return (
         <div className="timer">
             <TimerDisplays time={sessionTime} />
-            <TimerDisplays time={breakTime} />
 
             <ButtonGroup size="medium">
                 <Button
@@ -212,18 +180,6 @@ const ProjectTimer = ({
                     <Typography variant="h6" component="h6">
                         {localSession ? "Give Up" : "Start"}
                     </Typography>
-                </Button>
-
-                <Button
-                    onClick={() => setLocalBreak(!localBreak)}
-                    variant={
-                        breakTime.asSeconds() > 0 ? "contained" : "outlined"
-                    }
-                    disabled={sessionInProgress || breakTime.asSeconds() === 0}
-                >
-                    {!breakInProgress && breakTime.asSeconds() > 0
-                        ? "Take Break"
-                        : "End Break"}
                 </Button>
             </ButtonGroup>
         </div>
@@ -239,6 +195,7 @@ const mapStateToProps = state => ({
     breakCompleteSound: state.uifx.projectSounds.breakCompleteSound,
     energies: selectEnergies(state),
     stats: selectStats(state),
+    breakTime: selectBreakTime(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -247,6 +204,7 @@ const mapDispatchToProps = dispatch => ({
     setSessionsComplete: value => dispatch(setSessionsComplete(value)),
     setEnergies: value => dispatch(setEnergies(value)),
     setStats: value => dispatch(setStats(value)),
+    setBreakTime: value => dispatch(setBreakTime(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectTimer);

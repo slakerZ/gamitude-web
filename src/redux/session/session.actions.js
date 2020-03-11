@@ -14,3 +14,8 @@ export const setSessionsComplete = value => ({
     type: SessionActionTypes.SET_SESSIONS_COMPLETE,
     payload: value,
 });
+
+export const setBreakTime = value => ({
+    type: SessionActionTypes.SET_BREAK_TIME,
+    payload: value,
+});

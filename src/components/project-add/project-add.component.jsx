@@ -12,7 +12,7 @@ const ProjectAdd = ({ addProject }) => {
     const useStyles = makeStyles(theme => ({
         add: {
             position: "sticky",
-            margin: "10px 10px 10px 0",
+            margin: "0 20px 40px 0",
             float: "right",
             top: "calc(100vh - 50px)",
             boxShadow: "5px 5px 10px #000000",

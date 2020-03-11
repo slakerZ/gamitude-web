@@ -16,6 +16,7 @@ import Project from "../project/project.component.jsx";
 import MuiTab from "../mui-tab/mui-tab.component.jsx";
 import ProjectAdd from "../project-add/project-add.component.jsx";
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
+import ProjectBreakTimer from "../project-break-timer/project-break-timer.component.jsx";
 
 const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
     const useStyles = makeStyles(theme => ({
@@ -89,6 +90,7 @@ const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
                     </MuiTab>
                 );
             })}
+            <ProjectBreakTimer />
             {value === 0 ? <ProjectAdd /> : null}
         </div>
     );
