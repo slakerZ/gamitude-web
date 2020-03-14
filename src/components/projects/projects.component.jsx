@@ -14,10 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Project from "../project/project.component.jsx";
 import MuiTab from "../mui-tab/mui-tab.component.jsx";
 import ProjectAdd from "../project-add/project-add.component.jsx";
-
 import ProjectBreakTimer from "../project-break-timer/project-break-timer.component.jsx";
-
-//test
 import ProjectsNav from "../projects-nav/projects-nav.component.jsx";
 
 const Projects = ({ projects, projectsTab }) => {
@@ -47,16 +44,14 @@ const Projects = ({ projects, projectsTab }) => {
                 const { status } = project;
                 const index = projects.indexOf(project);
                 return (
-                    <MuiTab
-                        key={index}
-                        value={parseInt(projectsTab)}
-                        currTab={status}
-                    >
+                    <MuiTab key={index} value={projectsTab} currTab={status}>
                         <Project index={index} />
                     </MuiTab>
                 );
             })}
+
             <ProjectBreakTimer />
+
             {projectsTab === 0 ? <ProjectAdd /> : null}
         </div>
     );

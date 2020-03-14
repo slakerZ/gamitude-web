@@ -59,10 +59,12 @@ const ProjectBreakTimer = ({
             ? setInterval(
                   () =>
                       setBreakTime(() => {
+                          // break continues
                           if (breakTime.asSeconds() > 0) {
                               breakTime.subtract(1, "second");
                               return duration(duration(breakTime));
                           } else {
+                              // break ended sync with redux
                               setLocalBreak(false);
                               setReduxBreakTime(
                                   duration(breakTime.asSeconds(), "seconds")
@@ -83,7 +85,14 @@ const ProjectBreakTimer = ({
         <div className={classes.root}>
             <TimerDisplays time={breakTime} />
             <Button
-                onClick={() => setLocalBreak(!localBreak)}
+                onClick={() => {
+                    // pause break
+                    setLocalBreak(!localBreak);
+                    // sync with redux
+                    setReduxBreakTime(
+                        duration(breakTime.asSeconds(), "seconds")
+                    );
+                }}
                 variant={breakTime.asSeconds() > 0 ? "contained" : "outlined"}
                 disabled={sessionInProgress || breakTime.asSeconds() === 0}
             >
