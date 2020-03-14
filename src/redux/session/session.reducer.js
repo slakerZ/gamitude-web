@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     breakInProgress: false,
     sessionsComplete: 0,
     breakTime: duration(0, "seconds"),
+    projectsTab: 0,
 };
 
 const sessionReducer = (state = INITIAL_STATE, action) => {
@@ -29,6 +30,11 @@ const sessionReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 breakTime: action.payload,
+            };
+        case SessionActionTypes.SET_PROJECTS_TAB:
+            return {
+                ...state,
+                projectsTab: action.payload,
             };
         default:
             return state;

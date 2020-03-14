@@ -14,6 +14,7 @@ import {
     selectBreakInProgress,
     selectBreakTime,
 } from "../../redux/session/session.selectors";
+import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectEnergies } from "../../redux/energies/energies.selectors";
 import { selectStats } from "../../redux/stats/stats.selectors";
 // Components
@@ -29,7 +30,8 @@ import { setEnergies } from "../../redux/energies/energies.actions";
 import { setStats } from "../../redux/stats/stats.actions";
 
 const ProjectTimer = ({
-    method,
+    index,
+    projects,
     sessionInProgress,
     breakInProgress,
     sessionsComplete,
@@ -46,6 +48,7 @@ const ProjectTimer = ({
 }) => {
     const { body, emotions, mind, soul } = energies;
     const { strength, creativity, intelligence, fluency } = stats;
+    const method = projects[index].method;
 
     const [sessionTime, setSessionTime] = useState(duration(method, "minutes"));
     const [localSession, setLocalSession] = useState(false);
@@ -196,6 +199,7 @@ const mapStateToProps = state => ({
     energies: selectEnergies(state),
     stats: selectStats(state),
     breakTime: selectBreakTime(state),
+    projects: selectProjects(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -10,8 +10,11 @@ import Typography from "@material-ui/core/Typography";
 // UI lab
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { selectProjects } from "../../redux/projects/projects.selectors";
 
-const ProjectsToggle = ({ index, method, setMethod, sessionInProgress }) => {
+const ProjectToggle = ({ index, projects, setMethod, sessionInProgress }) => {
+    const method = projects[index].method;
+
     const useStyles = makeStyles(theme => ({
         toggleContainer: {
             margin: theme.spacing(2, 0),
@@ -57,10 +60,11 @@ const ProjectsToggle = ({ index, method, setMethod, sessionInProgress }) => {
 
 const mapStateToProps = state => ({
     sessionInProgress: selectSessionInProgress(state),
+    projects: selectProjects(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     setMethod: value => dispatch(setMethod(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectsToggle);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectToggle);

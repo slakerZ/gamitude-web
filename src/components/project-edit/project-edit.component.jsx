@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { setName, deleteProject } from "../../redux/projects/projects.actions";
 // Selectors
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
+import { selectProjects } from "../../redux/projects/projects.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -20,12 +21,14 @@ import ProjectsStatsDominant from "../project-stats-dominant/project-stats-domin
 import ProjectStatus from "../project-status/project-status.component.jsx";
 
 const ProjectEdit = ({
-    name,
+    projects,
     index,
     sessionInProgress,
     setName,
     deleteProject,
 }) => {
+    const name = projects[index].name;
+
     const useStyles = makeStyles(theme => ({
         expansionPanel: {
             backgroundColor: "transparent",
@@ -107,6 +110,7 @@ const ProjectEdit = ({
 
 const mapStateToProps = state => ({
     sessionInProgress: selectSessionInProgress(state),
+    projects: selectProjects(state),
 });
 
 const mapDispatchToProps = dispatch => ({

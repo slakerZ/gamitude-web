@@ -5,20 +5,22 @@ import { selectProjects } from "../../redux/projects/projects.selectors";
 import {
     selectBreakInProgress,
     selectSessionInProgress,
+    selectProjectsTab,
 } from "../../redux/session/session.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+
 // Components
 import Project from "../project/project.component.jsx";
 import MuiTab from "../mui-tab/mui-tab.component.jsx";
 import ProjectAdd from "../project-add/project-add.component.jsx";
-import CustomIcon from "../custom-icon/custom-icon.component.jsx";
+
 import ProjectBreakTimer from "../project-break-timer/project-break-timer.component.jsx";
 
-const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
+//test
+import ProjectsNav from "../projects-nav/projects-nav.component.jsx";
+
+const Projects = ({ projects, projectsTab }) => {
     const useStyles = makeStyles(theme => ({
         root: {
             flexGrow: 1,
@@ -37,61 +39,25 @@ const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
     }));
     const classes = useStyles();
 
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
     return (
         <div className={classes.root}>
-            <AppBar position="static" className={classes.appBar}>
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    variant="fullWidth"
-                    indicatorColor="primary"
-                    textColor="primary"
-                    aria-label="simple tabs example"
-                    className={classes.tabs}
-                >
-                    <Tab
-                        icon={<CustomIcon variant="active" size="medium" />}
-                        label="ACTIVE"
-                        className={classes.tab}
-                        disabled={sessionInProgress || breakInProgress}
-                    />
-                    <Tab
-                        icon={<CustomIcon variant="paused" size="medium" />}
-                        label="PAUSED"
-                        disabled={sessionInProgress || breakInProgress}
-                    />
-                    <Tab
-                        icon={<CustomIcon variant="done" size="medium" />}
-                        label="DONE"
-                        disabled={sessionInProgress || breakInProgress}
-                    />
-                </Tabs>
-            </AppBar>
+            <ProjectsNav />
 
             {projects.map(project => {
-                const { status, dominant, name, method } = project;
+                const { status } = project;
                 const index = projects.indexOf(project);
                 return (
-                    <MuiTab key={index} value={value} currTab={status}>
-                        <Project
-                            // TODO change to the method that get's rid of drilling index down
-                            dominant={dominant}
-                            index={index}
-                            status={status}
-                            name={name}
-                            method={method}
-                        />
+                    <MuiTab
+                        key={index}
+                        value={parseInt(projectsTab)}
+                        currTab={status}
+                    >
+                        <Project index={index} />
                     </MuiTab>
                 );
             })}
             <ProjectBreakTimer />
-            {value === 0 ? <ProjectAdd /> : null}
+            {projectsTab === 0 ? <ProjectAdd /> : null}
         </div>
     );
 };
@@ -100,6 +66,7 @@ const mapStateToProps = state => ({
     projects: selectProjects(state),
     breakInProgress: selectBreakInProgress(state),
     sessionInProgress: selectSessionInProgress(state),
+    projectsTab: selectProjectsTab(state),
 });
 
 export default connect(mapStateToProps)(Projects);

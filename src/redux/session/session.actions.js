@@ -19,3 +19,8 @@ export const setBreakTime = value => ({
     type: SessionActionTypes.SET_BREAK_TIME,
     payload: value,
 });
+
+export const setProjectsTab = value => ({
+    type: SessionActionTypes.SET_PROJECTS_TAB,
+    payload: value,
+});
