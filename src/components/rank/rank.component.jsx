@@ -64,15 +64,30 @@ const Rank = ({ stats, ranks }) => {
                 gap: "1rem",
                 padding: "5px",
                 border: "solid 10px black",
-                gridTemplateColumns: "15px 3fr 80px 3fr 15px",
-                gridTemplateRows: "2fr 350px 1fr 6fr 80px",
-                gridTemplateAreas: `
-                ". rank-name rank-name rank-name ."
-                ". rank-img rank-img rank-img ."
-                ". rank-displays rank-displays rank-displays ."
-                ". rank-colors rank-colors rank-colors ."
-                ". . rank-tier . ."  
-            `,
+
+                [theme.breakpoints.down("lg")]: {
+                    gridTemplateColumns: "15px 3fr 80px 3fr 15px",
+                    gridTemplateRows: "1fr 150px 1fr 1fr 80px",
+                    gridTemplateAreas: `
+                        ". rank-name rank-name rank-name ."
+                        ". rank-img rank-img rank-img ."
+                        ". rank-displays rank-displays rank-displays ."
+                        ". rank-colors rank-colors rank-colors ."
+                        ". . rank-tier . ."  
+                    `,
+                },
+
+                [theme.breakpoints.up("lg")]: {
+                    gridTemplateColumns: "15px 3fr 80px 3fr 15px",
+                    gridTemplateRows: "2fr 350px 1fr 6fr 80px",
+                    gridTemplateAreas: `
+                        ". rank-name rank-name rank-name ."
+                        ". rank-img rank-img rank-img ."
+                        ". rank-displays rank-displays rank-displays ."
+                        ". rank-colors rank-colors rank-colors ."
+                        ". . rank-tier . ."  
+                    `,
+                },
             },
         };
     });
