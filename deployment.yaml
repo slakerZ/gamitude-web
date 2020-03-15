@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: front
+  labels:
+    app: front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: front
+        image: FRONT_IMAGE
+        ports:
+          - name: front-http
+            containerPort: 80
+        livenessProbe:      # Used by deployment controller
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+          periodSeconds: 5
+          timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 5
+          initialDelaySeconds: 50
+        readinessProbe:     # Used by Ingress/GCLB
+          httpGet:
+            path: /
+            port: 80
+            scheme: HTTP
+          periodSeconds: 5
+          timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 5
+          initialDelaySeconds: 50
+        resources:
+          limits:
+            memory: 100Mi
+            cpu: 100m
+          requests:
+            memory: 75Mi
+            cpu: 50m
