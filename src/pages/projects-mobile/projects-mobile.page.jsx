@@ -8,7 +8,7 @@ import Tab from "@material-ui/core/Tab";
 import Toolbar from "@material-ui/core/Toolbar";
 // Components
 import CustomIcon from "../../components/custom-icon/custom-icon.component.jsx";
-import ProjectTab from "../../components/project-tab/project-tab.component.jsx";
+import MuiTab from "../../components/mui-tab/mui-tab.component.jsx";
 import Stats from "../../components/stats/stats.component.jsx";
 import Energies from "../../components/energies/energies.component.jsx";
 import Rank from "../../components/rank/rank.component.jsx";
@@ -17,15 +17,9 @@ import Projects from "../../components/projects/projects.component.jsx";
 import {
     selectSessionInProgress,
     selectBreakInProgress,
-} from "../../redux/projects/projects.selectors";
+} from "../../redux/session/session.selectors";
 
 const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
     const useStyles = makeStyles(theme => ({
         container: {
             width: "100%",
@@ -52,7 +46,7 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
             bottom: "0",
         },
         tabs: {
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: theme.palette.tertriary.main,
             justifyContent: "center",
         },
         toolbar: {
@@ -64,23 +58,30 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
     }));
     const classes = useStyles();
 
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
     return (
-        <div>
-            <div className={classes.container}>
-                <ProjectTab value={value} currTab={0}>
-                    <div className={classes.center}>
-                        <Rank />
-                    </div>
-                </ProjectTab>
-                <ProjectTab value={value} currTab={1}>
-                    <Stats className={classes.stats} />
-                    <Energies />
-                </ProjectTab>
-                <ProjectTab value={value} currTab={2}>
-                    <Projects />
+        <div className={classes.container}>
+            <MuiTab value={value} currTab={0}>
+                <div className={classes.center}>
+                    <Rank />
                     <Toolbar className={classes.toolbar} />
-                </ProjectTab>
-            </div>
+                </div>
+            </MuiTab>
+            <MuiTab value={value} currTab={1}>
+                <Stats className={classes.stats} />
+                <Energies />
+                <Toolbar className={classes.toolbar} />
+            </MuiTab>
+            <MuiTab value={value} currTab={2}>
+                <Projects />
+                <Toolbar className={classes.toolbar} />
+            </MuiTab>
+
             <AppBar position="fixed" className={classes.appBar}>
                 <Tabs
                     value={value}
@@ -92,17 +93,19 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
                     className={classes.tabs}
                 >
                     <Tab
-                        icon={<CustomIcon variant="Logo" size="medium" />}
+                        icon={<CustomIcon variant="rankNav" size="medium" />}
                         label="RANK"
                         disabled={sessionInProgress || breakInProgress}
                     />
                     <Tab
-                        icon={<CustomIcon variant="Logo" size="medium" />}
+                        icon={<CustomIcon variant="statsNav" size="medium" />}
                         label="STATS"
                         disabled={sessionInProgress || breakInProgress}
                     />
                     <Tab
-                        icon={<CustomIcon variant="Logo" size="medium" />}
+                        icon={
+                            <CustomIcon variant="projectsNav" size="medium" />
+                        }
                         label="PROJECTS"
                         disabled={sessionInProgress || breakInProgress}
                     />

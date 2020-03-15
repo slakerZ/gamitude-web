@@ -8,14 +8,12 @@ const RankDisplays = () => {
     const useStyles = makeStyles({
         rankDisplays: {
             gridArea: "rank-displays",
-            boxShadow: "2px 2px 10px #000000",
             backgroundColor: "transparent",
             display: "flex",
             justifyContent: "space-around",
             alignItems: "center",
         },
     });
-
     const classes = useStyles();
 
     const gepardReq = {
@@ -27,10 +25,10 @@ const RankDisplays = () => {
 
     return (
         <div className={classes.rankDisplays}>
-            <RankDisplay variant="Strength" stat={gepardReq.strength} />
-            <RankDisplay variant="Creativity" stat={gepardReq.creativity} />
-            <RankDisplay variant="Intelligence" stat={gepardReq.intelligence} />
-            <RankDisplay variant="Fluency" stat={gepardReq.fluency} />
+            <RankDisplay variant="strength" stat={gepardReq.strength} />
+            <RankDisplay variant="creativity" stat={gepardReq.creativity} />
+            <RankDisplay variant="intelligence" stat={gepardReq.intelligence} />
+            <RankDisplay variant="fluency" stat={gepardReq.fluency} />
         </div>
     );
 };

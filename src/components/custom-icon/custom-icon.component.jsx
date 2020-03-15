@@ -21,6 +21,10 @@ import { ReactComponent as GuestIcon } from "../../assets/icons/navigation/guest
 import { ReactComponent as ActiveIcon } from "../../assets/icons/projects/active.svg";
 import { ReactComponent as PausedIcon } from "../../assets/icons/projects/onHold.svg";
 import { ReactComponent as DoneIcon } from "../../assets/icons/projects/done.svg";
+// Mobile Menu
+import { ReactComponent as ProjectNav } from "../../assets/icons/navigation/project.svg";
+import { ReactComponent as RankNav } from "../../assets/icons/navigation/rank.svg";
+import { ReactComponent as StatsNav } from "../../assets/icons/navigation/stats.svg";
 
 const CustomIcon = ({ variant, size }) => {
     const useStyles = makeStyles(theme => ({
@@ -49,7 +53,6 @@ const CustomIcon = ({ variant, size }) => {
             },
         },
     }));
-
     const classes = useStyles();
 
     const setClass = size => {
@@ -69,38 +72,44 @@ const CustomIcon = ({ variant, size }) => {
 
     const getIcon = (variant, size) => {
         switch (variant) {
-            case "Body":
+            case "body":
                 return <Body className={setClass(size)} />;
-            case "Emotions":
+            case "emotions":
                 return <Emotions className={setClass(size)} />;
-            case "Mind":
+            case "mind":
                 return <Mind className={setClass(size)} />;
-            case "Soul":
+            case "soul":
                 return <Soul className={setClass(size)} />;
-            case "Strength":
+            case "strength":
                 return <Strength className={setClass(size)} />;
-            case "Creativity":
+            case "creativity":
                 return <Creativity className={setClass(size)} />;
-            case "Intelligence":
+            case "intelligence":
                 return <Intelligence className={setClass(size)} />;
-            case "Fluency":
+            case "fluency":
                 return <Fluency className={setClass(size)} />;
-            case "Projects":
+            case "projects":
                 return <ProjectsIcon className={setClass(size)} />;
-            case "BulletJournal":
+            case "bulletJournal":
                 return <BulletJournalIcon className={setClass(size)} />;
-            case "Logo":
+            case "logo":
                 return <Logo className={setClass(size)} />;
-            case "Profile":
+            case "profile":
                 return <ProfileIcon className={setClass(size)} />;
-            case "Guest":
+            case "guest":
                 return <GuestIcon className={setClass(size)} />;
-            case "Active":
+            case "active":
                 return <ActiveIcon className={setClass(size)} />;
-            case "Paused":
+            case "paused":
                 return <PausedIcon className={setClass(size)} />;
-            case "Done":
+            case "done":
                 return <DoneIcon className={setClass(size)} />;
+            case "rankNav":
+                return <RankNav className={setClass(size)} />;
+            case "statsNav":
+                return <StatsNav className={setClass(size)} />;
+            case "projectsNav":
+                return <ProjectNav className={setClass(size)} />;
             default:
                 return <div>Icon not found</div>;
         }

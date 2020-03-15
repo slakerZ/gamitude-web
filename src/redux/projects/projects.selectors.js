@@ -1,20 +1,17 @@
 import { createSelector } from "reselect";
 
 export const selectProjects = state => state.projects.projects;
-// Only for the following selectors
-export const selectProjectsObject = state => state.projects;
 
-export const selectSessionInProgress = createSelector(
-    [selectProjectsObject],
-    projects => projects.sessionInProgress
+export const selectProject = (state, ownProps) => {
+    return state.projects.projects[ownProps.index];
+};
+// Won't re-render when should
+export const selectDominant = createSelector(
+    [selectProject],
+    project => project.dominant
 );
 
-export const selectBreakInProgress = createSelector(
-    [selectProjectsObject],
-    projects => projects.breakInProgress
-);
-
-export const selectSessionsComplete = createSelector(
-    [selectProjectsObject],
-    projects => projects.sessionsComplete
+export const selectMethod = createSelector(
+    [selectProject],
+    project => project.method
 );

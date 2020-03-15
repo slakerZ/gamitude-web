@@ -14,7 +14,10 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 
 const ProjectStats = ({ index, projects, setBoosted }) => {
-    const useStyles = makeStyles({
+    const boosted = projects[index].boosted;
+    const dominant = projects[index].dominant;
+
+    const useStyles = makeStyles(theme => ({
         container: {
             display: "flex",
             flexDirection: "column",
@@ -26,17 +29,14 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
         },
         btn: {
             "&.Mui-selected": {
-                background: "#CAC99F",
+                background: theme.palette.complement.lighter,
                 "&:hover": {
-                    background: "#C1C59B",
+                    background: theme.palette.complement.light,
                 },
             },
         },
-    });
+    }));
     const classes = useStyles();
-
-    const boosted = projects[index].boosted;
-    const dominant = projects[index].dominant;
 
     const handleChange = (event, newBoosted) => {
         if (newBoosted.length > 0 && newBoosted.includes(dominant)) {
@@ -60,7 +60,7 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
                     aria-label="strength"
                     className={classes.btn}
                 >
-                    <CustomIcon variant="Strength" size="medium" />
+                    <CustomIcon variant="strength" size="medium" />
                 </ToggleButton>
 
                 <ToggleButton
@@ -68,7 +68,7 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
                     aria-label="creativity"
                     className={classes.btn}
                 >
-                    <CustomIcon variant="Creativity" size="medium" />
+                    <CustomIcon variant="creativity" size="medium" />
                 </ToggleButton>
 
                 <ToggleButton
@@ -76,7 +76,7 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
                     aria-label="intelligence"
                     className={classes.btn}
                 >
-                    <CustomIcon variant="Intelligence" size="medium" />
+                    <CustomIcon variant="intelligence" size="medium" />
                 </ToggleButton>
 
                 <ToggleButton
@@ -84,7 +84,7 @@ const ProjectStats = ({ index, projects, setBoosted }) => {
                     aria-label="fluency"
                     className={classes.btn}
                 >
-                    <CustomIcon variant="Fluency" size="medium" />
+                    <CustomIcon variant="fluency" size="medium" />
                 </ToggleButton>
             </ToggleButtonGroup>
         </div>

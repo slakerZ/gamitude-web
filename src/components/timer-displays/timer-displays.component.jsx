@@ -23,6 +23,7 @@ const TimerDisplays = ({ time }) => {
     const classes = useStyles();
 
     const leftPad = val => (val < 10 ? `0${val}` : `${val}`);
+
     return (
         <div className={classes.timerDisplays}>
             <div className={classes.hours}>{leftPad(time.get("hours"))}:</div>

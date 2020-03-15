@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import ProgressBar from "../progress-bar/progress-bar.component.jsx";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
+// Selectors
+import { selectStats } from "../../redux/stats/stats.selectors.js";
 
 const Stats = ({ stats }) => {
     const { strength, creativity, intelligence, fluency } = stats;
@@ -18,7 +20,6 @@ const Stats = ({ stats }) => {
             gridArea: "stats",
         },
     });
-
     const classes = useStyles();
 
     // TODO: Connect to API
@@ -26,20 +27,20 @@ const Stats = ({ stats }) => {
 
     return (
         <div className={classes.stats}>
-            <ProgressBar size="bar" variant="Strength" stat={strength} />
-            <ProgressBar size="bar" variant="Creativity" stat={creativity} />
+            <ProgressBar size="bar" variant="strength" stat={strength} />
+            <ProgressBar size="bar" variant="creativity" stat={creativity} />
             <ProgressBar
                 size="bar"
-                variant="Intelligence"
+                variant="intelligence"
                 stat={intelligence}
             />
-            <ProgressBar size="bar" variant="Fluency" stat={fluency} />
+            <ProgressBar size="bar" variant="fluency" stat={fluency} />
         </div>
     );
 };
 
 const mapStateToProps = state => ({
-    stats: state.stats,
+    stats: selectStats(state),
 });
 
 export default connect(mapStateToProps)(Stats);

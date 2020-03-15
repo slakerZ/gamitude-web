@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 // UI core
 import { makeStyles } from "@material-ui/core";
@@ -11,7 +11,6 @@ import Button from "@material-ui/core/Button";
 const SignUpComponent = () => {
     const useStyles = makeStyles({
         signUp: {
-            backgroundColor: "rgba(180, 192, 79, 0.5)",
             boxShadow: "5px 5px 10px #000000",
             padding: "2%",
             display: "flex",
@@ -24,6 +23,9 @@ const SignUpComponent = () => {
     });
     const classes = useStyles();
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     return (
         <div className={classes.signUp}>
             <Typography variant="h2" component="h2">
@@ -32,12 +34,20 @@ const SignUpComponent = () => {
 
             <FormControl>
                 <InputLabel>Email</InputLabel>
-                <Input type="email" />
+                <Input
+                    type="email"
+                    value={email}
+                    onChange={event => setEmail(event.target.value)}
+                />
             </FormControl>
 
             <FormControl>
                 <InputLabel>Password</InputLabel>
-                <Input type="password" />
+                <Input
+                    type="password"
+                    value={password}
+                    onChange={event => setPassword(event.target.value)}
+                />
             </FormControl>
 
             <FormControl>
@@ -45,7 +55,12 @@ const SignUpComponent = () => {
                 <Input type="password" />
             </FormControl>
 
-            <Button variant="contained" color="primary" size="large">
+            <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={event => console.log(email, password)}
+            >
                 Submit
             </Button>
         </div>

@@ -3,9 +3,6 @@ import { ProjectsActionTypes } from "./projects.types";
 
 const INITIAL_STATE = {
     projects: PROJECTS_DATA,
-    sessionInProgress: false,
-    breakInProgress: false,
-    sessionsComplete: 0,
 };
 
 const projectsReducer = (state = INITIAL_STATE, action) => {
@@ -40,22 +37,6 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 projects: tempProjects,
-            };
-
-        case ProjectsActionTypes.SET_BREAK_IN_PROGRESS:
-            return {
-                ...state,
-                breakInProgress: action.payload,
-            };
-        case ProjectsActionTypes.SET_SESSION_IN_PROGRESS:
-            return {
-                ...state,
-                sessionInProgress: action.payload,
-            };
-        case ProjectsActionTypes.SET_SESSIONS_COMPLETE:
-            return {
-                ...state,
-                sessionsComplete: action.payload,
             };
 
         case ProjectsActionTypes.ADD_PROJECT:

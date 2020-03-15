@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 // Actions
 import { setName, deleteProject } from "../../redux/projects/projects.actions";
+// Selectors
+import { selectSessionInProgress } from "../../redux/session/session.selectors";
+import { selectProjects } from "../../redux/projects/projects.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -18,24 +21,26 @@ import ProjectsStatsDominant from "../project-stats-dominant/project-stats-domin
 import ProjectStatus from "../project-status/project-status.component.jsx";
 
 const ProjectEdit = ({
-    name,
+    projects,
     index,
     sessionInProgress,
     setName,
     deleteProject,
 }) => {
-    const useStyles = makeStyles({
+    const name = projects[index].name;
+
+    const useStyles = makeStyles(theme => ({
         expansionPanel: {
             backgroundColor: "transparent",
         },
         expansionPanelSummary: {
-            backgroundColor: "rgba(74, 2, 89, 0.4)",
+            backgroundColor: theme.palette.secondary.main,
         },
         expansionPanelDetails: {
-            backgroundColor: "rgba(49, 0, 59, 0.4)",
+            backgroundColor: theme.palette.secondary.main,
             flexDirection: "column",
         },
-    });
+    }));
     const classes = useStyles();
 
     const [isExpanded, setIsExpanded] = React.useState(false);
@@ -53,6 +58,10 @@ const ProjectEdit = ({
         setIsExpanded(false);
         deleteProject(index);
     };
+
+    useEffect(() => {
+        setIsExpanded(false);
+    }, [sessionInProgress]);
 
     return (
         <ExpansionPanel
@@ -100,7 +109,8 @@ const ProjectEdit = ({
 };
 
 const mapStateToProps = state => ({
-    sessionInProgress: state.projects.sessionInProgress,
+    sessionInProgress: selectSessionInProgress(state),
+    projects: selectProjects(state),
 });
 
 const mapDispatchToProps = dispatch => ({

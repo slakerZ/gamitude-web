@@ -3,23 +3,63 @@ import { createMuiTheme } from "@material-ui/core/styles";
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: "rgba(78, 19, 112, 0.5)", // Smooth Purple
+            lighter: "rgba(125, 108, 135, 0.5)",
+            light: "rgba(104, 58, 131, 0.5)",
+            main: "rgba(78, 19, 112, 0.5)",
+            dark: "rgba(58, 3, 91, 0.5)",
+            darker: "rgba(38, 0, 60, 0.5)",
         },
         secondary: {
-            main: "rgba(168, 167, 20, 0.5)", // Smooth Gold-ish
+            lighter: "rgba(128, 105, 133, 0.5)",
+            light: "rgba(116, 55, 129, 0.5)",
+            main: "rgba(94, 15, 111, 0.5)",
+            dark: "rgba(74, 2, 89, 0.5)",
+            darker: "rgba(49, 0, 59, 0.5)",
         },
-        info: {
-            main: "rgba(94, 15, 111, 0.5)", // Radiant Purple
+        tertriary: {
+            lighter: "rgba(193, 197, 155, 0.5)",
+            light: "rgba(180, 192, 79, 0.5)",
+            main: "rgba(149, 165, 19, 0.5)",
+            dark: "rgba(119, 133, 0, 0.5)",
+            darker: "rgba(78, 87, 0, 0.5)",
         },
-        success: {
-            main: "rgba(149, 165, 19, 0.5)", // Dim Gold-ish
+        complement: {
+            lighter: "rgba(202, 201, 159, 0.5)",
+            light: "rgba(196, 195, 81, 0.5)",
+            main: "rgba(168, 167, 20, 0.5)",
+            dark: "rgba(136, 135, 0, 0.5)",
+            darker: "rgba(89, 89, 0, 0.5)",
         },
-        error: {
-            main: "#444444",
+        stats: {
+            strength: "rgba(153, 38, 20, .5)",
+            creativity: "rgba(35, 168, 44, .5)",
+            intelligence: "rgba(65, 139, 224, .5)",
+            fluency: "rgba(93, 38, 115, .5)",
         },
-        warning: {
-            main: "#444444",
+        tiers: {
+            s: "blue",
+            a: "green",
+            b: "lightgreen",
+            c: "yellow",
+            d: "orange",
+            f: "red",
         },
+    },
+    typography: {
+        fontFamily: [
+            "Roboto",
+            "-apple - system",
+            "BlinkMacSystemFont",
+            "Segoe UI",
+            "Oxygen",
+            "Ubuntu",
+            "Cantarell",
+            "Fira Sans",
+            "Droid Sans",
+            "Helvetica Neue",
+            "sans - serif",
+            "Atomic Age",
+        ].join(","),
     },
 });
 

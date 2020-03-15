@@ -1,23 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
 // Selectors
+import { selectProjects } from "../../redux/projects/projects.selectors";
 import {
-    selectProjects,
     selectBreakInProgress,
     selectSessionInProgress,
-} from "../../redux/projects/projects.selectors";
+    selectProjectsTab,
+} from "../../redux/session/session.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+
 // Components
 import Project from "../project/project.component.jsx";
-import ProjectTab from "../project-tab/project-tab.component.jsx";
+import MuiTab from "../mui-tab/mui-tab.component.jsx";
 import ProjectAdd from "../project-add/project-add.component.jsx";
-import CustomIcon from "../custom-icon/custom-icon.component.jsx";
+import ProjectBreakTimer from "../project-break-timer/project-break-timer.component.jsx";
+import ProjectsNav from "../projects-nav/projects-nav.component.jsx";
 
-const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
+const Projects = ({ projects, projectsTab }) => {
     const useStyles = makeStyles(theme => ({
         root: {
             flexGrow: 1,
@@ -30,65 +30,29 @@ const Projects = ({ projects, sessionInProgress, breakInProgress }) => {
             backgroundColor: "transparent",
         },
         tabs: {
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: theme.palette.tertriary.main,
             justifyContent: "center",
         },
     }));
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" className={classes.appBar}>
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    variant="fullWidth"
-                    indicatorColor="primary"
-                    textColor="primary"
-                    aria-label="simple tabs example"
-                    className={classes.tabs}
-                >
-                    <Tab
-                        icon={<CustomIcon variant="Active" size="medium" />}
-                        label="ACTIVE"
-                        className={classes.tab}
-                        disabled={sessionInProgress || breakInProgress}
-                    />
-                    <Tab
-                        icon={<CustomIcon variant="Paused" size="medium" />}
-                        label="PAUSED"
-                        disabled={sessionInProgress || breakInProgress}
-                    />
-                    <Tab
-                        icon={<CustomIcon variant="Done" size="medium" />}
-                        label="DONE"
-                        disabled={sessionInProgress || breakInProgress}
-                    />
-                </Tabs>
-            </AppBar>
+            <ProjectsNav />
 
             {projects.map(project => {
-                const { status, dominant, name, method } = project;
+                const { status } = project;
                 const index = projects.indexOf(project);
                 return (
-                    <ProjectTab key={index} value={value} currTab={status}>
-                        <Project
-                            // TODO change to the method that get's rid of drilling index down
-                            dominant={dominant}
-                            index={index}
-                            status={status}
-                            name={name}
-                            method={method}
-                        />
-                    </ProjectTab>
+                    <MuiTab key={index} value={projectsTab} currTab={status}>
+                        <Project index={index} />
+                    </MuiTab>
                 );
             })}
-            {value === 0 ? <ProjectAdd /> : null}
+
+            <ProjectBreakTimer />
+
+            {projectsTab === 0 ? <ProjectAdd /> : null}
         </div>
     );
 };
@@ -97,6 +61,7 @@ const mapStateToProps = state => ({
     projects: selectProjects(state),
     breakInProgress: selectBreakInProgress(state),
     sessionInProgress: selectSessionInProgress(state),
+    projectsTab: selectProjectsTab(state),
 });
 
 export default connect(mapStateToProps)(Projects);

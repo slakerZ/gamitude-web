@@ -10,11 +10,9 @@ const RankName = ({ rankName }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            boxShadow: "2px 2px 10px #000000",
             backgroundColor: "transparent",
         },
     });
-
     const classes = useStyles();
 
     return (

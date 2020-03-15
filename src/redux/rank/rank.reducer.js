@@ -1,7 +1,7 @@
 import RANKS_DATA from "./rank.data.js";
 
 const INITIAL_STATE = {
-    ranks: RANKS_DATA,
+    ...RANKS_DATA,
 };
 
 const rankReducer = (state = INITIAL_STATE, action) => {

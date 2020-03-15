@@ -2,6 +2,7 @@ import React from "react";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const LoadingScreen = () => {
     const useStyles = makeStyles({
@@ -29,6 +30,7 @@ const LoadingScreen = () => {
             <Typography variant="h5" component="h5">
                 Manage your <strong>Energy</strong> not your <em>Time</em>{" "}
             </Typography>
+            <CircularProgress />
         </div>
     );
 };

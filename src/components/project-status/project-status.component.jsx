@@ -10,6 +10,7 @@ const ProjectStatus = ({ index, destination, setStatus }) => {
     const handleStatus = status => {
         setStatus({ index: index, status: status });
     };
+
     return (
         <Button onClick={() => handleStatus(destination)} variant="outlined">
             <Typography component="h6" variant="h6">

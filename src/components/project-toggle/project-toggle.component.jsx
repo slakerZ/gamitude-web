@@ -3,27 +3,29 @@ import { connect } from "react-redux";
 // Actions
 import { setMethod } from "../../redux/projects/projects.actions";
 // Selectors
-import { selectSessionInProgress } from "../../redux/projects/projects.selectors";
+import { selectSessionInProgress } from "../../redux/session/session.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 // UI lab
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { selectProjects } from "../../redux/projects/projects.selectors";
 
-const useStyles = makeStyles(theme => ({
-    toggleContainer: {
-        margin: theme.spacing(2, 0),
-    },
-}));
+const ProjectToggle = ({ index, projects, setMethod, sessionInProgress }) => {
+    const method = projects[index].method;
 
-const ProjectsToggle = ({ index, method, setMethod, sessionInProgress }) => {
+    const useStyles = makeStyles(theme => ({
+        toggleContainer: {
+            margin: theme.spacing(2, 0),
+        },
+    }));
+    const classes = useStyles();
+
     const handleMethod = (event, newMethod) => {
         newMethod = newMethod || method;
         setMethod({ index: index, method: newMethod });
     };
-
-    const classes = useStyles();
 
     return (
         <div className={classes.toggleContainer}>
@@ -58,10 +60,11 @@ const ProjectsToggle = ({ index, method, setMethod, sessionInProgress }) => {
 
 const mapStateToProps = state => ({
     sessionInProgress: selectSessionInProgress(state),
+    projects: selectProjects(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     setMethod: value => dispatch(setMethod(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectsToggle);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectToggle);
