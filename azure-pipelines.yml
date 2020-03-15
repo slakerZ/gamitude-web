@@ -3,13 +3,13 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 resources:
-	- repo: self
-			fetchDepth: 1
-	queue:
-			name: Hosted Ubuntu 1604
+- repo: self
+	fetchDepth: 1
+queue:
+	name: Hosted Ubuntu 1604
 
 trigger:
-	- testing
+- testing
 variables:
 	DockerImageName: 'gentle-ally-270120/front'
 pool:
