@@ -7,7 +7,7 @@ queue:
   name: Hosted Ubuntu 1604
 
 trigger:
-- testing
+- master
 variables:
   DockerImageName: 'gentle-ally-270120/front'
 
