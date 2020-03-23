@@ -30,18 +30,18 @@ const SignInComponent = ({ setUser }) => {
     const [password, setPassword] = useState("");
 
     const handleSubmission = async event => {
-        // REMEMBER TO CHANGE BEFORE MERGING
-        const url =
-            process.env.NODE_ENV !== "development"
-                ? "http://localhost:5020/api/auth/Authorization/Login"
-                : "http://gamitude.rocks:31777/api/auth/Authorization/Login";
+        // Uncomment when handled local db and stuff
+        // const url =
+        //     process.env.NODE_ENV !== "development"
+        //         ? "http://localhost:5020/api/auth/Authorization/Login"
+        //         : "http://gamitude.rocks:31777/api/auth/Authorization/Login";
+        const url = "http://gamitude.rocks:31777/api/auth/Authorization/Login";
         axios
             .post(url, {
                 Email: email,
                 Password: password,
             })
             .then(function(response) {
-                console.log(response);
                 setUser(response.data);
             })
             .catch(function(error) {

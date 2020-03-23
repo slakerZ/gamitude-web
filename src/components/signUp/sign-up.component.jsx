@@ -30,11 +30,13 @@ const SignUpComponent = ({ setUser }) => {
     const [password, setPassword] = useState("");
 
     const handleSubmission = async event => {
-        // REMEMBER TO CHANGE BEFORE MERGING
+        // Uncomment when handled local db
+        // const url =
+        //     process.env.NODE_ENV !== "development"
+        //         ? "http://localhost:5020/api/auth/Authorization/Register"
+        //         : "http://gamitude.rocks:31777/api/auth/Authorization/Register";
         const url =
-            process.env.NODE_ENV !== "development"
-                ? "http://localhost:5020/api/auth/Authorization/Register"
-                : "http://gamitude.rocks:31777/api/auth/Authorization/Register";
+            "http://gamitude.rocks:31777/api/auth/Authorization/Register";
         axios
             .post(url, {
                 Name: "Janusz Koran Mekka",
@@ -42,7 +44,6 @@ const SignUpComponent = ({ setUser }) => {
                 Password: password,
             })
             .then(function(response) {
-                console.log(response);
                 setUser(response.data);
             })
             .catch(function(error) {
