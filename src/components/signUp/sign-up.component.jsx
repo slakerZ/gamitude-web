@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import axios from "axios";
+// Actions
+import { setUser } from "../../redux/user/user.actions";
 // UI core
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
@@ -8,7 +11,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 
-const SignUpComponent = () => {
+const SignUpComponent = ({ setUser }) => {
     const useStyles = makeStyles({
         signUp: {
             boxShadow: "5px 5px 10px #000000",
@@ -25,6 +28,27 @@ const SignUpComponent = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const handleSubmission = async event => {
+        // REMEMBER TO CHANGE BEFORE MERGING
+        const url =
+            process.env.NODE_ENV !== "development"
+                ? "http://localhost:5020/api/auth/Authorization/Register"
+                : "http://gamitude.rocks:31777/api/auth/Authorization/Register";
+        axios
+            .post(url, {
+                Name: "Janusz Koran Mekka",
+                Email: email,
+                Password: password,
+            })
+            .then(function(response) {
+                console.log(response);
+                setUser(response.data);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    };
 
     return (
         <div className={classes.signUp}>
@@ -59,7 +83,7 @@ const SignUpComponent = () => {
                 variant="contained"
                 color="primary"
                 size="large"
-                onClick={event => console.log(email, password)}
+                onClick={handleSubmission}
             >
                 Submit
             </Button>
@@ -67,4 +91,8 @@ const SignUpComponent = () => {
     );
 };
 
-export const SignUp = connect()(SignUpComponent);
+const mapDispatchToProps = dispatch => ({
+    setUser: user => dispatch(setUser(user)),
+});
+
+export const SignUp = connect(null, mapDispatchToProps)(SignUpComponent);
