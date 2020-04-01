@@ -49,7 +49,6 @@ const Projects = ({ projects, projectsTab, setProjects, token }) => {
                 },
             })
             .then(response => {
-                console.log(response.data);
                 const parsedProjects = response.data.map(project => {
                     return {
                         id: project.id,
@@ -70,6 +69,8 @@ const Projects = ({ projects, projectsTab, setProjects, token }) => {
         switch (primaryMethod) {
             case "POMODORO":
                 return 25;
+            default:
+                return 25;
         }
     };
 
@@ -81,6 +82,8 @@ const Projects = ({ projects, projectsTab, setProjects, token }) => {
                 return 1;
             case "DONE":
                 return 2;
+            default:
+                return 0;
         }
     };
 

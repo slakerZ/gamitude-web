@@ -45,6 +45,7 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
 
         case ProjectsActionTypes.ADD_PROJECT:
             tempProjects.push({
+                id: action.payload,
                 name: "New Project",
                 method: 25,
                 status: 0,

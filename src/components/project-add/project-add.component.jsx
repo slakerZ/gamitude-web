@@ -27,7 +27,7 @@ const ProjectAdd = ({ addProject, token }) => {
     const handleAdd = () => {
         // TODO makes to to pop some modal and don't just post defaults
         // Fields names vary, arguments also vary need translation method
-        addProject();
+
         const url = "http://gamitude.rocks:31778/api/pro/Projects";
         const data = {
             Name: "New Project",
@@ -43,7 +43,7 @@ const ProjectAdd = ({ addProject, token }) => {
             },
         };
         axios.post(url, data, headers).then(response => {
-            console.log(response.data);
+            addProject(response.data.id);
         });
     };
 
@@ -64,7 +64,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    addProject: () => dispatch(addProject()),
+    addProject: value => dispatch(addProject(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectAdd);

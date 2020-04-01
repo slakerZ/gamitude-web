@@ -30,8 +30,9 @@ export const setStatus = ({ index, status }) => ({
     index: index,
 });
 
-export const addProject = () => ({
+export const addProject = payload => ({
     type: ProjectsActionTypes.ADD_PROJECT,
+    payload: payload,
 });
 
 export const deleteProject = index => ({

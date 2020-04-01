@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import axios from "axios";
 // Actions
 import { setName, deleteProject } from "../../redux/projects/projects.actions";
 // Selectors
+import { selectToken } from "../../redux/user/user.selectors";
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 // UI core
@@ -26,8 +28,14 @@ const ProjectEdit = ({
     sessionInProgress,
     setName,
     deleteProject,
+    token,
 }) => {
     const name = projects[index].name;
+    const id = projects[index].id;
+    const method = projects[index].method;
+    const status = projects[index].status;
+    const boosted = projects[index].boosted;
+    const dominant = projects[index].dominant;
 
     const useStyles = makeStyles(theme => ({
         expansionPanel: {
@@ -45,23 +53,70 @@ const ProjectEdit = ({
 
     const [isExpanded, setIsExpanded] = React.useState(false);
 
+    useEffect(() => {
+        setIsExpanded(false);
+    }, [sessionInProgress]);
+
     const handleChange = event => {
         setName({ index: index, name: event.target.value });
     };
 
     const handleSave = () => {
-        //TODO: Add proper API call
+        const url = `http://gamitude.rocks:31778/api/pro/Projects/${id}`;
+        const data = {
+            Name: name,
+            PrimaryMethod: mapMethodToPrimaryMethod(method),
+            ProjectStatus: mapStatusToProjectStatus(status),
+            Stats: mapBoostedToStats(boosted),
+            DominantStat: mapDominantToDominantStat(dominant),
+        };
+        const headers = {
+            headers: {
+                Authorization: "Bearer " + token,
+                "Content-Type": "application/json",
+            },
+        };
+        axios.put(url, data, headers).then(response => {
+            console.log(response.data);
+        });
         setIsExpanded(false);
     };
 
     const handleDeletion = () => {
+        // Api call
         setIsExpanded(false);
         deleteProject(index);
     };
 
-    useEffect(() => {
-        setIsExpanded(false);
-    }, [sessionInProgress]);
+    const mapMethodToPrimaryMethod = method => {
+        switch (method) {
+            case 25:
+                return "POMODORO";
+            default:
+                return "POMODORO";
+        }
+    };
+    const mapStatusToProjectStatus = status => {
+        switch (status) {
+            case 0:
+                return "ACTIVE";
+            case 1:
+                return "PAUSED";
+            case 2:
+                return "DONE";
+            default:
+                return "ACTIVE";
+        }
+    };
+    const mapBoostedToStats = boosted => {
+        return boosted.map(stat => {
+            return stat.toUpperCase();
+        });
+    };
+
+    const mapDominantToDominantStat = dominant => {
+        return dominant.toUpperCase();
+    };
 
     return (
         <ExpansionPanel
@@ -98,7 +153,7 @@ const ProjectEdit = ({
                         Delete Project
                     </Typography>
                 </Button>
-                <Button onClick={() => handleSave()} variant="outlined">
+                <Button onClick={handleSave} variant="outlined">
                     <Typography component="h6" variant="h6">
                         Save
                     </Typography>
@@ -111,6 +166,7 @@ const ProjectEdit = ({
 const mapStateToProps = state => ({
     sessionInProgress: selectSessionInProgress(state),
     projects: selectProjects(state),
+    token: selectToken(state),
 });
 
 const mapDispatchToProps = dispatch => ({
