@@ -12,9 +12,9 @@ import {
     selectSessionInProgress,
     selectBreakInProgress,
 } from "../../redux/session/session.selectors.js";
-import { selectUser } from "../../redux/user/user.selectors.js";
+import { selectToken } from "../../redux/user/user.selectors.js";
 
-const Navigation = ({ sessionInProgress, breakInProgress, user }) => {
+const Navigation = ({ sessionInProgress, breakInProgress, token }) => {
     const useStyles = makeStyles(theme => ({
         tabs: {
             backgroundColor: theme.palette.tertriary.main,
@@ -54,7 +54,7 @@ const Navigation = ({ sessionInProgress, breakInProgress, user }) => {
                 label="Bullet Journal"
                 disabled={sessionInProgress || breakInProgress}
             />
-            {user ? (
+            {token ? (
                 <Tab
                     icon={<CustomIcon size="large" variant="profile" />}
                     component={Link}
@@ -78,7 +78,7 @@ const Navigation = ({ sessionInProgress, breakInProgress, user }) => {
 const mapStateToProps = state => ({
     sessionInProgress: selectSessionInProgress(state),
     breakInProgress: selectBreakInProgress(state),
-    user: selectUser(state),
+    token: selectToken(state),
 });
 
 export default connect(mapStateToProps)(Navigation);

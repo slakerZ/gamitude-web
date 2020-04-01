@@ -15,8 +15,8 @@ const persistConfig = {
     storage,
     whitelist:
         process.env.NODE_ENV === "development"
-            ? []
-            : ["projects", "stats", "energies"],
+            ? ["user"]
+            : ["user", "projects", "stats", "energies"],
 };
 
 const rootReducer = combineReducers({

@@ -38,3 +38,8 @@ export const deleteProject = index => ({
     type: ProjectsActionTypes.DELETE_PROJECT,
     index: index,
 });
+
+export const setProjects = value => ({
+    type: ProjectsActionTypes.SET_PROJECTS,
+    payload: value,
+});
