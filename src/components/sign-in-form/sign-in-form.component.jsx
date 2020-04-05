@@ -1,10 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import { useAsyncFn } from "react-use";
 // Actions
 import { setUser } from "../../redux/user/user.actions";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
 // Forms
 import { Formik, Form } from "formik";
 import { SignInSchema, initialValues, fields } from "./sign-in-schema";
@@ -14,7 +17,7 @@ import SignInUpHeader from "../sign-in-up-header/sign-in-up-header.component.jsx
 import SignInUpSubmit from "../sign-in-up-submit/sign-in-up-submit.component.jsx";
 import SignInUpSwitch from "../sign-in-up-switch/sign-in-up-switch.component.jsx";
 
-const SignInForm = () => {
+const SignInForm = ({ setUser }) => {
     const useStyles = makeStyles(theme => ({
         root: {
             margin: theme.spacing(8, 4),
@@ -29,34 +32,38 @@ const SignInForm = () => {
             display: "flex",
             flexDirection: "column",
         },
+        progress: {
+            alignSelf: "center",
+        },
+        error: {
+            color: "red",
+            textAlign: "center",
+        },
     }));
     const classes = useStyles();
 
-    const handleSubmit = values => {
-        // Uncomment when handled local db and stuff
-        // const url =
-        //     process.env.NODE_ENV !== "development"
-        //         ? "http://localhost:5020/api/auth/Authorization/Login"
-        //         : "http://gamitude.rocks:31777/api/auth/Authorization/Login";
-        const url = "http://gamitude.rocks:31777/api/auth/Authorization/Login";
-        axios
-            .post(url, {
+    const url =
+        process.env.NODE_ENV !== "development"
+            ? "http://localhost:5020/api/auth/Authorization/Login"
+            : "http://gamitude.rocks:31777/api/auth/Authorization/Login";
+    const [state, submit] = useAsyncFn(
+        async values => {
+            const response = await axios.post(url, {
                 Email: values.email,
                 Password: values.password,
-            })
-            .then(function(response) {
-                setUser(response.data);
-            })
-            .catch(function(error) {
-                console.log(error);
             });
-    };
+            const data = await response.data;
+            setUser(data);
+            return data;
+        },
+        [url]
+    );
 
     return (
         <div className={classes.root}>
             <Formik
                 initialValues={initialValues}
-                onSubmit={handleSubmit}
+                onSubmit={submit}
                 validationSchema={SignInSchema}
             >
                 {({ dirty, isValid }) => {
@@ -77,7 +84,21 @@ const SignInForm = () => {
                                 text="Sign In"
                                 dirty={dirty}
                                 isValid={isValid}
+                                loading={state.loading}
                             />
+                            {state.loading ? (
+                                <CircularProgress
+                                    className={classes.progress}
+                                />
+                            ) : state.error ? (
+                                <Typography
+                                    variant="h3"
+                                    component="h3"
+                                    className={classes.error}
+                                >
+                                    Error
+                                </Typography>
+                            ) : null}
                         </Form>
                     );
                 }}

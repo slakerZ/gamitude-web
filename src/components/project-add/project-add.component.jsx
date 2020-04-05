@@ -26,7 +26,6 @@ const ProjectAdd = ({ addProject, token }) => {
 
     const handleAdd = () => {
         // TODO makes to to pop some modal and don't just post defaults
-        // Fields names vary, arguments also vary need translation method
 
         const url = "http://gamitude.rocks:31778/api/pro/Projects";
         const data = {

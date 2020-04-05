@@ -1,10 +1,10 @@
 import React from "react";
-import { connect } from "react-redux";
 import axios from "axios";
-// Actions
-import { setUser } from "../../redux/user/user.actions";
+import { useAsyncFn } from "react-use";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
 // Forms
 import { Formik, Form } from "formik";
 import { SignUpSchema, initialValues, fields } from "./sign-up-schema";
@@ -30,42 +30,44 @@ const SignUpForm = () => {
             display: "flex",
             flexDirection: "column",
         },
+        progress: {
+            alignSelf: "center",
+        },
+        error: {
+            color: "red",
+            textAlign: "center",
+        },
     }));
     const classes = useStyles();
 
-    const handleSubmit = values => {
-        // Uncomment when handled local db
-        // const url =
-        //     process.env.NODE_ENV !== "development"
-        //         ? "http://localhost:5020/api/auth/Authorization/Register"
-        //         : "http://gamitude.rocks:31777/api/auth/Authorization/Register";
-        const url =
-            "http://gamitude.rocks:31777/api/auth/Authorization/Register";
-        axios
-            .post(url, {
+    const url =
+        process.env.NODE_ENV !== "development"
+            ? "http://localhost:5020/api/auth/Authorization/Register"
+            : "http://gamitude.rocks:31777/api/auth/Authorization/Register";
+    const [state, submit] = useAsyncFn(
+        async values => {
+            const response = await axios.post(url, {
                 Name: values.username,
                 Email: values.email,
                 Password: values.password,
-            })
-            .then(function(response) {
-                setUser(response.data);
-            })
-            .catch(function(error) {
-                console.log(error);
             });
-    };
+            const data = await response.data;
+            return data;
+        },
+        [url]
+    );
 
     return (
         <div className={classes.root}>
-            <SignInUpHeader text="Sign Up" />
             <Formik
                 initialValues={initialValues}
-                onSubmit={handleSubmit}
+                onSubmit={submit}
                 validationSchema={SignUpSchema}
             >
                 {({ dirty, isValid }) => {
                     return (
                         <Form autoComplete="off" className={classes.form}>
+                            <SignInUpHeader text="Sign Up" />
                             <FormikField
                                 label={fields[0].label}
                                 name={fields[0].name}
@@ -84,7 +86,21 @@ const SignUpForm = () => {
                                 text="Sign Up"
                                 isValid={isValid}
                                 dirty={dirty}
+                                loading={state.loading}
                             />
+                            {state.loading ? (
+                                <CircularProgress
+                                    className={classes.progress}
+                                />
+                            ) : state.error ? (
+                                <Typography
+                                    variant="h3"
+                                    component="h3"
+                                    className={classes.error}
+                                >
+                                    Error
+                                </Typography>
+                            ) : null}
                         </Form>
                     );
                 }}
@@ -94,8 +110,4 @@ const SignUpForm = () => {
     );
 };
 
-const mapDispatchToProps = dispatch => ({
-    setUser: user => dispatch(setUser(user)),
-});
-
-export default connect(null, mapDispatchToProps)(SignUpForm);
+export default SignUpForm;
