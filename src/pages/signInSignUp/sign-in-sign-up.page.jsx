@@ -2,28 +2,43 @@ import React from "react";
 // UI core
 import { makeStyles } from "@material-ui/core";
 // Components
-import { SignIn } from "../../components/signIn/sign-in.component.jsx";
-import { SignUp } from "../../components/signUp/sign-up.component.jsx";
+import SignIn from "../../components/sign-in/sign-in.component.jsx";
+import SignUp from "../../components/sign-up/sign-up.component.jsx";
+// Context
+import {
+    SignInUpContext,
+    SignInUpProvider,
+} from "../../pages/signInSignUp/sign-in-sign-up.context";
 
 const SignInSignUpPage = () => {
     const useStyles = makeStyles({
-        SignInSignUp: {
+        root: {
+            position: "fixed",
             width: "100vw",
-            height: "87vh",
+            height: "100vh",
             display: "flex",
-            justifyContent: "space-around",
-            alignContent: "space-around",
-            flexWrap: "wrap",
-            padding: "2%",
+            justifyContent: "center",
+        },
+        switch: {
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            zIndex: 200,
         },
     });
     const classes = useStyles();
 
     return (
-        <div className={classes.SignInSignUp}>
-            <SignUp />
-            <SignIn />
-        </div>
+        <SignInUpProvider>
+            <SignInUpContext.Consumer>
+                {context => (
+                    <div className={classes.SignInSignUp}>
+                        <SignUp checked={!context.data} />
+                        <SignIn checked={context.data} />
+                    </div>
+                )}
+            </SignInUpContext.Consumer>
+        </SignInUpProvider>
     );
 };
 
