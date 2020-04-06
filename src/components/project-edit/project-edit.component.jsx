@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-// import { useAsyncFn } from "react-use";
+import { useAsyncFn } from "react-use";
 // Api
 import { url, headers, request_body } from "./project-edit.api";
 // Actions
-import { setName, deleteProject } from "../../redux/projects/projects.actions";
+import { setName } from "../../redux/projects/projects.actions";
 // Selectors
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
@@ -14,31 +14,26 @@ import { selectProjects } from "../../redux/projects/projects.selectors";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-// UI icons
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 // Components
 import ProjectStats from "../project-stats/project-stats.component.jsx";
 import ProjectsStatsDominant from "../project-stats-dominant/project-stats-dominant.component.jsx";
 import ProjectStatus from "../project-status/project-status.component.jsx";
+import BackendFeedback from "../backend-feedback/backend-feedback.component.jsx";
+import ProjectEditDelete from "../project-edit-delete/project-edit-delete.component.jsx";
+import ProjectEditHeader from "../project-edit-header/project-edit-header.component.jsx";
+import ProjectEditName from "../project-edit-name/project-edit-name.component.jsx";
 
 const ProjectEdit = ({
     projects,
     index,
     sessionInProgress,
     setName,
-    deleteProject,
     token,
 }) => {
     const name = projects[index].name;
-    const id = projects[index].id;
-    const method = projects[index].method;
-    const status = projects[index].status;
-    const boosted = projects[index].boosted;
-    const dominant = projects[index].dominant;
 
     const useStyles = makeStyles(theme => ({
         expansionPanel: {
@@ -60,35 +55,30 @@ const ProjectEdit = ({
         setIsExpanded(false);
     }, [sessionInProgress]);
 
-    const handleChange = event => {
-        setName({ index: index, name: event.target.value });
-    };
+    // const handleChange = event => {
+    //     setName({ index: index, name: event.target.value });
+    // };
 
-    // const [state, submit] = useAsyncFn(async () => {
-    //     const response = await axios.put(
-    //         url(id),
-    //         request_body(name, method, status, boosted, dominant),
-    //         headers(token)
-    //     );
-    //     const data = await response.data;
-    //     setIsExpanded(false);
-    //     return data;
-    // }, [url]);
+    const [state, submit] = useAsyncFn(async () => {
+        // Async wasn't seeing updated versions
+        const name = projects[index].name;
+        const id = projects[index].id;
+        const method = projects[index].method;
+        const status = projects[index].status;
+        const boosted = projects[index].boosted;
+        const dominant = projects[index].dominant;
 
-    const handleSubmit = () => {
-        axios.put(
+        const response = await axios.put(
             url(id),
             request_body(name, method, status, boosted, dominant),
             headers(token)
         );
-        setIsExpanded(false);
-    };
-
-    const handleDeletion = () => {
-        // Api call
-        setIsExpanded(false);
-        deleteProject(index);
-    };
+        const data = await response.data;
+        if (data) {
+            setIsExpanded(false);
+        }
+        return data;
+    }, [url]);
 
     return (
         <ExpansionPanel
@@ -98,38 +88,34 @@ const ProjectEdit = ({
             expanded={isExpanded}
             onChange={(e, expanded) => setIsExpanded(expanded)}
         >
-            <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                className={classes.expansionPanelSummary}
-            >
-                <Typography component="h4" variant="h4">
-                    Edit Project
-                </Typography>
-            </ExpansionPanelSummary>
+            <ProjectEditHeader />
 
             <ExpansionPanelDetails className={classes.expansionPanelDetails}>
-                <TextField
-                    label="PROJECT NAME"
-                    variant="outlined"
-                    value={name}
-                    onChange={handleChange}
-                />
+                <ProjectEditName index={index} />
 
                 <ProjectStats index={index} />
                 <ProjectsStatsDominant index={index} />
 
                 <ProjectStatus index={index} destination={1} />
                 <ProjectStatus index={index} destination={2} />
-                <Button onClick={() => handleDeletion()} variant="contained">
-                    <Typography component="h6" variant="h6">
-                        Delete Project
-                    </Typography>
-                </Button>
-                <Button onClick={handleSubmit} variant="outlined">
+                <ProjectEditDelete
+                    index={index}
+                    setIsExpanded={setIsExpanded}
+                />
+
+                <Button onClick={submit} variant="outlined">
                     <Typography component="h6" variant="h6">
                         Save
                     </Typography>
                 </Button>
+
+                <BackendFeedback
+                    loading={state.loading}
+                    error={state.error}
+                    value={state.value}
+                    errorMessage={"Couldn't save"}
+                    successMessage={""}
+                />
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );
@@ -143,7 +129,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     setName: value => dispatch(setName(value)),
-    deleteProject: value => dispatch(deleteProject(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectEdit);
