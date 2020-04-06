@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+// import { useAsyncFn } from "react-use";
+// Api
+import { url, headers, request_body } from "./project-edit.api";
 // Actions
 import { setName, deleteProject } from "../../redux/projects/projects.actions";
 // Selectors
@@ -61,24 +64,23 @@ const ProjectEdit = ({
         setName({ index: index, name: event.target.value });
     };
 
-    const handleSave = () => {
-        const url = `http://gamitude.rocks:31778/api/pro/Projects/${id}`;
-        const data = {
-            Name: name,
-            PrimaryMethod: mapMethodToPrimaryMethod(method),
-            ProjectStatus: mapStatusToProjectStatus(status),
-            Stats: mapBoostedToStats(boosted),
-            DominantStat: mapDominantToDominantStat(dominant),
-        };
-        const headers = {
-            headers: {
-                Authorization: "Bearer " + token,
-                "Content-Type": "application/json",
-            },
-        };
-        axios.put(url, data, headers).then(response => {
-            console.log(response.data);
-        });
+    // const [state, submit] = useAsyncFn(async () => {
+    //     const response = await axios.put(
+    //         url(id),
+    //         request_body(name, method, status, boosted, dominant),
+    //         headers(token)
+    //     );
+    //     const data = await response.data;
+    //     setIsExpanded(false);
+    //     return data;
+    // }, [url]);
+
+    const handleSubmit = () => {
+        axios.put(
+            url(id),
+            request_body(name, method, status, boosted, dominant),
+            headers(token)
+        );
         setIsExpanded(false);
     };
 
@@ -86,36 +88,6 @@ const ProjectEdit = ({
         // Api call
         setIsExpanded(false);
         deleteProject(index);
-    };
-
-    const mapMethodToPrimaryMethod = method => {
-        switch (method) {
-            case 25:
-                return "POMODORO";
-            default:
-                return "POMODORO";
-        }
-    };
-    const mapStatusToProjectStatus = status => {
-        switch (status) {
-            case 0:
-                return "ACTIVE";
-            case 1:
-                return "PAUSED";
-            case 2:
-                return "DONE";
-            default:
-                return "ACTIVE";
-        }
-    };
-    const mapBoostedToStats = boosted => {
-        return boosted.map(stat => {
-            return stat.toUpperCase();
-        });
-    };
-
-    const mapDominantToDominantStat = dominant => {
-        return dominant.toUpperCase();
     };
 
     return (
@@ -153,7 +125,7 @@ const ProjectEdit = ({
                         Delete Project
                     </Typography>
                 </Button>
-                <Button onClick={handleSave} variant="outlined">
+                <Button onClick={handleSubmit} variant="outlined">
                     <Typography component="h6" variant="h6">
                         Save
                     </Typography>

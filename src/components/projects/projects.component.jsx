@@ -73,6 +73,8 @@ const Projects = ({ projects, projectsTab, setProjects, token }) => {
         switch (primaryMethod) {
             case "POMODORO":
                 return 25;
+            case "NINETY":
+                return 90;
             default:
                 return 25;
         }
