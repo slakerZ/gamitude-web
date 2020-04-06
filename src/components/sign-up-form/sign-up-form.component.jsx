@@ -29,18 +29,11 @@ const SignUpForm = () => {
             display: "flex",
             flexDirection: "column",
         },
-        progress: {
-            alignSelf: "center",
-        },
-        error: {
-            color: "red",
-            textAlign: "center",
-        },
     }));
     const classes = useStyles();
 
     const url =
-        process.env.NODE_ENV !== "development"
+        process.env.NODE_ENV === "development"
             ? "http://localhost:5020/api/auth/Authorization/Register"
             : "http://gamitude.rocks:31777/api/auth/Authorization/Register";
     const [state, submit] = useAsyncFn(

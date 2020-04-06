@@ -1,15 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import { useAsyncFn } from "react-use";
 // Actions
 import { addProject } from "../../redux/projects/projects.actions";
 // Selectors
 import { selectToken } from "../../redux/user/user.selectors";
 // UI icons
 import AddIcon from "@material-ui/icons/Add";
+import CachedIcon from "@material-ui/icons/Cached";
 // UI core
 import { makeStyles } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ProjectAdd = ({ addProject, token }) => {
     const useStyles = makeStyles(theme => ({
@@ -24,36 +27,45 @@ const ProjectAdd = ({ addProject, token }) => {
     }));
     const classes = useStyles();
 
-    const handleAdd = () => {
-        // TODO makes to to pop some modal and don't just post defaults
-
-        const url = "http://gamitude.rocks:31778/api/pro/Projects";
-        const data = {
-            Name: "New Project",
-            PrimaryMethod: "POMODORO",
-            ProjectStatus: "ACTIVE",
-            Stats: ["INTELLIGENCE"],
-            DominantStat: "INTELLIGENCE",
-        };
+    const url =
+        process.env.NODE_ENV === "development"
+            ? "http://localhost:5010/api/pro/Projects"
+            : "http://gamitude.rocks:31778/api/pro/Projects";
+    const [state, submit] = useAsyncFn(async () => {
         const headers = {
             headers: {
                 Authorization: "Bearer " + token,
                 "Content-Type": "application/json",
             },
         };
-        axios.post(url, data, headers).then(response => {
-            addProject(response.data.id);
-        });
-    };
+        const request_data = {
+            Name: "New Project",
+            PrimaryMethod: "POMODORO",
+            ProjectStatus: "ACTIVE",
+            Stats: ["INTELLIGENCE"],
+            DominantStat: "INTELLIGENCE",
+        };
+        const response = await axios.post(url, request_data, headers);
+        const data = await response.data;
+        addProject(response.data.id);
+        return data;
+    }, [url]);
 
     return (
         <Fab
             color="secondary"
             aria-label="add"
             className={classes.add}
-            onClick={handleAdd}
+            onClick={submit}
+            disabled={state.loading}
         >
-            <AddIcon />
+            {state.loading ? (
+                <CircularProgress />
+            ) : state.error ? (
+                <CachedIcon />
+            ) : (
+                <AddIcon />
+            )}
         </Fab>
     );
 };

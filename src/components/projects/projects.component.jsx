@@ -41,7 +41,11 @@ const Projects = ({ projects, projectsTab, setProjects, token }) => {
     const classes = useStyles();
 
     useEffectOnce(() => {
-        const url = "http://gamitude.rocks:31778/api/pro/Projects";
+        const url =
+            process.env.NODE_ENV === "development"
+                ? "http://localhost:5010/api/pro/Projects"
+                : "http://gamitude.rocks:31778/api/pro/Projects";
+
         axios
             .get(url, {
                 headers: {

@@ -14,7 +14,7 @@ const BulletJournalPage = lazy(() =>
     import("./pages/bullet-journal/bullet-journal.page.jsx")
 );
 const SignInSignUpPage = lazy(() =>
-    import("./pages/signInSignUp/sign-in-sign-up.page.jsx")
+    import("./pages/sign-in-sign-up/sign-in-sign-up.page.jsx")
 );
 const ProfilePage = lazy(() => import("./pages/profile/profile.page.jsx"));
 

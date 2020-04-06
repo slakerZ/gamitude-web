@@ -36,7 +36,7 @@ const SignInForm = ({ setUser }) => {
     const classes = useStyles();
 
     const url =
-        process.env.NODE_ENV !== "development"
+        process.env.NODE_ENV === "development"
             ? "http://localhost:5020/api/auth/Authorization/Login"
             : "http://gamitude.rocks:31777/api/auth/Authorization/Login";
     const [state, submit] = useAsyncFn(
