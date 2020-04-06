@@ -3,8 +3,6 @@ import axios from "axios";
 import { useAsyncFn } from "react-use";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Typography from "@material-ui/core/Typography";
 // Forms
 import { Formik, Form } from "formik";
 import { SignUpSchema, initialValues, fields } from "./sign-up-schema";
@@ -14,6 +12,7 @@ import SignInUpHeader from "../sign-in-up-header/sign-in-up-header.component.jsx
 import SignInUpSubmit from "../sign-in-up-submit/sign-in-up-submit.component.jsx";
 import SignInUpGroup from "../sign-in-up-group/sign-in-up-group.component.jsx";
 import SignInUpSwitch from "../sign-in-up-switch/sign-in-up-switch.component.jsx";
+import BackendFeedback from "../backend-feedback/backend-feedback.component.jsx";
 
 const SignUpForm = () => {
     const useStyles = makeStyles(theme => ({
@@ -88,19 +87,13 @@ const SignUpForm = () => {
                                 dirty={dirty}
                                 loading={state.loading}
                             />
-                            {state.loading ? (
-                                <CircularProgress
-                                    className={classes.progress}
-                                />
-                            ) : state.error ? (
-                                <Typography
-                                    variant="h3"
-                                    component="h3"
-                                    className={classes.error}
-                                >
-                                    Error
-                                </Typography>
-                            ) : null}
+                            <BackendFeedback
+                                loading={state.loading}
+                                error={state.error}
+                                value={state.value}
+                                errorMessage={"Failed to Register"}
+                                successMessage={"Successfully Registered"}
+                            />
                         </Form>
                     );
                 }}

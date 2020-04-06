@@ -1,13 +1,12 @@
 import React from "react";
-import { connect } from "react-redux";
 import axios from "axios";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { useAsyncFn } from "react-use";
 // Actions
 import { setUser } from "../../redux/user/user.actions";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
 // Forms
 import { Formik, Form } from "formik";
 import { SignInSchema, initialValues, fields } from "./sign-in-schema";
@@ -16,6 +15,7 @@ import FormikField from "../formik-field/formik-field.component.jsx";
 import SignInUpHeader from "../sign-in-up-header/sign-in-up-header.component.jsx";
 import SignInUpSubmit from "../sign-in-up-submit/sign-in-up-submit.component.jsx";
 import SignInUpSwitch from "../sign-in-up-switch/sign-in-up-switch.component.jsx";
+import BackendFeedback from "../backend-feedback/backend-feedback.component.jsx";
 
 const SignInForm = ({ setUser }) => {
     const useStyles = makeStyles(theme => ({
@@ -31,13 +31,6 @@ const SignInForm = ({ setUser }) => {
             margin: theme.spacing(0, 10),
             display: "flex",
             flexDirection: "column",
-        },
-        progress: {
-            alignSelf: "center",
-        },
-        error: {
-            color: "red",
-            textAlign: "center",
         },
     }));
     const classes = useStyles();
@@ -86,18 +79,15 @@ const SignInForm = ({ setUser }) => {
                                 isValid={isValid}
                                 loading={state.loading}
                             />
-                            {state.loading ? (
-                                <CircularProgress
-                                    className={classes.progress}
-                                />
-                            ) : state.error ? (
-                                <Typography
-                                    variant="h3"
-                                    component="h3"
-                                    className={classes.error}
-                                >
-                                    Error
-                                </Typography>
+                            <BackendFeedback
+                                loading={state.loading}
+                                error={state.error}
+                                value={state.value}
+                                errorMessage={"Failed to Login"}
+                                successMessage={"Successfully Logged In"}
+                            />
+                            {state.value && !state.loading && !state.error ? (
+                                <Redirect to="/projects" />
                             ) : null}
                         </Form>
                     );
