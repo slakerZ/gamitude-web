@@ -11,24 +11,10 @@ export const headers = token => ({
     },
 });
 
-export const request_body = (name, method, status, boosted, dominant) => ({
-    Name: name,
-    PrimaryMethod: mapMethodToPrimaryMethod(method),
+export const request_body = status => ({
     ProjectStatus: mapStatusToProjectStatus(status),
-    Stats: mapBoostedToStats(boosted),
-    DominantStat: mapDominantToDominantStat(dominant),
 });
 
-const mapMethodToPrimaryMethod = method => {
-    switch (method) {
-        case 25:
-            return "POMODORO";
-        case 90:
-            return "NINETY";
-        default:
-            return "POMODORO";
-    }
-};
 const mapStatusToProjectStatus = status => {
     switch (status) {
         case 0:
@@ -40,13 +26,4 @@ const mapStatusToProjectStatus = status => {
         default:
             return "ACTIVE";
     }
-};
-const mapBoostedToStats = boosted => {
-    return boosted.map(stat => {
-        return stat.toUpperCase();
-    });
-};
-
-const mapDominantToDominantStat = dominant => {
-    return dominant.toUpperCase();
 };

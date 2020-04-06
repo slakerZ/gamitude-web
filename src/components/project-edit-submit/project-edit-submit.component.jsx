@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { useAsyncFn } from "react-use";
-// Api
-import { url, headers, request_body } from "../project-edit/project-edit.api";
+// API
+import { url, headers, request_body } from "./project-edit-submit.api";
 // Selectors
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
@@ -19,6 +19,7 @@ const ProjectEditSubmit = ({ index, setIsExpanded, projects, token }) => {
         root: {
             display: "flex",
             justifyContent: "center",
+            flexDirection: "column",
             padding: theme.spacing(1, 1),
         },
     }));
@@ -28,13 +29,12 @@ const ProjectEditSubmit = ({ index, setIsExpanded, projects, token }) => {
         const name = projects[index].name;
         const id = projects[index].id;
         const method = projects[index].method;
-        const status = projects[index].status;
         const boosted = projects[index].boosted;
         const dominant = projects[index].dominant;
 
         const response = await axios.put(
             url(id),
-            request_body(name, method, status, boosted, dominant),
+            request_body(name, method, boosted, dominant),
             headers(token)
         );
         const data = await response.data;
