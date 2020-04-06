@@ -84,7 +84,7 @@ const Projects = ({ projects, projectsTab, setProjects, token }) => {
         switch (projectStatus) {
             case "ACTIVE":
                 return 0;
-            case "PAUSED":
+            case "ONHOLD":
                 return 1;
             case "DONE":
                 return 2;
