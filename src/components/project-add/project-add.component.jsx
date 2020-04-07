@@ -1,14 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
+import axios from "axios";
+import { useAsyncFn } from "react-use";
+// API
+import { url, headers, request_data } from "./project-add.api";
 // Actions
 import { addProject } from "../../redux/projects/projects.actions";
-// UI icons
-import AddIcon from "@material-ui/icons/Add";
+// Selectors
+import { selectToken } from "../../redux/user/user.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
+// Components
+import ProjectAddBackendFeedback from "../project-add-backend-feedback/project-add-backend-feedback.component.jsx";
 
-const ProjectAdd = ({ addProject }) => {
+const ProjectAdd = ({ addProject, token }) => {
     const useStyles = makeStyles(theme => ({
         add: {
             position: "sticky",
@@ -21,20 +27,35 @@ const ProjectAdd = ({ addProject }) => {
     }));
     const classes = useStyles();
 
+    const [state, submit] = useAsyncFn(async () => {
+        const response = await axios.post(url, request_data, headers(token));
+        const data = await response.data;
+        addProject(response.data.id);
+        return data;
+    }, [url]);
+
     return (
         <Fab
             color="secondary"
             aria-label="add"
             className={classes.add}
-            onClick={addProject}
+            onClick={submit}
+            disabled={state.loading}
         >
-            <AddIcon />
+            <ProjectAddBackendFeedback
+                loading={state.loading}
+                error={state.error}
+            />
         </Fab>
     );
 };
 
-const mapDispatchToProps = dispatch => ({
-    addProject: () => dispatch(addProject()),
+const mapStateToProps = state => ({
+    token: selectToken(state),
 });
 
-export default connect(null, mapDispatchToProps)(ProjectAdd);
+const mapDispatchToProps = dispatch => ({
+    addProject: value => dispatch(addProject(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectAdd);

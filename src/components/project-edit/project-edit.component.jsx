@@ -1,63 +1,24 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-// Actions
-import { setName, deleteProject } from "../../redux/projects/projects.actions";
 // Selectors
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
-import { selectProjects } from "../../redux/projects/projects.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-// UI icons
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // Components
-import ProjectStats from "../project-stats/project-stats.component.jsx";
-import ProjectsStatsDominant from "../project-stats-dominant/project-stats-dominant.component.jsx";
-import ProjectStatus from "../project-status/project-status.component.jsx";
+import ProjectEditHeader from "../project-edit-header/project-edit-header.component.jsx";
+import ProjectEditBody from "../project-edit-body/project-edit-body.component.jsx";
 
-const ProjectEdit = ({
-    projects,
-    index,
-    sessionInProgress,
-    setName,
-    deleteProject,
-}) => {
-    const name = projects[index].name;
-
+const ProjectEdit = ({ index, sessionInProgress }) => {
     const useStyles = makeStyles(theme => ({
         expansionPanel: {
             backgroundColor: "transparent",
-        },
-        expansionPanelSummary: {
-            backgroundColor: theme.palette.secondary.main,
-        },
-        expansionPanelDetails: {
-            backgroundColor: theme.palette.secondary.main,
-            flexDirection: "column",
+            margin: theme.spacing(1, 0),
         },
     }));
     const classes = useStyles();
 
     const [isExpanded, setIsExpanded] = React.useState(false);
-
-    const handleChange = event => {
-        setName({ index: index, name: event.target.value });
-    };
-
-    const handleSave = () => {
-        //TODO: Add proper API call
-        setIsExpanded(false);
-    };
-
-    const handleDeletion = () => {
-        setIsExpanded(false);
-        deleteProject(index);
-    };
 
     useEffect(() => {
         setIsExpanded(false);
@@ -71,51 +32,14 @@ const ProjectEdit = ({
             expanded={isExpanded}
             onChange={(e, expanded) => setIsExpanded(expanded)}
         >
-            <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                className={classes.expansionPanelSummary}
-            >
-                <Typography component="h4" variant="h4">
-                    Edit Project
-                </Typography>
-            </ExpansionPanelSummary>
-
-            <ExpansionPanelDetails className={classes.expansionPanelDetails}>
-                <TextField
-                    label="PROJECT NAME"
-                    variant="outlined"
-                    value={name}
-                    onChange={handleChange}
-                />
-
-                <ProjectStats index={index} />
-                <ProjectsStatsDominant index={index} />
-
-                <ProjectStatus index={index} destination={1} />
-                <ProjectStatus index={index} destination={2} />
-                <Button onClick={() => handleDeletion()} variant="contained">
-                    <Typography component="h6" variant="h6">
-                        Delete Project
-                    </Typography>
-                </Button>
-                <Button onClick={() => handleSave()} variant="outlined">
-                    <Typography component="h6" variant="h6">
-                        Save
-                    </Typography>
-                </Button>
-            </ExpansionPanelDetails>
+            <ProjectEditHeader />
+            <ProjectEditBody index={index} setIsExpanded={setIsExpanded} />
         </ExpansionPanel>
     );
 };
 
 const mapStateToProps = state => ({
     sessionInProgress: selectSessionInProgress(state),
-    projects: selectProjects(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-    setName: value => dispatch(setName(value)),
-    deleteProject: value => dispatch(deleteProject(value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectEdit);
+export default connect(mapStateToProps)(ProjectEdit);

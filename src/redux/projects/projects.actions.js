@@ -30,11 +30,17 @@ export const setStatus = ({ index, status }) => ({
     index: index,
 });
 
-export const addProject = () => ({
+export const addProject = payload => ({
     type: ProjectsActionTypes.ADD_PROJECT,
+    payload: payload,
 });
 
 export const deleteProject = index => ({
     type: ProjectsActionTypes.DELETE_PROJECT,
     index: index,
+});
+
+export const setProjects = value => ({
+    type: ProjectsActionTypes.SET_PROJECTS,
+    payload: value,
 });
