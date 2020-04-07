@@ -27,8 +27,8 @@ const ProjectStatus = ({ index, destination, setStatus, projects, token }) => {
                 {destination === 0
                     ? "Active"
                     : destination === 1
-                    ? "On Hold"
-                    : "Complete"}
+                    ? "Paused"
+                    : "Done"}
             </Typography>
         </Button>
     );

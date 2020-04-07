@@ -2,13 +2,14 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 // API
-import { url, headers } from "../project-edit-submit/project-edit-submit.api";
+import { url, headers } from "./project-edit-delete.api";
 // Actions
 import { deleteProject } from "../../redux/projects/projects.actions";
 // Selectors
 import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectToken } from "../../redux/user/user.selectors";
 // UI Core
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -25,6 +26,13 @@ const ProjectEditDeleteAlert = ({
     projects,
     deleteProject,
 }) => {
+    const useStyles = makeStyles(theme => ({
+        root: {
+            backgroundColor: theme.palette.primary.main,
+        },
+    }));
+    const classes = useStyles();
+
     const handleDeletion = () => {
         const id = projects[index].id;
         axios.delete(url(id), headers(token));
@@ -43,6 +51,7 @@ const ProjectEditDeleteAlert = ({
             onClose={handleCancel}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            className={classes.root}
         >
             <DialogTitle id="alert-dialog-title">
                 {"Are you sure you want to delete this project?"}
@@ -54,10 +63,10 @@ const ProjectEditDeleteAlert = ({
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleCancel} color="primary">
-                    {"Fuck go back"}
+                    {"No"}
                 </Button>
                 <Button onClick={handleDeletion} color="primary">
-                    {"Ja ja"}
+                    {"Yes"}
                 </Button>
             </DialogActions>
         </Dialog>

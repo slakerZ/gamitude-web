@@ -1,7 +1,9 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { useEffectOnce } from "react-use";
+import { useAsyncFn, useEffectOnce } from "react-use";
+// API
+import { url, headers, parseProjects } from "./projects.api";
 // Actions
 import { setProjects } from "../../redux/projects/projects.actions";
 // Selectors
@@ -20,6 +22,7 @@ import MuiTab from "../mui-tab/mui-tab.component.jsx";
 import ProjectAdd from "../project-add/project-add.component.jsx";
 import ProjectBreakTimer from "../project-break-timer/project-break-timer.component.jsx";
 import ProjectsNav from "../projects-nav/projects-nav.component.jsx";
+import ProjectsBackend from "../projects-backend/projects-backend.component.jsx";
 
 const Projects = ({ projects, projectsTab, setProjects, token }) => {
     const useStyles = makeStyles(theme => ({
@@ -40,68 +43,17 @@ const Projects = ({ projects, projectsTab, setProjects, token }) => {
     }));
     const classes = useStyles();
 
+    const [state, submit] = useAsyncFn(async () => {
+        const response = await axios.get(url, headers(token));
+        const result = await response.data;
+        const parsedProjects = parseProjects(result);
+        setProjects(parsedProjects);
+        return result;
+    }, [url]);
+
     useEffectOnce(() => {
-        const url =
-            process.env.NODE_ENV === "development"
-                ? "http://localhost:5010/api/pro/Projects"
-                : "http://gamitude.rocks:31778/api/pro/Projects";
-
-        axios
-            .get(url, {
-                headers: {
-                    Authorization: "Bearer " + token,
-                },
-            })
-            .then(response => {
-                const parsedProjects = response.data.map(project => {
-                    return {
-                        id: project.id,
-                        name: project.name,
-                        method: mapPrimaryMethodToMethod(project.primaryMethod),
-                        status: mapProjectStatusToStatus(project.projectStatus),
-                        boosted: mapStatsToBoosted(project.stats),
-                        dominant: mapDominantStatToDominant(
-                            project.dominantStat
-                        ),
-                    };
-                });
-                setProjects(parsedProjects);
-            });
+        submit();
     });
-
-    const mapPrimaryMethodToMethod = primaryMethod => {
-        switch (primaryMethod) {
-            case "POMODORO":
-                return 25;
-            case "NINETY":
-                return 90;
-            default:
-                return 25;
-        }
-    };
-
-    const mapProjectStatusToStatus = projectStatus => {
-        switch (projectStatus) {
-            case "ACTIVE":
-                return 0;
-            case "ONHOLD":
-                return 1;
-            case "DONE":
-                return 2;
-            default:
-                return 0;
-        }
-    };
-
-    const mapStatsToBoosted = stats => {
-        return stats.map(stat => {
-            return stat.toLowerCase();
-        });
-    };
-
-    const mapDominantStatToDominant = dominantStat => {
-        return dominantStat.toLowerCase();
-    };
 
     return (
         <div className={classes.root}>
@@ -117,6 +69,7 @@ const Projects = ({ projects, projectsTab, setProjects, token }) => {
                 );
             })}
 
+            <ProjectsBackend state={state} />
             <ProjectBreakTimer />
 
             {projectsTab === 0 ? <ProjectAdd /> : null}

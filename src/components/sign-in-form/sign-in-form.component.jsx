@@ -1,8 +1,9 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { useAsyncFn } from "react-use";
+// API
+import { url, request_body } from "./sign-in-form.api";
 // Actions
 import { setUser } from "../../redux/user/user.actions";
 // UI Core
@@ -16,6 +17,7 @@ import SignInUpHeader from "../sign-in-up-header/sign-in-up-header.component.jsx
 import SignInUpSubmit from "../sign-in-up-submit/sign-in-up-submit.component.jsx";
 import SignInUpSwitch from "../sign-in-up-switch/sign-in-up-switch.component.jsx";
 import BackendFeedback from "../backend-feedback/backend-feedback.component.jsx";
+import ProjectsRedirect from "../projects-redirect/projects-redirect.component.jsx";
 
 const SignInForm = ({ setUser }) => {
     const useStyles = makeStyles(theme => ({
@@ -35,16 +37,9 @@ const SignInForm = ({ setUser }) => {
     }));
     const classes = useStyles();
 
-    const url =
-        process.env.NODE_ENV === "development"
-            ? "http://localhost:5020/api/auth/Authorization/Login"
-            : "http://gamitude.rocks:31777/api/auth/Authorization/Login";
     const [state, submit] = useAsyncFn(
         async values => {
-            const response = await axios.post(url, {
-                Email: values.email,
-                Password: values.password,
-            });
+            const response = await axios.post(url, request_body(values));
             const data = await response.data;
             setUser(data);
             return data;
@@ -86,9 +81,7 @@ const SignInForm = ({ setUser }) => {
                                 errorMessage={"Failed to Login"}
                                 successMessage={"Successfully Logged In"}
                             />
-                            {state.value && !state.loading && !state.error ? (
-                                <Redirect to="/projects" />
-                            ) : null}
+                            <ProjectsRedirect state={state} />
                         </Form>
                     );
                 }}

@@ -2,17 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { useAsyncFn } from "react-use";
+// API
+import { url, headers, request_data } from "./project-add.api";
 // Actions
 import { addProject } from "../../redux/projects/projects.actions";
 // Selectors
 import { selectToken } from "../../redux/user/user.selectors";
-// UI icons
-import AddIcon from "@material-ui/icons/Add";
-import CachedIcon from "@material-ui/icons/Cached";
 // UI core
 import { makeStyles } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
-import CircularProgress from "@material-ui/core/CircularProgress";
+// Components
+import ProjectAddBackendFeedback from "../project-add-backend-feedback/project-add-backend-feedback.component.jsx";
 
 const ProjectAdd = ({ addProject, token }) => {
     const useStyles = makeStyles(theme => ({
@@ -27,25 +27,8 @@ const ProjectAdd = ({ addProject, token }) => {
     }));
     const classes = useStyles();
 
-    const url =
-        process.env.NODE_ENV === "development"
-            ? "http://localhost:5010/api/pro/Projects"
-            : "http://gamitude.rocks:31778/api/pro/Projects";
     const [state, submit] = useAsyncFn(async () => {
-        const headers = {
-            headers: {
-                Authorization: "Bearer " + token,
-                "Content-Type": "application/json",
-            },
-        };
-        const request_data = {
-            Name: "New Project",
-            PrimaryMethod: "POMODORO",
-            ProjectStatus: "ACTIVE",
-            Stats: ["INTELLIGENCE"],
-            DominantStat: "INTELLIGENCE",
-        };
-        const response = await axios.post(url, request_data, headers);
+        const response = await axios.post(url, request_data, headers(token));
         const data = await response.data;
         addProject(response.data.id);
         return data;
@@ -59,13 +42,10 @@ const ProjectAdd = ({ addProject, token }) => {
             onClick={submit}
             disabled={state.loading}
         >
-            {state.loading ? (
-                <CircularProgress />
-            ) : state.error ? (
-                <CachedIcon />
-            ) : (
-                <AddIcon />
-            )}
+            <ProjectAddBackendFeedback
+                loading={state.loading}
+                error={state.error}
+            />
         </Fab>
     );
 };

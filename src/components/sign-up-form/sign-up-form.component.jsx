@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { useAsyncFn } from "react-use";
+// API
+import { url, request_body } from "./sign-up.api";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 // Forms
@@ -32,17 +34,9 @@ const SignUpForm = () => {
     }));
     const classes = useStyles();
 
-    const url =
-        process.env.NODE_ENV === "development"
-            ? "http://localhost:5020/api/auth/Authorization/Register"
-            : "http://gamitude.rocks:31777/api/auth/Authorization/Register";
     const [state, submit] = useAsyncFn(
         async values => {
-            const response = await axios.post(url, {
-                Name: values.username,
-                Email: values.email,
-                Password: values.password,
-            });
+            const response = await axios.post(url, request_body(values));
             const data = await response.data;
             return data;
         },
