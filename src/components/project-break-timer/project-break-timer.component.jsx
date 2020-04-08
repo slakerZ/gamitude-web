@@ -72,7 +72,7 @@ const ProjectBreakTimer = ({
                               return breakTime;
                           }
                       }),
-                  1
+                  process.env.NODE_ENV === "development" ? 1 : 1000
               )
             : null;
         if (!localBreak) {
