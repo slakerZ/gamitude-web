@@ -37,12 +37,12 @@ const theme = createMuiTheme({
             fluency: "rgba(93, 38, 115, .5)",
         },
         tiers: {
-            s: "blue",
-            a: "green",
-            b: "lightgreen",
-            c: "yellow",
-            d: "orange",
-            f: "red",
+            s: "rgba(61, 124, 145, .5)",
+            a: "rgba(70, 138, 58, .5)",
+            b: "rgba(121, 189, 109, .5)",
+            c: "rgba(235, 231, 5, .5)",
+            d: "rgba(191, 145, 46, .5)",
+            f: "rgba(145, 38, 38, .5)",
         },
     },
     typography: {
