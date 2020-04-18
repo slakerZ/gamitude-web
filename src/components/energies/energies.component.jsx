@@ -1,14 +1,21 @@
 import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
-import { useUpdateEffect } from "react-use";
+import { useUpdateEffect, useAsyncFn, useEffectOnce } from "react-use";
+// API
+import { url, headers } from "./energies.api";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
+// Actions
+import { setEnergies } from "../../redux/energies/energies.actions";
 // Selectors
 import { selectEnergies } from "../../redux/energies/energies.selectors";
+import { selectToken } from "../../redux/user/user.selectors";
 // Components
 import ProgressBar from "../progress-bar/progress-bar.component.jsx";
+import StatsBackend from "../stats-backend/stats-backend.component.jsx";
 
-const Energies = ({ energies }) => {
+const Energies = ({ energies, token, setEnergies }) => {
     const { body, emotions, mind, soul } = energies;
 
     const useStyles = makeStyles({
@@ -22,10 +29,22 @@ const Energies = ({ energies }) => {
     });
     const classes = useStyles();
 
-    // TODO: Connect to API
+    const [state, submit] = useAsyncFn(async () => {
+        const response = await axios.get(url, headers(token));
+        const result = await response.data;
+        setEnergies(result.data);
+        return result;
+    }, [url]);
+
+    useEffectOnce(() => {
+        submit();
+    });
+
     useUpdateEffect(() => {}, [body, emotions, mind, soul]);
 
-    return (
+    return state.error || state.loading ? (
+        <StatsBackend state={state} submit={submit} />
+    ) : (
         <div className={classes.energies}>
             <ProgressBar size="bar" stat={body} variant="body" />
             <ProgressBar size="bar" stat={emotions} variant="emotions" />
@@ -37,6 +56,11 @@ const Energies = ({ energies }) => {
 
 const mapStateToProps = state => ({
     energies: selectEnergies(state),
+    token: selectToken(state),
 });
 
-export default connect(mapStateToProps)(Energies);
+const mapDispatchToProps = dispatch => ({
+    setEnergies: value => dispatch(setEnergies(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Energies);

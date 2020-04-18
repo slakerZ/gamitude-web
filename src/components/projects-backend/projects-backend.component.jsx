@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 // UI core
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -20,9 +21,13 @@ const ProjectsBackend = ({ state, submit }) => {
             {state.loading ? (
                 <CircularProgress />
             ) : state.error ? (
-                <Button variant="contained" onClick={submit}>
-                    Retry
-                </Button>
+                state.error.response.status === 401 ? (
+                    <Redirect to="/signInSignUp" />
+                ) : (
+                    <Button variant="contained" onClick={submit}>
+                        Retry
+                    </Button>
+                )
             ) : null}
         </div>
     );
