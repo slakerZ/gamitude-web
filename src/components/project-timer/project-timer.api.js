@@ -1,7 +1,7 @@
 export const url =
     process.env.NODE_ENV === "development"
-        ? "http://localhost:5030/api/stats/statistics/time"
-        : "http://gamitude.rocks:31779/api/stats/statistics/time";
+        ? "http://localhost:5030/api/stats/time"
+        : "http://gamitude.rocks:31779/api/stats/time";
 
 export const headers = token => ({
     headers: {

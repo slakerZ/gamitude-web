@@ -30,7 +30,7 @@ const Stats = ({ stats, token, setStats, sessionsComplete }) => {
     });
     const classes = useStyles();
 
-    const [state, submit] = useAsyncFn(async () => {
+    const [statsState, getStats] = useAsyncFn(async () => {
         const response = await axios.get(url, headers(token));
         const result = await response.data;
         setStats(result.data);
@@ -38,17 +38,17 @@ const Stats = ({ stats, token, setStats, sessionsComplete }) => {
     }, [url]);
 
     useEffectOnce(() => {
-        submit();
+        getStats();
     });
 
     useUpdateEffect(() => {
-        submit();
+        getStats();
     }, [sessionsComplete]);
 
     useUpdateEffect(() => {}, [strength, creativity, intelligence, fluency]);
 
-    return state.error || state.loading ? (
-        <StatsBackend state={state} submit={submit} />
+    return statsState.error || statsState.loading ? (
+        <StatsBackend state={statsState} submit={getStats} />
     ) : (
         <div className={classes.stats}>
             <ProgressBar size="bar" variant="strength" stat={strength} />

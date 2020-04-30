@@ -33,8 +33,8 @@ const ProjectTimer = ({
         const { id, boosted, dominant } = projects[index];
         const response = await axios.post(
             url,
-            headers(token),
-            request_body(id, method, boosted, dominant)
+            request_body(id, method, boosted, dominant),
+            headers(token)
         );
         const result = await response.data;
         return result;
@@ -54,7 +54,6 @@ const ProjectTimer = ({
             setSessionTime(duration(method, "minutes"));
             // Stop timer
             setLocalSession(false);
-
             // Sync with api
             submit();
         }
