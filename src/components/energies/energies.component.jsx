@@ -11,11 +11,12 @@ import { setEnergies } from "../../redux/energies/energies.actions";
 // Selectors
 import { selectEnergies } from "../../redux/energies/energies.selectors";
 import { selectToken } from "../../redux/user/user.selectors";
+import { selectSessionsComplete } from "../../redux/session/session.selectors";
 // Components
 import ProgressBar from "../progress-bar/progress-bar.component.jsx";
 import StatsBackend from "../stats-backend/stats-backend.component.jsx";
 
-const Energies = ({ energies, token, setEnergies }) => {
+const Energies = ({ energies, token, setEnergies, sessionsComplete }) => {
     const { body, emotions, mind, soul } = energies;
 
     const useStyles = makeStyles({
@@ -40,6 +41,10 @@ const Energies = ({ energies, token, setEnergies }) => {
         submit();
     });
 
+    useUpdateEffect(() => {
+        submit();
+    }, [sessionsComplete]);
+
     useUpdateEffect(() => {}, [body, emotions, mind, soul]);
 
     return state.error || state.loading ? (
@@ -57,6 +62,7 @@ const Energies = ({ energies, token, setEnergies }) => {
 const mapStateToProps = state => ({
     energies: selectEnergies(state),
     token: selectToken(state),
+    sessionsComplete: selectSessionsComplete(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -11,11 +11,12 @@ import { makeStyles } from "@material-ui/core/styles";
 // Selectors
 import { selectStats } from "../../redux/stats/stats.selectors.js";
 import { selectToken } from "../../redux/user/user.selectors";
+import { selectSessionsComplete } from "../../redux/session/session.selectors";
 // Components
 import ProgressBar from "../progress-bar/progress-bar.component.jsx";
 import StatsBackend from "../stats-backend/stats-backend.component.jsx";
 
-const Stats = ({ stats, token, setStats }) => {
+const Stats = ({ stats, token, setStats, sessionsComplete }) => {
     const { strength, creativity, intelligence, fluency } = stats;
 
     const useStyles = makeStyles({
@@ -40,6 +41,10 @@ const Stats = ({ stats, token, setStats }) => {
         submit();
     });
 
+    useUpdateEffect(() => {
+        submit();
+    }, [sessionsComplete]);
+
     useUpdateEffect(() => {}, [strength, creativity, intelligence, fluency]);
 
     return state.error || state.loading ? (
@@ -61,6 +66,7 @@ const Stats = ({ stats, token, setStats }) => {
 const mapStateToProps = state => ({
     stats: selectStats(state),
     token: selectToken(state),
+    sessionsComplete: selectSessionsComplete(state),
 });
 
 const mapDispatchToProps = dispatch => ({
