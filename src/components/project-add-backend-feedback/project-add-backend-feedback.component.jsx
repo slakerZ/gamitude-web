@@ -8,7 +8,7 @@ const ProjectAddBackendFeedback = ({ loading, error, submit }) => {
         <CircularProgress />
     ) : error ? (
         <Button variant="contained" onClick={submit}>
-            {process.env.NODE_ENV == "development"
+            {process.env.NODE_ENV === "development"
                 ? error.message
                 : "Try Again"}
         </Button>

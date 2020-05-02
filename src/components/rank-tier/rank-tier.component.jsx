@@ -2,6 +2,9 @@ import React from "react";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
+// Tooltips
+import RankTierTooltip from "../../tooltips/rank/rank-tier.tooltip.jsx";
 
 const RankTier = ({ rankTier }) => {
     const useStyles = makeStyles(theme => {
@@ -46,9 +49,15 @@ const RankTier = ({ rankTier }) => {
 
     return (
         <div className={classes.rankTier}>
-            <Typography variant="h2" component="h2" className={classes.text}>
-                {rankTier}
-            </Typography>
+            <Tooltip placement="top" title={<RankTierTooltip />}>
+                <Typography
+                    variant="h2"
+                    component="h2"
+                    className={classes.text}
+                >
+                    {rankTier}
+                </Typography>
+            </Tooltip>
         </div>
     );
 };

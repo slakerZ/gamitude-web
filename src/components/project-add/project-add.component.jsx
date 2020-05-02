@@ -3,6 +3,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import Tooltip from "@material-ui/core/Tooltip";
 // Components
 import ProjectAddForm from "../project-add-form/projects-add-form.component.jsx";
 
@@ -29,14 +30,16 @@ const ProjectAdd = () => {
 
     return (
         <div className={classes.root}>
-            <Fab
-                color="secondary"
-                aria-label="add"
-                className={classes.add}
-                onClick={handleClickOpen}
-            >
-                <AddIcon />
-            </Fab>
+            <Tooltip title="Add Project">
+                <Fab
+                    color="secondary"
+                    aria-label="add"
+                    className={classes.add}
+                    onClick={handleClickOpen}
+                >
+                    <AddIcon />
+                </Fab>
+            </Tooltip>
             <ProjectAddForm open={open} setOpen={setOpen} />
         </div>
     );
