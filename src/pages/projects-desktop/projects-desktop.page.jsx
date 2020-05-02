@@ -32,6 +32,7 @@ const ProjectsDesktopPage = () => {
                     "rank projects energies"
                     "rank projects stats"
                 `,
+                padding: "50px",
             },
         },
     }));
