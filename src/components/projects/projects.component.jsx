@@ -3,7 +3,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { useAsyncFn, useEffectOnce } from "react-use";
 // API
-import { url, headers, parseProjects } from "./projects.api";
+import { url, headers, parseProjects } from "../../api/projects.api";
 // Actions
 import { setProjects } from "../../redux/projects/projects.actions";
 // Selectors

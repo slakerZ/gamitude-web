@@ -1,61 +1,48 @@
 import React from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import { useAsyncFn } from "react-use";
-// API
-import { url, headers, request_data } from "./project-add.api";
-// Actions
-import { addProject } from "../../redux/projects/projects.actions";
-// Selectors
-import { selectToken } from "../../redux/user/user.selectors";
 // UI core
 import { makeStyles } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import Tooltip from "@material-ui/core/Tooltip";
 // Components
-import ProjectAddBackendFeedback from "../project-add-backend-feedback/project-add-backend-feedback.component.jsx";
+import ProjectAddForm from "../project-add-form/projects-add-form.component.jsx";
 
-const ProjectAdd = ({ addProject, token }) => {
+const ProjectAdd = () => {
     const useStyles = makeStyles(theme => ({
-        add: {
+        root: {
             position: "sticky",
             margin: "0 20px 40px 0",
             float: "right",
             top: "calc(100vh - 50px)",
+        },
+        add: {
             boxShadow: "5px 5px 10px #000000",
             backgroundColor: theme.palette.complement.dark,
         },
     }));
     const classes = useStyles();
 
-    const [state, submit] = useAsyncFn(async () => {
-        const response = await axios.post(url, request_data, headers(token));
-        const data = await response.data;
-        addProject(response.data.id);
-        return data;
-    }, [url]);
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
     return (
-        <Fab
-            color="secondary"
-            aria-label="add"
-            className={classes.add}
-            onClick={submit}
-            disabled={state.loading}
-        >
-            <ProjectAddBackendFeedback
-                loading={state.loading}
-                error={state.error}
-            />
-        </Fab>
+        <div className={classes.root}>
+            <Tooltip title="Add Project">
+                <Fab
+                    color="secondary"
+                    aria-label="add"
+                    className={classes.add}
+                    onClick={handleClickOpen}
+                >
+                    <AddIcon />
+                </Fab>
+            </Tooltip>
+            <ProjectAddForm open={open} setOpen={setOpen} />
+        </div>
     );
 };
 
-const mapStateToProps = state => ({
-    token: selectToken(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-    addProject: value => dispatch(addProject(value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectAdd);
+export default ProjectAdd;

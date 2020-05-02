@@ -8,7 +8,7 @@ const RankColors = ({ rankFortes }) => {
     const useStyles = makeStyles({
         rankColors: {
             margin: "auto",
-            width: "40%",
+            width: "50%",
             gridArea: "rank-colors",
             display: "flex",
             justifyContent: "space-around",

@@ -1,10 +1,20 @@
 import React from "react";
 // UI Core
 import { makeStyles } from "@material-ui/core";
+import Tooltip from "@material-ui/core/Tooltip";
 // Components
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
 import CustomOverlayDisplay from "../custom-overlay-display/custom-overlay-display.component.jsx";
 import CustomProgress from "../custom-progress/custom-progress.component.jsx";
+// Tooltips
+import FluencyTooltip from "../../tooltips/stats/fluency.tooltip.jsx";
+import StrengthTooltip from "../../tooltips/stats/strength.tooltip.jsx";
+import IntelligenceTooltip from "../../tooltips/stats/intelligence.tooltip.jsx";
+import CreativityTooltip from "../../tooltips/stats/creativity.tooltip.jsx";
+import BodyTooltip from "../../tooltips/energies/body.tooltip.jsx";
+import EmotionsTooltip from "../../tooltips/energies/emotions.tooltip.jsx";
+import MindTooltip from "../../tooltips/energies/mind.tooltip.jsx";
+import SoulTooltip from "../../tooltips/energies/soul.tooltip.jsx";
 
 const ProgressBar = ({ variant, stat, size }) => {
     const useStyles = makeStyles({
@@ -19,12 +29,37 @@ const ProgressBar = ({ variant, stat, size }) => {
     });
     const classes = useStyles();
 
+    const tooltipForStat = variant => {
+        switch (variant) {
+            case "strength":
+                return <StrengthTooltip />;
+            case "creativity":
+                return <CreativityTooltip />;
+            case "intelligence":
+                return <IntelligenceTooltip />;
+            case "fluency":
+                return <FluencyTooltip />;
+            case "body":
+                return <BodyTooltip />;
+            case "emotions":
+                return <EmotionsTooltip />;
+            case "mind":
+                return <MindTooltip />;
+            case "soul":
+                return <SoulTooltip />;
+            default:
+                return <StrengthTooltip />;
+        }
+    };
+
     return (
-        <div className={classes.bar}>
-            <CustomIcon size={size} variant={variant} />
-            <CustomProgress stat={stat} variant={variant} />
-            <CustomOverlayDisplay stat={stat} />
-        </div>
+        <Tooltip title={tooltipForStat(variant)}>
+            <div className={classes.bar}>
+                <CustomIcon size={size} variant={variant} />
+                <CustomProgress stat={stat} variant={variant} />
+                <CustomOverlayDisplay stat={stat} />
+            </div>
+        </Tooltip>
     );
 };
 

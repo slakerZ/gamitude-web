@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 // API
-import { url, headers } from "./project-edit-delete.api";
+import { url, headers } from "../../api/project-edit-delete.api";
 // Actions
 import { deleteProject } from "../../redux/projects/projects.actions";
 // Selectors

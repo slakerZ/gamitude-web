@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { useAsyncFn } from "react-use";
+// Context
+import { SignInUpContext } from "../../context/sign-in-sign-up.context";
 // API
-import { url, request_body } from "./sign-up.api";
+import { url, request_body } from "../../api/sign-up.api";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 // Forms
@@ -34,10 +36,13 @@ const SignUpForm = () => {
     }));
     const classes = useStyles();
 
+    const context = useContext(SignInUpContext);
+
     const [state, submit] = useAsyncFn(
         async values => {
             const response = await axios.post(url, request_body(values));
             const data = await response.data;
+            context.updateChecked(true);
             return data;
         },
         [url]

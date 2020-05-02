@@ -10,12 +10,15 @@ import {
 // Moment
 import { duration } from "moment/moment";
 // UI Core
-import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Tooltip from "@material-ui/core/Tooltip";
 // Components
 import TimerDisplays from "../timer-displays/timer-displays.component.jsx";
 // Selectors
 import { selectBreakTime } from "../../redux/session/session.selectors";
+// Tooltip
+import BreakTimerTooltip from "../../tooltips/projects/break-timer.tooltip.jsx";
 
 const ProjectBreakTimer = ({
     breakInProgress,
@@ -72,7 +75,7 @@ const ProjectBreakTimer = ({
                               return breakTime;
                           }
                       }),
-                  1
+                  process.env.NODE_ENV === "development" ? 1 : 1000
               )
             : null;
         if (!localBreak) {
@@ -83,7 +86,11 @@ const ProjectBreakTimer = ({
 
     return (
         <div className={classes.root}>
-            <TimerDisplays time={breakTime} />
+            <Tooltip placement="top" title={<BreakTimerTooltip />}>
+                <div>
+                    <TimerDisplays time={breakTime} />
+                </div>
+            </Tooltip>
             <Button
                 onClick={() => {
                     // pause break

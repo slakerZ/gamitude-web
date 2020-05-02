@@ -8,7 +8,7 @@ import SignUp from "../../components/sign-up/sign-up.component.jsx";
 import {
     SignInUpContext,
     SignInUpProvider,
-} from "../../pages/sign-in-sign-up/sign-in-sign-up.context";
+} from "../../context/sign-in-sign-up.context";
 
 const SignInSignUpPage = () => {
     const useStyles = makeStyles({

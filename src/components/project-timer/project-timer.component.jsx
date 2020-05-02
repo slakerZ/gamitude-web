@@ -1,94 +1,66 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { useUpdateEffect } from "react-use";
-// UI core
-import Typography from "@material-ui/core/Typography";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "@material-ui/core/Button";
+import axios from "axios";
+import { useAsyncFn, useUpdateEffect } from "react-use";
+// API
+import { url, headers, request_body } from "../../api/project-timer.api";
 // Moment
 import { duration } from "moment/moment";
 // Selectors
-import {
-    selectSessionInProgress,
-    selectSessionsComplete,
-    selectBreakInProgress,
-    selectBreakTime,
-} from "../../redux/session/session.selectors";
+import { selectSessionsComplete } from "../../redux/session/session.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
-import { selectEnergies } from "../../redux/energies/energies.selectors";
-import { selectStats } from "../../redux/stats/stats.selectors";
+import { selectToken } from "../../redux/user/user.selectors";
+// Actions
+import { setSessionsComplete } from "../../redux/session/session.actions";
 // Components
 import TimerDisplays from "../timer-displays/timer-displays.component.jsx";
-// Actions
-import {
-    setBreakInProgress,
-    setSessionInProgress,
-    setSessionsComplete,
-    setBreakTime,
-} from "../../redux/session/session.actions";
-import { setEnergies } from "../../redux/energies/energies.actions";
-import { setStats } from "../../redux/stats/stats.actions";
+import Uifx from "../uifx/uifx.component.jsx";
+import ProjectTimerControls from "../project-timer-controls/project-timer-controls.component.jsx";
 
 const ProjectTimer = ({
     index,
     projects,
-    sessionInProgress,
-    breakInProgress,
     sessionsComplete,
-    setSessionInProgress,
     setSessionsComplete,
-    minuteLeftSound,
-    sessionEndSound,
-    setEnergies,
-    energies,
-    setStats,
-    stats,
-    setBreakTime,
-    breakTime,
+    token,
 }) => {
-    const { body, emotions, mind, soul } = energies;
-    const { strength, creativity, intelligence, fluency } = stats;
     const method = projects[index].method;
 
     const [sessionTime, setSessionTime] = useState(duration(method, "minutes"));
     const [localSession, setLocalSession] = useState(false);
 
-    useEffect(() => {
-        if (sessionTime.asSeconds() === 60) {
-            minuteLeftSound.play();
-        }
-    }, [sessionTime, minuteLeftSound]);
+    const [state, submit] = useAsyncFn(async () => {
+        const { id, boosted, dominant } = projects[index];
+        const response = await axios.post(
+            url,
+            request_body(id, method, boosted, dominant),
+            headers(token)
+        );
+        const result = await response.data;
+        return result;
+    }, [url]);
 
-    useEffect(() => {
-        if (sessionTime.asSeconds() === 0) {
-            sessionEndSound.play();
-        }
-    }, [sessionTime, sessionEndSound]);
-    // Session Management
+    // Listern for method change
     useEffect(() => {
         setSessionTime(duration(method, "minutes"));
     }, [method]);
-    // Break/Session in progress
+
+    // Session completed successfully
     useUpdateEffect(() => {
-        setSessionInProgress(localSession);
-    }, [localSession]);
+        if (sessionTime.asSeconds() === 0) {
+            // Update sessions count
+            setSessionsComplete(sessionsComplete + 1);
+            // Reset timer
+            setSessionTime(duration(method, "minutes"));
+            // Stop timer
+            setLocalSession(false);
+            // Sync with api
+            submit();
+        }
+    }, [sessionTime]);
 
     // TODO: Abstract hooks into custom ones then extract hooks into separate files
     useEffect(() => {
-        const handleBreak = methodBaseTime => {
-            switch (methodBaseTime) {
-                case 25:
-                    if ((sessionsComplete + 1) % 5 === 0) {
-                        return 15;
-                    } else {
-                        return 5;
-                    }
-                case 90:
-                    return 30;
-                default:
-                    return 0;
-            }
-        };
         const interval = localSession
             ? setInterval(
                   () =>
@@ -97,38 +69,6 @@ const ProjectTimer = ({
                               sessionTime.subtract(1, "second");
                               return duration(duration(sessionTime));
                           } else {
-                              // Stop timer
-                              setLocalSession(false);
-
-                              //Update Energies
-                              setEnergies({
-                                  body: body - 5,
-                                  emotions: emotions - 10,
-                                  mind: mind - 15,
-                                  soul: soul - 5,
-                              });
-
-                              // Update Stats
-                              setStats({
-                                  strength: strength + 0,
-                                  creativity: creativity + 5,
-                                  intelligence: intelligence + 10,
-                                  fluency: fluency + 0,
-                              });
-
-                              // Update sessions count
-                              const newCount = sessionsComplete + 1;
-                              setSessionsComplete(newCount);
-
-                              // Reset timer
-                              setSessionTime(duration(method, "minutes"));
-                              // Add time to break timer
-
-                              const accumulatedBreak =
-                                  breakTime.asMinutes() + handleBreak(method);
-                              setBreakTime(
-                                  duration(accumulatedBreak, "minutes")
-                              );
                               return sessionTime;
                           }
                       }),
@@ -136,79 +76,43 @@ const ProjectTimer = ({
               )
             : null;
         if (!localSession) {
-            if (
-                sessionTime.asSeconds() > 0 &&
+            // Give up has been clicked
+            const sessionContinues = sessionTime.asSeconds() > 0;
+            const methodSessionTimesDiffer =
                 duration(method, "minutes").asSeconds() !==
-                    sessionTime.asSeconds()
-            ) {
+                sessionTime.asSeconds();
+            if (sessionContinues && methodSessionTimesDiffer) {
+                // ResetTimer
                 setSessionTime(duration(duration(method, "minutes")));
             }
             clearInterval(interval);
         }
-        return () => clearInterval(interval);
-    }, [
-        breakTime,
-        setBreakTime,
-        sessionTime,
-        localSession,
-        method,
-        sessionsComplete,
-        setSessionsComplete,
-        sessionEndSound,
-        minuteLeftSound,
-        setEnergies,
-        setStats,
-        strength,
-        creativity,
-        intelligence,
-        fluency,
-        body,
-        mind,
-        emotions,
-        soul,
-    ]);
+        return () => {
+            clearInterval(interval);
+        };
+    }, [localSession, method, sessionTime, setSessionsComplete, submit]);
 
     return (
         <div className="timer">
+            <Uifx sessionTime={sessionTime} />
             <TimerDisplays time={sessionTime} />
-
-            <ButtonGroup size="medium">
-                <Button
-                    onClick={() => setLocalSession(!localSession)}
-                    variant={localSession ? "outlined" : "contained"}
-                    disabled={
-                        (!localSession && sessionInProgress) || breakInProgress
-                    }
-                >
-                    <Typography variant="h6" component="h6">
-                        {localSession ? "Give Up" : "Start"}
-                    </Typography>
-                </Button>
-            </ButtonGroup>
+            <div>{state.error ? state.error.message : null}</div>
+            <ProjectTimerControls
+                localSession={localSession}
+                setLocalSession={setLocalSession}
+            />
         </div>
     );
 };
 
 const mapStateToProps = state => ({
-    sessionInProgress: selectSessionInProgress(state),
     sessionsComplete: selectSessionsComplete(state),
-    breakInProgress: selectBreakInProgress(state),
-    sessionEndSound: state.uifx.projectSounds.sessionEndSound,
-    minuteLeftSound: state.uifx.projectSounds.minuteLeftSound,
-    breakCompleteSound: state.uifx.projectSounds.breakCompleteSound,
-    energies: selectEnergies(state),
-    stats: selectStats(state),
-    breakTime: selectBreakTime(state),
     projects: selectProjects(state),
+    token: selectToken(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-    setBreakInProgress: value => dispatch(setBreakInProgress(value)),
-    setSessionInProgress: value => dispatch(setSessionInProgress(value)),
     setSessionsComplete: value => dispatch(setSessionsComplete(value)),
-    setEnergies: value => dispatch(setEnergies(value)),
-    setStats: value => dispatch(setStats(value)),
-    setBreakTime: value => dispatch(setBreakTime(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectTimer);

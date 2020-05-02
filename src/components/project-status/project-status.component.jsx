@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 // API
-import { url, headers, request_body } from "./project-status.api";
+import { url, headers, request_body } from "../../api/project-status.api";
 // Actions
 import { setStatus } from "../../redux/projects/projects.actions";
 // Selectors
