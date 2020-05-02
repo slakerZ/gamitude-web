@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { useAsyncFn, useUpdateEffect } from "react-use";
 // API
-import { url, headers, request_body } from "./project-timer.api";
+import { url, headers, request_body } from "../../api/project-timer.api";
 // Moment
 import { duration } from "moment/moment";
 // Selectors

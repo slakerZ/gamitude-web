@@ -3,7 +3,7 @@ import axios from "axios";
 import { useUpdateEffect, useAsyncFn, useEffectOnce } from "react-use";
 import { connect } from "react-redux";
 // API
-import { url, headers } from "./stats.api";
+import { url, headers } from "../../api/stats.api";
 // Actions
 import { setStats } from "../../redux/stats/stats.actions";
 // UI Core

@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import axios from "axios";
 import { useAsyncFn } from "react-use";
 // Context
-import { SignInUpContext } from "../../pages/sign-in-sign-up/sign-in-sign-up.context";
+import { SignInUpContext } from "../../context/sign-in-sign-up.context";
 // API
-import { url, request_body } from "./sign-up.api";
+import { url, request_body } from "../../api/sign-up.api";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 // Forms

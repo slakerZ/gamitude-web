@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { useAsyncFn } from "react-use";
 // API
-import { url, headers, request_body } from "./project-edit-submit.api";
+import { url, headers, request_body } from "../../api/project-edit-submit.api";
 // Selectors
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";

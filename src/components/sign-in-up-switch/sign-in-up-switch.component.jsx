@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 // Context
-import { SignInUpContext } from "../../pages/sign-in-sign-up/sign-in-sign-up.context";
+import { SignInUpContext } from "../../context/sign-in-sign-up.context";
 
 const SignInUpSwitch = ({ toSignIn }) => {
     const text = toSignIn
