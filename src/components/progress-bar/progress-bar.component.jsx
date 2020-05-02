@@ -11,6 +11,10 @@ import FluencyTooltip from "../../tooltips/stats/fluency.tooltip.jsx";
 import StrengthTooltip from "../../tooltips/stats/strength.tooltip.jsx";
 import IntelligenceTooltip from "../../tooltips/stats/intelligence.tooltip.jsx";
 import CreativityTooltip from "../../tooltips/stats/creativity.tooltip.jsx";
+import BodyTooltip from "../../tooltips/energies/body.tooltip.jsx";
+import EmotionsTooltip from "../../tooltips/energies/emotions.tooltip.jsx";
+import MindTooltip from "../../tooltips/energies/mind.tooltip.jsx";
+import SoulTooltip from "../../tooltips/energies/soul.tooltip.jsx";
 
 const ProgressBar = ({ variant, stat, size }) => {
     const useStyles = makeStyles({
@@ -35,6 +39,14 @@ const ProgressBar = ({ variant, stat, size }) => {
                 return <IntelligenceTooltip />;
             case "fluency":
                 return <FluencyTooltip />;
+            case "body":
+                return <BodyTooltip />;
+            case "emotions":
+                return <EmotionsTooltip />;
+            case "mind":
+                return <MindTooltip />;
+            case "soul":
+                return <SoulTooltip />;
             default:
                 return <StrengthTooltip />;
         }

@@ -10,7 +10,7 @@ const StrengthTooltip = () => {
             </Typography>
             <Typography component="p" variant="body1" align="center">
                 {
-                    "Stat meant to represent Bulkiness, Fitness and Endurance, use it for projects like 'Yoga', 'HIIT' etc."
+                    "Stat meant to represent Bulkiness, Fitness and Endurance, use it for projects like 'Strength Training', 'HIIT' etc."
                 }
                 <br></br>
             </Typography>
