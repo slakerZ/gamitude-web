@@ -33,10 +33,7 @@ const Energies = ({ energies, token, setEnergies, sessionsComplete }) => {
     const [state, submit] = useAsyncFn(async () => {
         const response = await axios.get(url, headers(token));
         const result = await response.data;
-        setEnergies({
-            ...result.data,
-            emotions: result.data.emotional,
-        });
+        setEnergies({ ...result.data });
         return result;
     }, [url]);
 
