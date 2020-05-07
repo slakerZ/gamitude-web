@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { connect } from "react-redux";
+import { useUpdateEffect, useAsyncFn, useEffectOnce } from "react-use";
+// API
+import { headers, url } from "../../api/rank.api";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 // Components
@@ -9,28 +13,44 @@ import RankTier from "../rank-tier/rank-tier.component.jsx";
 import RankName from "../rank-name/rank-name.component.jsx";
 import RankColors from "../rank-colors/rank-colors.component.jsx";
 // Selectors
-import { selectStats } from "../../redux/stats/stats.selectors.js";
-import { selectRank } from "../../redux/rank/rank.selectors.js";
+import { selectToken } from "../../redux/user/user.selectors";
+import { selectSessionsComplete } from "../../redux/session/session.selectors";
 
-const Rank = ({ stats, ranks }) => {
-    const { strength, creativity, intelligence, fluency } = stats;
-
-    const defaultRank = {
+const Rank = ({ token, sessionsComplete }) => {
+    const [rank, setRank] = useState({
         name: "Sloth",
         tier: "F",
         imageUrl:
             "https://www.kidzone.ws/animal-facts/sloths/images/sloth-1.jpg",
         rankFortes: ["intelligence", "creativity"],
-    };
+        stats: { strength: 0, creativity: 0, intelligence: 0, fluency: 0 },
+    });
 
-    const rankFromDb =
-        ranks[`${strength}-${creativity}-${intelligence}-${fluency}`] ||
-        defaultRank;
+    const [state, submit] = useAsyncFn(async () => {
+        const response = await axios.get(url, headers(token));
+        const result = await response.data.data;
+        setRank({
+            name: result.name,
+            tier: result.tier,
+            imageUrl: result.imageUrl,
+            rankFortes: ["intelligence", "creativity", "fluency", "strength"],
+            stats: { strength: 0, creativity: 0, intelligence: 0, fluency: 0 },
+        });
+        return result;
+    }, [url]);
+
+    useEffectOnce(() => {
+        submit();
+    });
+
+    useUpdateEffect(() => {
+        submit();
+    }, [sessionsComplete]);
 
     const useStyles = makeStyles(theme => {
         const gradientFromFortes = () => {
             const colors = [];
-            rankFromDb.rankFortes.forEach(el => {
+            rank.rankFortes.forEach(el => {
                 switch (el) {
                     case "strength":
                         colors.push(theme.palette.stats.strength);
@@ -95,18 +115,18 @@ const Rank = ({ stats, ranks }) => {
 
     return (
         <div className={classes.rank}>
-            <RankImage rankImage={rankFromDb.imageUrl} />
-            <RankTier rankTier={rankFromDb.tier} />
-            <RankName rankName={rankFromDb.name} />
-            <RankDisplays />
-            <RankColors rankFortes={rankFromDb.rankFortes} />
+            <RankImage rankImage={rank.imageUrl} state={state} />
+            <RankTier rankTier={rank.tier} />
+            <RankName rankName={rank.name} />
+            <RankDisplays rankStats={rank.stats} />
+            <RankColors rankFortes={rank.rankFortes} />
         </div>
     );
 };
 
 const mapStateToProps = state => ({
-    stats: selectStats(state),
-    ranks: selectRank(state),
+    token: selectToken(state),
+    sessionsComplete: selectSessionsComplete(state),
 });
 
 export default connect(mapStateToProps)(Rank);

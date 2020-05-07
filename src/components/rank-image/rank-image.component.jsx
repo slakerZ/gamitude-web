@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -7,7 +7,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 // Tooltips
 import RankImageTooltip from "../../tooltips/rank/rank-image.tooltip.jsx";
 
-const RankImage = ({ rankImage }) => {
+const RankImage = ({ rankImage, state }) => {
     const useStyles = makeStyles(theme => ({
         rankImg: {
             maxWidth: "100%",
@@ -27,16 +27,14 @@ const RankImage = ({ rankImage }) => {
     }));
     const classes = useStyles();
 
-    const [loading, setLoading] = useState(true);
-
-    return loading ? (
+    return state.loading ? (
         <Skeleton
             variant="rect"
             animation="wave"
             className={classes.placeholder}
-            // Remove later
-            onClick={() => setLoading(!loading)}
         />
+    ) : state.error ? (
+        <div>state.error.message</div>
     ) : (
         <div className={classes.center}>
             <Tooltip title={<RankImageTooltip />}>
