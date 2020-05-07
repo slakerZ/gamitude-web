@@ -1,6 +1,33 @@
 import React from "react";
 // UI Core
 import { makeStyles } from "@material-ui/core";
+import Tooltip from "@material-ui/core/Tooltip";
+// Tooltips
+// Energies
+import BodyTooltip from "../../tooltips/energies/body.tooltip.jsx";
+import EmotionsTooltip from "../../tooltips/energies/emotions.tooltip.jsx";
+import MindTooltip from "../../tooltips/energies/mind.tooltip.jsx";
+import SoulTooltip from "../../tooltips/energies/soul.tooltip.jsx";
+// Stats
+import StrengthTooltip from "../../tooltips/stats/strength.tooltip.jsx";
+import CreativityTooltip from "../../tooltips/stats/creativity.tooltip.jsx";
+import IntelligenceTooltip from "../../tooltips/stats/intelligence.tooltip.jsx";
+import FluencyTooltip from "../../tooltips/stats/fluency.tooltip.jsx";
+// Projects
+import ActiveIconTooltip from "../../tooltips/projects/active-icon.tooltip.jsx";
+import PausedIconTooltip from "../../tooltips/projects/paused-icon.tooltip.jsx";
+import DoneIconTooltip from "../../tooltips/projects/done-icon.tooltip.jsx";
+// Menu
+import ProjectsIconTooltip from "../../tooltips/menu/projects-icon.tooltip.jsx";
+import BulletJournalIconTooltip from "../../tooltips/menu/bullet-journal-icon.tooltip.jsx";
+import HomeIconTooltip from "../../tooltips/menu/home-icon.tooltip.jsx";
+import ProfileIconTooltip from "../../tooltips/menu/profile-icon.tooltip.jsx";
+import GuesIconTooltip from "../../tooltips/menu/guest-icon.tooltip.jsx";
+// Mobile Menu
+import ProjectNavIconTooltip from "../../tooltips/mobile-menu/project-nav-icon.tooltip.jsx";
+import RankNavIconTooltip from "../../tooltips/mobile-menu/rank-nav-icon.tooltip.jsx";
+import StatsNavIconTooltip from "../../tooltips/mobile-menu/stats-nav-icon.tooltip.jsx";
+// Components
 // Energies
 import { ReactComponent as Body } from "../../assets/icons/energies/body.svg";
 import { ReactComponent as Emotions } from "../../assets/icons/energies/emotions.svg";
@@ -73,43 +100,119 @@ const CustomIcon = ({ variant, size }) => {
     const getIcon = (variant, size) => {
         switch (variant) {
             case "body":
-                return <Body className={setClass(size)} />;
+                return (
+                    <Tooltip title={<BodyTooltip />}>
+                        <Body className={setClass(size)} />
+                    </Tooltip>
+                );
             case "emotions":
-                return <Emotions className={setClass(size)} />;
+                return (
+                    <Tooltip title={<EmotionsTooltip />}>
+                        <Emotions className={setClass(size)} />
+                    </Tooltip>
+                );
             case "mind":
-                return <Mind className={setClass(size)} />;
+                return (
+                    <Tooltip title={<MindTooltip />}>
+                        <Mind className={setClass(size)} />
+                    </Tooltip>
+                );
             case "soul":
-                return <Soul className={setClass(size)} />;
+                return (
+                    <Tooltip title={<SoulTooltip />}>
+                        <Soul className={setClass(size)} />
+                    </Tooltip>
+                );
             case "strength":
-                return <Strength className={setClass(size)} />;
+                return (
+                    <Tooltip title={<StrengthTooltip />}>
+                        <Strength className={setClass(size)} />
+                    </Tooltip>
+                );
             case "creativity":
-                return <Creativity className={setClass(size)} />;
+                return (
+                    <Tooltip title={<CreativityTooltip />}>
+                        <Creativity className={setClass(size)} />
+                    </Tooltip>
+                );
             case "intelligence":
-                return <Intelligence className={setClass(size)} />;
+                return (
+                    <Tooltip title={<IntelligenceTooltip />}>
+                        <Intelligence className={setClass(size)} />
+                    </Tooltip>
+                );
             case "fluency":
-                return <Fluency className={setClass(size)} />;
+                return (
+                    <Tooltip title={<FluencyTooltip />}>
+                        <Fluency className={setClass(size)} />
+                    </Tooltip>
+                );
             case "projects":
-                return <ProjectsIcon className={setClass(size)} />;
+                return (
+                    <Tooltip title={<ProjectsIconTooltip />}>
+                        <ProjectsIcon className={setClass(size)} />
+                    </Tooltip>
+                );
             case "bulletJournal":
-                return <BulletJournalIcon className={setClass(size)} />;
+                return (
+                    <Tooltip title={<BulletJournalIconTooltip />}>
+                        <BulletJournalIcon className={setClass(size)} />
+                    </Tooltip>
+                );
             case "logo":
-                return <Logo className={setClass(size)} />;
+                return (
+                    <Tooltip title={<HomeIconTooltip />}>
+                        <Logo className={setClass(size)} />
+                    </Tooltip>
+                );
             case "profile":
-                return <ProfileIcon className={setClass(size)} />;
+                return (
+                    <Tooltip title={<ProfileIconTooltip />}>
+                        <ProfileIcon className={setClass(size)} />
+                    </Tooltip>
+                );
             case "guest":
-                return <GuestIcon className={setClass(size)} />;
+                return (
+                    <Tooltip title={<GuesIconTooltip />}>
+                        <GuestIcon className={setClass(size)} />
+                    </Tooltip>
+                );
             case "active":
-                return <ActiveIcon className={setClass(size)} />;
+                return (
+                    <Tooltip title={<ActiveIconTooltip />}>
+                        <ActiveIcon className={setClass(size)} />
+                    </Tooltip>
+                );
             case "paused":
-                return <PausedIcon className={setClass(size)} />;
+                return (
+                    <Tooltip title={<PausedIconTooltip />}>
+                        <PausedIcon className={setClass(size)} />
+                    </Tooltip>
+                );
             case "done":
-                return <DoneIcon className={setClass(size)} />;
+                return (
+                    <Tooltip title={<DoneIconTooltip />}>
+                        <DoneIcon className={setClass(size)} />
+                    </Tooltip>
+                );
             case "rankNav":
-                return <RankNav className={setClass(size)} />;
+                return (
+                    <Tooltip title={<RankNavIconTooltip />}>
+                        <RankNav className={setClass(size)} />
+                    </Tooltip>
+                );
             case "statsNav":
-                return <StatsNav className={setClass(size)} />;
+                return (
+                    <Tooltip title={<StatsNavIconTooltip />}>
+                        <StatsNav className={setClass(size)} />
+                    </Tooltip>
+                );
             case "projectsNav":
-                return <ProjectNav className={setClass(size)} />;
+                return (
+                    <Tooltip title={<ProjectNavIconTooltip />}>
+                        <ProjectNav className={setClass(size)} />
+                    </Tooltip>
+                );
             default:
                 return <div>Icon not found</div>;
         }
