@@ -36,12 +36,21 @@ const ProjectToggle = ({ index, projects, setMethod, sessionInProgress }) => {
                 aria-label="text alignment"
             >
                 <ToggleButton
+                    value={5}
+                    aria-label="90/30"
+                    disabled={sessionInProgress}
+                >
+                    <Typography component="h4" variant="h4">
+                        {"5"}
+                    </Typography>
+                </ToggleButton>
+                <ToggleButton
                     value={25}
                     aria-label="Pomodoro"
                     disabled={sessionInProgress}
                 >
                     <Typography component="h4" variant="h4">
-                        25
+                        {"25"}
                     </Typography>
                 </ToggleButton>
                 <ToggleButton
@@ -50,7 +59,7 @@ const ProjectToggle = ({ index, projects, setMethod, sessionInProgress }) => {
                     disabled={sessionInProgress}
                 >
                     <Typography component="h4" variant="h4">
-                        90
+                        {"90"}
                     </Typography>
                 </ToggleButton>
             </ToggleButtonGroup>

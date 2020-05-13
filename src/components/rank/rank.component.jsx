@@ -18,10 +18,6 @@ import { selectSessionsComplete } from "../../redux/session/session.selectors";
 
 const Rank = ({ token, sessionsComplete }) => {
     const [rank, setRank] = useState({
-        name: "Sloth",
-        tier: "F",
-        imageUrl:
-            "https://www.kidzone.ws/animal-facts/sloths/images/sloth-1.jpg",
         rankFortes: ["intelligence", "creativity"],
         stats: { strength: 0, creativity: 0, intelligence: 0, fluency: 0 },
     });
@@ -29,6 +25,7 @@ const Rank = ({ token, sessionsComplete }) => {
     const [state, submit] = useAsyncFn(async () => {
         const response = await axios.get(url, headers(token));
         const result = await response.data.data;
+        console.log(result);
         setRank({
             name: result.name,
             tier: result.tier,
