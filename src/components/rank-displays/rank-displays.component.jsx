@@ -7,7 +7,7 @@ import RankDisplay from "../rank-display/rank-display.component.jsx";
 // Tooltip
 import RankDisplaysTooltip from "../../tooltips/rank/rank-displays.tooltip.jsx";
 
-const RankDisplays = () => {
+const RankDisplays = ({ rankStats }) => {
     const useStyles = makeStyles({
         rankDisplays: {
             gridArea: "rank-displays",
@@ -21,27 +21,20 @@ const RankDisplays = () => {
     });
     const classes = useStyles();
 
-    const gepardReq = {
-        strength: 0,
-        creativity: 5,
-        intelligence: 10,
-        fluency: 0,
-    };
-
     return (
         <div className={classes.rankDisplays}>
             <Tooltip title={<RankDisplaysTooltip />}>
                 <div className={classes.wrapper}>
-                    <RankDisplay variant="strength" stat={gepardReq.strength} />
+                    <RankDisplay variant="strength" stat={rankStats.strength} />
                     <RankDisplay
                         variant="creativity"
-                        stat={gepardReq.creativity}
+                        stat={rankStats.creativity}
                     />
                     <RankDisplay
                         variant="intelligence"
-                        stat={gepardReq.intelligence}
+                        stat={rankStats.intelligence}
                     />
-                    <RankDisplay variant="fluency" stat={gepardReq.fluency} />
+                    <RankDisplay variant="fluency" stat={rankStats.fluency} />
                 </div>
             </Tooltip>
         </div>

@@ -2,11 +2,14 @@ import React from "react";
 // UI Core
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 // UI lab
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 // Components
 import CustomIcon from "../custom-icon/custom-icon.component.jsx";
+// Tooltip
+import SelectBoostedStatsTooltip from "../../tooltips/stats/selectBoosted.tooltip.jsx";
 
 const CustomProjectStats = ({ groupValue, groupOnChange, dominant }) => {
     const useStyles = makeStyles(theme => ({
@@ -38,9 +41,11 @@ const CustomProjectStats = ({ groupValue, groupOnChange, dominant }) => {
 
     return (
         <div className={classes.container}>
-            <Typography component="h5" variant="h5" align="center">
-                Select stats that this projects boosts
-            </Typography>
+            <Tooltip title={<SelectBoostedStatsTooltip />} placement="left">
+                <Typography component="h4" variant="h4" align="center">
+                    Select stats that this projects boosts
+                </Typography>
+            </Tooltip>
             <ToggleButtonGroup
                 value={groupValue}
                 onChange={handleChange}
