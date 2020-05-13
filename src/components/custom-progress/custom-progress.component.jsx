@@ -31,7 +31,7 @@ const CustomProgress = ({ stat, variant }) => {
             backgroundColor: setColor(variant),
             transition: "width 1.2s",
             transitionTimingFunction: "linear",
-            width: `${stat}%`,
+            width: `${stat > 100 ? 100 : stat < 0 ? 0 : stat}%`,
         },
     });
     const classes = useStyles();
