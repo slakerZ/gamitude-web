@@ -42,6 +42,15 @@ const ProjectToggle = ({
                 aria-label="text alignment"
             >
                 <ToggleButton
+                    value={"infinite"}
+                    aria-label="flow state"
+                    disabled={sessionInProgress}
+                >
+                    <Typography component="h4" variant="h4">
+                        &infin;
+                    </Typography>
+                </ToggleButton>
+                <ToggleButton
                     value={parseInt(time, 10)}
                     aria-label="custom time"
                     disabled={sessionInProgress || !time}
