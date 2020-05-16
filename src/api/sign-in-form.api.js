@@ -1,7 +1,7 @@
 export const url =
     process.env.NODE_ENV === "development"
         ? "http://localhost:5020/api/auth/Authorization/Login"
-        : "http://gamitude.rocks/api/auth/Authorization/Login";
+        : "gamitude.rocks/api/auth/Authorization/Login";
 
 export const request_body = values => ({
     Email: values.email,

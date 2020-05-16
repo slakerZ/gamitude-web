@@ -8,7 +8,7 @@ import {
 export const url =
     process.env.NODE_ENV === "development"
         ? "http://localhost:5010/api/pro/Projects"
-        : "http://gamitude.rocks/api/pro/Projects";
+        : "gamitude.rocks/api/pro/Projects";
 
 export const headers = token => ({
     headers: {
