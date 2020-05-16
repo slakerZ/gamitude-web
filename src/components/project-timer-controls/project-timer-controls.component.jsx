@@ -17,6 +17,7 @@ const ProjectTimerControls = ({
     setLocalSession,
     sessionInProgress,
     breakInProgress,
+    setSessionInProgress,
 }) => {
     // Break/Session in progress
     useUpdateEffect(() => {

@@ -7,7 +7,6 @@ import { headers, url } from "../../api/rank.api";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 // Components
-import RankDisplays from "../rank-displays/rank-displays.component.jsx";
 import RankImage from "../rank-image/rank-image.component.jsx";
 import RankTier from "../rank-tier/rank-tier.component.jsx";
 import RankName from "../rank-name/rank-name.component.jsx";
@@ -18,12 +17,7 @@ import { selectSessionsComplete } from "../../redux/session/session.selectors";
 
 const Rank = ({ token, sessionsComplete }) => {
     const [rank, setRank] = useState({
-        name: "Sloth",
-        tier: "F",
-        imageUrl:
-            "https://www.kidzone.ws/animal-facts/sloths/images/sloth-1.jpg",
         rankFortes: ["intelligence", "creativity"],
-        stats: { strength: 0, creativity: 0, intelligence: 0, fluency: 0 },
     });
 
     const [state, submit] = useAsyncFn(async () => {
@@ -34,7 +28,6 @@ const Rank = ({ token, sessionsComplete }) => {
             tier: result.tier,
             imageUrl: result.imageUrl,
             rankFortes: ["intelligence", "creativity", "fluency", "strength"],
-            stats: { strength: 0, creativity: 0, intelligence: 0, fluency: 0 },
         });
         return result;
     }, [url]);
@@ -118,7 +111,6 @@ const Rank = ({ token, sessionsComplete }) => {
             <RankImage rankImage={rank.imageUrl} state={state} />
             <RankTier rankTier={rank.tier} />
             <RankName rankName={rank.name} />
-            <RankDisplays rankStats={rank.stats} />
             <RankColors rankFortes={rank.rankFortes} />
         </div>
     );

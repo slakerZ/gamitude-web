@@ -16,6 +16,8 @@ import { setSessionsComplete } from "../../redux/session/session.actions";
 import TimerDisplays from "../timer-displays/timer-displays.component.jsx";
 import Uifx from "../uifx/uifx.component.jsx";
 import ProjectTimerControls from "../project-timer-controls/project-timer-controls.component.jsx";
+// UI Core
+import Button from "@material-ui/core/Button";
 
 const ProjectTimer = ({
     index,
@@ -28,21 +30,27 @@ const ProjectTimer = ({
 
     const [sessionTime, setSessionTime] = useState(duration(method, "minutes"));
     const [localSession, setLocalSession] = useState(false);
+    const [totalTime, setTotalTime] = useState(duration(method, "minutes"));
 
-    const [state, submit] = useAsyncFn(async () => {
-        const { id, boosted, dominant } = projects[index];
-        const response = await axios.post(
-            url,
-            request_body(id, method, boosted, dominant),
-            headers(token)
-        );
-        const result = await response.data;
-        return result;
-    }, [url]);
+    const [state, submit] = useAsyncFn(
+        async totalTime => {
+            const realTime = totalTime.asMinutes();
+            const { id, boosted, dominant } = projects[index];
+            const response = await axios.post(
+                url,
+                request_body(id, realTime, boosted, dominant),
+                headers(token)
+            );
+            const result = await response.data;
+            return result;
+        },
+        [url]
+    );
 
-    // Listern for method change
+    // Lister for method change
     useEffect(() => {
         setSessionTime(duration(method, "minutes"));
+        setTotalTime(duration(method, "minutes"));
     }, [method]);
 
     // Session completed successfully
@@ -55,7 +63,9 @@ const ProjectTimer = ({
             // Stop timer
             setLocalSession(false);
             // Sync with api
-            submit();
+            submit(totalTime);
+            // Reset Total time
+            setTotalTime(duration(method, "minutes"));
         }
     }, [sessionTime]);
 
@@ -90,12 +100,24 @@ const ProjectTimer = ({
         return () => {
             clearInterval(interval);
         };
-    }, [localSession, method, sessionTime, setSessionsComplete, submit]);
+    }, [localSession, method, sessionTime, setSessionsComplete]);
+
+    const addFiveMinutes = () => {
+        setSessionTime(() => {
+            sessionTime.add(5, "minutes");
+            return duration(sessionTime);
+        });
+        setTotalTime(() => {
+            totalTime.add(5, "minutes");
+            return duration(totalTime);
+        });
+    };
 
     return (
         <div className="timer">
             <Uifx sessionTime={sessionTime} />
             <TimerDisplays time={sessionTime} />
+            {localSession ? <Button onClick={addFiveMinutes}>+5</Button> : null}
             <div>{state.error ? state.error.message : null}</div>
             <ProjectTimerControls
                 localSession={localSession}

@@ -1,7 +1,7 @@
 export const url =
     process.env.NODE_ENV === "development"
         ? "http://localhost:5030/api/stats/time"
-        : "http://gamitude.rocks/api/stats/time";
+        : "gamitude.rocks/api/stats/time";
 
 export const headers = token => ({
     headers: {
@@ -11,10 +11,10 @@ export const headers = token => ({
 
 // WARN Currently projects don't have type field
 // WARN I was lazy so I've just put in the method is there a window for cheating?
-export const request_body = (id, method, boosted, dominant) => ({
+export const request_body = (id, totalTime, boosted, dominant) => ({
     ProjectId: id,
     ProjectType: "STATS",
-    Duration: method,
+    Duration: totalTime,
     Stats: mapBoostedToStats(boosted),
     DominantStat: mapDominantToDominantStat(dominant),
 });

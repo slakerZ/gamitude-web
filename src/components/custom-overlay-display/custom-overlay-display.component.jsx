@@ -11,6 +11,7 @@ const CustomOverlayDisplay = ({ stat }) => {
             position: "absolute",
             top: "12px",
             bottom: "12px",
+            color: stat > 100 ? "red" : "#FFFFFF",
         },
     });
     const classes = useStyles();
