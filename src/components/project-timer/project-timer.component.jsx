@@ -47,7 +47,7 @@ const ProjectTimer = ({
         [url]
     );
 
-    // Lister for method change
+    // Listen for method change
     useEffect(() => {
         setSessionTime(duration(method, "minutes"));
         setTotalTime(duration(method, "minutes"));

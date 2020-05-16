@@ -12,7 +12,13 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 
-const ProjectToggle = ({ index, projects, setMethod, sessionInProgress }) => {
+const ProjectToggle = ({
+    index,
+    projects,
+    setMethod,
+    sessionInProgress,
+    time,
+}) => {
     const method = projects[index].method;
 
     const useStyles = makeStyles(theme => ({
@@ -35,6 +41,15 @@ const ProjectToggle = ({ index, projects, setMethod, sessionInProgress }) => {
                 onChange={handleMethod}
                 aria-label="text alignment"
             >
+                <ToggleButton
+                    value={parseInt(time, 10)}
+                    aria-label="custom time"
+                    disabled={sessionInProgress || !time}
+                >
+                    <Typography component="h4" variant="h4">
+                        {time ? time : "?"}
+                    </Typography>
+                </ToggleButton>
                 <ToggleButton
                     value={5}
                     aria-label="90/30"
