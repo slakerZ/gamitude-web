@@ -7,11 +7,17 @@ import { url, headers, request_body } from "../../api/project-timer.api";
 // Moment
 import { duration } from "moment/moment";
 // Selectors
-import { selectSessionsComplete } from "../../redux/session/session.selectors";
+import {
+    selectSessionsComplete,
+    selectBreakTime,
+} from "../../redux/session/session.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectToken } from "../../redux/user/user.selectors";
 // Actions
-import { setSessionsComplete } from "../../redux/session/session.actions";
+import {
+    setSessionsComplete,
+    setBreakTime,
+} from "../../redux/session/session.actions";
 // Components
 import TimerDisplays from "../timer-displays/timer-displays.component.jsx";
 import Uifx from "../uifx/uifx.component.jsx";
@@ -25,6 +31,8 @@ const ProjectTimer = ({
     sessionsComplete,
     setSessionsComplete,
     token,
+    breakTime,
+    setBreakTime,
 }) => {
     const method = projects[index].method;
 
@@ -56,6 +64,14 @@ const ProjectTimer = ({
     // Session completed successfully
     useUpdateEffect(() => {
         if (sessionTime.asSeconds() === 0) {
+            // Add to break time
+            const toAdd =
+                totalTime.asMinutes() === 25
+                    ? 5
+                    : totalTime.asMinutes() === 90
+                    ? 30
+                    : parseInt(totalTime.asMinutes() / 5, 10);
+            setBreakTime(duration(breakTime.asMinutes() + toAdd, "minutes"));
             // Update sessions count
             setSessionsComplete(sessionsComplete + 1);
             // Reset timer
@@ -131,10 +147,12 @@ const mapStateToProps = state => ({
     sessionsComplete: selectSessionsComplete(state),
     projects: selectProjects(state),
     token: selectToken(state),
+    breakTime: selectBreakTime(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     setSessionsComplete: value => dispatch(setSessionsComplete(value)),
+    setBreakTime: value => dispatch(setBreakTime(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectTimer);
