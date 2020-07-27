@@ -1,25 +1,23 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 // Components
-import Navigation from "../../navigation/navigation.component.jsx";
-import LoadingScreen from "../../loading-screen/loading-screen.component.jsx";
+import Navigation from "../navigation/navigation.component";
+import LoadingScreen from "../../atoms/loading-screen/loading-screen.component";
 // Pages
 import HomePage from "../../../pages/home/home.page";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 // Lazy Loading
 const ProjectsPage = lazy(() =>
-    import("../../../pages/projects/projects.page.jsx"),
+    import("../../../pages/projects/projects.page"),
 );
 const BulletJournalPage = lazy(() =>
-    import("../../../pages/bullet-journal/bullet-journal.page.jsx"),
+    import("../../../pages/bullet-journal/bullet-journal.page"),
 );
 const SignInSignUpPage = lazy(() =>
-    import("../../../pages/sign-in-sign-up/sign-in-sign-up.page.jsx"),
+    import("../../../pages/sign-in-sign-up/sign-in-sign-up.page"),
 );
-const ProfilePage = lazy(() =>
-    import("../../../pages/profile/profile.page.jsx"),
-);
+const ProfilePage = lazy(() => import("../../../pages/profile/profile.page"));
 
 const App: React.FC = () => {
     const useStyles = makeStyles({

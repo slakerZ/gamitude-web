@@ -9,7 +9,7 @@ export const SignInUpProvider = ({ children }) => {
         <SignInUpContext.Provider
             value={{
                 data: checked,
-                updateChecked: newChecked => {
+                updateChecked: (newChecked) => {
                     setChecked(newChecked);
                 },
             }}
