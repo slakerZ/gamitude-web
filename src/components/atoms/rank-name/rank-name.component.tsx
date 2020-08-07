@@ -6,7 +6,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 // Tooltips
 import RankNameTooltip from "../../../tooltips/rank/rank-name.tooltip";
 
-const RankName = ({ rankName }) => {
+const RankName = ({ rankName }: { rankName: string }) => {
     const useStyles = makeStyles({
         rankName: {
             gridArea: "rank-name",

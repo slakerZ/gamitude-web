@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // Components
 import CustomIcon from "../custom-icon/custom-icon.component";
 
-const RankColors = ({ rankFortes }) => {
+const RankColors = ({ rankFortes }: { rankFortes: any }) => {
     const useStyles = makeStyles({
         rankColors: {
             margin: "auto",
@@ -21,13 +21,12 @@ const RankColors = ({ rankFortes }) => {
 
     return (
         <div className={classes.rankColors}>
-            {rankFortes.map((element) => {
+            {rankFortes.map((element: any) => {
                 return (
                     <CustomIcon
                         key={rankFortes.indexOf(element)}
                         variant={element}
                         size="large"
-                        className={classes.bgIcon}
                     />
                 );
             })}

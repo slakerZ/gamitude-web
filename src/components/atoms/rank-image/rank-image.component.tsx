@@ -7,12 +7,12 @@ import Skeleton from "@material-ui/lab/Skeleton";
 // Tooltips
 import RankImageTooltip from "../../../tooltips/rank/rank-image.tooltip";
 
-const RankImage = ({ rankImage, state }) => {
+const RankImage = ({ rankImage, state }: { rankImage: any; state: any }) => {
     const useStyles = makeStyles((theme) => ({
         rankImg: {
             maxWidth: "100%",
             height: "auto",
-            border: `solid 2px ${theme.palette.secondary.darker}`,
+            border: `solid 2px ${theme.palette.secondary.main}`,
         },
         placeholder: {
             gridArea: "rank-img",

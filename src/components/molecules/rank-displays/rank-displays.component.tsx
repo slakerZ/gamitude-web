@@ -7,7 +7,7 @@ import RankDisplay from "../../atoms/rank-display/rank-display.component";
 // Tooltip
 import RankDisplaysTooltip from "../../../tooltips/rank/rank-displays.tooltip";
 
-const RankDisplays = ({ rankStats }) => {
+const RankDisplays = ({ rankStats }: { rankStats: any }) => {
     const useStyles = makeStyles({
         rankDisplays: {
             gridArea: "rank-displays",

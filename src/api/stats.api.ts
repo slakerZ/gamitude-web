@@ -3,7 +3,7 @@ export const url =
         ? "http://localhost:5030/api/stats/statistics/stats"
         : "https://gamitude.rocks/api/stats/statistics/stats";
 
-export const headers = (token) => ({
+export const headers = (token: any) => ({
     headers: {
         Authorization: "Bearer " + token,
     },

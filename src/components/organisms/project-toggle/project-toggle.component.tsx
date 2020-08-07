@@ -18,6 +18,12 @@ const ProjectToggle = ({
     setMethod,
     sessionInProgress,
     time,
+}: {
+    index: any;
+    projects: any;
+    setMethod: any;
+    sessionInProgress: any;
+    time: any;
 }) => {
     const method = projects[index].method;
 
@@ -28,7 +34,7 @@ const ProjectToggle = ({
     }));
     const classes = useStyles();
 
-    const handleMethod = (event, newMethod) => {
+    const handleMethod = (event: any, newMethod: any) => {
         newMethod = newMethod || method;
         setMethod({ index: index, method: newMethod });
     };
@@ -91,13 +97,13 @@ const ProjectToggle = ({
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     sessionInProgress: selectSessionInProgress(state),
     projects: selectProjects(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setMethod: (value) => dispatch(setMethod(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setMethod: (value: any) => dispatch(setMethod(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectToggle);

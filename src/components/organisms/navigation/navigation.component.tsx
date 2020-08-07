@@ -14,10 +14,18 @@ import {
 } from "../../../redux/session/session.selectors";
 import { selectToken } from "../../../redux/user/user.selectors";
 
-const Navigation = ({ sessionInProgress, breakInProgress, token }) => {
+const Navigation = ({
+    sessionInProgress,
+    breakInProgress,
+    token,
+}: {
+    sessionInProgress: any;
+    breakInProgress: any;
+    token: any;
+}) => {
     const useStyles = makeStyles((theme) => ({
         tabs: {
-            backgroundColor: theme.palette.tertriary.main,
+            backgroundColor: theme.palette.primary.main,
         },
     }));
     const classes = useStyles();
@@ -75,7 +83,7 @@ const Navigation = ({ sessionInProgress, breakInProgress, token }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     sessionInProgress: selectSessionInProgress(state),
     breakInProgress: selectBreakInProgress(state),
     token: selectToken(state),

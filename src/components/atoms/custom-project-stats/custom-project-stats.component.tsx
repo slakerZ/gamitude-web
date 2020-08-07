@@ -11,7 +11,15 @@ import CustomIcon from "../custom-icon/custom-icon.component";
 // Tooltip
 import SelectBoostedStatsTooltip from "../../../tooltips/stats/selectBoosted.tooltip";
 
-const CustomProjectStats = ({ groupValue, groupOnChange, dominant }) => {
+const CustomProjectStats = ({
+    groupValue,
+    groupOnChange,
+    dominant,
+}: {
+    groupValue: string;
+    groupOnChange: Function;
+    dominant: string;
+}) => {
     const useStyles = makeStyles((theme) => ({
         container: {
             display: "flex",
@@ -24,16 +32,16 @@ const CustomProjectStats = ({ groupValue, groupOnChange, dominant }) => {
         },
         btn: {
             "&.Mui-selected": {
-                background: theme.palette.complement.lighter,
+                background: theme.palette.primary.light,
                 "&:hover": {
-                    background: theme.palette.complement.light,
+                    background: theme.palette.primary.light,
                 },
             },
         },
     }));
     const classes = useStyles();
 
-    const handleChange = (e, newBoosted) => {
+    const handleChange = (e: any, newBoosted: string) => {
         if (newBoosted.includes(dominant) || dominant.length === 0) {
             groupOnChange(newBoosted);
         }

@@ -24,7 +24,17 @@ import ProjectBreakTimer from "../../organisms/project-break-timer/project-break
 import ProjectsNav from "../projects-nav/projects-nav.component";
 import ProjectsBackend from "../../atoms/projects-backend/projects-backend.component";
 
-const Projects = ({ projects, projectsTab, setProjects, token }) => {
+const Projects = ({
+    projects,
+    projectsTab,
+    setProjects,
+    token,
+}: {
+    projects: any;
+    projectsTab: any;
+    setProjects: any;
+    token: any;
+}) => {
     const useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
@@ -37,7 +47,7 @@ const Projects = ({ projects, projectsTab, setProjects, token }) => {
             backgroundColor: "transparent",
         },
         tabs: {
-            backgroundColor: theme.palette.tertriary.main,
+            backgroundColor: theme.palette.secondary.main,
             justifyContent: "center",
         },
     }));
@@ -59,7 +69,7 @@ const Projects = ({ projects, projectsTab, setProjects, token }) => {
         <div className={classes.root}>
             <ProjectsNav />
 
-            {projects.map((project) => {
+            {projects.map((project: any) => {
                 const { status } = project;
                 const index = projects.indexOf(project);
                 return (
@@ -77,7 +87,7 @@ const Projects = ({ projects, projectsTab, setProjects, token }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     breakInProgress: selectBreakInProgress(state),
     sessionInProgress: selectSessionInProgress(state),
@@ -85,8 +95,8 @@ const mapStateToProps = (state) => ({
     token: selectToken(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setProjects: (value) => dispatch(setProjects(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setProjects: (value: any) => dispatch(setProjects(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Projects);

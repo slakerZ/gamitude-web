@@ -3,7 +3,17 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-const SignInUpSubmit = ({ text, isValid, dirty, loading }) => {
+const SignInUpSubmit = ({
+    text,
+    isValid,
+    dirty,
+    loading,
+}: {
+    text: string;
+    isValid: boolean;
+    dirty: boolean;
+    loading: boolean;
+}) => {
     const useStyles = makeStyles((theme) => ({
         submit: {
             margin: theme.spacing(2, 0),

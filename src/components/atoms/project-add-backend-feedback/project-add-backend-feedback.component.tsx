@@ -3,7 +3,15 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const ProjectAddBackendFeedback = ({ loading, error, submit }) => {
+const ProjectAddBackendFeedback = ({
+    loading,
+    error,
+    submit,
+}: {
+    loading: any;
+    error: any;
+    submit: any;
+}) => {
     return loading ? (
         <CircularProgress />
     ) : error ? (

@@ -16,7 +16,17 @@ import { selectSessionsComplete } from "../../../redux/session/session.selectors
 import ProgressBar from "../progress-bar/progress-bar.component";
 import StatsBackend from "../../atoms/stats-backend/stats-backend.component";
 
-const Stats = ({ stats, token, setStats, sessionsComplete }) => {
+const Stats = ({
+    stats,
+    token,
+    setStats,
+    sessionsComplete,
+}: {
+    stats: any;
+    token: any;
+    setStats: any;
+    sessionsComplete: any;
+}) => {
     const { strength, creativity, intelligence, fluency } = stats;
 
     const useStyles = makeStyles({
@@ -28,7 +38,7 @@ const Stats = ({ stats, token, setStats, sessionsComplete }) => {
             gridArea: "stats",
         },
         tooltip: {
-            zIndex: "200",
+            zIndex: 200,
         },
     });
     const classes = useStyles();
@@ -66,14 +76,14 @@ const Stats = ({ stats, token, setStats, sessionsComplete }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     stats: selectStats(state),
     token: selectToken(state),
     sessionsComplete: selectSessionsComplete(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setStats: (value) => dispatch(setStats(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setStats: (value: any) => dispatch(setStats(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stats);

@@ -18,7 +18,17 @@ import Button from "@material-ui/core/Button";
 // Components
 import BackendFeedback from "../backend-feedback/backend-feedback.component";
 
-const ProjectEditSubmit = ({ index, setIsExpanded, projects, token }) => {
+const ProjectEditSubmit = ({
+    index,
+    setIsExpanded,
+    projects,
+    token,
+}: {
+    index: number;
+    setIsExpanded: Function;
+    projects: any[];
+    token: string;
+}) => {
     const useStyles = makeStyles((theme) => ({
         root: {
             display: "flex",
@@ -67,7 +77,7 @@ const ProjectEditSubmit = ({ index, setIsExpanded, projects, token }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     token: selectToken(state),
 });

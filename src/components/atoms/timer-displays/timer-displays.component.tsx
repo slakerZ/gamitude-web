@@ -2,7 +2,7 @@ import React from "react";
 // UI core
 import { makeStyles } from "@material-ui/core";
 
-const TimerDisplays = ({ time }) => {
+const TimerDisplays = ({ time }: { time: any }) => {
     const useStyles = makeStyles({
         timerDisplays: {
             display: "flex",
@@ -22,7 +22,7 @@ const TimerDisplays = ({ time }) => {
     });
     const classes = useStyles();
 
-    const leftPad = (val) => (val < 10 ? `0${val}` : `${val}`);
+    const leftPad = (val: number) => (val < 10 ? `0${val}` : `${val}`);
 
     return (
         <div className={classes.timerDisplays}>

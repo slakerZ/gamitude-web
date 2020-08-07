@@ -3,7 +3,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
-const SignInUpHeader = ({ text }) => {
+const SignInUpHeader = ({ text }: { text: string }) => {
     const useStyles = makeStyles((theme) => ({
         root: {
             fontWeight: "bolder",

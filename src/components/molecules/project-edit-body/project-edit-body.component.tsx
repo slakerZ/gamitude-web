@@ -10,7 +10,13 @@ import ProjectEditDelete from "../project-edit-delete/project-edit-delete.compon
 import ProjectEditName from "../../atoms/project-edit-name/project-edit-name.component";
 import ProjectEditSubmit from "../../atoms/project-edit-submit/project-edit-submit.component";
 
-const ProjectEditBody = ({ index, setIsExpanded }) => {
+const ProjectEditBody = ({
+    index,
+    setIsExpanded,
+}: {
+    index: number;
+    setIsExpanded: any;
+}) => {
     const useStyles = makeStyles((theme) => ({
         expansionPanelDetails: {
             backgroundColor: theme.palette.secondary.main,

@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const ProjectsBackend = ({ state, submit }) => {
+const ProjectsBackend = ({ state, submit }: { state: any; submit?: any }) => {
     const useStyles = makeStyles((theme) => ({
         root: {
             padding: theme.spacing(7, 5),

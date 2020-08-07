@@ -4,7 +4,13 @@ import Grid from "@material-ui/core/Grid";
 // Components
 import FormikField from "../formik-field/formik-field.component";
 
-const SignInUpGroup = ({ field1, field2 }) => {
+const SignInUpGroup = ({
+    field1,
+    field2,
+}: {
+    field1: { label: string; name: string; type: any };
+    field2: { label: string; name: string; type: any };
+}) => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

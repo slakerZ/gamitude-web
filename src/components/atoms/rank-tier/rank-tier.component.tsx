@@ -6,22 +6,22 @@ import Tooltip from "@material-ui/core/Tooltip";
 // Tooltips
 import RankTierTooltip from "../../../tooltips/rank/rank-tier.tooltip";
 
-const RankTier = ({ rankTier }) => {
+const RankTier = ({ rankTier }: { rankTier: any }) => {
     const useStyles = makeStyles((theme) => {
         const tierToColor = () => {
             switch (rankTier) {
                 case "S":
-                    return theme.palette.tiers.s;
+                    return theme.palette.primary.main;
                 case "A":
-                    return theme.palette.tiers.a;
+                    return theme.palette.primary.main;
                 case "B":
-                    return theme.palette.tiers.b;
+                    return theme.palette.primary.main;
                 case "C":
-                    return theme.palette.tiers.c;
+                    return theme.palette.primary.main;
                 case "D":
-                    return theme.palette.tiers.d;
+                    return theme.palette.primary.main;
                 case "F":
-                    return theme.palette.tiers.f;
+                    return theme.palette.primary.main;
                 default:
                     return theme.palette.error.main;
             }

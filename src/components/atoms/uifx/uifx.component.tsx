@@ -3,7 +3,15 @@ import { connect } from "react-redux";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 
-const Uifx = ({ sessionEndSound, minuteLeftSound, sessionTime }) => {
+const Uifx = ({
+    sessionEndSound,
+    minuteLeftSound,
+    sessionTime,
+}: {
+    sessionEndSound: any;
+    minuteLeftSound: any;
+    sessionTime: any;
+}) => {
     const useStyles = makeStyles({
         root: {
             position: "fixed",
@@ -28,7 +36,7 @@ const Uifx = ({ sessionEndSound, minuteLeftSound, sessionTime }) => {
     return <div className={classes.root}></div>;
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     sessionEndSound: state.uifx.projectSounds.sessionEndSound,
     minuteLeftSound: state.uifx.projectSounds.minuteLeftSound,
 });

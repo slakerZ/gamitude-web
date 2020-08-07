@@ -6,7 +6,13 @@ import Button from "@material-ui/core/Button";
 // Components
 import ProjectEditDeleteAlert from "../project-edit-delete-alert/project-edit-delete-alert.component";
 
-const ProjectEditDelete = ({ index, setIsExpanded }) => {
+const ProjectEditDelete = ({
+    index,
+    setIsExpanded,
+}: {
+    index: number;
+    setIsExpanded: any;
+}) => {
     const useStyles = makeStyles((theme) => ({
         root: {
             display: "flex",

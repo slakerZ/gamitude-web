@@ -25,6 +25,14 @@ const ProjectEditDeleteAlert = ({
     token,
     projects,
     deleteProject,
+}: {
+    open: any;
+    setOpen: any;
+    index: any;
+    setIsExpanded: any;
+    token: any;
+    projects: any;
+    deleteProject: any;
 }) => {
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -72,13 +80,13 @@ const ProjectEditDeleteAlert = ({
         </Dialog>
     );
 };
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     token: selectToken(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    deleteProject: (value) => dispatch(deleteProject(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    deleteProject: (value: any) => dispatch(deleteProject(value)),
 });
 export default connect(
     mapStateToProps,

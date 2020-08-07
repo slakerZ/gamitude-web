@@ -18,6 +18,12 @@ const ProjectTimerControls = ({
     sessionInProgress,
     breakInProgress,
     setSessionInProgress,
+}: {
+    localSession: any;
+    setLocalSession: any;
+    sessionInProgress: any;
+    breakInProgress: any;
+    setSessionInProgress: any;
 }) => {
     // Break/Session in progress
     useUpdateEffect(() => {
@@ -41,13 +47,13 @@ const ProjectTimerControls = ({
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     sessionInProgress: selectSessionInProgress(state),
     breakInProgress: selectBreakInProgress(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setSessionInProgress: (value) => dispatch(setSessionInProgress(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setSessionInProgress: (value: any) => dispatch(setSessionInProgress(value)),
 });
 
 export default connect(

@@ -3,7 +3,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
-const CustomOverlayDisplay = ({ stat }) => {
+const CustomOverlayDisplay = ({ stat }: { stat: number }) => {
     const useStyles = makeStyles({
         statDisplay: {
             width: "100%",

@@ -17,7 +17,7 @@ const ProjectAdd = () => {
         },
         add: {
             boxShadow: "5px 5px 10px #000000",
-            backgroundColor: theme.palette.complement.dark,
+            backgroundColor: theme.palette.primary.dark,
         },
     }));
     const classes = useStyles();

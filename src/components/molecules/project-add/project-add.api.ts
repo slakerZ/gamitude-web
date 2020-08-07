@@ -3,7 +3,7 @@ export const url =
         ? "http://localhost:5010/api/pro/Projects"
         : "http://gamitude.rocks:31778/api/pro/Projects";
 
-export const headers = (token) => ({
+export const headers = (token: string) => ({
     headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json",

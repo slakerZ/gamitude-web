@@ -32,16 +32,26 @@ const ProjectStopWatch = ({
     setSessionInProgress,
     breakTime,
     setBreakTime,
+}: {
+    index: any;
+    projects: any;
+    token: any;
+    sessionsComplete: any;
+    setSessionsComplete: any;
+    sessionEndSound: any;
+    setSessionInProgress: any;
+    breakTime: any;
+    setBreakTime: any;
 }) => {
     const [sessionTime, setSessionTime] = useState(duration(0, "minutes"));
     const [localSession, setLocalSession] = useState(false);
 
     const [state, submit] = useAsyncFn(
-        async (totalTime) => {
+        async (totalTimeWorked: any) => {
             const { id, boosted, dominant } = projects[index];
             const response = await axios.post(
                 url,
-                request_body(id, totalTime, boosted, dominant),
+                request_body(id, totalTimeWorked, boosted, dominant),
                 headers(token),
             );
             const result = await response.data;
@@ -61,7 +71,7 @@ const ProjectStopWatch = ({
                       }),
                   process.env.NODE_ENV === "development" ? 1 : 1000,
               )
-            : null;
+            : setInterval(() => 0, 0);
         return () => {
             clearInterval(interval);
         };
@@ -78,13 +88,10 @@ const ProjectStopWatch = ({
 
     // Stopwatch stopped
     const onStop = () => {
-        const totalTime = parseInt(sessionTime.asMinutes(), 10);
+        const totalTime = sessionTime.asMinutes();
         // Add adequate break time
         setBreakTime(
-            duration(
-                breakTime.asMinutes() + parseInt(totalTime / 5, 10),
-                "minutes",
-            ),
+            duration(breakTime.asMinutes() + totalTime / 5, "minutes"),
         );
         // Stop timer
         setLocalSession(false);
@@ -119,7 +126,7 @@ const ProjectStopWatch = ({
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
     sessionsComplete: selectSessionsComplete(state),
@@ -128,10 +135,10 @@ const mapStateToProps = (state) => ({
     breakTime: selectBreakTime(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setSessionsComplete: (value) => dispatch(setSessionsComplete(value)),
-    setSessionInProgress: (value) => dispatch(setSessionInProgress(value)),
-    setBreakTime: (value) => dispatch(setBreakTime(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setSessionsComplete: (value: any) => dispatch(setSessionsComplete(value)),
+    setSessionInProgress: (value: any) => dispatch(setSessionInProgress(value)),
+    setBreakTime: (value: any) => dispatch(setBreakTime(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectStopWatch);

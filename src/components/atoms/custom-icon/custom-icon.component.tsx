@@ -53,7 +53,7 @@ import { ReactComponent as ProjectNav } from "../../../assets/icons/navigation/p
 import { ReactComponent as RankNav } from "../../../assets/icons/navigation/rank.svg";
 import { ReactComponent as StatsNav } from "../../../assets/icons/navigation/stats.svg";
 
-const CustomIcon = ({ variant, size }) => {
+const CustomIcon = ({ variant, size }: { variant: string; size: string }) => {
     const useStyles = makeStyles((theme) => ({
         error: {
             backgroundColor: theme.palette.error.contrastText,
@@ -82,7 +82,7 @@ const CustomIcon = ({ variant, size }) => {
     }));
     const classes = useStyles();
 
-    const setClass = (size) => {
+    const setClass = (size: string) => {
         switch (size) {
             case "bar":
                 return classes.bar;
@@ -97,7 +97,7 @@ const CustomIcon = ({ variant, size }) => {
         }
     };
 
-    const getIcon = (variant, size) => {
+    const getIcon = (variant: string, size: string) => {
         switch (variant) {
             case "body":
                 return (

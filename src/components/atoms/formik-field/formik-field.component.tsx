@@ -5,7 +5,17 @@ import TextField from "@material-ui/core/TextField";
 // Formik
 import { Field, ErrorMessage } from "formik";
 
-const FormikField = ({ required = true, label, name, type }) => {
+const FormikField = ({
+    required = true,
+    label,
+    name,
+    type,
+}: {
+    required?: boolean;
+    label: string;
+    name: string;
+    type: string;
+}) => {
     const useStyles = makeStyles((theme) => ({
         root: {
             padding: theme.spacing(1.5, 0),

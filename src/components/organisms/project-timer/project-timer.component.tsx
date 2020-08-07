@@ -33,6 +33,14 @@ const ProjectTimer = ({
     token,
     breakTime,
     setBreakTime,
+}: {
+    index: any;
+    projects: any;
+    sessionsComplete: any;
+    setSessionsComplete: any;
+    token: any;
+    breakTime: any;
+    setBreakTime: any;
 }) => {
     const method = projects[index].method;
 
@@ -41,7 +49,7 @@ const ProjectTimer = ({
     const [totalTime, setTotalTime] = useState(duration(method, "minutes"));
 
     const [state, submit] = useAsyncFn(
-        async (totalTime) => {
+        async (totalTime: any) => {
             const realTime = totalTime.asMinutes();
             const { id, boosted, dominant } = projects[index];
             const response = await axios.post(
@@ -70,7 +78,7 @@ const ProjectTimer = ({
                     ? 5
                     : totalTime.asMinutes() === 90
                     ? 30
-                    : parseInt(totalTime.asMinutes() / 5, 10);
+                    : totalTime.asMinutes() / 5;
             setBreakTime(duration(breakTime.asMinutes() + toAdd, "minutes"));
             // Update sessions count
             setSessionsComplete(sessionsComplete + 1);
@@ -100,7 +108,7 @@ const ProjectTimer = ({
                       }),
                   process.env.NODE_ENV === "development" ? 1 : 1000,
               )
-            : null;
+            : setInterval(() => 0, 0);
         if (!localSession) {
             // Give up has been clicked
             const sessionContinues = sessionTime.asSeconds() > 0;
@@ -143,16 +151,16 @@ const ProjectTimer = ({
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     sessionsComplete: selectSessionsComplete(state),
     projects: selectProjects(state),
     token: selectToken(state),
     breakTime: selectBreakTime(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setSessionsComplete: (value) => dispatch(setSessionsComplete(value)),
-    setBreakTime: (value) => dispatch(setBreakTime(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setSessionsComplete: (value: any) => dispatch(setSessionsComplete(value)),
+    setBreakTime: (value: any) => dispatch(setBreakTime(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectTimer);

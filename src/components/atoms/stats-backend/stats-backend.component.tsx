@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 
-const StatsBackend = ({ state, submit }) => {
+const StatsBackend = ({ state, submit }: { state: any; submit: any }) => {
     const useStyles = makeStyles({
         center: {
             display: "flex",

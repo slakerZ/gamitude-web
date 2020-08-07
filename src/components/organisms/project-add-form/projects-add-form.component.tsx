@@ -31,7 +31,17 @@ import CustomProjectStats from "../../atoms/custom-project-stats/custom-project-
 import CustomProjectsStatsDominant from "../../atoms/custom-project-stats-dominant/custom-project-stats-dominant.component";
 import CustomProjectName from "../../atoms/custom-project-name/custom-project-name.component";
 
-const ProjectsAddForm = ({ open, setOpen, addProject, token }) => {
+const ProjectsAddForm = ({
+    open,
+    setOpen,
+    addProject,
+    token,
+}: {
+    open: any;
+    setOpen: any;
+    addProject: any;
+    token: any;
+}) => {
     const useStyles = makeStyles({
         root: {
             background: "transparent",
@@ -40,7 +50,7 @@ const ProjectsAddForm = ({ open, setOpen, addProject, token }) => {
     const classes = useStyles();
 
     const [state, submit] = useAsyncFn(
-        async (context) => {
+        async (context: any) => {
             const response = await axios.post(
                 url,
                 requestData(context),
@@ -60,7 +70,7 @@ const ProjectsAddForm = ({ open, setOpen, addProject, token }) => {
         setOpen(false);
     };
 
-    const resetContext = (context) => {
+    const resetContext = (context: any) => {
         context.setName("");
         context.setBoosted([]);
         context.setDominant("");
@@ -69,7 +79,7 @@ const ProjectsAddForm = ({ open, setOpen, addProject, token }) => {
     return (
         <AddProjectProvider>
             <AddProjectContext.Consumer>
-                {(context) => (
+                {(context: any) => (
                     <Dialog
                         open={open}
                         onClose={handleClose}
@@ -111,12 +121,12 @@ const ProjectsAddForm = ({ open, setOpen, addProject, token }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     token: selectToken(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    addProject: (value) => dispatch(addProject(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    addProject: (value: any) => dispatch(addProject(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectsAddForm);

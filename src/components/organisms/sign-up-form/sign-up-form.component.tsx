@@ -39,7 +39,7 @@ const SignUpForm = () => {
     const context = useContext(SignInUpContext);
 
     const [state, submit] = useAsyncFn(
-        async (values) => {
+        async (values: any) => {
             const response = await axios.post(url, request_body(values));
             const data = await response.data;
             context.updateChecked(true);
@@ -90,7 +90,7 @@ const SignUpForm = () => {
                     );
                 }}
             </Formik>
-            <SignInUpSwitch toSignIn={true} />;
+            <SignInUpSwitch toSignIn={true} />
         </div>
     );
 };

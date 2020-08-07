@@ -19,7 +19,7 @@ import SignInUpSwitch from "../../atoms/sign-in-up-switch/sign-in-up-switch.comp
 import BackendFeedback from "../../atoms/backend-feedback/backend-feedback.component";
 import ProjectsRedirect from "../../atoms/projects-redirect/projects-redirect.component";
 
-const SignInForm = ({ setUser }) => {
+const SignInForm = ({ setUser }: { setUser: any }) => {
     const useStyles = makeStyles((theme) => ({
         root: {
             margin: theme.spacing(8, 4),
@@ -38,7 +38,7 @@ const SignInForm = ({ setUser }) => {
     const classes = useStyles();
 
     const [state, submit] = useAsyncFn(
-        async (values) => {
+        async (values: any) => {
             const response = await axios.post(url, request_body(values));
             const data = await response.data;
             setUser(data);
@@ -86,13 +86,13 @@ const SignInForm = ({ setUser }) => {
                     );
                 }}
             </Formik>
-            <SignInUpSwitch toSignIn={false} />;
+            <SignInUpSwitch toSignIn={false} />
         </div>
     );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    setUser: (user) => dispatch(setUser(user)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setUser: (user: any) => dispatch(setUser(user)),
 });
 
 export default connect(null, mapDispatchToProps)(SignInForm);

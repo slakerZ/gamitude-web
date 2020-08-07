@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // Components
 import CustomIcon from "../custom-icon/custom-icon.component";
 
-const RankDisplay = ({ variant, stat }) => {
+const RankDisplay = ({ variant, stat }: { variant: any; stat: any }) => {
     const useStyles = makeStyles({
         rankDisplay: {
             display: "flex",

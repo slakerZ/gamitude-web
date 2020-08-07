@@ -21,13 +21,18 @@ const ProjectsNav = ({
     setProjectsTab,
     sessionInProgress,
     breakInProgress,
+}: {
+    projectsTab: any;
+    setProjectsTab: any;
+    sessionInProgress: any;
+    breakInProgress: any;
 }) => {
     const useStyles = makeStyles((theme) => ({
         appBar: {
             backgroundColor: "transparent",
         },
         tabs: {
-            backgroundColor: theme.palette.tertriary.main,
+            backgroundColor: theme.palette.secondary.main,
             justifyContent: "center",
         },
     }));
@@ -49,7 +54,6 @@ const ProjectsNav = ({
                 <Tab
                     icon={<CustomIcon variant="active" size="medium" />}
                     label="ACTIVE"
-                    className={classes.tab}
                     disabled={isDisabled}
                 />
                 <Tab
@@ -67,14 +71,14 @@ const ProjectsNav = ({
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     breakInProgress: selectBreakInProgress(state),
     sessionInProgress: selectSessionInProgress(state),
     projectsTab: selectProjectsTab(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setProjectsTab: (value) => dispatch(setProjectsTab(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setProjectsTab: (value: any) => dispatch(setProjectsTab(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectsNav);

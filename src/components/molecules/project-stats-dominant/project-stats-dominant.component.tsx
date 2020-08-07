@@ -13,7 +13,15 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 // Components
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 
-const ProjectStatsDominant = ({ index, projects, setDominant }) => {
+const ProjectStatsDominant = ({
+    index,
+    projects,
+    setDominant,
+}: {
+    index: any;
+    projects: any;
+    setDominant: any;
+}) => {
     const boosted = projects[index].boosted;
     const dominant = projects[index].dominant;
 
@@ -30,16 +38,16 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
         },
         btn: {
             "&.Mui-selected": {
-                background: theme.palette.complement.lighter,
+                background: theme.palette.primary.main,
                 "&:hover": {
-                    background: theme.palette.complement.light,
+                    background: theme.palette.primary.light,
                 },
             },
         },
     }));
     const classes = useStyles();
 
-    const handleChange = (event, newDominant) => {
+    const handleChange = (event: any, newDominant: any) => {
         if (boosted.includes(newDominant)) {
             setDominant({ index, newDominant });
         }
@@ -93,12 +101,12 @@ const ProjectStatsDominant = ({ index, projects, setDominant }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setDominant: (value) => dispatch(setDominant(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setDominant: (value: any) => dispatch(setDominant(value)),
 });
 
 export default connect(

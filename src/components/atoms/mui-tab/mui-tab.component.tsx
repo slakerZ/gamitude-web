@@ -3,7 +3,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-const MuiTab = (props) => {
+const MuiTab = (props: { children: any; value: any; currTab: any }) => {
     const { children, value, currTab, ...other } = props;
 
     return (

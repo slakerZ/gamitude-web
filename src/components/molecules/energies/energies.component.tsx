@@ -16,7 +16,17 @@ import { selectSessionsComplete } from "../../../redux/session/session.selectors
 import ProgressBar from "../progress-bar/progress-bar.component";
 import StatsBackend from "../../atoms/stats-backend/stats-backend.component";
 
-const Energies = ({ energies, token, setEnergies, sessionsComplete }) => {
+const Energies = ({
+    energies,
+    token,
+    setEnergies,
+    sessionsComplete,
+}: {
+    energies: { body: any; emotions: any; mind: any; soul: any };
+    token: any;
+    setEnergies: any;
+    sessionsComplete: any;
+}) => {
     const { body, emotions, mind, soul } = energies;
 
     const useStyles = makeStyles({
@@ -59,14 +69,14 @@ const Energies = ({ energies, token, setEnergies, sessionsComplete }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     energies: selectEnergies(state),
     token: selectToken(state),
     sessionsComplete: selectSessionsComplete(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setEnergies: (value) => dispatch(setEnergies(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setEnergies: (value: any) => dispatch(setEnergies(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Energies);

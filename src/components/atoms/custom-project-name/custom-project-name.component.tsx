@@ -2,14 +2,14 @@ import React from "react";
 // UI Core
 import TextField from "@material-ui/core/TextField";
 
-const CustomProjectName = ({ onValueChange }) => {
+const CustomProjectName = ({ onValueChange }: { onValueChange: Function }) => {
     const [text, setText] = React.useState("");
 
-    const handleChange = (event) => {
+    const handleChange = (event: { target: { value: string } }) => {
         setText(event.target.value);
     };
 
-    const handleBlur = (event) => {
+    const handleBlur = (event: { target: { value: string } }) => {
         onValueChange(event.target.value);
     };
 

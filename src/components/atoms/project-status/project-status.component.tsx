@@ -12,10 +12,22 @@ import { selectProjects } from "../../../redux/projects/projects.selectors";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-const ProjectStatus = ({ index, destination, setStatus, projects, token }) => {
+const ProjectStatus = ({
+    index,
+    destination,
+    setStatus,
+    projects,
+    token,
+}: {
+    index: any;
+    destination: any;
+    setStatus: any;
+    projects: any;
+    token: any;
+}) => {
     const id = projects[index].id;
 
-    const handleStatus = (status) => {
+    const handleStatus = (status: any) => {
         setStatus({ index: index, status: status });
         axios.put(url(id), request_body(status), headers(token));
     };
@@ -34,13 +46,13 @@ const ProjectStatus = ({ index, destination, setStatus, projects, token }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     token: selectToken(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setStatus: (value) => dispatch(setStatus(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setStatus: (value: any) => dispatch(setStatus(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectStatus);

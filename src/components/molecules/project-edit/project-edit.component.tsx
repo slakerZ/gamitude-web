@@ -9,7 +9,13 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ProjectEditHeader from "../../atoms/project-edit-header/project-edit-header.component";
 import ProjectEditBody from "../project-edit-body/project-edit-body.component";
 
-const ProjectEdit = ({ index, sessionInProgress }) => {
+const ProjectEdit = ({
+    index,
+    sessionInProgress,
+}: {
+    index: number;
+    sessionInProgress: any;
+}) => {
     const useStyles = makeStyles((theme) => ({
         expansionPanel: {
             backgroundColor: "transparent",
@@ -38,7 +44,7 @@ const ProjectEdit = ({ index, sessionInProgress }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     sessionInProgress: selectSessionInProgress(state),
 });
 

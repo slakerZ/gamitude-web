@@ -6,7 +6,15 @@ import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 import CustomOverlayDisplay from "../../atoms/custom-overlay-display/custom-overlay-display.component";
 import CustomProgress from "../../atoms/custom-progress/custom-progress.component";
 
-const ProgressBar = ({ variant, stat, size }) => {
+const ProgressBar = ({
+    variant,
+    stat,
+    size,
+}: {
+    variant: any;
+    stat: any;
+    size: any;
+}) => {
     const useStyles = makeStyles({
         bar: {
             width: "100%",

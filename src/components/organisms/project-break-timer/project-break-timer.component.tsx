@@ -26,6 +26,12 @@ const ProjectBreakTimer = ({
     breakCompleteSound,
     reduxBreakTime,
     setReduxBreakTime,
+}: {
+    breakInProgress: any;
+    sessionInProgress: any;
+    breakCompleteSound: any;
+    reduxBreakTime: any;
+    setReduxBreakTime: any;
 }) => {
     const [breakTime, setBreakTime] = useState(duration(0, "minutes"));
     const [localBreak, setLocalBreak] = useState(false);
@@ -77,7 +83,7 @@ const ProjectBreakTimer = ({
                       }),
                   process.env.NODE_ENV === "development" ? 1 : 1000,
               )
-            : null;
+            : setInterval(() => 0, 0);
         if (!localBreak) {
             clearInterval(breakInterval);
         }
@@ -111,16 +117,16 @@ const ProjectBreakTimer = ({
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     breakInProgress: state.session.breakInProgress,
     sessionInProgress: state.session.sessionInProgress,
     breakCompleteSound: state.uifx.projectSounds.breakCompleteSound,
     reduxBreakTime: selectBreakTime(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setBreakInProgress: (value) => dispatch(setBreakInProgress(value)),
-    setReduxBreakTime: (value) => dispatch(setBreakTime(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setBreakInProgress: (value: any) => dispatch(setBreakInProgress(value)),
+    setReduxBreakTime: (value: any) => dispatch(setBreakTime(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectBreakTimer);

@@ -3,7 +3,7 @@ export const url =
         ? "http://localhost:5020/api/auth/Authorization/Login"
         : "http://gamitude.rocks:31777/api/auth/Authorization/Login";
 
-export const request_body = (values) => ({
+export const request_body = (values: any) => ({
     Email: values.email,
     Password: values.password,
 });

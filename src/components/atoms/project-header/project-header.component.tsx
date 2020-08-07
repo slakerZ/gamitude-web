@@ -11,7 +11,13 @@ import CustomIcon from "../custom-icon/custom-icon.component";
 // Selectors
 import { selectProjects } from "../../../redux/projects/projects.selectors";
 
-const ProjectHeader = ({ index, projects }) => {
+const ProjectHeader = ({
+    index,
+    projects,
+}: {
+    index: any;
+    projects: any[];
+}) => {
     const dominant = projects[index].dominant;
     const name = projects[index].name;
 
@@ -35,7 +41,7 @@ const ProjectHeader = ({ index, projects }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
 });
 

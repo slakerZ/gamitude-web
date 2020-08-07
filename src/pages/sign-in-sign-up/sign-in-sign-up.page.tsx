@@ -27,12 +27,12 @@ const SignInSignUpPage = () => {
         },
     });
     const classes = useStyles();
-    /*
+
     return (
         <SignInUpProvider>
             <SignInUpContext.Consumer>
-                {(context) => (
-                    <div className={classes.SignInSignUp}>
+                {(context: any) => (
+                    <div>
                         <SignUp checked={!context.data} />
                         <SignIn checked={context.data} />
                     </div>
@@ -40,7 +40,7 @@ const SignInSignUpPage = () => {
             </SignInUpContext.Consumer>
         </SignInUpProvider>
     );
-    */
+
     return <div></div>;
 };
 

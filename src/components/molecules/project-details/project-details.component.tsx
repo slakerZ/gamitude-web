@@ -10,7 +10,7 @@ import ProjectWork from "../../organisms/project-work/project-work.component";
 import ProjectEdit from "../project-edit/project-edit.component";
 import ProjectStatus from "../../atoms/project-status/project-status.component";
 
-const ProjectDetails = ({ index, projects }) => {
+const ProjectDetails = ({ index, projects }: { index: any; projects: any }) => {
     const status = projects[index].status;
 
     const useStyles = makeStyles((theme) => ({
@@ -39,7 +39,7 @@ const ProjectDetails = ({ index, projects }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
 });
 

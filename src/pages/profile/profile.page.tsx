@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 // Actions
 import { setUser } from "../../redux/user/user.actions";
 
-const ProfilePage = ({ setUser }) => {
+const ProfilePage = ({ setUser }: { setUser: any }) => {
     const useStyles = makeStyles({
         root: {
             padding: "50px",

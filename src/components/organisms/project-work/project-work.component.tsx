@@ -10,7 +10,7 @@ import ProjectTimer from "../project-timer/project-timer.component";
 import ProjectStopWatch from "../project-stopwatch/project-stopwatch.component";
 import ProjectToggle from "../project-toggle/project-toggle.component";
 
-const ProjectWork = ({ index, projects }) => {
+const ProjectWork = ({ index, projects }: { index: number; projects: any }) => {
     const method = projects[index].method;
 
     const useStyles = makeStyles({
@@ -24,7 +24,7 @@ const ProjectWork = ({ index, projects }) => {
 
     const [time, setTime] = React.useState(0);
 
-    const onChange = (event) => {
+    const onChange = (event: any) => {
         const value = event.target.value;
         const isNum = /^\d+$/.test(value);
 
@@ -63,7 +63,7 @@ const ProjectWork = ({ index, projects }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
 });
 

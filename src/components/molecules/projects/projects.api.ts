@@ -2,14 +2,14 @@ export const url =
     process.env.NODE_ENV === "development"
         ? "http://localhost:5010/api/pro/Projects"
         : "http://gamitude.rocks:31778/api/pro/Projects";
-export const headers = (token) => ({
+export const headers = (token: string) => ({
     headers: {
         Authorization: "Bearer " + token,
     },
 });
 
-export const parseProjects = (projects) => {
-    return projects.map((project) => ({
+export const parseProjects = (projects: any) => {
+    return projects.map((project: any) => ({
         id: project.id,
         name: project.name,
         method: mapPrimaryMethodToMethod(project.primaryMethod),
@@ -19,7 +19,7 @@ export const parseProjects = (projects) => {
     }));
 };
 
-const mapPrimaryMethodToMethod = (primaryMethod) => {
+const mapPrimaryMethodToMethod = (primaryMethod: any) => {
     switch (primaryMethod) {
         case "POMODORO":
             return 25;
@@ -30,7 +30,7 @@ const mapPrimaryMethodToMethod = (primaryMethod) => {
     }
 };
 
-const mapProjectStatusToStatus = (projectStatus) => {
+const mapProjectStatusToStatus = (projectStatus: any) => {
     switch (projectStatus) {
         case "ACTIVE":
             return 0;
@@ -43,12 +43,12 @@ const mapProjectStatusToStatus = (projectStatus) => {
     }
 };
 
-const mapStatsToBoosted = (stats) => {
-    return stats.map((stat) => {
+const mapStatsToBoosted = (stats: any) => {
+    return stats.map((stat: any) => {
         return stat.toLowerCase();
     });
 };
 
-const mapDominantStatToDominant = (dominantStat) => {
+const mapDominantStatToDominant = (dominantStat: any) => {
     return dominantStat.toLowerCase();
 };

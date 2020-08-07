@@ -15,8 +15,17 @@ import RankColors from "../../atoms/rank-colors/rank-colors.component";
 import { selectToken } from "../../../redux/user/user.selectors";
 import { selectSessionsComplete } from "../../../redux/session/session.selectors";
 
-const Rank = ({ token, sessionsComplete }) => {
+const Rank = ({
+    token,
+    sessionsComplete,
+}: {
+    token: string;
+    sessionsComplete: number;
+}) => {
     const [rank, setRank] = useState({
+        name: "xd",
+        tier: "f",
+        imageUrl: "",
         rankFortes: ["intelligence", "creativity"],
     });
 
@@ -42,20 +51,20 @@ const Rank = ({ token, sessionsComplete }) => {
 
     const useStyles = makeStyles((theme) => {
         const gradientFromFortes = () => {
-            const colors = [];
+            const colors: any[] = [];
             rank.rankFortes.forEach((el) => {
                 switch (el) {
                     case "strength":
-                        colors.push(theme.palette.stats.strength);
+                        colors.push(theme.palette.primary.main);
                         break;
                     case "creativity":
-                        colors.push(theme.palette.stats.creativity);
+                        colors.push(theme.palette.primary.main);
                         break;
                     case "intelligence":
-                        colors.push(theme.palette.stats.intelligence);
+                        colors.push(theme.palette.primary.main);
                         break;
                     case "fluency":
-                        colors.push(theme.palette.stats.fluency);
+                        colors.push(theme.palette.primary.main);
                         break;
                     default:
                         break;
@@ -116,7 +125,7 @@ const Rank = ({ token, sessionsComplete }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     token: selectToken(state),
     sessionsComplete: selectSessionsComplete(state),
 });

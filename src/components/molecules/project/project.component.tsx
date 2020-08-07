@@ -6,7 +6,7 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ProjectHeader from "../../atoms/project-header/project-header.component";
 import ProjectDetails from "../project-details/project-details.component";
 
-const Project = ({ index }) => {
+const Project = ({ index }: { index: number }) => {
     const useStyles = makeStyles({
         container: {
             backgroundColor: "transparent",

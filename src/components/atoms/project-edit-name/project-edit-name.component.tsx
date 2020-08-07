@@ -5,10 +5,16 @@ import { setName } from "../../../redux/projects/projects.actions";
 // UI Core
 import TextField from "@material-ui/core/TextField";
 
-const ProjectEditName = ({ index, setName }) => {
+const ProjectEditName = ({
+    index,
+    setName,
+}: {
+    index: number;
+    setName: Function;
+}) => {
     const [text, setText] = useState("");
 
-    const syncWithRedux = (event) => {
+    const syncWithRedux = (event: any) => {
         setName({
             index: index,
             name: event.target.value,
@@ -26,7 +32,7 @@ const ProjectEditName = ({ index, setName }) => {
     );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    setName: (value) => dispatch(setName(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setName: (value: any) => dispatch(setName(value)),
 });
 export default connect(null, mapDispatchToProps)(ProjectEditName);

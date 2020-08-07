@@ -6,7 +6,7 @@ import Fade from "@material-ui/core/Fade";
 import SignInForm from "../../organisms/sign-in-form/sign-in-form.component";
 import SignInUpImage from "../../atoms/sign-in-up-image/sign-in-up-image.component";
 
-const SignIn = ({ checked }) => {
+const SignIn = ({ checked }: { checked: boolean }) => {
     const useStyles = makeStyles({
         root: {
             position: "fixed",
