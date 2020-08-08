@@ -16,7 +16,7 @@ const CustomProjectStats = ({
     groupOnChange,
     dominant,
 }: {
-    groupValue: string;
+    groupValue: string[];
     groupOnChange: Function;
     dominant: string;
 }) => {

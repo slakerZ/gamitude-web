@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     soul: 100,
 };
 
-const energiesReducer = (state = INITIAL_STATE, action) => {
+const energiesReducer = (state = INITIAL_STATE, action: any) => {
     switch (action.type) {
         case EnergiesActionTypes.SET_ENERGIES:
             return {

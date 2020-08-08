@@ -4,8 +4,8 @@ const INITIAL_STATE = {
     projects: [],
 };
 
-const projectsReducer = (state = INITIAL_STATE, action) => {
-    const tempProjects = [...state.projects];
+const projectsReducer = (state = INITIAL_STATE, action: any) => {
+    const tempProjects: (any | never)[] = [...state.projects];
     switch (action.type) {
         case ProjectsActionTypes.SET_PROJECTS:
             return {

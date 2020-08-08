@@ -5,8 +5,9 @@ import Fade from "@material-ui/core/Fade";
 // Components
 import SignUpForm from "../../organisms/sign-up-form/sign-up-form.component";
 import SignInUpImage from "../../atoms/sign-in-up-image/sign-in-up-image.component";
+import { useSignInUp } from "../../../context/sign-in-sign-up.context";
 
-const SignUp = ({ checked }: { checked: any }) => {
+const SignUp = () => {
     const useStyles = makeStyles({
         root: {
             position: "fixed",
@@ -17,9 +18,10 @@ const SignUp = ({ checked }: { checked: any }) => {
         },
     });
     const classes = useStyles();
+    const { checked, setChecked } = useSignInUp()!;
 
     return (
-        <Fade in={checked}>
+        <Fade in={!checked}>
             <div className={classes.root}>
                 <SignUpForm />
                 <SignInUpImage signIn={false} />

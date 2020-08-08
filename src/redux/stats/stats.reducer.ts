@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     fluency: 0,
 };
 
-const statsReducer = (state = INITIAL_STATE, action) => {
+const statsReducer = (state = INITIAL_STATE, action: any) => {
     switch (action.type) {
         case StatsActionTypes.SET_STATS:
             return {

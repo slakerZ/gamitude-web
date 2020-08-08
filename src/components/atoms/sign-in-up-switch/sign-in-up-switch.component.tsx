@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 // Context
-import { SignInUpContext } from "../../../context/sign-in-sign-up.context";
+import { useSignInUp } from "../../../context/sign-in-sign-up.context";
 
 const SignInUpSwitch = ({ toSignIn }: { toSignIn: boolean }) => {
     const text = toSignIn
@@ -18,23 +18,20 @@ const SignInUpSwitch = ({ toSignIn }: { toSignIn: boolean }) => {
         },
     }));
     const classes = useStyles();
+    const { checked, setChecked } = useSignInUp()!;
 
     return (
-        <SignInUpContext.Consumer>
-            {(context: any) => (
-                <Typography
-                    className={classes.link}
-                    variant="h6"
-                    component={Link}
-                    onClick={(event: any) => {
-                        event.preventDefault();
-                        context.updateChecked(toSignIn);
-                    }}
-                >
-                    {text}
-                </Typography>
-            )}
-        </SignInUpContext.Consumer>
+        <Typography
+            className={classes.link}
+            variant="h6"
+            component={Link}
+            onClick={(event: any) => {
+                event.preventDefault();
+                setChecked(toSignIn);
+            }}
+        >
+            {text}
+        </Typography>
     );
 };
 

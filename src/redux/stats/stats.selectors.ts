@@ -1,1 +1,1 @@
-export const selectStats = (state) => state.stats;
+export const selectStats = (state: any) => state.stats;

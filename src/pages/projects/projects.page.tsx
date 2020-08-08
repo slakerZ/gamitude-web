@@ -8,7 +8,7 @@ import ProjectsDesktopPage from "../projects-desktop/projects-desktop.page";
 import ProjectsMobilePage from "../projects-mobile/projects-mobile.page";
 import { Redirect } from "react-router-dom";
 
-const ProjectsPage = ({ token }) => {
+const ProjectsPage = ({ token }: { token: string }) => {
     const { width } = useWindowSize();
     return !token ? (
         <Redirect to="/signInSignUp" />
@@ -19,7 +19,7 @@ const ProjectsPage = ({ token }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     token: selectToken(state),
 });
 

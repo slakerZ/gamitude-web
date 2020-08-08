@@ -36,8 +36,8 @@ const ProfilePage = ({ setUser }: { setUser: any }) => {
     );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    setUser: (value) => dispatch(setUser(value)),
+const mapDispatchToProps = (dispatch: any) => ({
+    setUser: (value: any) => dispatch(setUser(value)),
 });
 
 export default connect(null, mapDispatchToProps)(ProfilePage);

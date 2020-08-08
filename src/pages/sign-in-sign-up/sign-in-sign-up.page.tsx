@@ -5,10 +5,7 @@ import { makeStyles } from "@material-ui/core";
 import SignIn from "../../components/molecules/sign-in/sign-in.component";
 import SignUp from "../../components/molecules/sign-up/sign-up.component";
 // Context
-import {
-    SignInUpContext,
-    SignInUpProvider,
-} from "../../context/sign-in-sign-up.context";
+import { SignInUpProvider } from "../../context/sign-in-sign-up.context";
 
 const SignInSignUpPage = () => {
     const useStyles = makeStyles({
@@ -30,14 +27,10 @@ const SignInSignUpPage = () => {
 
     return (
         <SignInUpProvider>
-            <SignInUpContext.Consumer>
-                {(context: any) => (
-                    <div>
-                        <SignUp checked={!context.data} />
-                        <SignIn checked={context.data} />
-                    </div>
-                )}
-            </SignInUpContext.Consumer>
+            <div>
+                <SignUp />
+                <SignIn />
+            </div>
         </SignInUpProvider>
     );
 

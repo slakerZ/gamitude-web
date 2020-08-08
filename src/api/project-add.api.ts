@@ -16,15 +16,11 @@ export const headers = (token: string) => ({
         "Content-Type": "application/json",
     },
 });
-export const requestData = ({
-    name,
-    boosted,
-    dominant,
-}: {
-    name: string;
-    boosted: string[];
-    dominant: string;
-}) => ({
+export const requestData = (
+    name: string,
+    boosted: string[],
+    dominant: string,
+) => ({
     Name: name,
     PrimaryMethod: "POMODORO",
     ProjectStatus: "ACTIVE",

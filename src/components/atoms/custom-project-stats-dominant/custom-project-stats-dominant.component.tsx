@@ -18,7 +18,7 @@ const CustomProjectStatsDominant = ({
 }: {
     groupValue: string;
     groupOnChange: Function;
-    boosted: string;
+    boosted: string[];
 }) => {
     const useStyles = makeStyles((theme) => ({
         container: {

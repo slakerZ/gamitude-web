@@ -1,8 +1,8 @@
 import { createSelector } from "reselect";
 
-export const selectProjects = (state) => state.projects.projects;
+export const selectProjects = (state: any) => state.projects.projects;
 
-export const selectProject = (state, ownProps) => {
+export const selectProject = (state: any, ownProps: any) => {
     return state.projects.projects[ownProps.index];
 };
 // Won't re-render when should

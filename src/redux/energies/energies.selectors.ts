@@ -1,1 +1,1 @@
-export const selectEnergies = (state) => state.energies;
+export const selectEnergies = (state: any) => state.energies;

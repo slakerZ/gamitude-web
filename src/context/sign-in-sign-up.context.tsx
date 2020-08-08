@@ -1,23 +1,26 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useContext } from "react";
 
-const defaultState = { data: true, updateChecked: () => null };
-export const SignInUpContext = createContext(defaultState);
+type SignInSignUpContextType = {
+    checked: boolean;
+    setChecked: (newChecked: boolean) => void;
+};
 
-type Props = { children: React.ReactNode; value?: any };
+type Props = {
+    children: React.ReactNode;
+};
 
-export const SignInUpProvider = ({ children, value }: Props) => {
+const SignInUpContext = createContext<SignInSignUpContextType | undefined>(
+    undefined,
+);
+
+export const SignInUpProvider = ({ children }: Props) => {
     const [checked, setChecked] = useState(false);
 
-    const val = {
-        data: checked,
-        updateChecked: (newChecked: any) => {
-            setChecked(newChecked);
-        },
-    };
-
     return (
-        <SignInUpContext.Provider value={val}>
+        <SignInUpContext.Provider value={{ checked, setChecked }}>
             {children}
         </SignInUpContext.Provider>
     );
 };
+
+export const useSignInUp = () => useContext(SignInUpContext);

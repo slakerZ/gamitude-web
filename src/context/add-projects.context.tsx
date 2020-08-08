@@ -1,30 +1,41 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useContext } from "react";
 
-export const AddProjectContext = createContext(undefined);
+type AddProjectContextType = {
+    name: string;
+    setName: (newName: string) => void;
+    boosted: string[];
+    setBoosted: (newBoosted: string[]) => void;
+    dominant: string;
+    setDominant: (newDominant: string) => void;
+};
 
-export const AddProjectProvider = ({
-    children,
-    value,
-}: {
-    children: any;
-    value?: any;
-}) => {
+type Props = {
+    children: React.ReactNode;
+};
+
+const AddProjectContext = createContext<AddProjectContextType | undefined>(
+    undefined,
+);
+
+export const AddProjectProvider = ({ children }: Props) => {
     const [name, setName] = useState("");
-    const [boosted, setBoosted] = useState([]);
+    const [boosted, setBoosted] = useState([""]);
     const [dominant, setDominant] = useState("");
 
-    const val = {
-        name: name,
-        setName: setName,
-        boosted: boosted,
-        setBoosted: setBoosted,
-        dominant: dominant,
-        setDominant: setDominant,
-    };
-
     return (
-        <AddProjectContext.Provider value={val}>
+        <AddProjectContext.Provider
+            value={{
+                name,
+                setName,
+                boosted,
+                setBoosted,
+                dominant,
+                setDominant,
+            }}
+        >
             {children}
         </AddProjectContext.Provider>
     );
 };
+
+export const useAddProjectContext = () => useContext(AddProjectContext);

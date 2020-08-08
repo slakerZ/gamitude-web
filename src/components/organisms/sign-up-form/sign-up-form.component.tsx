@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import axios from "axios";
 import { useAsyncFn } from "react-use";
 // Context
-import { SignInUpContext } from "../../../context/sign-in-sign-up.context";
+import { useSignInUp } from "../../../context/sign-in-sign-up.context";
 // API
 import { url, request_body } from "../../../api/sign-up.api";
 // UI Core
@@ -35,14 +35,13 @@ const SignUpForm = () => {
         },
     }));
     const classes = useStyles();
-
-    const context = useContext(SignInUpContext);
+    const { checked, setChecked } = useSignInUp()!;
 
     const [state, submit] = useAsyncFn(
         async (values: any) => {
             const response = await axios.post(url, request_body(values));
             const data = await response.data;
-            context.updateChecked(true);
+            setChecked(true);
             return data;
         },
         [url],

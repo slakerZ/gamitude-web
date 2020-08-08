@@ -9,7 +9,7 @@ const INITIAL_STATE = {
     projectsTab: 0,
 };
 
-const sessionReducer = (state = INITIAL_STATE, action) => {
+const sessionReducer = (state = INITIAL_STATE, action: any) => {
     switch (action.type) {
         case SessionActionTypes.SET_BREAK_IN_PROGRESS:
             return {

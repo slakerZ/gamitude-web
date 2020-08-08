@@ -1,1 +1,1 @@
-export const selectUifx = (state) => state.uifx;
+export const selectUifx = (state: any) => state.uifx;

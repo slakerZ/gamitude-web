@@ -3,10 +3,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { useAsyncFn } from "react-use";
 // Context
-import {
-    AddProjectProvider,
-    AddProjectContext,
-} from "../../../context/add-projects.context";
+import { useAddProjectContext } from "../../../context/add-projects.context";
 // Actions
 import { addProject } from "../../../redux/projects/projects.actions";
 // Selectors
@@ -48,19 +45,27 @@ const ProjectsAddForm = ({
         },
     });
     const classes = useStyles();
+    const {
+        name,
+        setName,
+        boosted,
+        setBoosted,
+        dominant,
+        setDominant,
+    } = useAddProjectContext()!;
 
     const [state, submit] = useAsyncFn(
-        async (context: any) => {
+        async (name: string, boosted: string[], dominant: string) => {
             const response = await axios.post(
                 url,
-                requestData(context),
+                requestData(name, boosted, dominant),
                 headers(token),
             );
             const data = await response.data;
             const convertedData = convertForFront(data);
             addProject(convertedData);
             setOpen(false);
-            resetContext(context);
+            resetContext();
             return data;
         },
         [url],
@@ -70,54 +75,46 @@ const ProjectsAddForm = ({
         setOpen(false);
     };
 
-    const resetContext = (context: any) => {
-        context.setName("");
-        context.setBoosted([]);
-        context.setDominant("");
+    const resetContext = () => {
+        setName("");
+        setBoosted([""]);
+        setDominant("");
     };
 
     return (
-        <AddProjectProvider>
-            <AddProjectContext.Consumer>
-                {(context: any) => (
-                    <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="form-dialog-title"
-                        className={classes.root}
-                    >
-                        <DialogTitle id="form-dialog-title">
-                            {"Create New Project"}
-                        </DialogTitle>
-                        <DialogContent>
-                            <CustomProjectName
-                                onValueChange={context.setName}
-                            />
-                            <CustomProjectStats
-                                groupValue={context.boosted}
-                                groupOnChange={context.setBoosted}
-                                dominant={context.dominant}
-                            />
-                            <CustomProjectsStatsDominant
-                                groupValue={context.dominant}
-                                groupOnChange={context.setDominant}
-                                boosted={context.boosted}
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose} color="primary">
-                                Cancel
-                            </Button>
-                            <ProjectAddBackendFeedback
-                                loading={state.loading}
-                                error={state.error}
-                                submit={() => submit(context)}
-                            />
-                        </DialogActions>
-                    </Dialog>
-                )}
-            </AddProjectContext.Consumer>
-        </AddProjectProvider>
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="form-dialog-title"
+            className={classes.root}
+        >
+            <DialogTitle id="form-dialog-title">
+                {"Create New Project"}
+            </DialogTitle>
+            <DialogContent>
+                <CustomProjectName onValueChange={setName} />
+                <CustomProjectStats
+                    groupValue={boosted}
+                    groupOnChange={setBoosted}
+                    dominant={dominant}
+                />
+                <CustomProjectsStatsDominant
+                    groupValue={dominant}
+                    groupOnChange={setDominant}
+                    boosted={boosted}
+                />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                    Cancel
+                </Button>
+                <ProjectAddBackendFeedback
+                    loading={state.loading}
+                    error={state.error}
+                    submit={() => submit(name, boosted, dominant)}
+                />
+            </DialogActions>
+        </Dialog>
     );
 };
 

@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     token: null,
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+const userReducer = (state = INITIAL_STATE, action: any) => {
     switch (action.type) {
         case UserActionTypes.SET_USER:
             return {

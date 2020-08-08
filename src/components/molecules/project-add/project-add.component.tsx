@@ -6,6 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Tooltip from "@material-ui/core/Tooltip";
 // Components
 import ProjectAddForm from "../../organisms/project-add-form/projects-add-form.component";
+import { AddProjectProvider } from "../../../context/add-projects.context";
 
 const ProjectAdd = () => {
     const useStyles = makeStyles((theme) => ({
@@ -29,19 +30,21 @@ const ProjectAdd = () => {
     };
 
     return (
-        <div className={classes.root}>
-            <Tooltip title="Add Project">
-                <Fab
-                    color="secondary"
-                    aria-label="add"
-                    className={classes.add}
-                    onClick={handleClickOpen}
-                >
-                    <AddIcon />
-                </Fab>
-            </Tooltip>
-            <ProjectAddForm open={open} setOpen={setOpen} />
-        </div>
+        <AddProjectProvider>
+            <div className={classes.root}>
+                <Tooltip title="Add Project">
+                    <Fab
+                        color="secondary"
+                        aria-label="add"
+                        className={classes.add}
+                        onClick={handleClickOpen}
+                    >
+                        <AddIcon />
+                    </Fab>
+                </Tooltip>
+                <ProjectAddForm open={open} setOpen={setOpen} />
+            </div>
+        </AddProjectProvider>
     );
 };
 

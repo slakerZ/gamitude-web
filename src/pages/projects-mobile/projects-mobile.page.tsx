@@ -19,7 +19,13 @@ import {
     selectBreakInProgress,
 } from "../../redux/session/session.selectors";
 
-const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
+const ProjectsMobilePage = ({
+    sessionInProgress,
+    breakInProgress,
+}: {
+    sessionInProgress: any;
+    breakInProgress: any;
+}) => {
     const useStyles = makeStyles((theme) => ({
         container: {
             width: "100%",
@@ -46,7 +52,7 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
             bottom: "0",
         },
         tabs: {
-            backgroundColor: theme.palette.tertriary.main,
+            backgroundColor: theme.palette.primary.main,
             justifyContent: "center",
         },
         toolbar: {
@@ -60,7 +66,7 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
 
     const [value, setValue] = React.useState(0);
 
-    const handleChange = (event, newValue) => {
+    const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
     };
 
@@ -73,7 +79,7 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
                 </div>
             </MuiTab>
             <MuiTab value={value} currTab={1}>
-                <Stats className={classes.stats} />
+                <Stats />
                 <Energies />
                 <Toolbar className={classes.toolbar} />
             </MuiTab>
@@ -115,7 +121,7 @@ const ProjectsMobilePage = ({ sessionInProgress, breakInProgress }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     breakInProgress: selectBreakInProgress(state),
     sessionInProgress: selectSessionInProgress(state),
 });
