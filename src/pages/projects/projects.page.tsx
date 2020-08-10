@@ -8,7 +8,11 @@ import ProjectsDesktopPage from "../projects-desktop/projects-desktop.page";
 import ProjectsMobilePage from "../projects-mobile/projects-mobile.page";
 import { Redirect } from "react-router-dom";
 
-const ProjectsPage = ({ token }: { token: string }) => {
+interface ProjectsPageProps {
+    token: string;
+}
+
+const ProjectsPage = ({ token }: ProjectsPageProps) => {
     const { width } = useWindowSize();
     return !token ? (
         <Redirect to="/signInSignUp" />

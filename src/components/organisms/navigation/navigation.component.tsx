@@ -1,92 +1,67 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-// UI Core
-import { makeStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-// Components
+import React, { ReactElement, FC } from "react";
+import clsx from "clsx";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
-// Selectors
-import {
-    selectSessionInProgress,
-    selectBreakInProgress,
-} from "../../../redux/session/session.selectors";
-import { selectToken } from "../../../redux/user/user.selectors";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import { Link } from "react-router-dom";
+// Local
+import useNavigationStyles from "./styles";
+import navLinks from "./constants";
+import { NavigationProps } from "./types";
 
-const Navigation = ({
-    sessionInProgress,
-    breakInProgress,
-    token,
-}: {
-    sessionInProgress: any;
-    breakInProgress: any;
-    token: any;
-}) => {
-    const useStyles = makeStyles((theme) => ({
-        tabs: {
-            backgroundColor: theme.palette.primary.main,
-        },
-    }));
-    const classes = useStyles();
+const Navigation: FC<NavigationProps> = ({
+    children,
+}: NavigationProps): ReactElement => {
+    const classes = useNavigationStyles();
+    const [open, setOpen] = React.useState(false);
 
-    const [tab, setTab] = React.useState(0);
+    const handlToggleOpen = () => {
+        setOpen(!open);
+    };
 
     return (
-        <Tabs
-            value={tab}
-            onChange={(event, newTab) => setTab(newTab)}
-            variant="fullWidth"
-            indicatorColor="primary"
-            textColor="secondary"
-            className={classes.tabs}
-        >
-            <Tab
-                icon={<CustomIcon size="large" variant="logo" />}
-                component={Link}
-                to="/"
-                label="Home"
-                disabled={sessionInProgress || breakInProgress}
-            />
-            <Tab
-                icon={<CustomIcon size="large" variant="projects" />}
-                component={Link}
-                to="/projects"
-                label="Projects"
-                disabled={sessionInProgress || breakInProgress}
-            />
-            <Tab
-                icon={<CustomIcon size="large" variant="bulletJournal" />}
-                component={Link}
-                to="/bulletJournal"
-                label="Bullet Journal"
-                disabled={sessionInProgress || breakInProgress}
-            />
-            {token ? (
-                <Tab
-                    icon={<CustomIcon size="large" variant="profile" />}
-                    component={Link}
-                    to="/profile"
-                    label="Profile"
-                    disabled={sessionInProgress || breakInProgress}
-                />
-            ) : (
-                <Tab
-                    icon={<CustomIcon size="large" variant="guest" />}
-                    component={Link}
-                    to="/signInSignUp"
-                    label="Sign In / Sign Up"
-                    disabled={sessionInProgress || breakInProgress}
-                />
-            )}
-        </Tabs>
+        <div className={classes.root}>
+            <CssBaseline />
+            <Drawer
+                variant="permanent"
+                className={clsx(classes.drawer, {
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                })}
+                classes={{
+                    paper: clsx(classes.paper, {
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    }),
+                }}
+            >
+                <div className={classes.toolbar}>
+                    <IconButton onClick={handlToggleOpen}>
+                        {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    {navLinks.map(({ to, label, icon }) => (
+                        <ListItem button key={to} component={Link} to={to}>
+                            <ListItemIcon>
+                                <CustomIcon size="small" variant={icon} />
+                            </ListItemIcon>
+                            <ListItemText primary={label} />
+                        </ListItem>
+                    ))}
+                </List>
+            </Drawer>
+            {children}
+        </div>
     );
 };
-
-const mapStateToProps = (state: any) => ({
-    sessionInProgress: selectSessionInProgress(state),
-    breakInProgress: selectBreakInProgress(state),
-    token: selectToken(state),
-});
-
-export default connect(mapStateToProps)(Navigation);
+export default Navigation;
