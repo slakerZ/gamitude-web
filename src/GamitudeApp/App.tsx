@@ -1,8 +1,9 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, FC, ReactElement } from "react";
 import { Route, Switch } from "react-router-dom";
 // Components
 import Navigation from "../components/organisms/navigation/navigation.component";
 import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
+import ControlPanel from "../components/organisms/control-panel/control-panel.component";
 // Pages
 import HomePage from "../pages/home/home.page";
 // UI Core
@@ -17,7 +18,7 @@ const SignInSignUpPage = lazy(() =>
 );
 const ProfilePage = lazy(() => import("../pages/profile/profile.page"));
 
-const Content: React.FC = () => {
+const Content: FC = (): ReactElement => {
     return (
         <Suspense fallback={<LoadingScreen />}>
             <Switch>
@@ -39,22 +40,28 @@ const Content: React.FC = () => {
     );
 };
 
-const App: React.FC = () => {
-    const useStyles = makeStyles({
+const App: FC = (): ReactElement => {
+    const useStyles = makeStyles((theme) => ({
         app: {
+            backgroundColor: theme.palette.primary.light,
             width: "100vw",
             height: "100vh",
             position: "fixed",
             zIndex: 1,
         },
-    });
+        container: {
+            display: "flex",
+        },
+    }));
     const classes = useStyles();
 
     return (
         <div className={classes.app}>
-            <Navigation>
+            <div className={classes.container}>
+                <Navigation />
                 <Content />
-            </Navigation>
+                <ControlPanel />
+            </div>
         </div>
     );
 };

@@ -3,7 +3,3 @@ export interface LinkType {
     label: string;
     icon: string;
 }
-
-export interface NavigationProps {
-    children: React.ReactNode;
-}

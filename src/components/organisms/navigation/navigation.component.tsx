@@ -1,4 +1,4 @@
-import React, { ReactElement, FC } from "react";
+import React, { ReactElement, FC, Fragment } from "react";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -15,11 +15,8 @@ import { Link } from "react-router-dom";
 // Local
 import useNavigationStyles from "./styles";
 import navLinks from "./constants";
-import { NavigationProps } from "./types";
 
-const Navigation: FC<NavigationProps> = ({
-    children,
-}: NavigationProps): ReactElement => {
+const Navigation: FC = (): ReactElement => {
     const classes = useNavigationStyles();
     const [open, setOpen] = React.useState(false);
 
@@ -28,7 +25,7 @@ const Navigation: FC<NavigationProps> = ({
     };
 
     return (
-        <div className={classes.root}>
+        <Fragment>
             <CssBaseline />
             <Drawer
                 variant="permanent"
@@ -60,8 +57,7 @@ const Navigation: FC<NavigationProps> = ({
                     ))}
                 </List>
             </Drawer>
-            {children}
-        </div>
+        </Fragment>
     );
 };
 export default Navigation;

@@ -4,17 +4,17 @@ const theme = createMuiTheme({
     palette: {
         primary: {
             // lighter: "rgba(125, 108, 135, 0.5)",
-            light: "rgba(10,83,100, 0.5)",
-            main: "rgba(11,72,90, 0.5)",
-            dark: "rgba(7,27,36, 0.5)",
+            light: "rgba(10,83,100, 1)",
+            main: "rgba(11,72,90, 1)",
+            dark: "rgba(7,27,36, 1)",
 
             // darker: "rgba(38, 0, 60, 0.5)",
         },
         secondary: {
             // lighter: "rgba(128, 105, 133, 0.5)",
-            light: "rgba(116, 55, 129, 0.5)",
-            main: "rgba(78, 19, 112, 0.5)",
-            dark: "rgba(58, 3, 91, 0.5)",
+            light: "rgba(58,105,97, 1)",
+            main: "rgba(95,77,41, 1)",
+            dark: "rgba(58, 3, 91, 1)",
 
             // darker: "rgba(49, 0, 59, 0.5)",
         },
