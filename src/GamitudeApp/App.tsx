@@ -18,7 +18,7 @@ const SignInSignUpPage = lazy(() =>
 );
 const ProfilePage = lazy(() => import("../pages/profile/profile.page"));
 
-const Content: FC = (): ReactElement => {
+const PageRoutes: FC = (): ReactElement => {
     return (
         <Suspense fallback={<LoadingScreen />}>
             <Switch>
@@ -51,6 +51,10 @@ const App: FC = (): ReactElement => {
         },
         container: {
             display: "flex",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
         },
     }));
     const classes = useStyles();
@@ -59,7 +63,7 @@ const App: FC = (): ReactElement => {
         <div className={classes.app}>
             <div className={classes.container}>
                 <Navigation />
-                <Content />
+                <PageRoutes />
                 <ControlPanel />
             </div>
         </div>
