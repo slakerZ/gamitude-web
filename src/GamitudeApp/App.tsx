@@ -1,14 +1,16 @@
 import React, { lazy, Suspense, FC, ReactElement } from "react";
+import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
+import { selectToken } from "../redux/user/user.selectors";
 // Components
 import Navigation from "../components/organisms/navigation/navigation.component";
 import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
 import ControlPanel from "../components/organisms/control-panel/control-panel.component";
-// Pages
-import HomePage from "../pages/home/home.page";
-// UI Core
-import { makeStyles } from "@material-ui/core/styles";
+// Local
+import useAppStyles from "./styles";
+import { AppType } from "./types";
 // Lazy Loading
+const HomePage = lazy(() => import("../pages/home/home.page"));
 const ProjectsPage = lazy(() => import("../pages/projects/projects.page"));
 const BulletJournalPage = lazy(() =>
     import("../pages/bullet-journal/bullet-journal.page"),
@@ -39,35 +41,22 @@ const PageRoutes: FC = (): ReactElement => {
         </Suspense>
     );
 };
-
-const App: FC = (): ReactElement => {
-    const useStyles = makeStyles((theme) => ({
-        app: {
-            backgroundColor: theme.palette.primary.light,
-            width: "100vw",
-            height: "100vh",
-            position: "fixed",
-            zIndex: 1,
-        },
-        container: {
-            display: "flex",
-            width: "100%",
-            height: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-        },
-    }));
-    const classes = useStyles();
+const App: FC<AppType> = ({ token }: AppType): ReactElement => {
+    const classes = useAppStyles();
 
     return (
         <div className={classes.app}>
             <div className={classes.container}>
                 <Navigation />
                 <PageRoutes />
-                <ControlPanel />
+                {token ? <ControlPanel /> : null}
             </div>
         </div>
     );
 };
 
-export default App;
+const mapStateToProps = (state: any) => ({
+    token: selectToken(state),
+});
+
+export default connect(mapStateToProps)(App);
