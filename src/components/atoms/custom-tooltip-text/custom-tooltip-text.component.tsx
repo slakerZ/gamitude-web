@@ -5,9 +5,13 @@ import {
     targetToComplexTooltipObject,
     targetToSimpleTooltipObject,
 } from "./constants";
-import { SimpleTooltipType, ComplexTooltipType, TooltipProps } from "./types";
+import {
+    SimpleTooltipTextType,
+    ComplexTooltipTextType,
+    TooltipTextProps,
+} from "./types";
 
-const SimpleTooltip = ({ title, bodyItems }: SimpleTooltipType) => {
+const SimpleTooltipText = ({ title, bodyItems }: SimpleTooltipTextType) => {
     return (
         <Fragment>
             <Typography component="h5" variant="h5" align="center">
@@ -30,12 +34,12 @@ const SimpleTooltip = ({ title, bodyItems }: SimpleTooltipType) => {
     );
 };
 
-const ComplexTooltip = ({
+const ComplexTooltipText = ({
     title,
     subtitle,
     listIntro,
     listItems,
-}: ComplexTooltipType) => {
+}: ComplexTooltipTextType) => {
     return (
         <Fragment>
             <Typography component="h5" variant="h5" align="center">
@@ -66,19 +70,19 @@ const ComplexTooltip = ({
     );
 };
 
-const CustomTooltip: FC<TooltipProps> = ({
+const CustomTooltipText: FC<TooltipTextProps> = ({
     target,
     variant,
-}: TooltipProps): ReactElement => {
+}: TooltipTextProps): ReactElement => {
     return (
         <Fragment>
             {variant === "simple" ? (
-                <SimpleTooltip {...targetToSimpleTooltipObject(target)} />
+                <SimpleTooltipText {...targetToSimpleTooltipObject(target)} />
             ) : (
-                <ComplexTooltip {...targetToComplexTooltipObject(target)} />
+                <ComplexTooltipText {...targetToComplexTooltipObject(target)} />
             )}
         </Fragment>
     );
 };
 
-export default CustomTooltip;
+export default CustomTooltipText;

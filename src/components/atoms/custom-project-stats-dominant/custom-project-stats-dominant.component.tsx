@@ -2,14 +2,11 @@ import React from "react";
 // UI core
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
 // UI lab
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 // Components
 import CustomIcon from "../custom-icon/custom-icon.component";
-// Tooltips
-import SelectDominantStatTooltip from "../../../tooltips/stats/selectDominant.tooltip";
 
 const CustomProjectStatsDominant = ({
     groupValue,
@@ -50,11 +47,9 @@ const CustomProjectStatsDominant = ({
 
     return (
         <div className={classes.container}>
-            <Tooltip title={<SelectDominantStatTooltip />} placement="left">
-                <Typography variant="h4" component="h4" align="center">
-                    Select the dominant stat
-                </Typography>
-            </Tooltip>
+            <Typography variant="h4" component="h4" align="center">
+                Select the dominant stat
+            </Typography>
             <ToggleButtonGroup
                 value={groupValue}
                 exclusive

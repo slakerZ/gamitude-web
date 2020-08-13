@@ -3,7 +3,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import Tooltip from "@material-ui/core/Tooltip";
 // Components
 import ProjectAddForm from "../../organisms/project-add-form/projects-add-form.component";
 import { AddProjectProvider } from "../../../context/add-projects.context";
@@ -32,16 +31,14 @@ const ProjectAdd = () => {
     return (
         <AddProjectProvider>
             <div className={classes.root}>
-                <Tooltip title="Add Project">
-                    <Fab
-                        color="secondary"
-                        aria-label="add"
-                        className={classes.add}
-                        onClick={handleClickOpen}
-                    >
-                        <AddIcon />
-                    </Fab>
-                </Tooltip>
+                <Fab
+                    color="secondary"
+                    aria-label="add"
+                    className={classes.add}
+                    onClick={handleClickOpen}
+                >
+                    <AddIcon />
+                </Fab>
                 <ProjectAddForm open={open} setOpen={setOpen} />
             </div>
         </AddProjectProvider>

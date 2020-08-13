@@ -37,9 +37,6 @@ const Stats = ({
             justifyContent: "space-around",
             gridArea: "stats",
         },
-        tooltip: {
-            zIndex: 200,
-        },
     });
     const classes = useStyles();
 

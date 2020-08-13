@@ -12,13 +12,10 @@ import { duration } from "moment/moment";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
 // Components
 import TimerDisplays from "../../atoms/timer-displays/timer-displays.component";
 // Selectors
 import { selectBreakTime } from "../../../redux/session/session.selectors";
-// Tooltip
-import BreakTimerTooltip from "../../../tooltips/projects/break-timer.tooltip";
 
 const ProjectBreakTimer = ({
     breakInProgress,
@@ -92,11 +89,9 @@ const ProjectBreakTimer = ({
 
     return (
         <div className={classes.root}>
-            <Tooltip placement="top" title={<BreakTimerTooltip />}>
-                <div>
-                    <TimerDisplays time={breakTime} />
-                </div>
-            </Tooltip>
+            <div>
+                <TimerDisplays time={breakTime} />
+            </div>
             <Button
                 onClick={() => {
                     // pause break

@@ -2,9 +2,6 @@ import React from "react";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-// Tooltips
-import RankNameTooltip from "../../../tooltips/rank/rank-name.tooltip";
 
 const RankName = ({ rankName }: { rankName: string }) => {
     const useStyles = makeStyles({
@@ -20,11 +17,9 @@ const RankName = ({ rankName }: { rankName: string }) => {
 
     return (
         <div className={classes.rankName}>
-            <Tooltip title={<RankNameTooltip />}>
-                <Typography variant="h2" component="h2">
-                    {rankName}
-                </Typography>
-            </Tooltip>
+            <Typography variant="h2" component="h2">
+                {rankName}
+            </Typography>
         </div>
     );
 };

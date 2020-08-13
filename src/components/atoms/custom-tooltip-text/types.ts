@@ -1,10 +1,10 @@
-export interface SimpleTooltipType {
+export interface SimpleTooltipTextType {
     variant: string;
     title: string;
     bodyItems: string[];
 }
 
-export interface ComplexTooltipType {
+export interface ComplexTooltipTextType {
     variant: string;
     title: string;
     subtitle: string;
@@ -12,7 +12,7 @@ export interface ComplexTooltipType {
     listItems: string[];
 }
 
-export interface TooltipProps {
+export interface TooltipTextProps {
     target: string;
     variant: string;
 }

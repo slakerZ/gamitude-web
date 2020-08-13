@@ -1,11 +1,8 @@
 import React from "react";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
-import Tooltip from "@material-ui/core/Tooltip";
 // UI Lab
 import Skeleton from "@material-ui/lab/Skeleton";
-// Tooltips
-import RankImageTooltip from "../../../tooltips/rank/rank-image.tooltip";
 
 const RankImage = ({ rankImage, state }: { rankImage: any; state: any }) => {
     const useStyles = makeStyles((theme) => ({
@@ -37,13 +34,11 @@ const RankImage = ({ rankImage, state }: { rankImage: any; state: any }) => {
         <div>state.error.message</div>
     ) : (
         <div className={classes.center}>
-            <Tooltip title={<RankImageTooltip />}>
-                <img
-                    src={rankImage}
-                    className={classes.rankImg}
-                    alt="Your productivy-spirit animal"
-                />
-            </Tooltip>
+            <img
+                src={rankImage}
+                className={classes.rankImg}
+                alt="Your productivy-spirit animal"
+            />
         </div>
     );
 };
