@@ -8,10 +8,17 @@ const useRankStyles = makeStyles((theme) => {
         rank: {
             width: "20vh",
             height: "20vh",
+            border: `7px ${theme.palette.primary.light} outset`,
         },
         placeholder: {
             width: "20vh",
             height: "20vh",
+        },
+        badgeWrapper: {
+            backgroundColor: theme.palette.secondary.dark,
+            padding: theme.spacing(1.5),
+            border: `2px ${theme.palette.primary.light} outset`,
+            borderRadius: "100%",
         },
     };
 });

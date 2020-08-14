@@ -25,6 +25,10 @@ const useCustomIconStyles = makeStyles((theme) => ({
             clear: "both",
         },
     },
+    avatar: {
+        width: "20vh",
+        height: "20vh",
+    },
 }));
 
 export default useCustomIconStyles;

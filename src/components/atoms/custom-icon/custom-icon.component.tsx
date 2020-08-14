@@ -23,6 +23,15 @@ import { ReactComponent as DoneIcon } from "../../../assets/icons/projects/done.
 import { ReactComponent as ProjectNav } from "../../../assets/icons/navigation/project.svg";
 import { ReactComponent as RankNav } from "../../../assets/icons/navigation/rank.svg";
 import { ReactComponent as StatsNav } from "../../../assets/icons/navigation/stats.svg";
+// Ranks
+import { ReactComponent as FRank } from "../../../assets/icons/rank-tiers/006-letter-f.svg";
+import { ReactComponent as ERank } from "../../../assets/icons/rank-tiers/005-letter-e.svg";
+import { ReactComponent as DRank } from "../../../assets/icons/rank-tiers/004-letter-d.svg";
+import { ReactComponent as CRank } from "../../../assets/icons/rank-tiers/003-letter-c.svg";
+import { ReactComponent as BRank } from "../../../assets/icons/rank-tiers/002-letter-b.svg";
+import { ReactComponent as ARank } from "../../../assets/icons/rank-tiers/001-letter-a.svg";
+import { ReactComponent as SRank } from "../../../assets/icons/rank-tiers/019-letter-s.svg";
+
 // Other
 import { ReactComponent as NotFound } from "../../../assets/icons/other/page-not-found.svg";
 // Local
@@ -46,12 +55,15 @@ const CustomIcon: FC<CustomIconType> = ({
                 return classes.medium;
             case "large":
                 return classes.large;
+            case "avatar":
+                return classes.avatar;
             default:
                 return classes.error;
         }
     };
 
     const getIcon = (variant: string, size: string) => {
+        console.log(variant);
         switch (variant) {
             case "body":
                 return <Body className={setClass(size)} />;
@@ -91,6 +103,20 @@ const CustomIcon: FC<CustomIconType> = ({
                 return <StatsNav className={setClass(size)} />;
             case "projectsNav":
                 return <ProjectNav className={setClass(size)} />;
+            case "f":
+                return <FRank className={setClass(size)} />;
+            case "e":
+                return <ERank className={setClass(size)} />;
+            case "d":
+                return <DRank className={setClass(size)} />;
+            case "c":
+                return <CRank className={setClass(size)} />;
+            case "b":
+                return <BRank className={setClass(size)} />;
+            case "a":
+                return <ARank className={setClass(size)} />;
+            case "s":
+                return <SRank className={setClass(size)} />;
             default:
                 return <NotFound className={setClass(size)} />;
         }

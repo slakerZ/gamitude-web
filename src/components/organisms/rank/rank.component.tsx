@@ -7,9 +7,7 @@ import Avatar from "@material-ui/core/Avatar";
 // API
 import { getRank } from "../../../api/rank.api";
 // Components
-import RankImage from "../../atoms/rank-image/rank-image.component";
-import RankTier from "../../atoms/rank-tier/rank-tier.component";
-import RankName from "../../atoms/rank-name/rank-name.component";
+import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 // Selectors
@@ -54,7 +52,12 @@ const Rank = ({
 
     return (
         <div className={classes.root}>
-            <Typography variant="h2" component="h2">
+            <Typography
+                variant="h2"
+                component="h2"
+                align="center"
+                gutterBottom={true}
+            >
                 {rank.name}
             </Typography>
 
@@ -65,9 +68,12 @@ const Rank = ({
                     horizontal: "right",
                 }}
                 badgeContent={
-                    <Typography variant="h5" component="h5">
-                        {rank.tier}
-                    </Typography>
+                    <div className={classes.badgeWrapper}>
+                        <CustomIcon
+                            variant={rank.tier.toLowerCase()}
+                            size="small"
+                        />
+                    </div>
                 }
             >
                 {state.loading ? (
@@ -77,7 +83,7 @@ const Rank = ({
                         className={classes.placeholder}
                     />
                 ) : state.error ? (
-                    <div></div>
+                    <CustomIcon variant="notFound" size="avatar" />
                 ) : (
                     <Avatar
                         className={classes.rank}
