@@ -1,14 +1,9 @@
 import React, { ReactElement, FC, Fragment } from "react";
 import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-// Atoms
-import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 // Organisms
 import Rank from "../rank/rank.component";
+import StatsAndEnergies from "../stats-and-energies/stats-and-energies.component";
 // Local
 import useControlPanelStyles from "./styles";
 
@@ -24,10 +19,9 @@ const ControlPanel: FC = (): ReactElement => {
                 }}
                 anchor="right"
             >
-                <div className={classes.toolbar} />
-                <Divider />
                 <Rank />
                 <Divider />
+                <StatsAndEnergies />
             </Drawer>
         </Fragment>
     );

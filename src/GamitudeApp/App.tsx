@@ -2,6 +2,7 @@ import React, { lazy, Suspense, FC, ReactElement } from "react";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { selectToken } from "../redux/user/user.selectors";
+import Grid from "@material-ui/core/Grid";
 // Components
 import Navigation from "../components/organisms/navigation/navigation.component";
 import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
@@ -48,8 +49,14 @@ const App: FC<AppType> = ({ token }: AppType): ReactElement => {
         <div className={classes.app}>
             <div className={classes.container}>
                 <Navigation />
-                <PageRoutes />
-                {token ? <ControlPanel /> : null}
+                <Grid container>
+                    <Grid item xs={9}>
+                        <PageRoutes />
+                    </Grid>
+                    <Grid item xs={3}>
+                        {token ? <ControlPanel /> : null}
+                    </Grid>
+                </Grid>
             </div>
         </div>
     );

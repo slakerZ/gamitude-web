@@ -10,7 +10,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
 import MuiTab from "../../components/atoms/mui-tab/mui-tab.component";
 import Stats from "../../components/molecules/stats/stats.component";
-import Energies from "../../components/molecules/energies/energies.component";
+// import Energies from "../../components/molecules/energies/energies.component";
 import Rank from "../../components/organisms/rank/rank.component";
 import Projects from "../../components/molecules/projects/projects.component";
 // Selectors
@@ -80,7 +80,7 @@ const ProjectsMobilePage = ({
             </MuiTab>
             <MuiTab value={value} currTab={1}>
                 <Stats />
-                <Energies />
+                {/* <Energies /> */}
                 <Toolbar className={classes.toolbar} />
             </MuiTab>
             <MuiTab value={value} currTab={2}>

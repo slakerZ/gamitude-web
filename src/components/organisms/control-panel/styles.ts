@@ -8,8 +8,6 @@ const useControlPanelStyles = makeStyles((theme) => ({
         width: drawerWidth,
         flexShrink: 0,
     },
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
 }));
 
 export default useControlPanelStyles;

@@ -63,7 +63,6 @@ const CustomIcon: FC<CustomIconType> = ({
     };
 
     const getIcon = (variant: string, size: string) => {
-        console.log(variant);
         switch (variant) {
             case "body":
                 return <Body className={setClass(size)} />;
