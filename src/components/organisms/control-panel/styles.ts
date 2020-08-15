@@ -3,9 +3,7 @@ const useControlPanelStyles = makeStyles((theme) => ({
     paper: {
         backgroundColor: theme.palette.secondary.main,
     },
-    drawer: {
-        flexShrink: 0,
-    },
+    drawer: {},
 }));
 
 export default useControlPanelStyles;

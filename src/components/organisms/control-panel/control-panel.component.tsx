@@ -22,6 +22,7 @@ const ControlPanel: FC = (): ReactElement => {
                 <Rank />
                 <Divider />
                 <StatsAndEnergies />
+                <Divider />
             </Drawer>
         </Fragment>
     );

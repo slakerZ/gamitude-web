@@ -56,9 +56,12 @@ const ProjectsAddForm = ({
 
     const [state, submit] = useAsyncFn(
         async (name: string, boosted: string[], dominant: string) => {
+            const filteredBoosted = boosted.filter((el) => {
+                return el !== "";
+            });
             const response = await axios.post(
                 url,
-                requestData(name, boosted, dominant),
+                requestData(name, filteredBoosted, dominant),
                 headers(token),
             );
             const data = await response.data;

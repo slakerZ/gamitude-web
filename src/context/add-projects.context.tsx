@@ -1,4 +1,9 @@
-import React, { useState, createContext, useContext } from "react";
+import React, {
+    useState,
+    createContext,
+    useContext,
+    ReactElement,
+} from "react";
 
 type AddProjectContextType = {
     name: string;
@@ -17,7 +22,7 @@ const AddProjectContext = createContext<AddProjectContextType | undefined>(
     undefined,
 );
 
-export const AddProjectProvider = ({ children }: Props) => {
+export const AddProjectProvider = ({ children }: Props): ReactElement => {
     const [name, setName] = useState("");
     const [boosted, setBoosted] = useState([""]);
     const [dominant, setDominant] = useState("");

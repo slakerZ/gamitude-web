@@ -50,10 +50,10 @@ const App: FC<AppType> = ({ token }: AppType): ReactElement => {
             <div className={classes.container}>
                 <Navigation />
                 <Grid container>
-                    <Grid item xs={9}>
+                    <Grid item xs={10}>
                         <PageRoutes />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={2}>
                         {token ? <ControlPanel /> : null}
                     </Grid>
                 </Grid>
