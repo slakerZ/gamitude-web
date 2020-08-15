@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import axios from "axios";
 import { useAsyncFn } from "react-use";
 // Context
@@ -35,7 +35,7 @@ const SignUpForm = () => {
         },
     }));
     const classes = useStyles();
-    const { checked, setChecked } = useSignInUp()!;
+    const { setChecked } = useSignInUp()!;
 
     const [state, submit] = useAsyncFn(
         async (values: any) => {

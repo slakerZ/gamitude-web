@@ -18,7 +18,7 @@ const SignUp = () => {
         },
     });
     const classes = useStyles();
-    const { checked, setChecked } = useSignInUp()!;
+    const { checked } = useSignInUp()!;
 
     return (
         <Fade in={!checked}>

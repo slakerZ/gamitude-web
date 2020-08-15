@@ -4,6 +4,7 @@ import Divider from "@material-ui/core/Divider";
 // Organisms
 import Rank from "../rank/rank.component";
 import StatsAndEnergies from "../stats-and-energies/stats-and-energies.component";
+import SessionManager from "../session-manager/session-manager.component";
 // Local
 import useControlPanelStyles from "./styles";
 
@@ -23,6 +24,7 @@ const ControlPanel: FC = (): ReactElement => {
                 <Divider />
                 <StatsAndEnergies />
                 <Divider />
+                <SessionManager />
             </Drawer>
         </Fragment>
     );
