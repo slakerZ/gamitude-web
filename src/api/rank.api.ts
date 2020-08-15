@@ -13,13 +13,13 @@ export const getRank = async (token: string): Promise<GetRankType> => {
             ? "http://localhost:5030/api/stats/UserRank/rank"
             : "https://gamitude.rocks/api/stats/UserRank/rank";
 
-    const headers = (token: string) => ({
+    const getRankHeaders = (token: string) => ({
         headers: {
             Authorization: "Bearer " + token,
         },
     });
 
-    const response = await axios.get(getRankUrl, headers(token));
+    const response = await axios.get(getRankUrl, getRankHeaders(token));
     const result = await response.data.data;
     return result;
 };

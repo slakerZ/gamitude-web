@@ -24,8 +24,8 @@ const Rank = ({
     sessionsComplete: number;
 }) => {
     const [rank, setRank] = useState({
-        name: "Sloth",
-        tier: "f",
+        name: "Error Fetching",
+        tier: "error",
         imageUrl: "",
         rankFortes: ["intelligence", "creativity"],
     });

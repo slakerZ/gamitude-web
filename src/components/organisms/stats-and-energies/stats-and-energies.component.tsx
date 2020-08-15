@@ -1,81 +1,149 @@
 import React, { Fragment, FC, ReactElement, useState } from "react";
-import axios from "axios";
 import { useUpdateEffect, useAsyncFn, useEffectOnce } from "react-use";
 import Grid from "@material-ui/core/Grid";
-import { url, headers } from "../../../api/energies.api";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Button from "@material-ui/core/Button";
+// API
+import { getStats } from "../../../api/stats-and-energies.api";
+import { getEnergies } from "../../../api/stats-and-energies.api";
 // Redux
 import { connect } from "react-redux";
 import { setEnergies } from "../../../redux/energies/energies.actions";
 import { selectEnergies } from "../../../redux/energies/energies.selectors";
 import { selectToken } from "../../../redux/user/user.selectors";
 import { selectSessionsComplete } from "../../../redux/session/session.selectors";
+import { setStats } from "../../../redux/stats/stats.actions";
+import { selectStats } from "../../../redux/stats/stats.selectors";
 // Atoms
 import CustomIconWithTypography from "../../atoms/custom-icon-with-typography/custom-icon-with-typography.component";
 // Local
 import { StatsAndEnergiesType } from "./types";
 
 const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
-    energies,
     token,
+    energies,
     setEnergies,
+    stats,
+    setStats,
     sessionsComplete,
 }: StatsAndEnergiesType): ReactElement => {
     const [mappedEnergies, setMappedEnergies] = useState<[string, number][]>([
         ["body", 0],
+        ["emotions", 0],
+        ["mind", 0],
+        ["soul", 0],
     ]);
-    const { body, emotions, mind, soul } = energies;
 
-    const [getEnergiesState, getEnergies] = useAsyncFn(async () => {
-        const response = await axios.get(url, headers(token));
-        const result = await response.data;
-        setEnergies({ ...result.data });
+    const [mappedStats, setMappedStats] = useState<[string, number][]>([
+        ["strength", 0],
+        ["creativity", 0],
+        ["intelligence", 0],
+        ["fluency", 0],
+    ]);
+
+    const [getEnergiesState, getEnergiesSubmit] = useAsyncFn(async () => {
+        const result = await getEnergies(token);
+        setEnergies(result);
         setMappedEnergies([
-            ["body", body],
-            ["emotions", emotions],
-            ["mind", mind],
-            ["soul", soul],
+            ["body", result.body],
+            ["emotions", result.emotions],
+            ["mind", result.mind],
+            ["soul", result.soul],
         ]);
         return result;
-    }, [url]);
+    }, []);
+
+    const [getStatsState, getStatsSubmit] = useAsyncFn(async () => {
+        const result = await getStats(token);
+        setStats(result);
+        setMappedStats([
+            ["strength", result.strength],
+            ["creativity", result.creativity],
+            ["intelligence", result.intelligence],
+            ["fluency", result.fluency],
+        ]);
+        return result;
+    }, []);
 
     useEffectOnce(() => {
-        getEnergies();
+        getEnergiesSubmit();
+        getStatsSubmit();
     });
 
     useUpdateEffect(() => {
-        getEnergies();
+        getStatsSubmit();
+        getEnergiesSubmit();
     }, [sessionsComplete]);
 
-    useUpdateEffect(() => {
-        setMappedEnergies([
-            ["body", body],
-            ["emotions", emotions],
-            ["mind", mind],
-            ["soul", soul],
-        ]);
-    }, [body, emotions, mind, soul]);
+    // Not sure if necesssary
+    // useUpdateEffect(() => {
+    //     setMappedEnergies([
+    //         ["body", body],
+    //         ["emotions", emotions],
+    //         ["mind", mind],
+    //         ["soul", soul],
+    //     ]);
+    //     setMappedStats([
+    //         ["strength", strength],
+    //         ["creativity", creativity],
+    //         ["intelligence", intelligence],
+    //         ["fluency", fluency],
+    //     ]);
+    // }, [
+    //     body,
+    //     emotions,
+    //     mind,
+    //     soul,
+    //     strength,
+    //     creativity,
+    //     intelligence,
+    //     fluency,
+    // ]);
 
     return (
         <Fragment>
             <Grid container>
                 <Grid item xs={6}>
-                    {mappedEnergies.map((tuple) => {
-                        const [energyName, energyValue] = tuple;
-                        console.log(tuple);
-                        return (
-                            <CustomIconWithTypography
-                                variant={energyName}
-                                key={energyName}
-                            >
-                                {energyValue.toString()}
-                            </CustomIconWithTypography>
-                        );
-                    })}
+                    {getEnergiesState.loading ? (
+                        <CircularProgress />
+                    ) : getEnergiesState.error ? (
+                        <Button variant="contained" onClick={getEnergiesSubmit}>
+                            Retry
+                        </Button>
+                    ) : (
+                        mappedEnergies.map((tuple) => {
+                            const [energyName, energyValue] = tuple;
+                            return (
+                                <CustomIconWithTypography
+                                    variant={energyName}
+                                    key={energyName}
+                                >
+                                    {energyValue.toString()}
+                                </CustomIconWithTypography>
+                            );
+                        })
+                    )}
                 </Grid>
                 <Grid item xs={6}>
-                    <CustomIconWithTypography variant="xd">
-                        {"xd"}
-                    </CustomIconWithTypography>
+                    {getStatsState.loading ? (
+                        <CircularProgress />
+                    ) : getEnergiesState.error ? (
+                        <Button variant="contained" onClick={getStatsSubmit}>
+                            Retry
+                        </Button>
+                    ) : (
+                        mappedStats.map((tuple) => {
+                            const [statName, statValue] = tuple;
+                            return (
+                                <CustomIconWithTypography
+                                    variant={statName}
+                                    key={statName}
+                                >
+                                    {statValue.toString()}
+                                </CustomIconWithTypography>
+                            );
+                        })
+                    )}
                 </Grid>
             </Grid>
         </Fragment>
@@ -83,6 +151,7 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
 };
 
 const mapStateToProps = (state: any) => ({
+    stats: selectStats(state),
     energies: selectEnergies(state),
     token: selectToken(state),
     sessionsComplete: selectSessionsComplete(state),
@@ -90,6 +159,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
     setEnergies: (value: any) => dispatch(setEnergies(value)),
+    setStats: (value: any) => dispatch(setStats(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StatsAndEnergies);

@@ -1,10 +1,19 @@
-import React, { Fragment } from "react";
+import React, { Fragment, ReactElement, FC } from "react";
 import Typography from "@material-ui/core/Typography";
+// Local
+import { CustomTypographyType } from "./types";
 
-const CustomTypography = () => {
+const CustomTypography: FC<CustomTypographyType> = ({
+    color = "textPrimary",
+    variant = "h3",
+    component = "h3",
+    children,
+}: CustomTypographyType): ReactElement => {
     return (
         <Fragment>
-            <Typography>xd</Typography>
+            <Typography variant={variant} component={component} color={color}>
+                {children}
+            </Typography>
         </Fragment>
     );
 };
