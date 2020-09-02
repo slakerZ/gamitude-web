@@ -52,46 +52,42 @@ const Rank = ({
 
     return (
         <div className={classes.root}>
-            <Typography
-                variant="h2"
-                component="h2"
-                align="center"
-                gutterBottom={true}
-            >
+            <Typography variant="h2" component="h2" align="center">
                 {rank.name}
             </Typography>
-
-            <Badge
-                overlap="circle"
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                }}
-                badgeContent={
-                    <div className={classes.badgeWrapper}>
-                        <CustomIcon
-                            variant={rank.tier.toLowerCase()}
-                            size="small"
+            <div className={classes.avatarWrapper}>
+                <Badge
+                    overlap="circle"
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "right",
+                    }}
+                    badgeContent={
+                        <div className={classes.badgeWrapper}>
+                            <CustomIcon
+                                variant={rank.tier.toLowerCase()}
+                                size="small"
+                            />
+                        </div>
+                    }
+                >
+                    {state.loading ? (
+                        <Skeleton
+                            variant="rect"
+                            animation="wave"
+                            className={classes.placeholder}
                         />
-                    </div>
-                }
-            >
-                {state.loading ? (
-                    <Skeleton
-                        variant="rect"
-                        animation="wave"
-                        className={classes.placeholder}
-                    />
-                ) : state.error ? (
-                    <CustomIcon variant="notFound" size="avatar" />
-                ) : (
-                    <Avatar
-                        className={classes.rank}
-                        alt="Travis Howard"
-                        src={rank.imageUrl}
-                    />
-                )}
-            </Badge>
+                    ) : state.error ? (
+                        <CustomIcon variant="notFound" size="avatar" />
+                    ) : (
+                        <Avatar
+                            className={classes.rank}
+                            alt="Your productivity Spirit Animal"
+                            src={rank.imageUrl}
+                        />
+                    )}
+                </Badge>
+            </div>
         </div>
     );
 };

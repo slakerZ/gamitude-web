@@ -3,49 +3,19 @@ import { createMuiTheme } from "@material-ui/core/styles";
 const theme = createMuiTheme({
     palette: {
         primary: {
-            // lighter: "rgba(125, 108, 135, 0.5)",
-            light: "rgba(10,83,100, 1)",
-            main: "rgba(11,72,90, 1)",
-            dark: "rgba(7,27,36, 1)",
-
-            // darker: "rgba(38, 0, 60, 0.5)",
+            light: "rgba( 28, 60,135,1)",
+            main: "rgba( 18, 39, 86,1)",
+            dark: "rgba(  2,  4, 11,1)",
         },
         secondary: {
-            // lighter: "rgba(128, 105, 133, 0.5)",
-            light: "rgba(58,105,97, 1)",
-            main: "rgba(95,77,41, 1)",
-            dark: "rgba(58, 3, 91, 1)",
-
-            // darker: "rgba(49, 0, 59, 0.5)",
+            light: "rgba( 77, 66,  9,1)",
+            main: "rgba(129,109, 15,1)",
+            dark: "rgba( 16, 14,  1,1)",
         },
-        // tertriary: {
-        //     lighter: "rgba(193, 197, 155, 0.5)",
-        //     light: "rgba(180, 192, 79, 0.5)",
-        //     main: "rgba(149, 165, 19, 0.5)",
-        //     dark: "rgba(119, 133, 0, 0.5)",
-        //     darker: "rgba(78, 87, 0, 0.5)",
-        // },
-        // complement: {
-        //     lighter: "rgba(202, 201, 159, 0.5)",
-        //     light: "rgba(196, 195, 81, 0.5)",
-        //     main: "rgba(168, 167, 20, 0.5)",
-        //     dark: "rgba(136, 135, 0, 0.5)",
-        //     darker: "rgba(89, 89, 0, 0.5)",
-        // },
-        // stats: {
-        //     strength: "rgba(153, 38, 20, .5)",
-        //     creativity: "rgba(35, 168, 44, .5)",
-        //     intelligence: "rgba(65, 139, 224, .5)",
-        //     fluency: "rgba(93, 38, 115, .5)",
-        // },
-        // tiers: {
-        //     s: "rgba(61, 124, 145, .5)",
-        //     a: "rgba(70, 138, 58, .5)",
-        //     b: "rgba(121, 189, 109, .5)",
-        //     c: "rgba(235, 231, 5, .5)",
-        //     d: "rgba(191, 145, 46, .5)",
-        //     f: "rgba(145, 38, 38, .5)",
-        // },
+        // error: {},
+        // warning: {},
+        // info: {},
+        // success: {},
     },
     typography: {
         fontFamily: [

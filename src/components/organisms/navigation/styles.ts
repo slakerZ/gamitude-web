@@ -9,7 +9,7 @@ const useNavigationStyles = makeStyles((theme: Theme) => ({
         whiteSpace: "nowrap",
     },
     paper: {
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main,
     },
     drawerOpen: {
         width: drawerWidth,

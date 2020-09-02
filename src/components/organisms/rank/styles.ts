@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useRankStyles = makeStyles((theme) => {
     return {
         root: {
-            margin: theme.spacing(2, 10),
+            margin: theme.spacing(1, 10),
         },
         rank: {
             width: "20vh",
@@ -19,6 +19,9 @@ const useRankStyles = makeStyles((theme) => {
             padding: theme.spacing(1.5),
             border: `2px ${theme.palette.primary.light} outset`,
             borderRadius: "100%",
+        },
+        avatarWrapper: {
+            padding: theme.spacing(1.3),
         },
     };
 });

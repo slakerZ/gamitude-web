@@ -16,11 +16,6 @@ const navLinks: LinkType[] = [
         label: "Bullet Journal",
         icon: "bulletJournal",
     },
-    {
-        to: "/profile",
-        label: "Profile",
-        icon: "profile",
-    },
 ];
 
 export default navLinks;
