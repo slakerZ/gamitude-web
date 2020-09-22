@@ -3,14 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 const useRankStyles = makeStyles((theme) => {
     return {
         root: {
-            width: "20vw",
-        },
-        avatarWrapper: {
-            padding: theme.spacing(1.3),
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            flexDirection: "column",
         },
+        avatarWrapper: {},
         badgeWrapper: {
             backgroundColor: theme.palette.secondary.dark,
             padding: theme.spacing(1.5),

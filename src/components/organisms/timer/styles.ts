@@ -25,6 +25,9 @@ const useTimerStyles = makeStyles((theme) => ({
     methods: {
         margin: theme.spacing(2),
     },
+    timerButton: {
+        borderRadius: "100%",
+    },
     method: {},
     minSecWrapper: {},
     methodButton: {},

@@ -15,7 +15,7 @@ import { selectSessionsComplete } from "../../../redux/session/session.selectors
 import { setStats } from "../../../redux/stats/stats.actions";
 import { selectStats } from "../../../redux/stats/stats.selectors";
 // Atoms
-import CustomIconWithTypography from "../../atoms/custom-icon-with-typography/custom-icon-with-typography.component";
+import CustomIconWithTypography from "../../molecules/custom-icon-with-typography/custom-icon-with-typography.component";
 // Local
 import { StatsAndEnergiesType } from "./types";
 import useStatsAndEnergiesStyles from "./styles";

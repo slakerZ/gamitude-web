@@ -22,11 +22,11 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
 // Components
 import ProjectAddBackendFeedback from "../../atoms/project-add-backend-feedback/project-add-backend-feedback.component";
 import CustomProjectStats from "../../atoms/custom-project-stats/custom-project-stats.component";
 import CustomProjectsStatsDominant from "../../atoms/custom-project-stats-dominant/custom-project-stats-dominant.component";
-import CustomProjectName from "../../atoms/custom-project-name/custom-project-name.component";
 
 const ProjectsAddForm = ({
     open,
@@ -74,6 +74,16 @@ const ProjectsAddForm = ({
         [url],
     );
 
+    const [text, setText] = React.useState("");
+
+    const handleChange = (event: { target: { value: string } }) => {
+        setText(event.target.value);
+    };
+
+    const handleBlur = (event: { target: { value: string } }) => {
+        setName(event.target.value);
+    };
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -95,7 +105,13 @@ const ProjectsAddForm = ({
                 {"Create New Project"}
             </DialogTitle>
             <DialogContent>
-                <CustomProjectName onValueChange={setName} />
+                <TextField
+                    label="PROJECT NAME"
+                    variant="outlined"
+                    value={text}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
                 <CustomProjectStats
                     groupValue={boosted}
                     groupOnChange={setBoosted}

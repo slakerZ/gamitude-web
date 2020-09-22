@@ -6,6 +6,7 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import Button from "@material-ui/core/Button";
 // Local
 import { TimerType } from "./types";
 import useTimerStyles from "./styles";
@@ -16,10 +17,10 @@ const Timer: FC = (): ReactElement => {
     // TODO: add support for unlimited custom - pagination
     const [method, setMethod] = useState("25");
     const methods = [
-        { label: "5", name: "Just 5", minutes: 5 },
+        { label: "5m", name: "Just 5", minutes: 5 },
         { label: "25", name: "Pomodoro", minutes: 25 },
         { label: "90", name: "Ultradian Rythm", minutes: 90 },
-        { label: "\u221E", name: "Stopwatch", minutes: 0 },
+        { label: " \u221E", name: "Stopwatch", minutes: 0 },
         { label: "18", name: "Custom 1", minutes: 18 },
     ];
 
@@ -46,6 +47,14 @@ const Timer: FC = (): ReactElement => {
         }
     };
 
+    const handleOvertime = () => {
+        console.log("added 5");
+    };
+
+    const handleSession = () => {
+        console.log("started");
+    };
+
     return (
         <Fragment>
             <div className={classes.root}>
@@ -56,38 +65,48 @@ const Timer: FC = (): ReactElement => {
                         horizontal: "right",
                     }}
                     badgeContent={
-                        <div className={classes.addFive}>
+                        <Button
+                            variant="text"
+                            onClick={handleOvertime}
+                            className={classes.addFive}
+                        >
                             <Typography variant="h4" component="h4">
                                 {"+5"}
                             </Typography>
-                        </div>
+                        </Button>
                     }
                 >
-                    <div className={classes.timerDisplay}>
-                        <div className={classes.minSecWrapper}>
-                            <Typography
-                                display="inline"
-                                variant="h2"
-                                component="h2"
-                            >
-                                {leftPad(25)}
-                            </Typography>
-                            <Typography
-                                display="inline"
-                                variant="h3"
-                                component="h3"
-                            >
-                                {":"}
-                            </Typography>
-                            <Typography
-                                display="inline"
-                                variant="h3"
-                                component="h3"
-                            >
-                                {leftPad(4)}
-                            </Typography>
+                    <Button
+                        className={classes.timerButton}
+                        variant="text"
+                        onClick={handleSession}
+                    >
+                        <div className={classes.timerDisplay}>
+                            <div className={classes.minSecWrapper}>
+                                <Typography
+                                    display="inline"
+                                    variant="h2"
+                                    component="h2"
+                                >
+                                    {leftPad(25)}
+                                </Typography>
+                                <Typography
+                                    display="inline"
+                                    variant="h3"
+                                    component="h3"
+                                >
+                                    {":"}
+                                </Typography>
+                                <Typography
+                                    display="inline"
+                                    variant="h3"
+                                    component="h3"
+                                >
+                                    {leftPad(4)}
+                                </Typography>
+                            </div>
                         </div>
-                    </div>
+                    </Button>
                 </Badge>
 
                 <div className={classes.methods}>

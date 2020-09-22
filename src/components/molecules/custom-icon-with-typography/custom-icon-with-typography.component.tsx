@@ -1,6 +1,6 @@
 import React, { Fragment, FC, ReactElement } from "react";
 // Atoms
-import CustomIcon from "../custom-icon/custom-icon.component";
+import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 import Typography from "@material-ui/core/Typography";
 // Local
 import { CustomIconWithTypographyType } from "./types";
