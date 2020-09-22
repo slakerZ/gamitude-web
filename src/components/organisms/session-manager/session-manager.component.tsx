@@ -1,6 +1,7 @@
 import React, { FC, ReactElement, Fragment, useState } from "react";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 // Local
 import useSessionManagerStyles from "./styles";
 
@@ -16,7 +17,9 @@ const SessionManager: FC = (): ReactElement => {
                     container
                     className={classes.switchGrid}
                 >
-                    <Grid item>{"ENERGIES"}</Grid>
+                    <Grid item>
+                        <Typography variant="body1">{"ENERGIES"}</Typography>
+                    </Grid>
                     <Grid item>
                         <Switch
                             checked={checked}
@@ -24,7 +27,9 @@ const SessionManager: FC = (): ReactElement => {
                             name="energiesStats"
                         />
                     </Grid>
-                    <Grid item>{"STATS"}</Grid>
+                    <Grid item>
+                        <Typography variant="body1">{"STATS"}</Typography>
+                    </Grid>
                 </Grid>
             </div>
         </Fragment>

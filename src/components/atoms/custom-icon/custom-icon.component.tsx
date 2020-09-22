@@ -34,6 +34,7 @@ import { ReactComponent as SRank } from "../../../assets/icons/rank-tiers/019-le
 
 // Other
 import { ReactComponent as NotFound } from "../../../assets/icons/other/page-not-found.svg";
+
 // Local
 import useCustomIconStyles from "./styles";
 import { CustomIconType } from "./types";

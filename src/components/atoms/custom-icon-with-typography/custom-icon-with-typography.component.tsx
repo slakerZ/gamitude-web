@@ -1,7 +1,7 @@
 import React, { Fragment, FC, ReactElement } from "react";
 // Atoms
 import CustomIcon from "../custom-icon/custom-icon.component";
-import CustomTypography from "../custom-typography/custom-typography.component";
+import Typography from "@material-ui/core/Typography";
 // Local
 import { CustomIconWithTypographyType } from "./types";
 import useCustomIconWithTypographyStyles from "./styles";
@@ -15,7 +15,9 @@ const CustomIconWithTypography: FC<CustomIconWithTypographyType> = ({
         <Fragment>
             <div className={classes.root}>
                 <CustomIcon variant={variant} size="small" />
-                <CustomTypography>{children}</CustomTypography>
+                <Typography variant="h3" component="h3">
+                    {children}
+                </Typography>
             </div>
         </Fragment>
     );

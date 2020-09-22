@@ -1,6 +1,11 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
+    props: {
+        MuiSvgIcon: {
+            htmlColor: "#F5F5F5",
+        },
+    },
     palette: {
         primary: {
             light: "rgba( 28, 60,135,1)",
@@ -18,6 +23,9 @@ const theme = createMuiTheme({
         // success: {},
     },
     typography: {
+        allVariants: {
+            color: "#F5F5F5",
+        },
         fontFamily: [
             "Roboto",
             "-apple - system",

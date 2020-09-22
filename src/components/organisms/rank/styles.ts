@@ -3,7 +3,19 @@ import { makeStyles } from "@material-ui/core/styles";
 const useRankStyles = makeStyles((theme) => {
     return {
         root: {
-            margin: theme.spacing(1, 10),
+            width: "20vw",
+        },
+        avatarWrapper: {
+            padding: theme.spacing(1.3),
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+        },
+        badgeWrapper: {
+            backgroundColor: theme.palette.secondary.dark,
+            padding: theme.spacing(1.5),
+            border: `2px ${theme.palette.primary.light} outset`,
+            borderRadius: "100%",
         },
         rank: {
             width: "20vh",
@@ -13,15 +25,6 @@ const useRankStyles = makeStyles((theme) => {
         placeholder: {
             width: "20vh",
             height: "20vh",
-        },
-        badgeWrapper: {
-            backgroundColor: theme.palette.secondary.dark,
-            padding: theme.spacing(1.5),
-            border: `2px ${theme.palette.primary.light} outset`,
-            borderRadius: "100%",
-        },
-        avatarWrapper: {
-            padding: theme.spacing(1.3),
         },
     };
 });

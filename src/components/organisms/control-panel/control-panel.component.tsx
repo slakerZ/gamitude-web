@@ -14,6 +14,7 @@ import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import Rank from "../rank/rank.component";
 import StatsAndEnergies from "../stats-and-energies/stats-and-energies.component";
 import SessionManager from "../session-manager/session-manager.component";
+import Timer from "../timer/timer.component";
 // Local
 import useControlPanelStyles from "./styles";
 import { ControlPanelType } from "./types";
@@ -68,6 +69,7 @@ const ControlPanel: FC<ControlPanelType> = ({
                 <StatsAndEnergies />
                 <Divider />
                 <SessionManager />
+                <Timer />
             </Drawer>
         </Fragment>
     );
