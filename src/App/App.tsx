@@ -1,15 +1,40 @@
-import React, { lazy, Suspense, FC, ReactElement } from "react";
+import React, { lazy, Suspense, FC, ReactElement, useState } from "react";
+import { Route, Switch, Link } from "react-router-dom";
+import clsx from "clsx";
+// Redux
 import { connect } from "react-redux";
-import { Route, Switch } from "react-router-dom";
-import { selectToken } from "../redux/user/user.selectors";
-import Grid from "@material-ui/core/Grid";
-// Components
-import Navigation from "../components/organisms/navigation/navigation.component";
+import { selectToken, selectTooltipToggle } from "../redux/user/user.selectors";
+import { setUser, setTooltipToggle } from "../redux/user/user.actions";
+// MUI Core
+import Drawer from "@material-ui/core/Drawer";
+import Divider from "@material-ui/core/Divider";
+import List from "@material-ui/core/List";
+import IconButton from "@material-ui/core/IconButton";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import AppBar from "@material-ui/core/AppBar";
+import Typography from "@material-ui/core/Typography";
+// MUI Icons
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import HelpIcon from "@material-ui/icons/Help";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import SettingsIcon from "@material-ui/icons/Settings";
+// Atoms
+import CustomIcon from "../components/atoms/custom-icon/custom-icon.component";
 import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
-import ControlPanel from "../components/organisms/control-panel/control-panel.component";
+// Organisms
+import Rank from "../components/organisms/rank/rank.component";
+import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
+import SessionManager from "../components/organisms/session-manager/session-manager.component";
+import Timer from "../components/organisms/timer/timer.component";
 // Local
 import useAppStyles from "./styles";
 import { AppType } from "./types";
+import { NAV_LINKS } from "./constants";
+import { Toolbar } from "@material-ui/core";
 // Lazy Loading
 const HomePage = lazy(() => import("../pages/home/home.page"));
 const ProjectsPage = lazy(() => import("../pages/projects/projects.page"));
@@ -21,49 +46,145 @@ const SignInSignUpPage = lazy(() =>
 );
 const ProfilePage = lazy(() => import("../pages/profile/profile.page"));
 
-const PageRoutes: FC = (): ReactElement => {
-    return (
-        <Suspense fallback={<LoadingScreen />}>
-            <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route exact path="/projects" component={ProjectsPage} />
-                <Route
-                    exact
-                    path="/bulletJournal"
-                    component={BulletJournalPage}
-                />
-                <Route exact path="/profile" component={ProfilePage} />
-                <Route
-                    exact
-                    path="/signInSignUp"
-                    component={SignInSignUpPage}
-                />
-            </Switch>
-        </Suspense>
-    );
-};
-const App: FC<AppType> = ({ token }: AppType): ReactElement => {
+const App: FC<AppType> = ({
+    token,
+    setUser,
+    setTooltipToggle,
+    tooltipToggle,
+}: AppType): ReactElement => {
     const classes = useAppStyles();
 
+    const [navOpen, setNavOpen] = useState(true);
+
+    const handleToggleNavOpen = () => {
+        setNavOpen(!navOpen);
+    };
+
+    const logout = () => {
+        setUser({
+            token: null,
+        });
+    };
+
+    const toggleTooltips = () => {
+        setTooltipToggle({ tooltipToggle: !tooltipToggle });
+    };
+
     return (
-        <div className={classes.app}>
-            <div className={classes.container}>
-                <Navigation />
-                <Grid container>
-                    <Grid item xs={10}>
-                        <PageRoutes />
-                    </Grid>
-                    <Grid item xs={2}>
-                        {token ? <ControlPanel /> : null}
-                    </Grid>
-                </Grid>
+        <div className={classes.root}>
+            <AppBar
+                position="fixed"
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: navOpen,
+                })}
+            >
+                <Toolbar>
+                    <div className={classes.center}>
+                        <Typography variant="h2" component="h2">
+                            {"Gamitude"}
+                        </Typography>
+                    </div>
+                </Toolbar>
+            </AppBar>
+            <Drawer
+                variant="permanent"
+                className={clsx(classes.navDrawer, {
+                    [classes.navDrawerOpen]: navOpen,
+                    [classes.navDrawerClose]: !navOpen,
+                })}
+                classes={{
+                    paper: clsx(classes.navDrawerPaper, {
+                        [classes.navDrawerOpen]: navOpen,
+                        [classes.navDrawerClose]: !navOpen,
+                    }),
+                }}
+            >
+                <div className={classes.toolbar}>
+                    <IconButton onClick={handleToggleNavOpen}>
+                        {navOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    {NAV_LINKS.map(({ to, label, icon }) => (
+                        <ListItem button key={to} component={Link} to={to}>
+                            <ListItemIcon>
+                                <CustomIcon size="small" variant={icon} />
+                            </ListItemIcon>
+                            <ListItemText primary={label} />
+                        </ListItem>
+                    ))}
+                </List>
+            </Drawer>
+            <div className={classes.content}>
+                <Toolbar />
+                <Suspense fallback={<LoadingScreen />}>
+                    <Switch>
+                        <Route exact path="/" component={HomePage} />
+                        <Route
+                            exact
+                            path="/projects"
+                            component={ProjectsPage}
+                        />
+                        <Route
+                            exact
+                            path="/bulletJournal"
+                            component={BulletJournalPage}
+                        />
+                        <Route exact path="/profile" component={ProfilePage} />
+                        <Route
+                            exact
+                            path="/signInSignUp"
+                            component={SignInSignUpPage}
+                        />
+                    </Switch>
+                </Suspense>
             </div>
+            {token ? (
+                <Drawer
+                    className={classes.controlPanelDrawer}
+                    variant="permanent"
+                    classes={{
+                        paper: classes.controlPanelDrawerPaper,
+                    }}
+                    anchor="right"
+                >
+                    <div className={classes.toolbar}>
+                        <IconButton onClick={toggleTooltips}>
+                            {tooltipToggle ? <HelpIcon /> : <HelpOutlineIcon />}
+                        </IconButton>
+                        <IconButton component={Link} to={"/profile"}>
+                            <SettingsIcon />
+                        </IconButton>
+                        <IconButton
+                            onClick={logout}
+                            component={Link}
+                            to={"/signInSignUp"}
+                        >
+                            <ExitToAppIcon />
+                        </IconButton>
+                    </div>
+                    <Divider />
+                    <Rank />
+                    <Divider />
+                    <StatsAndEnergies />
+                    <Divider />
+                    <SessionManager />
+                    <Timer />
+                </Drawer>
+            ) : null}
         </div>
     );
 };
 
 const mapStateToProps = (state: any) => ({
     token: selectToken(state),
+    tooltipToggle: selectTooltipToggle(state),
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch: any) => ({
+    setUser: (value: any) => dispatch(setUser(value)),
+    setTooltipToggle: (value: any) => dispatch(setTooltipToggle(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

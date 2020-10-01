@@ -9,7 +9,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 // Components
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
 import MuiTab from "../../components/atoms/mui-tab/mui-tab.component";
-import Projects from "../../components/molecules/projects/projects.component";
 // Selectors
 import {
     selectSessionInProgress,
@@ -78,7 +77,6 @@ const ProjectsMobilePage = ({
                 <Toolbar className={classes.toolbar} />
             </MuiTab>
             <MuiTab value={value} currTab={2}>
-                <Projects />
                 <Toolbar className={classes.toolbar} />
             </MuiTab>
 

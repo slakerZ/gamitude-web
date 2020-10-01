@@ -1,6 +1,6 @@
 import { LinkType } from "./types";
 
-const navLinks: LinkType[] = [
+export const NAV_LINKS: LinkType[] = [
     {
         to: "/",
         label: "Homepage",
@@ -18,4 +18,6 @@ const navLinks: LinkType[] = [
     },
 ];
 
-export default navLinks;
+export const NAVIGATION_WIDTH = 240;
+
+export const CONTROL_PANEL_WIDTH = 340;
