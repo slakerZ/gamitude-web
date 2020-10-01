@@ -54,7 +54,7 @@ const App: FC<AppType> = ({
 }: AppType): ReactElement => {
     const classes = useAppStyles();
 
-    const [navOpen, setNavOpen] = useState(true);
+    const [navOpen, setNavOpen] = useState(false);
 
     const handleToggleNavOpen = () => {
         setNavOpen(!navOpen);
@@ -78,11 +78,39 @@ const App: FC<AppType> = ({
                     [classes.appBarShift]: navOpen,
                 })}
             >
-                <Toolbar>
+                <Toolbar className={classes.toolbar}>
+                    <div className={classes.left}>
+                        <IconButton onClick={handleToggleNavOpen}>
+                            {navOpen ? (
+                                <ChevronLeftIcon />
+                            ) : (
+                                <ChevronRightIcon />
+                            )}
+                        </IconButton>
+                    </div>
+
                     <div className={classes.center}>
-                        <Typography variant="h2" component="h2">
-                            {"Gamitude"}
-                        </Typography>
+                        <Link to="/" className={classes.title}>
+                            <Typography variant="h3" component="h3">
+                                {"Gamitude"}
+                            </Typography>
+                        </Link>
+                    </div>
+
+                    <div className={classes.right}>
+                        <IconButton onClick={toggleTooltips}>
+                            {tooltipToggle ? <HelpIcon /> : <HelpOutlineIcon />}
+                        </IconButton>
+                        <IconButton component={Link} to={"/profile"}>
+                            <SettingsIcon />
+                        </IconButton>
+                        <IconButton
+                            onClick={logout}
+                            component={Link}
+                            to={"/signInSignUp"}
+                        >
+                            <ExitToAppIcon />
+                        </IconButton>
                     </div>
                 </Toolbar>
             </AppBar>
@@ -99,12 +127,7 @@ const App: FC<AppType> = ({
                     }),
                 }}
             >
-                <div className={classes.toolbar}>
-                    <IconButton onClick={handleToggleNavOpen}>
-                        {navOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
-                </div>
-                <Divider />
+                <Toolbar />
                 <List>
                     {NAV_LINKS.map(({ to, label, icon }) => (
                         <ListItem button key={to} component={Link} to={to}>
@@ -149,28 +172,15 @@ const App: FC<AppType> = ({
                     }}
                     anchor="right"
                 >
-                    <div className={classes.toolbar}>
-                        <IconButton onClick={toggleTooltips}>
-                            {tooltipToggle ? <HelpIcon /> : <HelpOutlineIcon />}
-                        </IconButton>
-                        <IconButton component={Link} to={"/profile"}>
-                            <SettingsIcon />
-                        </IconButton>
-                        <IconButton
-                            onClick={logout}
-                            component={Link}
-                            to={"/signInSignUp"}
-                        >
-                            <ExitToAppIcon />
-                        </IconButton>
+                    <div className={classes.controlPanelBody}>
+                        <Toolbar />
+                        <Rank />
+                        <Divider />
+                        <StatsAndEnergies />
+                        <Divider />
+                        <SessionManager />
+                        <Timer />
                     </div>
-                    <Divider />
-                    <Rank />
-                    <Divider />
-                    <StatsAndEnergies />
-                    <Divider />
-                    <SessionManager />
-                    <Timer />
                 </Drawer>
             ) : null}
         </div>

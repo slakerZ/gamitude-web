@@ -1,4 +1,5 @@
 import React, { ReactElement, FC } from "react";
+import clsx from "clsx";
 // Energies
 import { ReactComponent as Body } from "../../../assets/icons/energies/body.svg";
 import { ReactComponent as Emotions } from "../../../assets/icons/energies/emotions.svg";
@@ -82,9 +83,17 @@ const CustomIcon: FC<CustomIconType> = ({
             case "fluency":
                 return <Fluency className={setClass(size)} />;
             case "projects":
-                return <ProjectsIcon className={setClass(size)} />;
+                return (
+                    <ProjectsIcon
+                        className={clsx(setClass(size), classes.white)}
+                    />
+                );
             case "bulletJournal":
-                return <BulletJournalIcon className={setClass(size)} />;
+                return (
+                    <BulletJournalIcon
+                        className={clsx(setClass(size), classes.white)}
+                    />
+                );
             case "logo":
                 return <Logo className={setClass(size)} />;
             case "profile":

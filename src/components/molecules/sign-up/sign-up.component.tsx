@@ -11,10 +11,10 @@ const SignUp = () => {
     const useStyles = makeStyles({
         root: {
             position: "fixed",
-            width: "100vw",
-            height: "100vh",
+            width: "100%",
+            height: "100%",
             display: "grid",
-            gridTemplateColumns: "40vw 60vw",
+            gridTemplateColumns: "40% 60%",
         },
     });
     const classes = useStyles();

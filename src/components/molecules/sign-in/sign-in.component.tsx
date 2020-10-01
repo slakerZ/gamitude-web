@@ -11,10 +11,10 @@ const SignIn = () => {
     const useStyles = makeStyles({
         root: {
             position: "fixed",
-            width: "100vw",
-            height: "100vh",
+            width: "100%",
+            height: "100%",
             display: "grid",
-            gridTemplateColumns: "60vw 40vw",
+            gridTemplateColumns: "60% 40%",
         },
     });
     const classes = useStyles();

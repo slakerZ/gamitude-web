@@ -29,6 +29,9 @@ const useCustomIconStyles = makeStyles((theme) => ({
         width: "20vh",
         height: "20vh",
     },
+    white: {
+        fill: "white",
+    },
 }));
 
 export default useCustomIconStyles;
