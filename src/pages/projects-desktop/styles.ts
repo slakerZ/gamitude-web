@@ -1,12 +1,11 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import { CONTROL_PANEL_WIDTH } from "../../App/constants";
 
-const useProjectsDesktopStyles = makeStyles((theme: any) => ({
+const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
     root: {
-        flexGrow: 1,
-        backgroundColor: "transparent",
-        gridArea: "projects",
-        boxShadow: "5px 5px 10px #000000",
-        overflow: "auto",
+        display: "flex",
+        width: "100%",
+        height: "100%",
     },
     appBar: {
         backgroundColor: "transparent",
@@ -14,6 +13,20 @@ const useProjectsDesktopStyles = makeStyles((theme: any) => ({
     tabs: {
         backgroundColor: theme.palette.secondary.main,
         justifyContent: "center",
+        borderRight: `1px solid ${theme.palette.divider}`,
+    },
+    projectsWrapper: {
+        width: "100%",
+    },
+    fabAndFormWrapper: {
+        position: "fixed",
+        bottom: 0,
+        right: `${CONTROL_PANEL_WIDTH}vw`,
+        padding: theme.spacing(1.5),
+    },
+    add: {
+        boxShadow: "5px 5px 10px #000000",
+        backgroundColor: theme.palette.secondary.main,
     },
 }));
 

@@ -8,6 +8,7 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import Button from "@material-ui/core/Button";
 // Local
+import { METHODS } from "./constants";
 import { TimerType } from "./types";
 import useTimerStyles from "./styles";
 
@@ -16,13 +17,6 @@ const Timer: FC = (): ReactElement => {
 
     // TODO: add support for unlimited custom - pagination
     const [method, setMethod] = useState("25");
-    const methods = [
-        { label: "5m", name: "Just 5", minutes: 5 },
-        { label: "25", name: "Pomodoro", minutes: 25 },
-        { label: "90", name: "Ultradian Rythm", minutes: 90 },
-        { label: " \u221E", name: "Stopwatch", minutes: 0 },
-        { label: "18", name: "Custom 1", minutes: 18 },
-    ];
 
     const leftPad = (val: number) => (val < 10 ? `0${val}` : `${val}`);
 
@@ -34,16 +28,16 @@ const Timer: FC = (): ReactElement => {
     };
 
     const handlePrevious = () => {
-        const currIndex = methods.findIndex((m) => m.label === method);
+        const currIndex = METHODS.findIndex((m) => m.label === method);
         if (currIndex > 0) {
-            setMethod(methods[currIndex - 1].label);
+            setMethod(METHODS[currIndex - 1].label);
         }
     };
 
     const handleNext = () => {
-        const currIndex = methods.findIndex((m) => m.label === method);
-        if (currIndex + 1 < methods.length) {
-            setMethod(methods[currIndex + 1].label);
+        const currIndex = METHODS.findIndex((m) => m.label === method);
+        if (currIndex + 1 < METHODS.length) {
+            setMethod(METHODS[currIndex + 1].label);
         }
     };
 
@@ -122,7 +116,7 @@ const Timer: FC = (): ReactElement => {
                         onChange={handleMethodChange}
                         aria-label="Current method"
                     >
-                        {methods.map((method, index) => {
+                        {METHODS.map((method, index) => {
                             return (
                                 <ToggleButton
                                     key={index}

@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { connect } from "react-redux";
 import { useAsyncFn, useEffectOnce } from "react-use";
+// MUI Core
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
 // API
 import { url, headers, parseProjects } from "../../api/projects.api";
-// Actions
+// Redux
+import { connect } from "react-redux";
 import { setProjects } from "../../redux/projects/projects.actions";
-// Selectors
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 import {
@@ -14,28 +20,52 @@ import {
     selectSessionInProgress,
     selectProjectsTab,
 } from "../../redux/session/session.selectors";
-// Components
+// Atoms
+import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
+// Molecules
 import Project from "../../components/molecules/project/project.component";
-import MuiTab from "../../components/atoms/mui-tab/mui-tab.component";
-import ProjectAdd from "../../components/molecules/project-add/project-add.component";
-import ProjectBreakTimer from "../../components/organisms/project-break-timer/project-break-timer.component";
-import ProjectsNav from "../../components/molecules/projects-nav/projects-nav.component";
-import ProjectsBackend from "../../components/atoms/projects-backend/projects-backend.component";
+import ProjectAddForm from "../../components/organisms/project-add-form/projects-add-form.component";
+import { AddProjectProvider } from "../../context/add-projects.context";
 // Local
+import { ProjectsType, TabPanelProps } from "./types";
 import useProjectDesktopStyles from "./styles";
+import { FOLDERS } from "./constants";
+import { a11yProps } from "./utils";
+
+const TabPanel = (props: TabPanelProps) => {
+    const { children, currFolder, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={currFolder !== index}
+            id={`vertical-tabpanel-${index}`}
+            aria-labelledby={`vertical-tab-${index}`}
+            {...other}
+        >
+            {currFolder === index || currFolder === 0 ? (
+                <Box p={0}>
+                    <Typography>{children}</Typography>
+                </Box>
+            ) : (
+                <Box p={0}></Box>
+            )}
+        </div>
+    );
+};
 
 const ProjectsDesktopPage = ({
     projects,
     projectsTab,
     setProjects,
     token,
-}: {
-    projects: any;
-    projectsTab: any;
-    setProjects: any;
-    token: any;
-}) => {
+}: ProjectsType) => {
     const classes = useProjectDesktopStyles();
+
+    const [currFolder, setCurrFolder] = useState(0);
+    const [isNewProjectFormOpen, setIsNewProjectFormOpen] = React.useState(
+        false,
+    );
 
     const [state, submit] = useAsyncFn(async () => {
         const response = await axios.get(url, headers(token));
@@ -49,24 +79,71 @@ const ProjectsDesktopPage = ({
         submit();
     });
 
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setCurrFolder(newValue);
+    };
+
+    const handleClickOpen = () => {
+        setIsNewProjectFormOpen(true);
+    };
+
     return (
         <div className={classes.root}>
-            <ProjectsNav />
+            <Tabs
+                orientation="vertical"
+                variant="scrollable"
+                value={currFolder}
+                onChange={handleChange}
+                aria-label="Project folders navigation"
+                className={classes.tabs}
+            >
+                {FOLDERS.map(({ label, icon, index }) => {
+                    return (
+                        <Tab
+                            label={label}
+                            key={index}
+                            {...a11yProps(index)}
+                            icon={<CustomIcon variant={icon} size="small" />}
+                        />
+                    );
+                })}
+            </Tabs>
 
-            {projects.map((project: any) => {
-                const { status } = project;
-                const index = projects.indexOf(project);
-                return (
-                    <MuiTab key={index} value={projectsTab} currTab={status}>
-                        <Project index={index} />
-                    </MuiTab>
-                );
-            })}
+            <div
+                className={classes.projectsWrapper}
+                aria-label="Projects in current Folder"
+            >
+                {projects.map((project: any) => {
+                    const { status } = project;
+                    const index = projects.indexOf(project);
+                    return (
+                        <TabPanel
+                            key={index}
+                            currFolder={currFolder}
+                            index={status}
+                        >
+                            <Project index={index} />
+                        </TabPanel>
+                    );
+                })}
+            </div>
 
-            <ProjectsBackend state={state} />
-            <ProjectBreakTimer />
-
-            {projectsTab === 0 ? <ProjectAdd /> : null}
+            <AddProjectProvider>
+                <div className={classes.fabAndFormWrapper} aria-label="">
+                    <Fab
+                        color="secondary"
+                        aria-label="add"
+                        className={classes.add}
+                        onClick={handleClickOpen}
+                    >
+                        <AddIcon />
+                    </Fab>
+                    <ProjectAddForm
+                        open={isNewProjectFormOpen}
+                        setOpen={setIsNewProjectFormOpen}
+                    />
+                </div>
+            </AddProjectProvider>
         </div>
     );
 };
