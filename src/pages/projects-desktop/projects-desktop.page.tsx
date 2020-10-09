@@ -89,26 +89,29 @@ const ProjectsDesktopPage = ({
 
     return (
         <div className={classes.root}>
-            <Tabs
-                orientation="vertical"
-                variant="scrollable"
-                value={currFolder}
-                onChange={handleChange}
-                aria-label="Project folders navigation"
-                className={classes.tabs}
-            >
-                {FOLDERS.map(({ label, icon, index }) => {
-                    return (
-                        <Tab
-                            label={label}
-                            key={index}
-                            {...a11yProps(index)}
-                            icon={<CustomIcon variant={icon} size="small" />}
-                        />
-                    );
-                })}
-            </Tabs>
-
+            <div className={classes.tabsWrapper}>
+                <Tabs
+                    orientation="vertical"
+                    variant="scrollable"
+                    value={currFolder}
+                    onChange={handleChange}
+                    aria-label="Project folders navigation"
+                    className={classes.tabs}
+                >
+                    {FOLDERS.map(({ label, icon, index }) => {
+                        return (
+                            <Tab
+                                label={label}
+                                key={index}
+                                {...a11yProps(index)}
+                                icon={
+                                    <CustomIcon variant={icon} size="small" />
+                                }
+                            />
+                        );
+                    })}
+                </Tabs>
+            </div>
             <div
                 className={classes.projectsWrapper}
                 aria-label="Projects in current Folder"
@@ -128,21 +131,22 @@ const ProjectsDesktopPage = ({
                 })}
             </div>
 
+            <div className={classes.fabWrapper} aria-label="Add Project">
+                <Fab
+                    color="secondary"
+                    aria-label="add"
+                    className={classes.add}
+                    onClick={handleClickOpen}
+                >
+                    <AddIcon />
+                </Fab>
+            </div>
+
             <AddProjectProvider>
-                <div className={classes.fabAndFormWrapper} aria-label="">
-                    <Fab
-                        color="secondary"
-                        aria-label="add"
-                        className={classes.add}
-                        onClick={handleClickOpen}
-                    >
-                        <AddIcon />
-                    </Fab>
-                    <ProjectAddForm
-                        open={isNewProjectFormOpen}
-                        setOpen={setIsNewProjectFormOpen}
-                    />
-                </div>
+                <ProjectAddForm
+                    open={isNewProjectFormOpen}
+                    setOpen={setIsNewProjectFormOpen}
+                />
             </AddProjectProvider>
         </div>
     );

@@ -10,6 +10,10 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
     appBar: {
         backgroundColor: "transparent",
     },
+    tabsWrapper: {
+        height: "100%",
+        backgroundColor: theme.palette.secondary.main,
+    },
     tabs: {
         backgroundColor: theme.palette.secondary.main,
         justifyContent: "center",
@@ -18,7 +22,7 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
     projectsWrapper: {
         width: "100%",
     },
-    fabAndFormWrapper: {
+    fabWrapper: {
         position: "fixed",
         bottom: 0,
         right: `${CONTROL_PANEL_WIDTH}vw`,

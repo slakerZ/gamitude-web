@@ -1,23 +1,18 @@
 export const FOLDERS = [
     {
-        label: "ALL",
-        icon: "all",
-        index: 0,
-    },
-    {
         label: "ACTIVE",
         icon: "active",
-        index: 1,
+        index: 0,
     },
     {
         label: "INACTIVE",
         icon: "paused",
-        index: 2,
+        index: 1,
     },
     {
         label: "DONE",
         icon: "done",
-        index: 3,
+        index: 2,
     },
 ];
 
