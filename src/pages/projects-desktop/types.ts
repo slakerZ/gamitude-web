@@ -9,6 +9,7 @@ export interface ProjectsType {
     projectsTab: any;
     setProjects: any;
     token: string;
+    addProject: any;
 }
 
 export interface a11yType {

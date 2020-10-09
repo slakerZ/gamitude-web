@@ -1,15 +1,29 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAsyncFn, useEffectOnce } from "react-use";
-// MUI Core
+// MUI
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 // API
 import { url, headers, parseProjects } from "../../api/projects.api";
+import {
+    urlAdd,
+    headersAdd,
+    requestDataAdd,
+    convertForFront,
+} from "./project-add.api";
 // Redux
 import { connect } from "react-redux";
 import { setProjects } from "../../redux/projects/projects.actions";
@@ -20,17 +34,22 @@ import {
     selectSessionInProgress,
     selectProjectsTab,
 } from "../../redux/session/session.selectors";
+import { addProject } from "../../redux/projects/projects.actions";
+// Context
+import { useAddProjectContext } from "../../context/add-projects.context";
 // Atoms
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
 // Molecules
 import Project from "../../components/molecules/project/project.component";
-import ProjectAddForm from "../../components/organisms/project-add-form/projects-add-form.component";
-import { AddProjectProvider } from "../../context/add-projects.context";
 // Local
 import { ProjectsType, TabPanelProps } from "./types";
 import useProjectDesktopStyles from "./styles";
 import { FOLDERS } from "./constants";
 import { a11yProps } from "./utils";
+
+// REVIEW
+import CustomProjectStats from "../../components/atoms/custom-project-stats/custom-project-stats.component";
+import CustomProjectsStatsDominant from "../../components/atoms/custom-project-stats-dominant/custom-project-stats-dominant.component";
 
 const TabPanel = (props: TabPanelProps) => {
     const { children, currFolder, index, ...other } = props;
@@ -59,12 +78,43 @@ const ProjectsDesktopPage = ({
     projectsTab,
     setProjects,
     token,
+    addProject,
 }: ProjectsType) => {
     const classes = useProjectDesktopStyles();
+
+    const {
+        name,
+        setName,
+        boosted,
+        setBoosted,
+        dominant,
+        setDominant,
+    } = useAddProjectContext()!;
 
     const [currFolder, setCurrFolder] = useState(0);
     const [isNewProjectFormOpen, setIsNewProjectFormOpen] = React.useState(
         false,
+    );
+    const [text, setText] = React.useState("");
+
+    const [postState, postProjest] = useAsyncFn(
+        async (name: string, boosted: string[], dominant: string) => {
+            const filteredBoosted = boosted.filter((el) => {
+                return el !== "";
+            });
+            const response = await axios.post(
+                urlAdd,
+                requestDataAdd(name, filteredBoosted, dominant),
+                headersAdd(token),
+            );
+            const data = await response.data;
+            const convertedData = convertForFront(data);
+            addProject(convertedData);
+            setIsNewProjectFormOpen(false);
+            resetContext();
+            return data;
+        },
+        [urlAdd],
     );
 
     const [state, submit] = useAsyncFn(async () => {
@@ -79,12 +129,30 @@ const ProjectsDesktopPage = ({
         submit();
     });
 
-    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
         setCurrFolder(newValue);
     };
 
     const handleClickOpen = () => {
         setIsNewProjectFormOpen(true);
+    };
+
+    const handleChangeAdd = (event: { target: { value: string } }) => {
+        setText(event.target.value);
+    };
+
+    const handleBlur = (event: { target: { value: string } }) => {
+        setName(event.target.value);
+    };
+
+    const handleCloseAdd = () => {
+        setIsNewProjectFormOpen(false);
+    };
+
+    const resetContext = () => {
+        setName("");
+        setBoosted([""]);
+        setDominant("");
     };
 
     return (
@@ -142,12 +210,56 @@ const ProjectsDesktopPage = ({
                 </Fab>
             </div>
 
-            <AddProjectProvider>
-                <ProjectAddForm
-                    open={isNewProjectFormOpen}
-                    setOpen={setIsNewProjectFormOpen}
-                />
-            </AddProjectProvider>
+            <Dialog
+                open={isNewProjectFormOpen}
+                onClose={handleCloseAdd}
+                aria-labelledby="form-dialog-title"
+                className={classes.root}
+            >
+                <DialogTitle id="form-dialog-title">
+                    {"Create New Project"}
+                </DialogTitle>
+                <DialogContent>
+                    <TextField
+                        label="PROJECT NAME"
+                        variant="outlined"
+                        value={text}
+                        onChange={handleChangeAdd}
+                        onBlur={handleBlur}
+                    />
+                    <CustomProjectStats
+                        groupValue={boosted}
+                        groupOnChange={setBoosted}
+                        dominant={dominant}
+                    />
+                    <CustomProjectsStatsDominant
+                        groupValue={dominant}
+                        groupOnChange={setDominant}
+                        boosted={boosted}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseAdd} color="primary">
+                        Cancel
+                    </Button>
+                    {postState.loading ? (
+                        <CircularProgress />
+                    ) : postState.error ? (
+                        <Button
+                            variant="contained"
+                            onClick={() => postProjest(name, boosted, dominant)}
+                        >
+                            {process.env.NODE_ENV === "development"
+                                ? postState.error.message
+                                : "Try Again"}
+                        </Button>
+                    ) : (
+                        <Button variant="contained" onClick={submit}>
+                            {"Confirm"}
+                        </Button>
+                    )}
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };
@@ -162,6 +274,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
     setProjects: (value: any) => dispatch(setProjects(value)),
+    addProject: (value: any) => dispatch(addProject(value)),
 });
 
 export default connect(
