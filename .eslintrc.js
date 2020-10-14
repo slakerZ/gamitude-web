@@ -23,5 +23,8 @@ module.exports = {
         // Must be the last one
         "plugin:prettier/recommended",
     ],
-    rules: {},
+    rules: {
+        "sort-imports": "off",
+        "import/order": "off",
+    },
 };
