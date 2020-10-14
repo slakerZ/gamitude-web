@@ -9,17 +9,20 @@ import { url, request_body } from "../../../api/sign-in-form.api";
 import { setUser } from "../../../redux/user/user.actions";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 // Forms
 import { Formik, Form } from "formik";
 import { SignInSchema, initialValues, fields } from "./sign-in-schema";
 // Components
 import FormikField from "../../atoms/formik-field/formik-field.component";
-import SignInUpHeader from "../../atoms/sign-in-up-header/sign-in-up-header.component";
-import SignInUpSubmit from "../../atoms/sign-in-up-submit/sign-in-up-submit.component";
-import SignInUpSwitch from "../../atoms/sign-in-up-switch/sign-in-up-switch.component";
 import BackendFeedback from "../../atoms/backend-feedback/backend-feedback.component";
+import { useSignInUp } from "../../../context/sign-in-sign-up.context";
 
 const SignInForm = ({ setUser }: { setUser: any }) => {
+    const { isSignUp, setIsSignUp } = useSignInUp()!;
+
     const useStyles = makeStyles((theme) => ({
         root: {
             margin: theme.spacing(8, 4),
@@ -28,11 +31,23 @@ const SignInForm = ({ setUser }: { setUser: any }) => {
             alignItems: "center",
             justifyContent: "center",
         },
+        header: {
+            fontWeight: "bolder",
+            textAlign: "center",
+            margin: theme.spacing(3, 3),
+        },
         form: {
             width: "100%", // Fix IE 11 issue.
             margin: theme.spacing(0, 10),
             display: "flex",
             flexDirection: "column",
+        },
+        submit: {
+            margin: theme.spacing(2, 0),
+        },
+        link: {
+            margin: theme.spacing(1, 1),
+            cursor: "pointer",
         },
     }));
     const classes = useStyles();
@@ -57,7 +72,13 @@ const SignInForm = ({ setUser }: { setUser: any }) => {
                 {({ dirty, isValid }) => {
                     return (
                         <Form autoComplete="off" className={classes.form}>
-                            <SignInUpHeader text="Sign In" />
+                            <Typography
+                                className={classes.header}
+                                component="h1"
+                                variant="h1"
+                            >
+                                {"Sign In"}
+                            </Typography>
                             <FormikField
                                 label={fields[0].label}
                                 name={fields[0].name}
@@ -68,12 +89,14 @@ const SignInForm = ({ setUser }: { setUser: any }) => {
                                 name={fields[1].name}
                                 type={fields[1].type}
                             />
-                            <SignInUpSubmit
-                                text="Sign In"
-                                dirty={dirty}
-                                isValid={isValid}
-                                loading={state.loading}
-                            />
+                            <Button
+                                disabled={!isValid || !dirty || state.loading}
+                                type="submit"
+                                variant="outlined"
+                                className={classes.submit}
+                            >
+                                {"Sign In"}
+                            </Button>
                             <BackendFeedback
                                 loading={state.loading}
                                 error={state.error}
@@ -88,7 +111,17 @@ const SignInForm = ({ setUser }: { setUser: any }) => {
                     );
                 }}
             </Formik>
-            <SignInUpSwitch toSignIn={false} />
+            <Typography
+                className={classes.link}
+                variant="h6"
+                component={Link}
+                onClick={(event: any) => {
+                    event.preventDefault();
+                    setIsSignUp(!isSignUp);
+                }}
+            >
+                {"Don't have an account?"}
+            </Typography>
         </div>
     );
 };

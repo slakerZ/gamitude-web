@@ -15,6 +15,8 @@ const SignUp = () => {
         ? "https://images.unsplash.com/photo-1562186348-28ba89540752?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
         : "https://images.unsplash.com/photo-1428973085873-61a784626aad?ixlib=rb-1.2.1&auto=format&fit=crop&w=1355&q=80";
 
+    const timeout = 1000;
+
     const useStyles = makeStyles((theme) => ({
         root: {
             width: "100%",
@@ -47,7 +49,7 @@ const SignUp = () => {
 
     return (
         <div className={classes.root}>
-            <Fade in={isSignUp}>
+            <Fade in={isSignUp} timeout={timeout}>
                 <div
                     className={clsx(classes.signIn, {
                         [classes.none]: !isSignUp,
@@ -58,7 +60,7 @@ const SignUp = () => {
                 </div>
             </Fade>
 
-            <Fade in={!isSignUp}>
+            <Fade in={!isSignUp} timeout={timeout}>
                 <div
                     className={clsx(classes.signUp, {
                         [classes.none]: isSignUp,

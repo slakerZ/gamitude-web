@@ -1,8 +1,17 @@
 import * as Yup from "yup";
+import Grid from "@material-ui/core/Grid";
 
 const lowercaseRegex = /(?=.*[a-z])/;
 const uppercaseRegex = /(?=.*[A-Z])/;
 const numericRegex = /(?=.*[0-9])/;
+
+interface FieldType {
+    label: string;
+    name: string;
+    type: string;
+    xs: typeof Grid.arguments;
+    sm: typeof Grid.arguments;
+}
 
 export const SignUpSchema = Yup.object().shape({
     username: Yup.string()
@@ -25,32 +34,39 @@ export const SignUpSchema = Yup.object().shape({
 
 export const initialValues = {
     username: "",
-
     email: "",
     password: "",
     passwordConfirm: "",
 };
 
-export const fields = [
+export const fields: FieldType[] = [
     {
         label: "Username",
         name: "username",
         type: "text",
+        xs: 12,
+        sm: 12,
     },
 
     {
         label: "Email",
         name: "email",
         type: "email",
+        xs: 12,
+        sm: 12,
     },
     {
         label: "Password",
         name: "password",
         type: "password",
+        xs: 12,
+        sm: 6,
     },
     {
         label: "Confirm Password",
         name: "passwordConfirm",
         type: "password",
+        xs: 12,
+        sm: 6,
     },
 ];
