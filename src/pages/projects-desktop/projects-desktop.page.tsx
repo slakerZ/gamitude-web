@@ -45,7 +45,7 @@ import Project from "../../components/molecules/project/project.component";
 // Local
 import { ProjectsType, TabPanelProps } from "./types";
 import useProjectDesktopStyles from "./styles";
-import { FOLDERS } from "./constants";
+import { FOLDERS, STATS } from "./constants";
 import { a11yProps } from "./utils";
 
 const TabPanel = (props: TabPanelProps) => {
@@ -246,43 +246,21 @@ const ProjectsDesktopPage = ({
                             aria-label="boosted stats"
                             className={classes.btnGroup}
                         >
-                            <ToggleButton
-                                value="strength"
-                                aria-label="strength"
-                                className={classes.btn}
-                            >
-                                <CustomIcon variant="strength" size="medium" />
-                            </ToggleButton>
-
-                            <ToggleButton
-                                value="creativity"
-                                aria-label="creativity"
-                                className={classes.btn}
-                            >
-                                <CustomIcon
-                                    variant="creativity"
-                                    size="medium"
-                                />
-                            </ToggleButton>
-
-                            <ToggleButton
-                                value="intelligence"
-                                aria-label="intelligence"
-                                className={classes.btn}
-                            >
-                                <CustomIcon
-                                    variant="intelligence"
-                                    size="medium"
-                                />
-                            </ToggleButton>
-
-                            <ToggleButton
-                                value="fluency"
-                                aria-label="fluency"
-                                className={classes.btn}
-                            >
-                                <CustomIcon variant="fluency" size="medium" />
-                            </ToggleButton>
+                            {STATS.map((stat, index) => {
+                                return (
+                                    <ToggleButton
+                                        key={index}
+                                        value={stat}
+                                        aria-label={stat}
+                                        className={classes.btn}
+                                    >
+                                        <CustomIcon
+                                            variant={stat}
+                                            size="medium"
+                                        />
+                                    </ToggleButton>
+                                );
+                            })}
                         </ToggleButtonGroup>
                     </div>
                     <div className={classes.container}>
@@ -296,43 +274,21 @@ const ProjectsDesktopPage = ({
                             aria-label="dominant stat"
                             className={classes.btnGroup}
                         >
-                            <ToggleButton
-                                value="strength"
-                                aria-label="strength"
-                                className={classes.btn}
-                            >
-                                <CustomIcon variant="strength" size="medium" />
-                            </ToggleButton>
-
-                            <ToggleButton
-                                value="creativity"
-                                aria-label="creativity"
-                                className={classes.btn}
-                            >
-                                <CustomIcon
-                                    variant="creativity"
-                                    size="medium"
-                                />
-                            </ToggleButton>
-
-                            <ToggleButton
-                                value="intelligence"
-                                aria-label="intelligence"
-                                className={classes.btn}
-                            >
-                                <CustomIcon
-                                    variant="intelligence"
-                                    size="medium"
-                                />
-                            </ToggleButton>
-
-                            <ToggleButton
-                                value="fluency"
-                                aria-label="fluency"
-                                className={classes.btn}
-                            >
-                                <CustomIcon variant="fluency" size="medium" />
-                            </ToggleButton>
+                            {STATS.map((stat, index) => {
+                                return (
+                                    <ToggleButton
+                                        key={index}
+                                        value={stat}
+                                        aria-label={stat}
+                                        className={classes.btn}
+                                    >
+                                        <CustomIcon
+                                            variant={stat}
+                                            size="medium"
+                                        />
+                                    </ToggleButton>
+                                );
+                            })}
                         </ToggleButtonGroup>
                     </div>
                 </DialogContent>

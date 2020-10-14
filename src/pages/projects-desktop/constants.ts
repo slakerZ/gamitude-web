@@ -17,3 +17,5 @@ export const FOLDERS = [
 ];
 
 export const PROJECTS = [{}];
+
+export const STATS = ["strength", "creativity", "intelligence", "fluency"];
