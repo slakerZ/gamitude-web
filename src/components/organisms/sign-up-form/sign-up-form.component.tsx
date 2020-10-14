@@ -35,13 +35,13 @@ const SignUpForm = () => {
         },
     }));
     const classes = useStyles();
-    const { setChecked } = useSignInUp()!;
+    const { setIsSignUp } = useSignInUp()!;
 
     const [state, submit] = useAsyncFn(
         async (values: any) => {
             const response = await axios.post(url, request_body(values));
             const data = await response.data;
-            setChecked(true);
+            setIsSignUp(true);
             return data;
         },
         [url],

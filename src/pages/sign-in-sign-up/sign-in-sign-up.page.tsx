@@ -1,18 +1,19 @@
 import React from "react";
 // Components
-import SignIn from "../../components/molecules/sign-in/sign-in.component";
 import SignUp from "../../components/molecules/sign-up/sign-up.component";
 // Context
 import { SignInUpProvider } from "../../context/sign-in-sign-up.context";
+import useSignInUpStyles from "./styles";
 
 const SignInSignUpPage = () => {
+    const classes = useSignInUpStyles();
+
     return (
-        <SignInUpProvider>
-            <div>
+        <div className={classes.root}>
+            <SignInUpProvider>
                 <SignUp />
-                <SignIn />
-            </div>
-        </SignInUpProvider>
+            </SignInUpProvider>
+        </div>
     );
 };
 

@@ -18,7 +18,7 @@ const SignInUpSwitch = ({ toSignIn }: { toSignIn: boolean }) => {
         },
     }));
     const classes = useStyles();
-    const { checked, setChecked } = useSignInUp()!;
+    const { isSignUp, setIsSignUp } = useSignInUp()!;
 
     return (
         <Typography
@@ -27,7 +27,7 @@ const SignInUpSwitch = ({ toSignIn }: { toSignIn: boolean }) => {
             component={Link}
             onClick={(event: any) => {
                 event.preventDefault();
-                setChecked(toSignIn);
+                setIsSignUp(toSignIn);
             }}
         >
             {text}
