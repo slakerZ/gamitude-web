@@ -15,7 +15,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import ToggleButton from "@material-ui/lab/ToggleButton";
 // API
 import { url, headers, parseProjects } from "../../api/projects.api";
 import {
@@ -46,10 +47,6 @@ import { ProjectsType, TabPanelProps } from "./types";
 import useProjectDesktopStyles from "./styles";
 import { FOLDERS } from "./constants";
 import { a11yProps } from "./utils";
-
-// REVIEW
-import CustomProjectStats from "../../components/atoms/custom-project-stats/custom-project-stats.component";
-import CustomProjectsStatsDominant from "../../components/atoms/custom-project-stats-dominant/custom-project-stats-dominant.component";
 
 const TabPanel = (props: TabPanelProps) => {
     const { children, currFolder, index, ...other } = props;
@@ -155,6 +152,18 @@ const ProjectsDesktopPage = ({
         setDominant("");
     };
 
+    const handleChangeStats = (e: any, newBoosted: string[]) => {
+        if (newBoosted.includes(dominant) || dominant.length === 0) {
+            setBoosted(newBoosted);
+        }
+    };
+
+    const handleChangeDominant = (event: any, newDominant: string) => {
+        if (boosted.includes(newDominant)) {
+            setDominant(newDominant);
+        }
+    };
+
     return (
         <div className={classes.root}>
             <div className={classes.tabsWrapper}>
@@ -214,7 +223,7 @@ const ProjectsDesktopPage = ({
                 open={isNewProjectFormOpen}
                 onClose={handleCloseAdd}
                 aria-labelledby="form-dialog-title"
-                className={classes.root}
+                PaperProps={{ className: classes.addNewForm }}
             >
                 <DialogTitle id="form-dialog-title">
                     {"Create New Project"}
@@ -227,16 +236,105 @@ const ProjectsDesktopPage = ({
                         onChange={handleChangeAdd}
                         onBlur={handleBlur}
                     />
-                    <CustomProjectStats
-                        groupValue={boosted}
-                        groupOnChange={setBoosted}
-                        dominant={dominant}
-                    />
-                    <CustomProjectsStatsDominant
-                        groupValue={dominant}
-                        groupOnChange={setDominant}
-                        boosted={boosted}
-                    />
+                    <div className={classes.container}>
+                        <Typography component="h4" variant="h4" align="center">
+                            Select stats that this projects boosts
+                        </Typography>
+                        <ToggleButtonGroup
+                            value={boosted}
+                            onChange={handleChangeStats}
+                            aria-label="boosted stats"
+                            className={classes.btnGroup}
+                        >
+                            <ToggleButton
+                                value="strength"
+                                aria-label="strength"
+                                className={classes.btn}
+                            >
+                                <CustomIcon variant="strength" size="medium" />
+                            </ToggleButton>
+
+                            <ToggleButton
+                                value="creativity"
+                                aria-label="creativity"
+                                className={classes.btn}
+                            >
+                                <CustomIcon
+                                    variant="creativity"
+                                    size="medium"
+                                />
+                            </ToggleButton>
+
+                            <ToggleButton
+                                value="intelligence"
+                                aria-label="intelligence"
+                                className={classes.btn}
+                            >
+                                <CustomIcon
+                                    variant="intelligence"
+                                    size="medium"
+                                />
+                            </ToggleButton>
+
+                            <ToggleButton
+                                value="fluency"
+                                aria-label="fluency"
+                                className={classes.btn}
+                            >
+                                <CustomIcon variant="fluency" size="medium" />
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </div>
+                    <div className={classes.container}>
+                        <Typography variant="h4" component="h4" align="center">
+                            Select the dominant stat
+                        </Typography>
+                        <ToggleButtonGroup
+                            value={dominant}
+                            exclusive
+                            onChange={handleChangeDominant}
+                            aria-label="dominant stat"
+                            className={classes.btnGroup}
+                        >
+                            <ToggleButton
+                                value="strength"
+                                aria-label="strength"
+                                className={classes.btn}
+                            >
+                                <CustomIcon variant="strength" size="medium" />
+                            </ToggleButton>
+
+                            <ToggleButton
+                                value="creativity"
+                                aria-label="creativity"
+                                className={classes.btn}
+                            >
+                                <CustomIcon
+                                    variant="creativity"
+                                    size="medium"
+                                />
+                            </ToggleButton>
+
+                            <ToggleButton
+                                value="intelligence"
+                                aria-label="intelligence"
+                                className={classes.btn}
+                            >
+                                <CustomIcon
+                                    variant="intelligence"
+                                    size="medium"
+                                />
+                            </ToggleButton>
+
+                            <ToggleButton
+                                value="fluency"
+                                aria-label="fluency"
+                                className={classes.btn}
+                            >
+                                <CustomIcon variant="fluency" size="medium" />
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </div>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseAdd} color="primary">

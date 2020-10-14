@@ -32,6 +32,26 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
         boxShadow: "5px 5px 10px #000000",
         backgroundColor: theme.palette.secondary.main,
     },
+    container: {
+        display: "flex",
+        flexDirection: "column",
+    },
+    btnGroup: {
+        backgroundColor: "transparent",
+        display: "flex",
+        justifyContent: "space-around",
+    },
+    btn: {
+        "&.Mui-selected": {
+            background: theme.palette.primary.light,
+            "&:hover": {
+                background: theme.palette.primary.light,
+            },
+        },
+    },
+    addNewForm: {
+        backgroundColor: theme.palette.primary.main,
+    },
 }));
 
 export default useProjectsDesktopStyles;
