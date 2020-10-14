@@ -94,7 +94,7 @@ const ProjectsDesktopPage = ({
     );
     const [text, setText] = React.useState("");
 
-    const [postState, postProjest] = useAsyncFn(
+    const [postState, postProject] = useAsyncFn(
         async (name: string, boosted: string[], dominant: string) => {
             const filteredBoosted = boosted.filter((el) => {
                 return el !== "";
@@ -301,7 +301,7 @@ const ProjectsDesktopPage = ({
                     ) : postState.error ? (
                         <Button
                             variant="contained"
-                            onClick={() => postProjest(name, boosted, dominant)}
+                            onClick={() => postProject(name, boosted, dominant)}
                         >
                             {process.env.NODE_ENV === "development"
                                 ? postState.error.message

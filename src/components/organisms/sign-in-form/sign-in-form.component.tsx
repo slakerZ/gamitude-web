@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
+import { Redirect } from "react-router-dom";
 // API
 import { url, request_body } from "../../../api/sign-in-form.api";
 // Actions
@@ -17,7 +18,6 @@ import SignInUpHeader from "../../atoms/sign-in-up-header/sign-in-up-header.comp
 import SignInUpSubmit from "../../atoms/sign-in-up-submit/sign-in-up-submit.component";
 import SignInUpSwitch from "../../atoms/sign-in-up-switch/sign-in-up-switch.component";
 import BackendFeedback from "../../atoms/backend-feedback/backend-feedback.component";
-import ProjectsRedirect from "../../atoms/projects-redirect/projects-redirect.component";
 
 const SignInForm = ({ setUser }: { setUser: any }) => {
     const useStyles = makeStyles((theme) => ({
@@ -81,7 +81,9 @@ const SignInForm = ({ setUser }: { setUser: any }) => {
                                 errorMessage={"Failed to Login"}
                                 successMessage={"Successfully Logged In"}
                             />
-                            <ProjectsRedirect state={state} />
+                            {state.value && !state.loading && !state.error ? (
+                                <Redirect to="/projects" />
+                            ) : null}
                         </Form>
                     );
                 }}
