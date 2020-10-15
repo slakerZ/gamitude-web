@@ -22,15 +22,10 @@ const useTimerStyles = makeStyles((theme) => ({
         border: `2px ${theme.palette.primary.light} outset`,
         borderRadius: "100%",
     },
-    methods: {
-        margin: theme.spacing(2),
-    },
     timerButton: {
         borderRadius: "100%",
     },
-    method: {},
     minSecWrapper: {},
-    methodButton: {},
 }));
 
 export default useTimerStyles;

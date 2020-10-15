@@ -30,6 +30,7 @@ import Rank from "../components/organisms/rank/rank.component";
 import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
 import SessionManager from "../components/organisms/session-manager/session-manager.component";
 import Timer from "../components/organisms/timer/timer.component";
+import Methods from "../components/organisms/methods/methods.component";
 // Local
 import useAppStyles from "./styles";
 import { AppType } from "./types";
@@ -184,6 +185,7 @@ const App: FC<AppType> = ({
                         <Divider />
                         <SessionManager />
                         <Timer />
+                        <Methods />
                     </div>
                 </Drawer>
             ) : null}

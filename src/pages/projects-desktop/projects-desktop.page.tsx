@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, MouseEvent } from "react";
 import axios from "axios";
 import { useAsyncFn, useEffectOnce } from "react-use";
 // MUI
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
@@ -43,30 +42,13 @@ import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component
 // Molecules
 import Project from "../../components/molecules/project/project.component";
 // Local
-import { ProjectsType, TabPanelProps } from "./types";
+import { ProjectsType } from "./types";
 import useProjectDesktopStyles from "./styles";
 import { FOLDERS, STATS } from "./constants";
-import { a11yProps } from "./utils";
-
-const TabPanel = (props: TabPanelProps) => {
-    const { children, currFolder, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={currFolder !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            {currFolder === index ? (
-                <Box p={0}>{children}</Box>
-            ) : (
-                <Box p={0}></Box>
-            )}
-        </div>
-    );
-};
+import {
+    TabPanel,
+    a11yProps,
+} from "../../components/atoms/tab-panel/tab-panel.component";
 
 const ProjectsDesktopPage = ({
     projects,
@@ -150,13 +132,13 @@ const ProjectsDesktopPage = ({
         setDominant("");
     };
 
-    const handleChangeStats = (e: any, newBoosted: string[]) => {
+    const handleChangeStats = (event: MouseEvent, newBoosted: string[]) => {
         if (newBoosted.includes(dominant) || dominant.length === 0) {
             setBoosted(newBoosted);
         }
     };
 
-    const handleChangeDominant = (event: any, newDominant: string) => {
+    const handleChangeDominant = (event: MouseEvent, newDominant: string) => {
         if (boosted.includes(newDominant)) {
             setDominant(newDominant);
         }
@@ -178,7 +160,7 @@ const ProjectsDesktopPage = ({
                             <Tab
                                 label={label}
                                 key={index}
-                                {...a11yProps(index)}
+                                {...a11yProps(index, "projects-in-folder")}
                                 icon={
                                     <CustomIcon variant={icon} size="small" />
                                 }
@@ -197,8 +179,10 @@ const ProjectsDesktopPage = ({
                     return (
                         <TabPanel
                             key={index}
-                            currFolder={currFolder}
+                            value={currFolder}
                             index={status}
+                            role={"folder"}
+                            id={"projects-in-folder"}
                         >
                             <Project index={index} />
                         </TabPanel>
