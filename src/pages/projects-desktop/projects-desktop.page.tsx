@@ -59,10 +59,8 @@ const TabPanel = (props: TabPanelProps) => {
             aria-labelledby={`vertical-tab-${index}`}
             {...other}
         >
-            {currFolder === index || currFolder === 0 ? (
-                <Box p={0}>
-                    <Typography>{children}</Typography>
-                </Box>
+            {currFolder === index ? (
+                <Box p={0}>{children}</Box>
             ) : (
                 <Box p={0}></Box>
             )}

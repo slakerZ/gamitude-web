@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, MouseEvent } from "react";
 import axios from "axios";
 import { useAsyncFn } from "react-use";
 import clsx from "clsx";
@@ -6,18 +6,13 @@ import Fade from "@material-ui/core/Fade";
 import { Redirect } from "react-router-dom";
 import useSignInUpStyles from "./styles";
 import { FADE_TIMEOUT } from "./constants";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import { Formik, Form } from "formik";
 import {
     SignUpSchema,
     signUpInitialValues,
     signUpFields,
 } from "./sign-up-schema";
-import FormikField from "../../components/atoms/formik-field/formik-field.component";
-import BackendFeedback from "../../components/atoms/backend-feedback/backend-feedback.component";
 import { connect } from "react-redux";
 import {
     SignInSchema,
@@ -25,17 +20,28 @@ import {
     signInFields,
 } from "./sign-in-schema";
 import { setUser } from "../../redux/user/user.actions";
-import { signInUrl, signInRequestBody } from "./sign-in-form.api";
-import { signUpUrl, signUpRequestBody } from "./sign-up.api";
+import {
+    signInUrl,
+    signInRequestBody,
+} from "../../api/authentication/authentication.api";
+import {
+    signUpUrl,
+    signUpRequestBody,
+} from "../../api/authentication/authentication.api";
 import FormikForm from "../../components/atoms/formik-form/formik-form.component";
+import { AuthenticationType } from "./types";
+import {
+    SignUpValuesType,
+    SignInValuesType,
+} from "../../api/authentication/types";
 
-const AuthenticationPage = ({ setUser }: { setUser: any }) => {
+const AuthenticationPage = ({ setUser }: AuthenticationType) => {
     const classes = useSignInUpStyles();
 
     const [isSignUp, setIsSignUp] = useState(false);
 
     const [signUpState, signUp] = useAsyncFn(
-        async (values: any) => {
+        async (values: SignUpValuesType) => {
             const response = await axios.post(
                 signUpUrl,
                 signUpRequestBody(values),
@@ -48,7 +54,7 @@ const AuthenticationPage = ({ setUser }: { setUser: any }) => {
     );
 
     const [signInState, signIn] = useAsyncFn(
-        async (values: any) => {
+        async (values: SignInValuesType) => {
             const response = await axios.post(
                 signInUrl,
                 signInRequestBody(values),
@@ -59,6 +65,11 @@ const AuthenticationPage = ({ setUser }: { setUser: any }) => {
         },
         [signInUrl],
     );
+
+    const handleSwitchSignUpIn = (event: MouseEvent) => {
+        event.preventDefault();
+        setIsSignUp(!isSignUp);
+    };
 
     return (
         <div className={classes.root}>
@@ -81,10 +92,7 @@ const AuthenticationPage = ({ setUser }: { setUser: any }) => {
                             className={classes.link}
                             variant="h6"
                             component={Link}
-                            onClick={(event: any) => {
-                                event.preventDefault();
-                                setIsSignUp(!isSignUp);
-                            }}
+                            onClick={handleSwitchSignUpIn}
                         >
                             {"Already have an account?"}
                         </Typography>
@@ -117,10 +125,7 @@ const AuthenticationPage = ({ setUser }: { setUser: any }) => {
                             className={classes.link}
                             variant="h6"
                             component={Link}
-                            onClick={(event: any) => {
-                                event.preventDefault();
-                                setIsSignUp(!isSignUp);
-                            }}
+                            onClick={handleSwitchSignUpIn}
                         >
                             {"Don't have an account?"}
                         </Typography>

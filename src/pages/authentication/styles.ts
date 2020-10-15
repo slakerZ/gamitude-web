@@ -41,20 +41,6 @@ const SignInSignUpStyles = makeStyles((theme) => ({
         alignItems: "center",
         justifyContent: "center",
     },
-    header: {
-        fontWeight: "bolder",
-        textAlign: "center",
-        margin: theme.spacing(3, 3),
-    },
-    form: {
-        width: "100%", // Fix IE 11 issue.
-        margin: theme.spacing(0, 10),
-        display: "flex",
-        flexDirection: "column",
-    },
-    submit: {
-        margin: theme.spacing(2, 0),
-    },
     link: {
         margin: theme.spacing(1, 1),
         cursor: "pointer",
