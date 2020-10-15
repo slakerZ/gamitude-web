@@ -32,14 +32,14 @@ export const SignUpSchema = Yup.object().shape({
         .required("This field is required"),
 });
 
-export const initialValues = {
+export const signUpInitialValues = {
     username: "",
     email: "",
     password: "",
     passwordConfirm: "",
 };
 
-export const fields: FieldType[] = [
+export const signUpFields: FieldType[] = [
     {
         label: "Username",
         name: "username",

@@ -38,11 +38,11 @@ import { Toolbar } from "@material-ui/core";
 // Lazy Loading
 const HomePage = lazy(() => import("../pages/home/home.page"));
 const ProjectsPage = lazy(() => import("../pages/projects/projects.page"));
-const BulletJournalPage = lazy(() =>
-    import("../pages/bullet-journal/bullet-journal.page"),
+const BulletJournalPage = lazy(
+    () => import("../pages/bullet-journal/bullet-journal.page"),
 );
-const SignInSignUpPage = lazy(() =>
-    import("../pages/sign-in-sign-up/sign-in-sign-up.page"),
+const SignInSignUpPage = lazy(
+    () => import("../pages/authentication/authentication.page"),
 );
 const ProfilePage = lazy(() => import("../pages/profile/profile.page"));
 

@@ -8,12 +8,12 @@ export const SignInSchema = Yup.object().shape({
     password: Yup.string().required("This field is required"),
 });
 
-export const initialValues = {
+export const signInInitialValues = {
     email: "",
     password: "",
 };
 
-export const fields = [
+export const signInFields = [
     {
         label: "Email",
         name: "email",
