@@ -18,10 +18,14 @@ export const signInFields = [
         label: "Email",
         name: "email",
         type: "email",
+        xs: 12,
+        sm: 12,
     },
     {
         label: "Password",
         name: "password",
         type: "password",
+        xs: 12,
+        sm: 12,
     },
 ];

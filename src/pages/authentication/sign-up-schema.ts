@@ -1,17 +1,9 @@
 import * as Yup from "yup";
-import Grid from "@material-ui/core/Grid";
+import { FieldType } from "../../components/atoms/formik-form/types";
 
 const lowercaseRegex = /(?=.*[a-z])/;
 const uppercaseRegex = /(?=.*[A-Z])/;
 const numericRegex = /(?=.*[0-9])/;
-
-interface FieldType {
-    label: string;
-    name: string;
-    type: string;
-    xs: typeof Grid.arguments;
-    sm: typeof Grid.arguments;
-}
 
 export const SignUpSchema = Yup.object().shape({
     username: Yup.string()

@@ -27,6 +27,7 @@ import {
 import { setUser } from "../../redux/user/user.actions";
 import { signInUrl, signInRequestBody } from "./sign-in-form.api";
 import { signUpUrl, signUpRequestBody } from "./sign-up.api";
+import FormikForm from "../../components/atoms/formik-form/formik-form.component";
 
 const AuthenticationPage = ({ setUser }: { setUser: any }) => {
     const classes = useSignInUpStyles();
@@ -40,7 +41,7 @@ const AuthenticationPage = ({ setUser }: { setUser: any }) => {
                 signUpRequestBody(values),
             );
             const data = await response.data;
-            setIsSignUp(true);
+            setIsSignUp(!isSignUp);
             return data;
         },
         [signUpUrl],
@@ -68,78 +69,14 @@ const AuthenticationPage = ({ setUser }: { setUser: any }) => {
                     })}
                 >
                     <div className={classes.formWrapper}>
-                        <Formik
+                        <FormikForm
                             initialValues={signUpInitialValues}
+                            schema={SignUpSchema}
                             onSubmit={signUp}
-                            validationSchema={SignUpSchema}
-                        >
-                            {({ dirty, isValid }) => {
-                                return (
-                                    <Form
-                                        autoComplete="off"
-                                        className={classes.form}
-                                    >
-                                        <Typography
-                                            className={classes.header}
-                                            component="h1"
-                                            variant="h1"
-                                        >
-                                            {"Sign Up"}
-                                        </Typography>
-                                        <Grid container spacing={2}>
-                                            {signUpFields.map(
-                                                (
-                                                    {
-                                                        label,
-                                                        name,
-                                                        type,
-                                                        xs,
-                                                        sm,
-                                                    },
-                                                    index,
-                                                ) => {
-                                                    return (
-                                                        <Grid
-                                                            item
-                                                            xs={xs}
-                                                            sm={sm}
-                                                            key={index}
-                                                        >
-                                                            <FormikField
-                                                                label={label}
-                                                                name={name}
-                                                                type={type}
-                                                            />
-                                                        </Grid>
-                                                    );
-                                                },
-                                            )}
-                                        </Grid>
-                                        <Button
-                                            disabled={
-                                                !isValid ||
-                                                !dirty ||
-                                                signUpState.loading
-                                            }
-                                            type="submit"
-                                            variant="outlined"
-                                            className={classes.submit}
-                                        >
-                                            {"Sign Up"}
-                                        </Button>
-                                        <BackendFeedback
-                                            loading={signUpState.loading}
-                                            error={signUpState.error}
-                                            value={signUpState.value}
-                                            errorMessage={"Failed to Register"}
-                                            successMessage={
-                                                "Successfully Registered"
-                                            }
-                                        />
-                                    </Form>
-                                );
-                            }}
-                        </Formik>
+                            fields={signUpFields}
+                            state={signUpState}
+                            title={"Sign Up"}
+                        />
                         <Typography
                             className={classes.link}
                             variant="h6"
@@ -163,67 +100,19 @@ const AuthenticationPage = ({ setUser }: { setUser: any }) => {
                 >
                     <div className={clsx(classes.image, classes.signInImage)} />
                     <div className={classes.formWrapper}>
-                        <Formik
+                        <FormikForm
                             initialValues={signInInitialValues}
+                            schema={SignInSchema}
                             onSubmit={signIn}
-                            validationSchema={SignInSchema}
-                        >
-                            {({ dirty, isValid }) => {
-                                return (
-                                    <Form
-                                        autoComplete="off"
-                                        className={classes.form}
-                                    >
-                                        <Typography
-                                            className={classes.header}
-                                            component="h1"
-                                            variant="h1"
-                                        >
-                                            {"Sign In"}
-                                        </Typography>
-                                        {signInFields.map(
-                                            ({ label, name, type }, index) => {
-                                                return (
-                                                    <FormikField
-                                                        key={index}
-                                                        label={label}
-                                                        name={name}
-                                                        type={type}
-                                                    />
-                                                );
-                                            },
-                                        )}
-
-                                        <Button
-                                            disabled={
-                                                !isValid ||
-                                                !dirty ||
-                                                signInState.loading
-                                            }
-                                            type="submit"
-                                            variant="outlined"
-                                            className={classes.submit}
-                                        >
-                                            {"Sign In"}
-                                        </Button>
-                                        <BackendFeedback
-                                            loading={signInState.loading}
-                                            error={signInState.error}
-                                            value={signInState.value}
-                                            errorMessage={"Failed to Login"}
-                                            successMessage={
-                                                "Successfully Logged In"
-                                            }
-                                        />
-                                        {signInState.value &&
-                                        !signInState.loading &&
-                                        !signInState.error ? (
-                                            <Redirect to="/projects" />
-                                        ) : null}
-                                    </Form>
-                                );
-                            }}
-                        </Formik>
+                            fields={signInFields}
+                            state={signInState}
+                            title={"Sign In"}
+                        />
+                        {signInState.value &&
+                        !signInState.loading &&
+                        !signInState.error ? (
+                            <Redirect to="/projects" />
+                        ) : null}
                         <Typography
                             className={classes.link}
                             variant="h6"

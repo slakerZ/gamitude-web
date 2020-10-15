@@ -80,13 +80,15 @@ const App: FC<AppType> = ({
             >
                 <Toolbar className={classes.toolbar}>
                     <div className={classes.left}>
-                        <IconButton onClick={handleToggleNavOpen}>
-                            {navOpen ? (
-                                <ChevronLeftIcon />
-                            ) : (
-                                <ChevronRightIcon />
-                            )}
-                        </IconButton>
+                        {token ? (
+                            <IconButton onClick={handleToggleNavOpen}>
+                                {navOpen ? (
+                                    <ChevronLeftIcon />
+                                ) : (
+                                    <ChevronRightIcon />
+                                )}
+                            </IconButton>
+                        ) : null}
                     </div>
 
                     <div className={classes.center}>
@@ -114,31 +116,33 @@ const App: FC<AppType> = ({
                     </div>
                 </Toolbar>
             </AppBar>
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.navDrawer, {
-                    [classes.navDrawerOpen]: navOpen,
-                    [classes.navDrawerClose]: !navOpen,
-                })}
-                classes={{
-                    paper: clsx(classes.navDrawerPaper, {
+            {token ? (
+                <Drawer
+                    variant="permanent"
+                    className={clsx(classes.navDrawer, {
                         [classes.navDrawerOpen]: navOpen,
                         [classes.navDrawerClose]: !navOpen,
-                    }),
-                }}
-            >
-                <Toolbar />
-                <List>
-                    {NAV_LINKS.map(({ to, label, icon }) => (
-                        <ListItem button key={to} component={Link} to={to}>
-                            <ListItemIcon>
-                                <CustomIcon size="small" variant={icon} />
-                            </ListItemIcon>
-                            <ListItemText primary={label} />
-                        </ListItem>
-                    ))}
-                </List>
-            </Drawer>
+                    })}
+                    classes={{
+                        paper: clsx(classes.navDrawerPaper, {
+                            [classes.navDrawerOpen]: navOpen,
+                            [classes.navDrawerClose]: !navOpen,
+                        }),
+                    }}
+                >
+                    <Toolbar />
+                    <List>
+                        {NAV_LINKS.map(({ to, label, icon }) => (
+                            <ListItem button key={to} component={Link} to={to}>
+                                <ListItemIcon>
+                                    <CustomIcon size="small" variant={icon} />
+                                </ListItemIcon>
+                                <ListItemText primary={label} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </Drawer>
+            ) : null}
             <div className={classes.content}>
                 <Toolbar />
                 <Suspense fallback={<LoadingScreen />}>
