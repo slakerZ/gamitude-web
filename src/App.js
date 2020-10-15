@@ -25,6 +25,7 @@ const App = () => {
             height: "100vh",
             position: "fixed",
             zIndex: 1,
+            overflow: "auto",
         },
     });
     const classes = useStyles();

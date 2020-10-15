@@ -47,13 +47,6 @@ const Navigation = ({ sessionInProgress, breakInProgress, token }) => {
                 label="Projects"
                 disabled={sessionInProgress || breakInProgress}
             />
-            <Tab
-                icon={<CustomIcon size="large" variant="bulletJournal" />}
-                component={Link}
-                to="/bulletJournal"
-                label="Bullet Journal"
-                disabled={sessionInProgress || breakInProgress}
-            />
             {token ? (
                 <Tab
                     icon={<CustomIcon size="large" variant="profile" />}
