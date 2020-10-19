@@ -53,3 +53,28 @@ export const mapStatsToBoosted = (stats: string[]): string[] => {
 export const mapDominantStatToDominant = (dominantStat: string): string => {
     return dominantStat.toLowerCase();
 };
+
+export const parseProjects = (projects: any[]) => {
+    return projects.map((project) => ({
+        id: project.id,
+        name: project.name,
+        method: mapPrimaryMethodToMethod(project.primaryMethod),
+        status: mapProjectStatusToStatus(project.projectStatus),
+        boosted: mapStatsToBoosted(project.stats),
+        dominant: mapDominantStatToDominant(project.dominantStat),
+    }));
+};
+
+export const convertForFront = (responseData: {
+    id: number;
+    name: string;
+    stats: string[];
+    dominantStat: string;
+}) => ({
+    id: responseData.id,
+    name: responseData.name,
+    method: 25,
+    status: 0,
+    boosted: mapStatsToBoosted(responseData.stats),
+    dominant: mapDominantStatToDominant(responseData.dominantStat),
+});

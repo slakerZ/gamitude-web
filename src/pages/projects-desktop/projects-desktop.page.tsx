@@ -17,13 +17,13 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 // API
-import { url, headers, parseProjects } from "../../api/projects/projects.api";
 import {
-    urlAdd,
-    headersAdd,
-    requestDataAdd,
-    convertForFront,
-} from "../../api/projects/project-add.api";
+    getAddProjectsUrl,
+    addProjectRequestBody,
+    putDeleteAddProjectHeaders,
+    getProjectsHeaders,
+} from "../../api/projects/projects.api";
+import { convertForFront, parseProjects } from "../../api/mappings";
 // Redux
 import { connect } from "react-redux";
 import { setProjects } from "../../redux/projects/projects.actions";
@@ -74,36 +74,37 @@ const ProjectsDesktopPage = ({
     );
     const [text, setText] = React.useState("");
 
-    const [postState, postProject] = useAsyncFn(
-        async (name: string, boosted: string[], dominant: string) => {
-            const filteredBoosted = boosted.filter((el) => {
-                return el !== "";
-            });
-            const response = await axios.post(
-                urlAdd,
-                requestDataAdd(name, filteredBoosted, dominant),
-                headersAdd(token),
-            );
-            const data = await response.data;
-            const convertedData = convertForFront(data);
-            addProject(convertedData);
-            setIsNewProjectFormOpen(false);
-            resetContext();
-            return data;
-        },
-        [urlAdd],
-    );
+    const [postState, postProject] = useAsyncFn(async () => {
+        console.log(boosted, dominant, name);
+        const filteredBoosted = boosted.filter((el) => {
+            return el !== "";
+        });
+        const response = await axios.post(
+            getAddProjectsUrl,
+            addProjectRequestBody(name, filteredBoosted, dominant),
+            putDeleteAddProjectHeaders(token),
+        );
+        const data = await response.data;
+        const convertedData = convertForFront(data);
+        addProject(convertedData);
+        setIsNewProjectFormOpen(false);
+        resetContext();
+        return data;
+    });
 
-    const [state, submit] = useAsyncFn(async () => {
-        const response = await axios.get(url, headers(token));
+    const [getProjectsState, getProjects] = useAsyncFn(async () => {
+        const response = await axios.get(
+            getAddProjectsUrl,
+            getProjectsHeaders(token),
+        );
         const result = await response.data;
         const parsedProjects = parseProjects(result);
         setProjects(parsedProjects);
         return result;
-    }, [url]);
+    });
 
     useEffectOnce(() => {
-        submit();
+        getProjects();
     });
 
     const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
@@ -280,18 +281,9 @@ const ProjectsDesktopPage = ({
                     </Button>
                     {postState.loading ? (
                         <CircularProgress />
-                    ) : postState.error ? (
-                        <Button
-                            variant="contained"
-                            onClick={() => postProject(name, boosted, dominant)}
-                        >
-                            {process.env.NODE_ENV === "development"
-                                ? postState.error.message
-                                : "Try Again"}
-                        </Button>
                     ) : (
-                        <Button variant="contained" onClick={submit}>
-                            {"Confirm"}
+                        <Button variant="contained" onClick={postProject}>
+                            {postState.error ? "Try Again" : "Submit"}
                         </Button>
                     )}
                 </DialogActions>

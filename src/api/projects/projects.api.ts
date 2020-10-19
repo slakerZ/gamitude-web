@@ -1,54 +1,56 @@
-export const url =
+import {
+    mapMethodToPrimaryMethod,
+    mapBoostedToStats,
+    mapDominantToDominantStat,
+} from "../mappings";
+
+const DEV_ENDPOINT = `${process.env.REACT_APP_DEV_ENDPOINT}:5010/api`;
+const PROD_ENDPOINT = process.env.REACT_APP_PRODUCTION_ENDPOINT;
+
+export const getAddProjectsUrl =
     process.env.NODE_ENV === "development"
-        ? "http://localhost:5010/api/pro/Projects"
-        : "https://gamitude.rocks/api/pro/Projects";
-export const headers = (token: string) => ({
+        ? `${DEV_ENDPOINT}/pro/Projects`
+        : `${PROD_ENDPOINT}/pro/Projects`;
+
+export const getProjectsHeaders = (token: string) => ({
     headers: {
         Authorization: "Bearer " + token,
     },
 });
 
-export const parseProjects = (projects: any[]) => {
-    return projects.map((project) => ({
-        id: project.id,
-        name: project.name,
-        method: mapPrimaryMethodToMethod(project.primaryMethod),
-        status: mapProjectStatusToStatus(project.projectStatus),
-        boosted: mapStatsToBoosted(project.stats),
-        dominant: mapDominantStatToDominant(project.dominantStat),
-    }));
+export const putDeleteProjectUrl = (id: number) => {
+    return process.env.NODE_ENV === "development"
+        ? `${DEV_ENDPOINT}/pro/Projects/${id}`
+        : `${PROD_ENDPOINT}/pro/Projects/${id}`;
 };
 
-const mapPrimaryMethodToMethod = (primaryMethod: any) => {
-    switch (primaryMethod) {
-        case "POMODORO":
-            return 25;
-        case "NINETY":
-            return 90;
-        default:
-            return 25;
-    }
-};
+export const putDeleteAddProjectHeaders = (token: string) => ({
+    headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+    },
+});
 
-const mapProjectStatusToStatus = (projectStatus: any) => {
-    switch (projectStatus) {
-        case "ACTIVE":
-            return 0;
-        case "ONHOLD":
-            return 1;
-        case "DONE":
-            return 2;
-        default:
-            return 0;
-    }
-};
+export const putProjectRequestBody = (
+    name: string,
+    method: number,
+    boosted: string[],
+    dominant: string,
+) => ({
+    Name: name,
+    PrimaryMethod: mapMethodToPrimaryMethod(method),
+    Stats: mapBoostedToStats(boosted),
+    DominantStat: mapDominantToDominantStat(dominant),
+});
 
-const mapStatsToBoosted = (stats: any) => {
-    return stats.map((stat: any) => {
-        return stat.toLowerCase();
-    });
-};
-
-const mapDominantStatToDominant = (dominantStat: any) => {
-    return dominantStat.toLowerCase();
-};
+export const addProjectRequestBody = (
+    name: string,
+    boosted: string[],
+    dominant: string,
+) => ({
+    Name: name,
+    PrimaryMethod: "POMODORO",
+    ProjectStatus: "ACTIVE",
+    Stats: mapBoostedToStats(boosted),
+    DominantStat: mapDominantToDominantStat(dominant),
+});

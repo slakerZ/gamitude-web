@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
 import Avatar from "@material-ui/core/Avatar";
 // API
-import { getRank } from "../../../api/rank.api";
+import { getRank } from "../../../api/stats/stats.api";
 // Components
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 import Skeleton from "@material-ui/lab/Skeleton";
