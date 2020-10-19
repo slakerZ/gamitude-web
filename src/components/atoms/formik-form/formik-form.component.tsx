@@ -3,7 +3,6 @@ import { Formik, Form } from "formik";
 import Typography from "@material-ui/core/Typography";
 import FormikField from "../../atoms/formik-field/formik-field.component";
 import Button from "@material-ui/core/Button";
-import BackendFeedback from "../../atoms/backend-feedback/backend-feedback.component";
 import { FormikFormType } from "./types";
 import useFormikFormStyles from "./styles";
 import Grid from "@material-ui/core/Grid";
@@ -55,15 +54,8 @@ const FormikForm: FC<FormikFormType> = ({
                             variant="outlined"
                             className={classes.submit}
                         >
-                            {"Sign In"}
+                            {state.error ? "retry" : title}
                         </Button>
-                        <BackendFeedback
-                            loading={state.loading}
-                            error={state.error}
-                            value={state.value}
-                            errorMessage={"Failed to Login"}
-                            successMessage={"Successfully Logged In"}
-                        />
                     </Form>
                 );
             }}

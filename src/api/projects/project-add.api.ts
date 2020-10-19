@@ -3,7 +3,7 @@ import {
     mapStatsToBoosted,
     mapDominantToDominantStat,
     mapBoostedToStats,
-} from "../../api/mappings";
+} from "../mappings";
 
 export const urlAdd =
     process.env.NODE_ENV === "development"

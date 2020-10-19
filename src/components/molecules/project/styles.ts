@@ -34,6 +34,9 @@ const useProjectStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
         flexDirection: "column",
     },
+    progress: {
+        color: theme.palette.primary.light,
+    },
 }));
 
 export default useProjectStyles;

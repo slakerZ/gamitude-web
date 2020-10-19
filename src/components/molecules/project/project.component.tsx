@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { useAsyncFn } from "react-use";
 
 // API
@@ -33,8 +33,8 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import TextField from "@material-ui/core/TextField";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import CircularProgress from "@material-ui/core/CircularProgress";
 //Components
-import BackendFeedback from "../../atoms/backend-feedback/backend-feedback.component";
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 // Local
 import { ProjectType } from "./types";
@@ -226,18 +226,14 @@ const Project = ({
                 </Button>
 
                 <Button onClick={submit} variant="outlined">
-                    <Typography component="h6" variant="h6">
-                        {"Save"}
-                    </Typography>
+                    {state.loading ? (
+                        <CircularProgress className={classes.progress} />
+                    ) : (
+                        <Typography component="h6" variant="h6">
+                            {state.error ? "Retry" : "Save"}
+                        </Typography>
+                    )}
                 </Button>
-
-                <BackendFeedback
-                    loading={state.loading}
-                    error={state.error}
-                    value={state.value}
-                    errorMessage={"Couldn't save"}
-                    successMessage={""}
-                />
 
                 <Dialog
                     open={open}

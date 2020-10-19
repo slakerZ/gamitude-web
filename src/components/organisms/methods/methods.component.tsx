@@ -12,7 +12,6 @@ const Methods = () => {
     const [method, setMethod] = useState(METHODS[0]);
 
     const handleMethodChange = (e: any, newValue: any) => {
-        console.log(newValue);
         setValue(newValue);
         setMethod(METHODS[newValue]);
     };

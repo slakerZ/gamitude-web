@@ -17,13 +17,13 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 // API
-import { url, headers, parseProjects } from "../../api/projects.api";
+import { url, headers, parseProjects } from "../../api/projects/projects.api";
 import {
     urlAdd,
     headersAdd,
     requestDataAdd,
     convertForFront,
-} from "./project-add.api";
+} from "../../api/projects/project-add.api";
 // Redux
 import { connect } from "react-redux";
 import { setProjects } from "../../redux/projects/projects.actions";
