@@ -15,6 +15,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 // MUI Icons
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -25,6 +26,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 // Atoms
 import CustomIcon from "../components/atoms/custom-icon/custom-icon.component";
 import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
+import CustomTooltipText from "../components/atoms/custom-tooltip-text/custom-tooltip-text.component";
 // Organisms
 import Rank from "../components/organisms/rank/rank.component";
 import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
@@ -94,26 +96,74 @@ const App: FC<AppType> = ({
 
                     <div className={classes.center}>
                         <Link to="/" className={classes.title}>
-                            <Typography variant="h3" component="h3">
-                                {"Gamitude"}
-                            </Typography>
+                            <Tooltip
+                                title={
+                                    <CustomTooltipText
+                                        target="home"
+                                        variant="simple"
+                                    />
+                                }
+                                disableFocusListener={!tooltipToggle}
+                                disableHoverListener={!tooltipToggle}
+                                disableTouchListener={!tooltipToggle}
+                            >
+                                <Typography variant="h3" component="h3">
+                                    {"Gamitude"}
+                                </Typography>
+                            </Tooltip>
                         </Link>
                     </div>
 
                     <div className={classes.right}>
-                        <IconButton onClick={toggleTooltips}>
-                            {tooltipToggle ? <HelpIcon /> : <HelpOutlineIcon />}
-                        </IconButton>
-                        <IconButton component={Link} to={"/profile"}>
-                            <SettingsIcon />
-                        </IconButton>
-                        <IconButton
-                            onClick={logout}
-                            component={Link}
-                            to={"/signInSignUp"}
+                        <Tooltip
+                            title={
+                                <CustomTooltipText
+                                    target={"tooltipToggle"}
+                                    variant="simple"
+                                />
+                            }
                         >
-                            <ExitToAppIcon />
-                        </IconButton>
+                            <IconButton onClick={toggleTooltips}>
+                                {tooltipToggle ? (
+                                    <HelpIcon />
+                                ) : (
+                                    <HelpOutlineIcon />
+                                )}
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip
+                            title={
+                                <CustomTooltipText
+                                    target="profileSettings"
+                                    variant="simple"
+                                />
+                            }
+                            disableFocusListener={!tooltipToggle}
+                            disableHoverListener={!tooltipToggle}
+                            disableTouchListener={!tooltipToggle}
+                        >
+                            <IconButton component={Link} to={"/profile"}>
+                                <SettingsIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip
+                            title={
+                                <Typography variant="h5" component="h5">
+                                    {"Logout"}
+                                </Typography>
+                            }
+                            disableFocusListener={!tooltipToggle}
+                            disableHoverListener={!tooltipToggle}
+                            disableTouchListener={!tooltipToggle}
+                        >
+                            <IconButton
+                                onClick={logout}
+                                component={Link}
+                                to={"/signInSignUp"}
+                            >
+                                <ExitToAppIcon />
+                            </IconButton>
+                        </Tooltip>
                     </div>
                 </Toolbar>
             </AppBar>
@@ -133,20 +183,35 @@ const App: FC<AppType> = ({
                 >
                     <Toolbar />
                     <List>
-                        {NAV_LINKS.map(({ to, label, icon }) => (
+                        {NAV_LINKS.map(({ to, label, icon, tooltip }) => (
                             <ListItem button key={to} component={Link} to={to}>
-                                <ListItemIcon>
-                                    <CustomIcon size="small" variant={icon} />
-                                </ListItemIcon>
+                                <Tooltip
+                                    title={
+                                        <CustomTooltipText
+                                            target={tooltip}
+                                            variant={"simple"}
+                                        />
+                                    }
+                                    disableFocusListener={!tooltipToggle}
+                                    disableHoverListener={!tooltipToggle}
+                                    disableTouchListener={!tooltipToggle}
+                                >
+                                    <ListItemIcon>
+                                        <CustomIcon
+                                            size="small"
+                                            variant={icon}
+                                        />
+                                    </ListItemIcon>
+                                </Tooltip>
                                 <ListItemText primary={label} />
                             </ListItem>
                         ))}
                     </List>
                 </Drawer>
             ) : null}
-            <div className={classes.content}>
-                <Toolbar />
-                <Suspense fallback={<LoadingScreen />}>
+            <Suspense fallback={<LoadingScreen />}>
+                <div className={classes.content}>
+                    <Toolbar />
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route
@@ -166,8 +231,8 @@ const App: FC<AppType> = ({
                             component={SignInSignUpPage}
                         />
                     </Switch>
-                </Suspense>
-            </div>
+                </div>
+            </Suspense>
             {token ? (
                 <Drawer
                     className={classes.controlPanelDrawer}

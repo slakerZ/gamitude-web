@@ -1,26 +1,11 @@
 import React from "react";
 // UI Core
-import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import useLoadingScreenStyles from "./styles";
 
 const LoadingScreen = () => {
-    const useStyles = makeStyles({
-        container: {
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "transparent",
-            display: "flex",
-            flexFlow: "column wrap",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            zIndex: -1,
-        },
-    });
-    const classes = useStyles();
+    const classes = useLoadingScreenStyles();
 
     return (
         <div className={classes.container}>
@@ -30,7 +15,7 @@ const LoadingScreen = () => {
             <Typography variant="h5" component="h5">
                 Manage your <strong>Energy</strong> not your <em>Time</em>{" "}
             </Typography>
-            <CircularProgress />
+            <CircularProgress className={classes.progress} />
         </div>
     );
 };

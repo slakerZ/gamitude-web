@@ -20,12 +20,6 @@ export const targetToSimpleTooltipObject = (
             return profileSettings;
         case "projects":
             return projects;
-        case "activeProjects":
-            return activeProjects;
-        case "pausedProjects":
-            return pausedProjects;
-        case "doneProjects":
-            return doneProjects;
         case "breakTimer":
             return breakTimer;
         case "rankRequirements":
@@ -44,6 +38,8 @@ export const targetToSimpleTooltipObject = (
             return intelligence;
         case "strength":
             return strength;
+        case "tooltipToggle":
+            return tooltipToggle;
         default:
             return simpleTooltipNotFound;
     }
@@ -132,6 +128,12 @@ const soul = {
     ],
 };
 
+const tooltipToggle = {
+    variant: "simple",
+    title: "Toggle Tooltips",
+    bodyItems: ["Toggle Tooltips visibility on and off"],
+};
+
 const selectBoostedEnergies = {
     variant: "simple",
     title: "Select Boosted",
@@ -180,7 +182,7 @@ const profileSettings = {
     variant: "simple",
     title: "Profile Settings",
     bodyItems: [
-        "Time statistics for your work - charts, graphs and tables, manage personal information, logout",
+        "Time statistics for your work - charts, graphs and tables, manage personal information",
     ],
 };
 
@@ -189,30 +191,6 @@ const projects = {
     title: "Projects",
     bodyItems: [
         "Organize your working time into projects and complete them bit by bit with the working method that suits you",
-    ],
-};
-
-const activeProjects = {
-    variant: "simple",
-    title: "Active Projects",
-    bodyItems: [
-        "These are the projects that you're currently working on, try not have more than 7+-2 ogoing projects for best productivity",
-    ],
-};
-
-const pausedProjects = {
-    variant: "simple",
-    title: "Paused Projects",
-    bodyItems: [
-        'These are "I want to do it but I really have too much to do right now" projects, put all of your non priority projects here',
-    ],
-};
-
-const doneProjects = {
-    variant: "simple",
-    title: "Done Projects",
-    bodyItems: [
-        "This is your archive, your hall of glory, behold and relish how much you've accomplished",
     ],
 };
 

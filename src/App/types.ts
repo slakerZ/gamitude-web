@@ -8,6 +8,7 @@ export interface LinkType {
     to: string;
     label: string;
     icon: string;
+    tooltip: string;
 }
 
 interface SetUserProps {
