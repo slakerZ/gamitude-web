@@ -47,6 +47,7 @@ function Metodologies() {
                 className="lax header"
                 //data-lax-translate-y="0 0, 200 -200"
                 //data-lax-opacity="500 0, 700 1"
+                data-lax-preset="fadeInOut"
             >
                 <p className="tytul">Methodologies used in this project</p>
             </div>
@@ -54,6 +55,7 @@ function Metodologies() {
                 className="lax tekst"
                 //data-lax-translate-y="0 0, vh -400"
                 //data-lax-opacity="500 0, 700 1"
+                data-lax-preset="fadeInOut"
                 style={{
                     float: "left",
                     top: "225%",
@@ -90,6 +92,7 @@ function Metodologies() {
                 className="lax tekst"
                 //data-lax-translate-y="0 0, vh -400"
                 //data-lax-opacity="500 0, 700 1"
+                data-lax-preset="fadeInOut"
                 style={{
                     float: "left",
                     top: "235%",
@@ -108,6 +111,7 @@ function Metodologies() {
                 className="lax tekst"
                 //data-lax-translate-y="0 0, vh -400"
                 //data-lax-opacity="500 0, 700 1"
+                data-lax-preset="fadeInOut"
                 style={{
                     float: "left",
                     top: "225%",
@@ -139,6 +143,7 @@ function Metodologies() {
                 className="lax tekst"
                 //data-lax-translate-y="0 0, vh -400"
                 //data-lax-opacity="500 0, 700 1"
+                data-lax-preset="fadeInOut"
                 style={{
                     float: "left",
                     top: "235%",

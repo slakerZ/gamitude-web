@@ -32,6 +32,7 @@ function Energy() {
                 className="lax next"
                 //data-lax-translate-y="0 0, vh 100"
                 //data-lax-opacity="0 1, 300 0"
+                data-lax-preset="blurInOut"
             >
                 <p className="tytul">Energy</p>
             </div>
@@ -47,13 +48,14 @@ function Energy() {
                         color: "white",
                     }}
                 >
-                    <p>
+                    <p className="lax" data-lax-preset="blurInOut">
                         Everyone have a pool of energy that they can use during
                         a day. Just like statistics, they are divided into 4,
                         which are used to complete tasks.
                     </p>
                     <div style={{ width: "100%" }}>
                         <img
+                            className="lax"
                             alt="bar"
                             src="img/bar1-2.png"
                             style={{
@@ -61,8 +63,10 @@ function Energy() {
                                 width: "45%",
                                 paddingRight: "4%",
                             }}
+                            data-lax-preset="blurInOut"
                         />
                         <img
+                            className="lax"
                             alt="bar"
                             src="img/bar3-4.png"
                             style={{
@@ -71,6 +75,7 @@ function Energy() {
                                 width: "45%",
                                 top: "540%",
                             }}
+                            data-lax-preset="blurInOut"
                         />
                     </div>
                 </div>
@@ -87,7 +92,7 @@ function Energy() {
                         color: "white",
                     }}
                 >
-                    <p>
+                    <p className="lax" data-lax-preset="blurInOut">
                         Według pracy harwardzkiej, ludzie organizujący sobie
                         czas pracy, patrzą tylko na czas potrzebny do wykonania
                         jej, ignorując holistyczną naturę działania ludzkiego

@@ -25,6 +25,7 @@ function Shop() {
                 className="lax dziewiąty"
                 //data-lax-translate-y="0 0, vh 100"
                 //data-lax-opacity="0 1, 300 0"
+                data-lax-preset="zoomInOut"
             >
                 <p className="tytul">Shop</p>
             </div>
@@ -38,24 +39,27 @@ function Shop() {
                     fontSize: "30px",
                 }}
             >
-                <p>
+                <p className="lax" data-lax-preset="zoomInOut">
                     We are offering different visual packs called skins that
                     will affect how your site look. There are many diversified
                     themes of those skins like Ice Age, Video games or Anime.
                 </p>
                 <img
+                    className="lax"
                     alt="Shop"
                     src="img/Themes-shop.png"
                     style={{
                         height: "55%",
                         width: "55%",
                     }}
+                    data-lax-preset="zoomInOut"
                 />
             </div>
             <Button
                 variant="contained"
                 color="primary"
-                className={style.button}
+                className={`${style.button} lax`}
+                data-lax-preset="fadeInOut"
             >
                 Register now
             </Button>

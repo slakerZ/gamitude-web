@@ -26,7 +26,7 @@ function Bullet() {
                     paddingRight: "20px",
                 }}
             >
-                <p>
+                <p className="lax" data-lax-preset="blurInOut">
                     {" "}
                     Bullet Journal is a method of managing tasks in longer
                     periods of time. You are separating tasks between 3 main
@@ -34,6 +34,7 @@ function Bullet() {
                     deadline to complete them depending on dificulty of task.
                 </p>
                 <img
+                    className="lax"
                     alt="Bullet Journal example"
                     src="img/bulletEx.png"
                     height="50%"
@@ -41,12 +42,15 @@ function Bullet() {
                     style={{
                         paddingBottom: "20px",
                     }}
+                    data-lax-preset="blurInOut"
                 />
                 <br />
                 <Button
+                    className="lax"
                     variant="contained"
                     color="primary"
                     href="https://bulletjournal.com/"
+                    data-lax-preset="blurInOut"
                 >
                     Learn more
                 </Button>

@@ -34,13 +34,14 @@ function Idea() {
                     top: "110%",
                     transform: "translate(-50%, -50%)",
                 }}
-                className="lax header"
+                className="header"
                 //data-lax-translate-y="0 0, vh 300"
-                //data-lax-opacity="100 0, 400 1"
             >
-                <p className="tytul">Purpose and goal</p>
+                <p className="tytul lax" data-lax-preset="zoomInOut 1">
+                    Purpose and goal
+                </p>
                 <Fade in={clicks}>
-                    <p className="Is">
+                    <p className="Is lax" data-lax-preset="zoomInOut">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Nunc justo libero, egestas vestibulum odio eget,
                         lobortis cursus sapien.{" "}
@@ -55,7 +56,7 @@ function Idea() {
                         left: "10%",
                         top: "130%",
                     }}
-                    //data-lax-opacity="100 0, 400 1"
+                    data-lax-preset="zoomInOut"
                 >
                     Gamitude is a project that has a goal to help people manage
                     their energy. By doing so, they can stay focused for longer
@@ -70,7 +71,7 @@ function Idea() {
                         left: "60%",
                         top: "130%",
                     }}
-                    //data-lax-opacity="100 0, 400 1"
+                    data-lax-preset="zoomInOut"
                 >
                     It also has a purpose to motivate people to develop
                     themselves in different areas of life and orginise
@@ -78,69 +79,71 @@ function Idea() {
                 </div>
             </Fade>
             <Fade in={!clicks}>
-                <div
-                    className="lax"
-                    //data-lax-opacity="100 0, 400 1"
-                >
+                <div>
                     <img
-                        className="ikonal"
+                        className="ikonal lax"
                         alt="battery"
                         src="img/battery.png"
                         style={{
                             top: "150%",
                             left: "13%",
                         }}
+                        data-lax-preset="zoomInOut"
                     />
                     <img
-                        className="ikonal"
+                        className="ikonal lax"
                         alt="list"
                         src="img/list.png"
                         style={{
                             top: "150%",
                             left: "28%",
                         }}
+                        data-lax-preset="zoomInOut"
                     />
                     <img
-                        className="ikonar"
+                        className="ikonar lax"
                         alt="strength"
                         src="img/strength.png"
                         style={{
                             top: "140%",
                             left: "63%",
                         }}
+                        data-lax-preset="zoomInOut"
                     />
                     <img
-                        className="ikonar"
+                        className="ikonar lax"
                         alt="intelligence"
                         src="img/intelligence.png"
                         style={{
                             top: "140%",
                             left: "75%",
                         }}
+                        data-lax-preset="zoomInOut"
                     />
                     <img
                         alt="fluency"
-                        className="ikonar"
+                        className="ikonar lax"
                         src="img/fluency.png"
                         style={{
                             top: "160%",
                             left: "75%",
                         }}
+                        data-lax-preset="zoomInOut"
                     />
                     <img
                         alt="creativity"
-                        className="ikonar"
+                        className="ikonar lax"
                         src="img/creativity.png"
                         style={{
                             top: "160%",
                             left: "63%",
                         }}
+                        data-lax-preset="zoomInOut"
                     />
                 </div>
             </Fade>
             <Button
                 className={`${style.button} lax`}
-                //data-lax-opacity="100 0, 400 1"
                 variant="contained"
                 color="primary"
                 onClick={handleChange}

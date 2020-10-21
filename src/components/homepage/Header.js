@@ -1,9 +1,12 @@
 import React from "react";
 import "./style.css";
 
+import { useLaxElement } from "use-lax";
+
 function Header() {
+    const ref = useLaxElement();
     return (
-        <div id="header" className="section">
+        <div id="header" className="section" ref={ref}>
             <img
                 className="lax blok pierwszy"
                 alt="Pierwsze tło"
@@ -12,8 +15,8 @@ function Header() {
             />
             <div
                 className="lax start"
-                //data-lax-translate-y="0 0, vh 100"
-                //data-lax-opacity="0 1, 300 0"
+                data-lax-translate-y="0 0, vh 100"
+                data-lax-opacity="0 1, 300 0"
             >
                 <p className="tytul">Gamitude</p>
                 <p className="wtekst">

@@ -21,11 +21,11 @@ const ProfilePage = lazy(() => import("./pages/profile/profile.page.jsx"));
 const App = () => {
     const useStyles = makeStyles({
         app: {
-            width: "100vw",
-            height: "100vh",
-            position: "fixed",
-            zIndex: 1,
-            overflow: "auto",
+            // width: "100vw",
+            // height: "100vh",
+            //position: "fixed",
+            // zIndex: 1,
+            // overflow: "auto",
         },
     });
     const classes = useStyles();

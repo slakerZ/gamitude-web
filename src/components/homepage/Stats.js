@@ -32,6 +32,7 @@ function Stats() {
                 className="lax czwarty"
                 //data-lax-translate-y="0 0, vh 100"
                 //data-lax-opacity="0 1, 300 0"
+                data-lax-preset="fadeInOut"
             >
                 <p className="tytul">Stats</p>
             </div>
@@ -46,7 +47,7 @@ function Stats() {
                         fontSize: "30px",
                     }}
                 >
-                    <p>
+                    <p className="lax" data-lax-preset="fadeInOut">
                         Stats is the time spent on tasks developing specific
                         thing. There are 4 type of statistics: Strength,
                         Intelligence, Fluency and Creativity represented by

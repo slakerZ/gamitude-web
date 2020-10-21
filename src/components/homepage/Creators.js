@@ -31,6 +31,7 @@ function Creators() {
                 className="lax header"
                 //data-lax-opacity="900 0, 1500 1"
                 //data-lax-translate-y="0 0, vh -200"
+                data-lax-preset="blurInOut"
             >
                 <p className="tytul">Creators</p>
             </div>
@@ -50,8 +51,9 @@ function Creators() {
                     style={{
                         left: "20%",
                     }}
+                    data-lax-preset="blurInOut"
                 />
-                <p className="wtekst">
+                <p className="wtekst lax" data-lax-preset="blurInOut">
                     Paweł <br></br>Benkowski
                 </p>
             </div>
@@ -71,8 +73,9 @@ function Creators() {
                     style={{
                         left: "5%",
                     }}
+                    data-lax-preset="blurInOut"
                 />
-                <p className="wtekst">
+                <p className="wtekst lax" data-lax-preset="blurInOut">
                     Robert <br></br>Deyk
                 </p>
             </div>
@@ -92,12 +95,16 @@ function Creators() {
                     style={{
                         left: "25%",
                     }}
+                    data-lax-preset="blurInOut"
                 />
-                <p className="wtekst">Stanisław Lutkiewicz</p>
+                <p className="wtekst lax" data-lax-preset="blurInOut">
+                    Stanisław Lutkiewicz
+                </p>
             </div>
             <Button
                 className={`${style.button} lax`}
                 //data-lax-opacity="900 0, 1500 1"
+                data-lax-preset="blurInOut"
                 variant="contained"
                 color="primary"
                 href={"https://github.com/slakerZ"}

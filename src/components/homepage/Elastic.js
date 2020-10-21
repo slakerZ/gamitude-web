@@ -14,6 +14,7 @@ function Elastic() {
                 className="lax siódmy"
                 //data-lax-translate-y="0 0, vh 100"
                 //data-lax-opacity="0 1, 300 0"
+                data-lax-preset="fadeInOut"
             >
                 <p className="tytul">Elastic Habits</p>
             </div>
@@ -27,19 +28,21 @@ function Elastic() {
                     fontSize: "30px",
                 }}
             >
-                <p>
+                <p className="lax" data-lax-preset="fadeInOut">
                     Elastic Habits is a method of making for every single task
                     that is repetetive different levels of complition. It helps
                     to build up a habit of doing those tasks even if we are
                     tired or unmotivated to do it.
                 </p>
                 <img
+                    className="lax"
                     alt="Habits table"
                     src="img/habits.png"
                     style={{
                         height: "55%",
                         width: "55%",
                     }}
+                    data-lax-preset="fadeInOut"
                 />
             </div>
         </div>

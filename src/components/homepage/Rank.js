@@ -25,6 +25,7 @@ function Rank() {
                 className="lax szósty"
                 //data-lax-translate-y="0 0, vh 100"
                 //data-lax-opacity="0 1, 300 0"
+                data-lax-preset="zoomInOut"
             >
                 <p className="tytul">Ranks</p>
             </div>
@@ -39,7 +40,7 @@ function Rank() {
                     color: "white",
                 }}
             >
-                <p>
+                <p className="lax" data-lax-preset="zoomInOut">
                     In our project, we wanted make users feel rewarded for their
                     effort. We came up with an idea to use game system that uses
                     ranks to categorize improvements. We inspired our ranks on a
@@ -52,11 +53,13 @@ function Rank() {
                 variant="contained"
                 color="primary"
                 href="https://www.youtube.com/channel/UCHsRtomD4twRf5WVHHk-cMw"
-                className={style.button}
+                className={`${style.button} lax`}
+                data-lax-preset="zoomInOut"
             >
                 Check out Tierzoo!!
             </Button>
             <img
+                className="lax"
                 alt="TierZOO"
                 src="img/tiers.png"
                 style={{
@@ -66,6 +69,7 @@ function Rank() {
                     width: "40%",
                     top: "520%",
                 }}
+                data-lax-preset="zoomInOut"
             />
         </div>
     );
