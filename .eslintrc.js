@@ -26,5 +26,6 @@ module.exports = {
     rules: {
         "sort-imports": "off",
         "import/order": "off",
+        "no-console": "error",
     },
 };

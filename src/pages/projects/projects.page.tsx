@@ -7,7 +7,6 @@ import { selectToken } from "../../redux/user/user.selectors";
 import ProjectsDesktopPage from "../projects-desktop/projects-desktop.page";
 import ProjectsMobilePage from "../projects-mobile/projects-mobile.page";
 import { Redirect } from "react-router-dom";
-import { AddProjectProvider } from "../../context/add-projects.context";
 
 interface ProjectsPageProps {
     token: string;
@@ -20,9 +19,7 @@ const ProjectsPage = ({ token }: ProjectsPageProps) => {
     ) : width < 600 ? (
         <ProjectsMobilePage />
     ) : (
-        <AddProjectProvider>
-            <ProjectsDesktopPage />
-        </AddProjectProvider>
+        <ProjectsDesktopPage />
     );
 };
 

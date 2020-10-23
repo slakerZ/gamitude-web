@@ -60,7 +60,6 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
                 signInUrl,
                 signInRequestBody(values),
             );
-            console.log(values);
             const data = await response.data;
             setUser(data);
             return data;

@@ -31,8 +31,6 @@ import { selectToken } from "../../redux/user/user.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
 import { addProject } from "../../redux/projects/projects.actions";
-// Context
-import { useAddProjectContext } from "../../context/add-projects.context";
 // Atoms
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
 // Molecules
@@ -55,38 +53,33 @@ const ProjectsDesktopPage = ({
 }: ProjectsType) => {
     const classes = useProjectDesktopStyles();
 
-    const {
-        name,
-        setName,
-        boosted,
-        setBoosted,
-        dominant,
-        setDominant,
-    } = useAddProjectContext()!;
-
     const [currFolder, setCurrFolder] = useState(0);
     const [isNewProjectFormOpen, setIsNewProjectFormOpen] = React.useState(
         false,
     );
     const [text, setText] = React.useState("");
+    const [name, setName] = useState("");
+    const [boosted, setBoosted] = useState([""]);
+    const [dominant, setDominant] = useState("");
 
-    const [postState, postProject] = useAsyncFn(async () => {
-        console.log(boosted, dominant, name);
-        const filteredBoosted = boosted.filter((el) => {
-            return el !== "";
-        });
-        const response = await axios.post(
-            getAddProjectsUrl,
-            addProjectRequestBody(name, filteredBoosted, dominant),
-            putDeleteAddProjectHeaders(token),
-        );
-        const data = await response.data;
-        const convertedData = convertForFront(data);
-        addProject(convertedData);
-        setIsNewProjectFormOpen(false);
-        resetContext();
-        return data;
-    });
+    const [postState, postProject] = useAsyncFn(
+        async (name, boosted, dominant) => {
+            const filteredBoosted = boosted.filter((el: string) => {
+                return el !== "";
+            });
+            const response = await axios.post(
+                getAddProjectsUrl,
+                addProjectRequestBody(name, filteredBoosted, dominant),
+                putDeleteAddProjectHeaders(token),
+            );
+            const data = await response.data;
+            const convertedData = convertForFront(data);
+            addProject(convertedData);
+            setIsNewProjectFormOpen(false);
+            resetContext();
+            return data;
+        },
+    );
 
     const [getProjectsState, getProjects] = useAsyncFn(async () => {
         const response = await axios.get(
@@ -278,7 +271,10 @@ const ProjectsDesktopPage = ({
                     {postState.loading ? (
                         <CircularProgress />
                     ) : (
-                        <Button variant="contained" onClick={postProject}>
+                        <Button
+                            variant="contained"
+                            onClick={() => postProject(name, boosted, dominant)}
+                        >
                             {postState.error ? "Try Again" : "Submit"}
                         </Button>
                     )}

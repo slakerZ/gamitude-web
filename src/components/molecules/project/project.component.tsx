@@ -144,7 +144,6 @@ const Project = ({
                         className={classes.btnGroup}
                     >
                         {STATS.map((stat, index) => {
-                            console.log(stat);
                             return (
                                 <ToggleButton
                                     key={index}
@@ -171,7 +170,6 @@ const Project = ({
                         className={classes.btnGroup}
                     >
                         {STATS.map((stat, index) => {
-                            console.log(stat);
                             return (
                                 <ToggleButton
                                     key={index}
