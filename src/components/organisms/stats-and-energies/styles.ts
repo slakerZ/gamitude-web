@@ -5,6 +5,11 @@ const useStatsAndEnergiesStyles = makeStyles((theme) => {
         root: {
             padding: theme.spacing(1),
         },
+        placeholder: {
+            padding: theme.spacing(1),
+            width: "100%",
+            height: "210px",
+        },
     };
 });
 

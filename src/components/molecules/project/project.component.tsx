@@ -3,12 +3,11 @@ import { useAsyncFn } from "react-use";
 
 // API
 import axios from "axios";
-import { url, headers } from "./project-edit-delete.api";
 import {
-    urlEdit,
-    headersEdit,
-    request_bodyEdit,
-} from "./project-edit-submit.api";
+    putDeleteProjectUrl,
+    putDeleteAddProjectHeaders,
+    putProjectRequestBody,
+} from "../../../api/projects/projects.api";
 // Redux
 import { connect } from "react-redux";
 import { selectProjects } from "../../../redux/projects/projects.selectors";
@@ -83,7 +82,10 @@ const Project = ({
 
     const handleDeletionConfirm = () => {
         const id = projects[index].id;
-        axios.delete(url(id), headers(token));
+        axios.delete(
+            putDeleteProjectUrl(id),
+            putDeleteAddProjectHeaders(token),
+        );
         deleteProject(index);
         setOpen(false);
     };
@@ -100,15 +102,15 @@ const Project = ({
         const dominant = projects[index].dominant;
 
         const response = await axios.put(
-            urlEdit(id),
-            request_bodyEdit(name, method, boosted, dominant),
-            headersEdit(token),
+            putDeleteProjectUrl(id),
+            putProjectRequestBody(name, method, boosted, dominant),
+            putDeleteAddProjectHeaders(token),
         );
         const data = await response.data;
         if (data) {
         }
         return data;
-    }, [urlEdit]);
+    }, [putDeleteProjectUrl]);
 
     return (
         <Accordion square className={classes.container}>

@@ -4,6 +4,7 @@ import { useUpdateEffect, useAsyncFn, useEffectOnce } from "react-use";
 import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
 import Avatar from "@material-ui/core/Avatar";
+import CircularProgress from "@material-ui/core/CircularProgress";
 // API
 import { getRank } from "../../../api/stats/stats.api";
 // Components
@@ -24,8 +25,8 @@ const Rank = ({
     sessionsComplete: number;
 }) => {
     const [rank, setRank] = useState({
-        name: "Error Fetching",
-        tier: "error",
+        name: "Loading...",
+        tier: "loading",
         imageUrl: "",
         rankFortes: ["intelligence", "creativity"],
     });
@@ -64,10 +65,16 @@ const Rank = ({
                     }}
                     badgeContent={
                         <div className={classes.badgeWrapper}>
-                            <CustomIcon
-                                variant={rank.tier.toLowerCase()}
-                                size="small"
-                            />
+                            {state.loading ? (
+                                <CircularProgress />
+                            ) : state.error ? (
+                                <CustomIcon size="small" variant="error" />
+                            ) : (
+                                <CustomIcon
+                                    variant={rank.tier.toLowerCase()}
+                                    size="small"
+                                />
+                            )}
                         </div>
                     }
                 >

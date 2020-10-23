@@ -3,6 +3,7 @@ import { useUpdateEffect, useAsyncFn, useEffectOnce } from "react-use";
 import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
+import Skeleton from "@material-ui/lab/Skeleton";
 // API
 import { getStats, getEnergies } from "../../../api/stats/stats.api";
 // Redux
@@ -105,56 +106,64 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
     return (
         <Fragment>
             <div className={classes.root}>
-                <Grid container>
-                    <Grid item xs={6}>
-                        {getEnergiesState.loading ? (
-                            <CircularProgress />
-                        ) : getEnergiesState.error ? (
-                            <Button
-                                variant="contained"
-                                onClick={getEnergiesSubmit}
-                            >
-                                Retry
-                            </Button>
-                        ) : (
-                            mappedEnergies.map((tuple) => {
-                                const [energyName, energyValue] = tuple;
-                                return (
-                                    <CustomIconWithTypography
-                                        variant={energyName}
-                                        key={energyName}
-                                    >
-                                        {energyValue.toString()}
-                                    </CustomIconWithTypography>
-                                );
-                            })
-                        )}
+                {getEnergiesState.loading ? (
+                    <Skeleton
+                        variant="rect"
+                        animation="wave"
+                        className={classes.placeholder}
+                    />
+                ) : (
+                    <Grid container>
+                        <Grid item xs={6}>
+                            {getEnergiesState.loading ? (
+                                <CircularProgress />
+                            ) : getEnergiesState.error ? (
+                                <Button
+                                    variant="contained"
+                                    onClick={getEnergiesSubmit}
+                                >
+                                    Retry
+                                </Button>
+                            ) : (
+                                mappedEnergies.map((tuple) => {
+                                    const [energyName, energyValue] = tuple;
+                                    return (
+                                        <CustomIconWithTypography
+                                            variant={energyName}
+                                            key={energyName}
+                                        >
+                                            {energyValue.toString()}
+                                        </CustomIconWithTypography>
+                                    );
+                                })
+                            )}
+                        </Grid>
+                        <Grid item xs={6}>
+                            {getStatsState.loading ? (
+                                <CircularProgress />
+                            ) : getEnergiesState.error ? (
+                                <Button
+                                    variant="contained"
+                                    onClick={getStatsSubmit}
+                                >
+                                    Retry
+                                </Button>
+                            ) : (
+                                mappedStats.map((tuple) => {
+                                    const [statName, statValue] = tuple;
+                                    return (
+                                        <CustomIconWithTypography
+                                            variant={statName}
+                                            key={statName}
+                                        >
+                                            {statValue.toString()}
+                                        </CustomIconWithTypography>
+                                    );
+                                })
+                            )}
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                        {getStatsState.loading ? (
-                            <CircularProgress />
-                        ) : getEnergiesState.error ? (
-                            <Button
-                                variant="contained"
-                                onClick={getStatsSubmit}
-                            >
-                                Retry
-                            </Button>
-                        ) : (
-                            mappedStats.map((tuple) => {
-                                const [statName, statValue] = tuple;
-                                return (
-                                    <CustomIconWithTypography
-                                        variant={statName}
-                                        key={statName}
-                                    >
-                                        {statValue.toString()}
-                                    </CustomIconWithTypography>
-                                );
-                            })
-                        )}
-                    </Grid>
-                </Grid>
+                )}
             </div>
         </Fragment>
     );

@@ -23,6 +23,7 @@ const useRankStyles = makeStyles((theme) => {
         placeholder: {
             width: "20vh",
             height: "20vh",
+            borderRadius: "100%",
         },
     };
 });
