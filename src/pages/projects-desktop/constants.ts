@@ -15,7 +15,3 @@ export const FOLDERS = [
         index: 2,
     },
 ];
-
-export const PROJECTS = [{}];
-
-export const STATS = ["strength", "creativity", "intelligence", "fluency"];

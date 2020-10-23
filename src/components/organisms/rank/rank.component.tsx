@@ -16,6 +16,7 @@ import { selectToken } from "../../../redux/user/user.selectors";
 import { selectSessionsComplete } from "../../../redux/session/session.selectors";
 // Local
 import useRankStyles from "./styles";
+import { RootState } from "../../../redux/root.reducer";
 
 const Rank = ({
     token,
@@ -99,7 +100,7 @@ const Rank = ({
     );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: RootState) => ({
     token: selectToken(state),
     sessionsComplete: selectSessionsComplete(state),
 });

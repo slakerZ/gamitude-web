@@ -1,10 +1,10 @@
-import React from "react";
+import React, { ReactElement } from "react";
 // UI Core
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import useLoadingScreenStyles from "./styles";
 
-const LoadingScreen = () => {
+const LoadingScreen = (): ReactElement => {
     const classes = useLoadingScreenStyles();
 
     return (

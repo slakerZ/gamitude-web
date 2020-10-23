@@ -1,10 +1,5 @@
 import { SessionActionTypes } from "./session.types";
 
-export const setBreakInProgress = (value: any) => ({
-    type: SessionActionTypes.SET_BREAK_IN_PROGRESS,
-    payload: value,
-});
-
 export const setSessionInProgress = (value: any) => ({
     type: SessionActionTypes.SET_SESSION_IN_PROGRESS,
     payload: value,
@@ -15,12 +10,7 @@ export const setSessionsComplete = (value: any) => ({
     payload: value,
 });
 
-export const setBreakTime = (value: any) => ({
-    type: SessionActionTypes.SET_BREAK_TIME,
-    payload: value,
-});
-
-export const setProjectsTab = (value: any) => ({
-    type: SessionActionTypes.SET_PROJECTS_TAB,
+export const setSessionType = (value: any) => ({
+    type: SessionActionTypes.SET_SESSION_TYPE,
     payload: value,
 });

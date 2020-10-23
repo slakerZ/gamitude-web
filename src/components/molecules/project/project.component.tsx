@@ -38,6 +38,7 @@ import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 // Local
 import { ProjectType } from "./types";
 import useProjectStyles from "./styles";
+import { STATS, ENERGIES } from "../../../constants";
 
 const Project = ({
     index,
@@ -94,7 +95,7 @@ const Project = ({
         setOpen(false);
     };
 
-    const [state, submit] = useAsyncFn(async () => {
+    const [editProjectState, editProject] = useAsyncFn(async () => {
         const name = projects[index].name;
         const id = projects[index].id;
         const method = projects[index].method;
@@ -142,37 +143,19 @@ const Project = ({
                         aria-label="boosted stats"
                         className={classes.btnGroup}
                     >
-                        <ToggleButton
-                            value="strength"
-                            aria-label="strength"
-                            className={classes.btn}
-                        >
-                            <CustomIcon variant="strength" size="medium" />
-                        </ToggleButton>
-
-                        <ToggleButton
-                            value="creativity"
-                            aria-label="creativity"
-                            className={classes.btn}
-                        >
-                            <CustomIcon variant="creativity" size="medium" />
-                        </ToggleButton>
-
-                        <ToggleButton
-                            value="intelligence"
-                            aria-label="intelligence"
-                            className={classes.btn}
-                        >
-                            <CustomIcon variant="intelligence" size="medium" />
-                        </ToggleButton>
-
-                        <ToggleButton
-                            value="fluency"
-                            aria-label="fluency"
-                            className={classes.btn}
-                        >
-                            <CustomIcon variant="fluency" size="medium" />
-                        </ToggleButton>
+                        {STATS.map((stat, index) => {
+                            console.log(stat);
+                            return (
+                                <ToggleButton
+                                    key={index}
+                                    value={stat}
+                                    aria-label={stat}
+                                    className={classes.btn}
+                                >
+                                    <CustomIcon variant={stat} size="medium" />
+                                </ToggleButton>
+                            );
+                        })}
                     </ToggleButtonGroup>
                 </div>
 
@@ -187,37 +170,19 @@ const Project = ({
                         aria-label="dominant stat"
                         className={classes.btnGroup}
                     >
-                        <ToggleButton
-                            value="strength"
-                            aria-label="strength"
-                            className={classes.btn}
-                        >
-                            <CustomIcon variant="strength" size="medium" />
-                        </ToggleButton>
-
-                        <ToggleButton
-                            value="creativity"
-                            aria-label="creativity"
-                            className={classes.btn}
-                        >
-                            <CustomIcon variant="creativity" size="medium" />
-                        </ToggleButton>
-
-                        <ToggleButton
-                            value="intelligence"
-                            aria-label="intelligence"
-                            className={classes.btn}
-                        >
-                            <CustomIcon variant="intelligence" size="medium" />
-                        </ToggleButton>
-
-                        <ToggleButton
-                            value="fluency"
-                            aria-label="fluency"
-                            className={classes.btn}
-                        >
-                            <CustomIcon variant="fluency" size="medium" />
-                        </ToggleButton>
+                        {STATS.map((stat, index) => {
+                            console.log(stat);
+                            return (
+                                <ToggleButton
+                                    key={index}
+                                    value={stat}
+                                    aria-label={stat}
+                                    className={classes.btn}
+                                >
+                                    <CustomIcon variant={stat} size="medium" />
+                                </ToggleButton>
+                            );
+                        })}
                     </ToggleButtonGroup>
                 </div>
 
@@ -227,12 +192,12 @@ const Project = ({
                     </Typography>
                 </Button>
 
-                <Button onClick={submit} variant="outlined">
-                    {state.loading ? (
+                <Button onClick={editProject} variant="outlined">
+                    {editProjectState.loading ? (
                         <CircularProgress className={classes.progress} />
                     ) : (
                         <Typography component="h6" variant="h6">
-                            {state.error ? "Retry" : "Save"}
+                            {editProjectState.error ? "Retry" : "Save"}
                         </Typography>
                     )}
                 </Button>

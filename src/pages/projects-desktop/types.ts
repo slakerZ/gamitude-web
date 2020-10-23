@@ -1,6 +1,5 @@
 export interface ProjectsType {
     projects: any;
-    projectsTab: any;
     setProjects: any;
     token: string;
     addProject: any;

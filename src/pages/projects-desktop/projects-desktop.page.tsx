@@ -29,11 +29,7 @@ import { connect } from "react-redux";
 import { setProjects } from "../../redux/projects/projects.actions";
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
-import {
-    selectBreakInProgress,
-    selectSessionInProgress,
-    selectProjectsTab,
-} from "../../redux/session/session.selectors";
+import { selectSessionInProgress } from "../../redux/session/session.selectors";
 import { addProject } from "../../redux/projects/projects.actions";
 // Context
 import { useAddProjectContext } from "../../context/add-projects.context";
@@ -44,7 +40,8 @@ import Project from "../../components/molecules/project/project.component";
 // Local
 import { ProjectsType } from "./types";
 import useProjectDesktopStyles from "./styles";
-import { FOLDERS, STATS } from "./constants";
+import { FOLDERS } from "./constants";
+import { STATS } from "../../constants";
 import {
     TabPanel,
     a11yProps,
@@ -52,7 +49,6 @@ import {
 
 const ProjectsDesktopPage = ({
     projects,
-    projectsTab,
     setProjects,
     token,
     addProject,
@@ -294,9 +290,7 @@ const ProjectsDesktopPage = ({
 
 const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
-    breakInProgress: selectBreakInProgress(state),
     sessionInProgress: selectSessionInProgress(state),
-    projectsTab: selectProjectsTab(state),
     token: selectToken(state),
 });
 

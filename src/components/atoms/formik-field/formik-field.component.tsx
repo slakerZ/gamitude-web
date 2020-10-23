@@ -1,31 +1,18 @@
-import React from "react";
+import React, { ReactElement } from "react";
 // UI Core
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 // Formik
 import { Field, ErrorMessage } from "formik";
+import { FormikFieldPropType } from "./types";
+import useFormikFieldStyles from "./styles";
 
 const FormikField = ({
     required = true,
     label,
     name,
     type,
-}: {
-    required?: boolean;
-    label: string;
-    name: string;
-    type: string;
-}) => {
-    const useStyles = makeStyles((theme) => ({
-        root: {
-            padding: theme.spacing(1.5, 0),
-        },
-        error: {
-            position: "fixed",
-            color: "red",
-        },
-    }));
-    const classes = useStyles();
+}: FormikFieldPropType): ReactElement => {
+    const classes = useFormikFieldStyles();
 
     return (
         <div className={classes.root}>

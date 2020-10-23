@@ -1,21 +1,14 @@
 import { SessionActionTypes } from "./session.types";
-import { duration } from "moment/moment";
+import { SessionType } from "./types";
 
-const INITIAL_STATE = {
+const INITIAL_STATE: SessionType = {
     sessionInProgress: false,
-    breakInProgress: false,
     sessionsComplete: 0,
-    breakTime: duration(0, "seconds"),
-    projectsTab: 0,
+    sessionType: "stat",
 };
 
 const sessionReducer = (state = INITIAL_STATE, action: any) => {
     switch (action.type) {
-        case SessionActionTypes.SET_BREAK_IN_PROGRESS:
-            return {
-                ...state,
-                breakInProgress: action.payload,
-            };
         case SessionActionTypes.SET_SESSION_IN_PROGRESS:
             return {
                 ...state,
@@ -26,15 +19,10 @@ const sessionReducer = (state = INITIAL_STATE, action: any) => {
                 ...state,
                 sessionsComplete: action.payload,
             };
-        case SessionActionTypes.SET_BREAK_TIME:
+        case SessionActionTypes.SET_SESSION_TYPE:
             return {
                 ...state,
-                breakTime: action.payload,
-            };
-        case SessionActionTypes.SET_PROJECTS_TAB:
-            return {
-                ...state,
-                projectsTab: action.payload,
+                sessionType: action.payload,
             };
         default:
             return state;

@@ -1,8 +1,8 @@
-export const selectSessionInProgress = (state: any) =>
+import { RootState } from "../root.reducer";
+
+export const selectSessionInProgress = (state: RootState) =>
     state.session.sessionInProgress;
-export const selectBreakInProgress = (state: any) =>
-    state.session.selectBreakInProgress;
-export const selectSessionsComplete = (state: any) =>
+export const selectSessionsComplete = (state: RootState) =>
     state.session.sessionsComplete;
-export const selectBreakTime = (state: any) => state.session.breakTime;
-export const selectProjectsTab = (state: any) => state.session.projectsTab;
+export const selectSessionType = (state: RootState) =>
+    state.session.sessionType;

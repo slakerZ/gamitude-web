@@ -1,13 +1,26 @@
-import React, { FC, ReactElement, Fragment, useState } from "react";
+import React, { ReactElement, Fragment, useState } from "react";
+import { connect } from "react-redux";
+import { selectSessionType } from "../../../redux/session/session.selectors";
+import { RootState } from "../../../redux/root.reducer";
+import { setSessionType } from "../../../redux/session/session.actions";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 // Local
 import useSessionManagerStyles from "./styles";
+import { SessionManagerPropType } from "./types";
 
-const SessionManager: FC = (): ReactElement => {
+const SessionManager = ({
+    setSessionType,
+    sessionType,
+}: SessionManagerPropType): ReactElement => {
     const classes = useSessionManagerStyles();
-    const [checked, setChecked] = useState(true);
+
+    const handleChangeSessionType = () => {
+        sessionType === "stat"
+            ? setSessionType("energy")
+            : setSessionType("stat");
+    };
 
     return (
         <Fragment>
@@ -22,8 +35,8 @@ const SessionManager: FC = (): ReactElement => {
                     </Grid>
                     <Grid item>
                         <Switch
-                            checked={checked}
-                            onChange={() => setChecked(!checked)}
+                            checked={sessionType === "stat"}
+                            onChange={handleChangeSessionType}
                             name="energiesStats"
                         />
                     </Grid>
@@ -36,4 +49,12 @@ const SessionManager: FC = (): ReactElement => {
     );
 };
 
-export default SessionManager;
+const mapStateToProps = (state: RootState) => ({
+    sessionType: selectSessionType(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+    setSessionType: (value: any) => dispatch(setSessionType(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SessionManager);
