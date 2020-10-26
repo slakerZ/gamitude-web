@@ -15,8 +15,6 @@ import { url, headers, request_body } from "../../api/project-timer.api";
 // UI Core
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-// Moment
-import { duration } from "moment/moment";
 // Components
 import TimerDisplays from "../timer-displays/timer-displays.component.jsx";
 
@@ -29,7 +27,7 @@ const ProjectStopWatch = ({
     sessionEndSound,
     setSessionInProgress,
 }) => {
-    const [sessionTime, setSessionTime] = useState(duration(0, "minutes"));
+    const [sessionTime, setSessionTime] = useState(0);
     const [localSession, setLocalSession] = useState(false);
 
     const [state, submit] = useAsyncFn(
@@ -50,11 +48,7 @@ const ProjectStopWatch = ({
     useEffect(() => {
         const interval = localSession
             ? setInterval(
-                  () =>
-                      setSessionTime(() => {
-                          sessionTime.add(1, "second");
-                          return duration(sessionTime);
-                      }),
+                  () => setSessionTime(sessionTime + 1),
                   process.env.NODE_ENV === "development" ? 1 : 1000
               )
             : null;
@@ -74,17 +68,19 @@ const ProjectStopWatch = ({
 
     // Stopwatch stopped
     const onStop = () => {
-        const totalTime = parseInt(sessionTime.asMinutes(), 10);
+        const totalTime = parseInt(Math.floor(sessionTime / 60), 10);
         // Stop timer
         setLocalSession(false);
         // Reset timer
-        setSessionTime(duration(0, "minutes"));
+        setSessionTime(0);
         // Update session count
         setSessionsComplete(sessionsComplete + 1);
         // Play the sound
         sessionEndSound.play();
         // Sync with api
         submit(totalTime);
+        //Reset timer
+        setSessionTime(0);
     };
 
     return (

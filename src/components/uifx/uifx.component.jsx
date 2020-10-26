@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import useSound from "use-sound";
 // UI Core
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -13,17 +14,30 @@ const Uifx = ({ sessionEndSound, minuteLeftSound, sessionTime }) => {
     });
     const classes = useStyles();
 
+    const [playMin] = useSound(minuteLeftSound, {
+        volume: 0.2,
+        interrupt: true,
+    });
+
+    const [play, { stop, isPlaying }] = useSound(sessionEndSound, {
+        volume: 0.2,
+        interrupt: true,
+        onend: () => {
+            stop();
+        },
+    });
+    //asSeconds wyjebać
     useEffect(() => {
         if (sessionTime.asSeconds() === 60) {
-            minuteLeftSound.play();
+            playMin();
         }
-    }, [sessionTime, minuteLeftSound]);
+    }, [sessionTime]);
 
     useEffect(() => {
         if (sessionTime.asSeconds() === 0) {
-            sessionEndSound.play();
+            play();
         }
-    }, [sessionTime, sessionEndSound]);
+    }, [sessionTime]);
 
     return <div className={classes.root}></div>;
 };

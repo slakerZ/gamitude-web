@@ -25,13 +25,14 @@ const ProjectTimer = ({
     sessionsComplete,
     setSessionsComplete,
     token,
+    date,
 }) => {
     const method = projects[index].method;
 
     const [sessionTime, setSessionTime] = useState(duration(method, "minutes"));
     const [localSession, setLocalSession] = useState(false);
     const [totalTime, setTotalTime] = useState(duration(method, "minutes"));
-
+    //zastąpić totaltime na wartość z
     const [state, submit] = useAsyncFn(
         async totalTime => {
             const realTime = totalTime.asMinutes();
@@ -70,13 +71,17 @@ const ProjectTimer = ({
     }, [sessionTime]);
 
     // TODO: Abstract hooks into custom ones then extract hooks into separate files
+    // wywalić w setInterval wszystko
     useEffect(() => {
+        let data = new Date();
+        data = data.setMinutes(data.getMinutes() + method);
         const interval = localSession
             ? setInterval(
                   () =>
                       setSessionTime(() => {
-                          if (sessionTime.asSeconds() > 0) {
-                              sessionTime.subtract(1, "second");
+                          let distance = data - date;
+                          if (distance > 0) {
+                              setSessionTime(distance);
                               return duration(duration(sessionTime));
                           } else {
                               return sessionTime;
