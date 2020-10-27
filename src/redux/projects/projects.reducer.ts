@@ -2,6 +2,7 @@ import { ProjectsActionTypes } from "./projects.types";
 
 const INITIAL_STATE = {
     projects: [],
+    selectedProject: "",
 };
 
 const projectsReducer = (state = INITIAL_STATE, action: any) => {
@@ -62,7 +63,11 @@ const projectsReducer = (state = INITIAL_STATE, action: any) => {
                 ...state,
                 projects: tempProjects,
             };
-
+        case ProjectsActionTypes.SET_SELECTED_PROJECT:
+            return {
+                ...state,
+                selectedProject: action.payload,
+            };
         default:
             return state;
     }

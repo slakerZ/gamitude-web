@@ -72,3 +72,8 @@ export const setProjects = (value: any) => ({
     type: ProjectsActionTypes.SET_PROJECTS,
     payload: value,
 });
+
+export const setSelectedProject = (value: any) => ({
+    type: ProjectsActionTypes.SET_SELECTED_PROJECT,
+    payload: value,
+});

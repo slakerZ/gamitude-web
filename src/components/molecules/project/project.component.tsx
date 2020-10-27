@@ -34,7 +34,7 @@ import TextField from "@material-ui/core/TextField";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import Radio from "@material-ui/core/Radio";
 //Components
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 // Local
@@ -127,8 +127,9 @@ const Project = ({
                     aria-label="Select Project"
                     onClick={(event) => event.stopPropagation()}
                     onFocus={(event) => event.stopPropagation()}
-                    control={<Checkbox />}
+                    control={<Radio />}
                     label={name}
+                    value={name}
                 />
             </AccordionSummary>
             <AccordionDetails className={classes.details}>

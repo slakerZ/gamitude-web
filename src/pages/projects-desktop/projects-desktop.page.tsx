@@ -16,6 +16,7 @@ import TextField from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
+import RadioGroup from "@material-ui/core/RadioGroup";
 // API
 import {
     getAddProjectsUrl,
@@ -26,9 +27,15 @@ import {
 import { convertForFront, parseProjects } from "../../api/mappings";
 // Redux
 import { connect } from "react-redux";
-import { setProjects } from "../../redux/projects/projects.actions";
+import {
+    setProjects,
+    setSelectedProject,
+} from "../../redux/projects/projects.actions";
 import { selectToken } from "../../redux/user/user.selectors";
-import { selectProjects } from "../../redux/projects/projects.selectors";
+import {
+    selectProjects,
+    selectSelectedProject,
+} from "../../redux/projects/projects.selectors";
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
 import { addProject } from "../../redux/projects/projects.actions";
 // Atoms
@@ -50,6 +57,8 @@ const ProjectsDesktopPage = ({
     setProjects,
     token,
     addProject,
+    selectedProject,
+    setSelectedProject,
 }: ProjectsType) => {
     const classes = useProjectDesktopStyles();
 
@@ -134,6 +143,10 @@ const ProjectsDesktopPage = ({
         }
     };
 
+    const handleChangeSelectedProject = (event: any) => {
+        setSelectedProject(event.target.value);
+    };
+
     return (
         <div className={classes.root}>
             <div className={classes.tabsWrapper}>
@@ -174,7 +187,14 @@ const ProjectsDesktopPage = ({
                             role={"folder"}
                             id={"projects-in-folder"}
                         >
-                            <Project index={index} />
+                            <RadioGroup
+                                aria-label="selected_project"
+                                name="selected_project"
+                                value={selectedProject}
+                                onChange={handleChangeSelectedProject}
+                            >
+                                <Project index={index} />
+                            </RadioGroup>
                         </TabPanel>
                     );
                 })}
@@ -288,11 +308,13 @@ const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
+    selectedProject: selectSelectedProject(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setProjects: (value: any) => dispatch(setProjects(value)),
     addProject: (value: any) => dispatch(addProject(value)),
+    setSelectedProject: (value: any) => dispatch(setSelectedProject(value)),
 });
 
 export default connect(

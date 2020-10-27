@@ -3,6 +3,8 @@ export interface ProjectsType {
     setProjects: any;
     token: string;
     addProject: any;
+    selectedProject: any;
+    setSelectedProject: any;
 }
 
 export interface ProjectType {

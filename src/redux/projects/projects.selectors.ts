@@ -15,3 +15,6 @@ export const selectMethod = createSelector(
     [selectProject],
     (project) => project.method,
 );
+
+export const selectSelectedProject = (state: any) =>
+    state.projects.selectedProject;
