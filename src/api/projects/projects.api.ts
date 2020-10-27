@@ -3,9 +3,7 @@ import {
     mapBoostedToStats,
     mapDominantToDominantStat,
 } from "../mappings";
-
-const DEV_ENDPOINT = `${process.env.REACT_APP_DEV_ENDPOINT}:5010/api`;
-const PROD_ENDPOINT = process.env.REACT_APP_PRODUCTION_ENDPOINT;
+import { DEV_ENDPOINT, PROD_ENDPOINT } from "../constants";
 
 export const getAddProjectsUrl =
     process.env.NODE_ENV === "development"

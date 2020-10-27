@@ -6,6 +6,7 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         width: "100%",
         height: "100%",
+        overflowX: "hidden",
     },
     appBar: {
         backgroundColor: "transparent",

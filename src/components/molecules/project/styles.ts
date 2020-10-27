@@ -37,6 +37,11 @@ const useProjectStyles = makeStyles((theme) => ({
     progress: {
         color: theme.palette.primary.light,
     },
+    selectProject: {
+        "& .MuiFormControlLabel-label": {
+            fontSize: "2rem",
+        },
+    },
 }));
 
 export default useProjectStyles;

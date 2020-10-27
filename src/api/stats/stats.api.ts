@@ -8,9 +8,7 @@ import {
     GetEnergiesType,
     GetStatsType,
 } from "./types";
-
-const DEV_ENDPOINT = `${process.env.REACT_APP_DEV_ENDPOINT}:5030/api`;
-const PROD_ENDPOINT = process.env.REACT_APP_PRODUCTION_ENDPOINT;
+import { DEV_ENDPOINT, PROD_ENDPOINT } from "../constants";
 
 // Url
 export const logTimeUrl =

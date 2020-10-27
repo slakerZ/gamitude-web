@@ -33,6 +33,8 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import TextField from "@material-ui/core/TextField";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 //Components
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 // Local
@@ -120,9 +122,14 @@ const Project = ({
                 className={classes.summary}
             >
                 <CustomIcon variant={dominant} size="medium" />
-                <Typography component="h3" variant="h3">
-                    {name}
-                </Typography>
+                <FormControlLabel
+                    className={classes.selectProject}
+                    aria-label="Select Project"
+                    onClick={(event) => event.stopPropagation()}
+                    onFocus={(event) => event.stopPropagation()}
+                    control={<Checkbox />}
+                    label={name}
+                />
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
                 <TextField
