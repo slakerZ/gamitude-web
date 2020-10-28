@@ -1,7 +1,7 @@
 import React, { ReactElement, Fragment, useState } from "react";
 import { connect } from "react-redux";
 import { selectSessionType } from "../../../redux/session/session.selectors";
-import { RootState } from "../../../redux/root.reducer";
+import { ReduxStateType } from "../../../redux/root.reducer";
 import { setSessionType } from "../../../redux/session/session.actions";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
@@ -49,7 +49,7 @@ const SessionManager = ({
     );
 };
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: ReduxStateType) => ({
     sessionType: selectSessionType(state),
 });
 

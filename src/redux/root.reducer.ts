@@ -7,6 +7,7 @@ import sessionReducer from "./session/session.reducer";
 import statsReducer from "./stats/stats.reducer";
 import storage from "redux-persist/lib/storage";
 import userReducer from "./user/user.reducer";
+import foldersReducer from "./folders/folders.reducer";
 
 const persistConfig = {
     key: "root",
@@ -23,8 +24,9 @@ const rootReducer = combineReducers({
     projects: projectsReducer,
     user: userReducer,
     session: sessionReducer,
+    folders: foldersReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type ReduxStateType = ReturnType<typeof rootReducer>;
 
 export default persistReducer(persistConfig, rootReducer);

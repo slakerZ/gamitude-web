@@ -17,6 +17,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import RadioGroup from "@material-ui/core/RadioGroup";
+import IconButton from "@material-ui/core/IconButton";
 // API
 import {
     getAddProjectsUrl,
@@ -27,10 +28,11 @@ import {
 import { convertForFront, parseProjects } from "../../api/mappings";
 // Redux
 import { connect } from "react-redux";
-import { setProjects } from "../../redux/projects/projects.actions";
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
+import { setFolders } from "../../redux/folders/folders.actions";
+import { setProjects } from "../../redux/projects/projects.actions";
 import { addProject } from "../../redux/projects/projects.actions";
 // Atoms
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
@@ -39,18 +41,20 @@ import Project from "../../components/molecules/project/project.component";
 // Local
 import { ProjectsType } from "./types";
 import useProjectDesktopStyles from "./styles";
-import { FOLDERS } from "./constants";
 import { STATS } from "../../constants";
 import {
     TabPanel,
     a11yProps,
 } from "../../components/atoms/tab-panel/tab-panel.component";
+import { selectFolders } from "../../redux/folders/folders.selectors";
 
 const ProjectsDesktopPage = ({
     projects,
     setProjects,
     token,
     addProject,
+    setFolders,
+    folders,
 }: ProjectsType) => {
     const classes = useProjectDesktopStyles();
 
@@ -97,6 +101,13 @@ const ProjectsDesktopPage = ({
     useEffectOnce(() => {
         getProjects();
     });
+
+    const handleAddFolder = () => {
+        setFolders([
+            ...folders,
+            { label: "New Folder", icon: "active", index: folders.length },
+        ]);
+    };
 
     const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
         setCurrFolder(newValue);
@@ -151,7 +162,7 @@ const ProjectsDesktopPage = ({
                     aria-label="Project folders navigation"
                     className={classes.tabs}
                 >
-                    {FOLDERS.map(({ label, icon, index }) => {
+                    {folders.map(({ label, icon, index }) => {
                         return (
                             <Tab
                                 label={label}
@@ -164,6 +175,13 @@ const ProjectsDesktopPage = ({
                         );
                     })}
                 </Tabs>
+                <IconButton
+                    color="primary"
+                    aria-label="add folder"
+                    onClick={handleAddFolder}
+                >
+                    <AddIcon />
+                </IconButton>
             </div>
             <div
                 className={classes.projectsWrapper}
@@ -301,11 +319,13 @@ const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
+    folders: selectFolders(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setProjects: (value: any) => dispatch(setProjects(value)),
     addProject: (value: any) => dispatch(addProject(value)),
+    setFolders: (value: any) => dispatch(setFolders(value)),
 });
 
 export default connect(

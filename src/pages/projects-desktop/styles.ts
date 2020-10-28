@@ -12,8 +12,10 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
         backgroundColor: "transparent",
     },
     tabsWrapper: {
-        height: "100%",
         backgroundColor: theme.palette.secondary.main,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
     },
     tabs: {
         backgroundColor: theme.palette.secondary.main,

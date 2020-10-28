@@ -34,7 +34,7 @@ import {
     SignUpValuesType,
     SignInValuesType,
 } from "../../api/authentication/types";
-import { RootState } from "../../redux/root.reducer";
+import { ReduxStateType } from "../../redux/root.reducer";
 
 const AuthenticationPage = ({ setUser }: AuthenticationType) => {
     const classes = useSignInUpStyles();
