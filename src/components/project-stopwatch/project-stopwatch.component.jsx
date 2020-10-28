@@ -8,9 +8,11 @@ import { selectToken } from "../../redux/user/user.selectors";
 import { selectSessionsComplete } from "../../redux/session/session.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
+import { selectBreakTime } from "../../redux/session/session.selectors";
 // Actions
 import { setSessionsComplete } from "../../redux/session/session.actions";
 import { setSessionInProgress } from "../../redux/session/session.actions";
+import { setBreakTime } from "../../redux/session/session.actions";
 // API
 import { url, headers, request_body } from "../../api/project-timer.api";
 // UI Core
@@ -28,6 +30,8 @@ const ProjectStopWatch = ({
     setSessionsComplete,
     sessionEndSound,
     setSessionInProgress,
+    breakTime,
+    setBreakTime,
 }) => {
     const [sessionTime, setSessionTime] = useState(0);
     const [localSession, setLocalSession] = useState(false);
@@ -128,11 +132,13 @@ const mapStateToProps = state => ({
     sessionsComplete: selectSessionsComplete(state),
     projects: selectProjects(state),
     sessionEndSound: state.uifx.projectSounds.sessionEndSound,
+    breakTime: selectBreakTime(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     setSessionsComplete: value => dispatch(setSessionsComplete(value)),
     setSessionInProgress: value => dispatch(setSessionInProgress(value)),
+    setBreakTime: value => dispatch(setBreakTime(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectStopWatch);

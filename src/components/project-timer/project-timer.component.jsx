@@ -6,11 +6,17 @@ import useSound from "use-sound";
 // API
 import { url, headers, request_body } from "../../api/project-timer.api";
 // Selectors
-import { selectSessionsComplete } from "../../redux/session/session.selectors";
+import {
+    selectSessionsComplete,
+    selectBreakTime,
+} from "../../redux/session/session.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectToken } from "../../redux/user/user.selectors";
 // Actions
-import { setSessionsComplete } from "../../redux/session/session.actions";
+import {
+    setSessionsComplete,
+    setBreakTime,
+} from "../../redux/session/session.actions";
 // Components
 import TimerDisplays from "../timer-displays/timer-displays.component.jsx";
 import Uifx from "../uifx/uifx.component.jsx";
@@ -26,6 +32,8 @@ const ProjectTimer = ({
     sessionsComplete,
     setSessionsComplete,
     token,
+    breakTime,
+    setBreakTime,
 }) => {
     const method = projects[index].method;
 
@@ -155,10 +163,12 @@ const mapStateToProps = state => ({
     sessionsComplete: selectSessionsComplete(state),
     projects: selectProjects(state),
     token: selectToken(state),
+    breakTime: selectBreakTime(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     setSessionsComplete: value => dispatch(setSessionsComplete(value)),
+    setBreakTime: value => dispatch(setBreakTime(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectTimer);
