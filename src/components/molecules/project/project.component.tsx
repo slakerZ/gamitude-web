@@ -13,7 +13,10 @@ import { connect } from "react-redux";
 import { selectProjects } from "../../../redux/projects/projects.selectors";
 import { deleteProject } from "../../../redux/projects/projects.actions";
 import { selectToken } from "../../../redux/user/user.selectors";
-import { setDominant } from "../../../redux/projects/projects.actions";
+import {
+    setDominant,
+    setSelectedProject,
+} from "../../../redux/projects/projects.actions";
 import { setName } from "../../../redux/projects/projects.actions";
 import { setBoosted } from "../../../redux/projects/projects.actions";
 
@@ -50,6 +53,7 @@ const Project = ({
     deleteProject,
     setBoosted,
     setDominant,
+    setSelectedProject,
 }: ProjectType) => {
     const classes = useProjectStyles();
 
@@ -97,6 +101,11 @@ const Project = ({
         setOpen(false);
     };
 
+    const handleSelectionChanged = (event: any) => {
+        event.stopPropagation();
+        setSelectedProject(projects[index]);
+    };
+
     const [editProjectState, editProject] = useAsyncFn(async () => {
         const name = projects[index].name;
         const id = projects[index].id;
@@ -125,7 +134,7 @@ const Project = ({
                 <FormControlLabel
                     className={classes.selectProject}
                     aria-label="Select Project"
-                    onClick={(event) => event.stopPropagation()}
+                    onClick={handleSelectionChanged}
                     onFocus={(event) => event.stopPropagation()}
                     control={<Radio />}
                     label={name}
@@ -247,6 +256,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     setBoosted: (value: any) => dispatch(setBoosted(value)),
     setDominant: (value: any) => dispatch(setDominant(value)),
     deleteProject: (value: any) => dispatch(deleteProject(value)),
+    setSelectedProject: (value: any) => dispatch(setSelectedProject(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);

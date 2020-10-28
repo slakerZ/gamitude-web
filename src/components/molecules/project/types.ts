@@ -6,4 +6,5 @@ export interface ProjectType {
     setDominant: any;
     deleteProject: any;
     token: any;
+    setSelectedProject: any;
 }

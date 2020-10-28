@@ -2,7 +2,7 @@ import { ProjectsActionTypes } from "./projects.types";
 
 const INITIAL_STATE = {
     projects: [],
-    selectedProject: "",
+    selectedProject: {},
 };
 
 const projectsReducer = (state = INITIAL_STATE, action: any) => {

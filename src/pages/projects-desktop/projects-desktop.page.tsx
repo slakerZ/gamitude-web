@@ -27,15 +27,9 @@ import {
 import { convertForFront, parseProjects } from "../../api/mappings";
 // Redux
 import { connect } from "react-redux";
-import {
-    setProjects,
-    setSelectedProject,
-} from "../../redux/projects/projects.actions";
+import { setProjects } from "../../redux/projects/projects.actions";
 import { selectToken } from "../../redux/user/user.selectors";
-import {
-    selectProjects,
-    selectSelectedProject,
-} from "../../redux/projects/projects.selectors";
+import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
 import { addProject } from "../../redux/projects/projects.actions";
 // Atoms
@@ -57,8 +51,6 @@ const ProjectsDesktopPage = ({
     setProjects,
     token,
     addProject,
-    selectedProject,
-    setSelectedProject,
 }: ProjectsType) => {
     const classes = useProjectDesktopStyles();
 
@@ -70,6 +62,7 @@ const ProjectsDesktopPage = ({
     const [name, setName] = useState("");
     const [boosted, setBoosted] = useState([""]);
     const [dominant, setDominant] = useState("");
+    const [selected, setSelected] = useState("");
 
     const [postState, postProject] = useAsyncFn(
         async (name, boosted, dominant) => {
@@ -144,7 +137,7 @@ const ProjectsDesktopPage = ({
     };
 
     const handleChangeSelectedProject = (event: any) => {
-        setSelectedProject(event.target.value);
+        setSelected(event.target.value);
     };
 
     return (
@@ -190,7 +183,7 @@ const ProjectsDesktopPage = ({
                             <RadioGroup
                                 aria-label="selected_project"
                                 name="selected_project"
-                                value={selectedProject}
+                                value={selected}
                                 onChange={handleChangeSelectedProject}
                             >
                                 <Project index={index} />
@@ -308,13 +301,11 @@ const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
-    selectedProject: selectSelectedProject(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setProjects: (value: any) => dispatch(setProjects(value)),
     addProject: (value: any) => dispatch(addProject(value)),
-    setSelectedProject: (value: any) => dispatch(setSelectedProject(value)),
 });
 
 export default connect(
