@@ -54,7 +54,7 @@ const ProjectTimer = ({
 
     // Session completed successfully
     useUpdateEffect(() => {
-        if (sessionTime === 0) {
+        if (sessionTime <= 0) {
             // Update sessions count
             setSessionsComplete(sessionsComplete + 1);
             // Reset timer
@@ -62,7 +62,7 @@ const ProjectTimer = ({
             // Stop timer
             setLocalSession(false);
             // Sync with api
-            submit(totalTime);
+            submit(Math.floor(totalTime / 60000));
             // Reset Total time
             setTotalTime(method * 60000);
         }
@@ -82,7 +82,6 @@ const ProjectTimer = ({
                   () => {
                       let data = new Date().getTime();
                       let distance = date - data;
-                      console.log(distance);
                       if (distance > 0) {
                           setSessionTime(distance);
                       } else {

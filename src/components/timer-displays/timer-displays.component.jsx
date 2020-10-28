@@ -26,14 +26,8 @@ const TimerDisplays = ({ time }) => {
     let minutes = 0;
     let seconds = 0;
     if (time) {
-        if (time / 60 > 1000) {
-            minutes = time / 1000;
-        }
-
-        if (time > 59) {
-            minutes = Math.floor(time / 60);
-            seconds = time % 60;
-        }
+        minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+        seconds = Math.floor((time % (1000 * 60)) / 1000);
     }
 
     // Zmiana time.get na swoje

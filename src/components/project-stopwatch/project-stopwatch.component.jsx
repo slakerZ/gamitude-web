@@ -29,6 +29,7 @@ const ProjectStopWatch = ({
 }) => {
     const [sessionTime, setSessionTime] = useState(0);
     const [localSession, setLocalSession] = useState(false);
+    const [date, setDate] = useState("");
 
     const [state, submit] = useAsyncFn(
         async totalTime => {
@@ -44,11 +45,19 @@ const ProjectStopWatch = ({
         [url]
     );
 
+    useEffect(() => {
+        setDate(new Date().getTime());
+    }, [localSession]);
+
     // TODO: Abstract hooks into custom ones then extract hooks into separate files
     useEffect(() => {
         const interval = localSession
             ? setInterval(
-                  () => setSessionTime(sessionTime + 1),
+                  () => {
+                      const data = new Date().getTime();
+                      let distance = data - date;
+                      setSessionTime(distance);
+                  },
                   process.env.NODE_ENV === "development" ? 1 : 1000
               )
             : null;
@@ -68,7 +77,7 @@ const ProjectStopWatch = ({
 
     // Stopwatch stopped
     const onStop = () => {
-        const totalTime = parseInt(Math.floor(sessionTime / 60), 10);
+        const totalTime = parseInt(Math.floor(sessionTime / 60000), 10);
         // Stop timer
         setLocalSession(false);
         // Reset timer
