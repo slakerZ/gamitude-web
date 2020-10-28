@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { useAsyncFn, useUpdateEffect } from "react-use";
+import useSound from "use-sound";
 // Selectors
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectSessionsComplete } from "../../redux/session/session.selectors";
@@ -17,6 +18,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 // Components
 import TimerDisplays from "../timer-displays/timer-displays.component.jsx";
+import endSound from "../../assets/sounds/congratulations.mp3";
 
 const ProjectStopWatch = ({
     index,
@@ -44,6 +46,13 @@ const ProjectStopWatch = ({
         },
         [url]
     );
+    const [play, { stop }] = useSound(endSound, {
+        volume: 0.2,
+        interrupt: true,
+        onend: () => {
+            stop();
+        },
+    });
 
     useEffect(() => {
         setDate(new Date().getTime());
@@ -85,7 +94,7 @@ const ProjectStopWatch = ({
         // Update session count
         setSessionsComplete(sessionsComplete + 1);
         // Play the sound
-        sessionEndSound.play();
+        play();
         // Sync with api
         submit(totalTime);
         //Reset timer
