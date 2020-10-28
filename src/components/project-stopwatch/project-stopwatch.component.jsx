@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { useAsyncFn, useUpdateEffect } from "react-use";
+import useSound from "use-sound";
 // Selectors
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectSessionsComplete } from "../../redux/session/session.selectors";
@@ -17,10 +18,9 @@ import { url, headers, request_body } from "../../api/project-timer.api";
 // UI Core
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-// Moment
-import { duration } from "moment/moment";
 // Components
 import TimerDisplays from "../timer-displays/timer-displays.component.jsx";
+import endSound from "../../assets/sounds/congratulations.mp3";
 
 const ProjectStopWatch = ({
     index,
@@ -33,8 +33,9 @@ const ProjectStopWatch = ({
     breakTime,
     setBreakTime,
 }) => {
-    const [sessionTime, setSessionTime] = useState(duration(0, "minutes"));
+    const [sessionTime, setSessionTime] = useState(0);
     const [localSession, setLocalSession] = useState(false);
+    const [date, setDate] = useState("");
 
     const [state, submit] = useAsyncFn(
         async totalTime => {
@@ -49,16 +50,27 @@ const ProjectStopWatch = ({
         },
         [url]
     );
+    const [play, { stop }] = useSound(endSound, {
+        volume: 0.2,
+        interrupt: true,
+        onend: () => {
+            stop();
+        },
+    });
+
+    useEffect(() => {
+        setDate(new Date().getTime());
+    }, [localSession]);
 
     // TODO: Abstract hooks into custom ones then extract hooks into separate files
     useEffect(() => {
         const interval = localSession
             ? setInterval(
-                  () =>
-                      setSessionTime(() => {
-                          sessionTime.add(1, "second");
-                          return duration(sessionTime);
-                      }),
+                  () => {
+                      const data = new Date().getTime();
+                      let distance = data - date;
+                      setSessionTime(distance);
+                  },
                   process.env.NODE_ENV === "development" ? 1 : 1000
               )
             : null;
@@ -78,24 +90,19 @@ const ProjectStopWatch = ({
 
     // Stopwatch stopped
     const onStop = () => {
-        const totalTime = parseInt(sessionTime.asMinutes(), 10);
-        // Add adequate break time
-        setBreakTime(
-            duration(
-                breakTime.asMinutes() + parseInt(totalTime / 5, 10),
-                "minutes"
-            )
-        );
+        const totalTime = parseInt(Math.floor(sessionTime / 60000), 10);
         // Stop timer
         setLocalSession(false);
         // Reset timer
-        setSessionTime(duration(0, "minutes"));
+        setSessionTime(0);
         // Update session count
         setSessionsComplete(sessionsComplete + 1);
         // Play the sound
-        sessionEndSound.play();
+        play();
         // Sync with api
         submit(totalTime);
+        //Reset timer
+        setSessionTime(0);
     };
 
     return (

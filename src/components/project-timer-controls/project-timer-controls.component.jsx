@@ -27,7 +27,9 @@ const ProjectTimerControls = ({
     return (
         <ButtonGroup size="medium">
             <Button
-                onClick={() => setLocalSession(!localSession)}
+                onClick={() => {
+                    setLocalSession(!localSession);
+                }}
                 variant={localSession ? "outlined" : "contained"}
                 disabled={
                     (!localSession && sessionInProgress) || breakInProgress
