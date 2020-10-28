@@ -7,14 +7,14 @@ import whistleSound from "../../assets/sounds/whistle.mp3";
 
 const UIFX_DATA = {
     sessionEndSound: new UIfx(congratzSound, {
-        volume: 0.5,
+        volume: 0.1,
     }),
     minuteLeftSound: new UIfx(bellSound, {
-        volume: 1,
+        volume: 0.1,
     }),
 
     breakCompleteSound: new UIfx(whistleSound, {
-        volume: 1,
+        volume: 0.1,
     }),
 };
 export default UIFX_DATA;

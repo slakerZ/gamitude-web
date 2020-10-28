@@ -20,6 +20,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     min-width: 320px;
     color: #ffffff;
+    overflow: auto;
 }
 
 code {
