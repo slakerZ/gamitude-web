@@ -4,8 +4,6 @@ import axios from "axios";
 import { useAsyncFn, useUpdateEffect } from "react-use";
 // API
 import { url, headers, request_body } from "../../api/project-timer.api";
-// Moment
-import { duration } from "moment/moment";
 // Selectors
 import { selectSessionsComplete } from "../../redux/session/session.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
@@ -25,17 +23,17 @@ const ProjectTimer = ({
     sessionsComplete,
     setSessionsComplete,
     token,
-    date,
 }) => {
     const method = projects[index].method;
 
-    const [sessionTime, setSessionTime] = useState(duration(method, "minutes"));
+    const [sessionTime, setSessionTime] = useState(method * 60000);
     const [localSession, setLocalSession] = useState(false);
-    const [totalTime, setTotalTime] = useState(duration(method, "minutes"));
+    const [totalTime, setTotalTime] = useState(method * 60000);
+    const [date, setDate] = useState("");
     //zastąpić totaltime na wartość z
     const [state, submit] = useAsyncFn(
         async totalTime => {
-            const realTime = totalTime.asMinutes();
+            const realTime = totalTime;
             const { id, boosted, dominant } = projects[index];
             const response = await axios.post(
                 url,
@@ -50,55 +48,58 @@ const ProjectTimer = ({
 
     // Listen for method change
     useEffect(() => {
-        setSessionTime(duration(method, "minutes"));
-        setTotalTime(duration(method, "minutes"));
+        setSessionTime(method * 60000);
+        setTotalTime(method * 60000);
     }, [method]);
 
     // Session completed successfully
     useUpdateEffect(() => {
-        if (sessionTime.asSeconds() === 0) {
+        if (sessionTime === 0) {
             // Update sessions count
             setSessionsComplete(sessionsComplete + 1);
             // Reset timer
-            setSessionTime(duration(method, "minutes"));
+            setSessionTime(method * 60000);
             // Stop timer
             setLocalSession(false);
             // Sync with api
             submit(totalTime);
             // Reset Total time
-            setTotalTime(duration(method, "minutes"));
+            setTotalTime(method * 60000);
         }
     }, [sessionTime]);
+
+    useEffect(() => {
+        let temporary = new Date();
+        temporary = temporary.setMinutes(temporary.getMinutes() + method);
+        setDate(temporary);
+    }, [localSession]);
 
     // TODO: Abstract hooks into custom ones then extract hooks into separate files
     // wywalić w setInterval wszystko
     useEffect(() => {
-        let data = new Date();
-        data = data.setMinutes(data.getMinutes() + method);
         const interval = localSession
             ? setInterval(
-                  () =>
-                      setSessionTime(() => {
-                          let distance = data - date;
-                          if (distance > 0) {
-                              setSessionTime(distance);
-                              return duration(duration(sessionTime));
-                          } else {
-                              return sessionTime;
-                          }
-                      }),
+                  () => {
+                      let data = new Date().getTime();
+                      let distance = date - data;
+                      console.log(distance);
+                      if (distance > 0) {
+                          setSessionTime(distance);
+                      } else {
+                          setSessionTime(method * 60000);
+                          clearInterval(interval);
+                      }
+                  },
                   process.env.NODE_ENV === "development" ? 1 : 1000
               )
             : null;
         if (!localSession) {
             // Give up has been clicked
-            const sessionContinues = sessionTime.asSeconds() > 0;
-            const methodSessionTimesDiffer =
-                duration(method, "minutes").asSeconds() !==
-                sessionTime.asSeconds();
+            const sessionContinues = sessionTime > 0;
+            const methodSessionTimesDiffer = method * 60000 !== sessionTime;
             if (sessionContinues && methodSessionTimesDiffer) {
                 // ResetTimer
-                setSessionTime(duration(duration(method, "minutes")));
+                setSessionTime(method * 60000);
             }
             clearInterval(interval);
         }
@@ -108,14 +109,8 @@ const ProjectTimer = ({
     }, [localSession, method, sessionTime, setSessionsComplete]);
 
     const addFiveMinutes = () => {
-        setSessionTime(() => {
-            sessionTime.add(5, "minutes");
-            return duration(sessionTime);
-        });
-        setTotalTime(() => {
-            totalTime.add(5, "minutes");
-            return duration(totalTime);
-        });
+        setSessionTime(sessionTime + 300000);
+        setTotalTime(totalTime + 300000);
     };
 
     return (

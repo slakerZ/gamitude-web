@@ -19,7 +19,7 @@ const Uifx = ({ sessionEndSound, minuteLeftSound, sessionTime }) => {
         interrupt: true,
     });
 
-    const [play, { stop, isPlaying }] = useSound(sessionEndSound, {
+    const [play, { stop }] = useSound(sessionEndSound, {
         volume: 0.2,
         interrupt: true,
         onend: () => {
@@ -28,13 +28,13 @@ const Uifx = ({ sessionEndSound, minuteLeftSound, sessionTime }) => {
     });
     //asSeconds wyjebać
     useEffect(() => {
-        if (sessionTime.asSeconds() === 60) {
+        if (sessionTime >= 60000 && sessionTime < 61000) {
             playMin();
         }
     }, [sessionTime]);
 
     useEffect(() => {
-        if (sessionTime.asSeconds() === 0) {
+        if (sessionTime <= 0) {
             play();
         }
     }, [sessionTime]);

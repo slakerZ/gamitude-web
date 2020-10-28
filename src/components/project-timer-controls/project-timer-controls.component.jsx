@@ -19,7 +19,6 @@ const ProjectTimerControls = ({
     breakInProgress,
     setSessionInProgress,
 }) => {
-    const [date, setDate] = React.useState("");
     // Break/Session in progress
     useUpdateEffect(() => {
         setSessionInProgress(localSession);
@@ -30,7 +29,6 @@ const ProjectTimerControls = ({
             <Button
                 onClick={() => {
                     setLocalSession(!localSession);
-                    setDate(new Date().getTime());
                 }}
                 variant={localSession ? "outlined" : "contained"}
                 disabled={

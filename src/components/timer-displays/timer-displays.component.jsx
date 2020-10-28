@@ -40,7 +40,8 @@ const TimerDisplays = ({ time }) => {
     return (
         <div className={classes.timerDisplays}>
             <div className={classes.minutes}>
-                {leftPad(minutes > 1000 ? minutes / 1000 : minutes)}:
+                {leftPad(minutes > 1000 ? Math.floor(minutes / 1000) : minutes)}
+                :
             </div>
             <div className={classes.seconds}>{leftPad(seconds)}</div>
         </div>
