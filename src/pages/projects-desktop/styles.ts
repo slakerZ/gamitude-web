@@ -55,6 +55,11 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
     addNewForm: {
         backgroundColor: theme.palette.primary.main,
     },
+    addProjectDialogContent: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+    },
 }));
 
 export default useProjectsDesktopStyles;

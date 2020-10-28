@@ -41,12 +41,13 @@ import Project from "../../components/molecules/project/project.component";
 // Local
 import { ProjectsType } from "./types";
 import useProjectDesktopStyles from "./styles";
-import { STATS } from "../../constants";
+import { STATS, ENERGIES } from "../../constants";
 import {
     TabPanel,
     a11yProps,
 } from "../../components/atoms/tab-panel/tab-panel.component";
 import { selectFolders } from "../../redux/folders/folders.selectors";
+import SessionTypeSwitch from "../../components/atoms/session-type-switch/session-type-switch.component";
 
 const ProjectsDesktopPage = ({
     projects,
@@ -67,6 +68,7 @@ const ProjectsDesktopPage = ({
     const [boosted, setBoosted] = useState([""]);
     const [dominant, setDominant] = useState("");
     const [selected, setSelected] = useState("");
+    const [sessionType, setSessionType] = useState("stat");
 
     const [postState, postProject] = useAsyncFn(
         async (name, boosted, dominant) => {
@@ -231,7 +233,7 @@ const ProjectsDesktopPage = ({
                 <DialogTitle id="form-dialog-title">
                     {"Create New Project"}
                 </DialogTitle>
-                <DialogContent>
+                <DialogContent className={classes.addProjectDialogContent}>
                     <TextField
                         label="PROJECT NAME"
                         variant="outlined"
@@ -239,9 +241,15 @@ const ProjectsDesktopPage = ({
                         onChange={handleChangeAdd}
                         onBlur={handleBlur}
                     />
+                    <SessionTypeSwitch
+                        sessionType={sessionType}
+                        setSessionType={setSessionType}
+                    />
                     <div className={classes.container}>
                         <Typography component="h4" variant="h4" align="center">
-                            Select stats that this projects boosts
+                            {sessionType === "stat"
+                                ? "Select stats that this projects boosts"
+                                : "Select energies that this project restores"}
                         </Typography>
                         <ToggleButtonGroup
                             value={boosted}
@@ -249,26 +257,44 @@ const ProjectsDesktopPage = ({
                             aria-label="boosted stats"
                             className={classes.btnGroup}
                         >
-                            {STATS.map((stat, index) => {
-                                return (
-                                    <ToggleButton
-                                        key={index}
-                                        value={stat}
-                                        aria-label={stat}
-                                        className={classes.btn}
-                                    >
-                                        <CustomIcon
-                                            variant={stat}
-                                            size="medium"
-                                        />
-                                    </ToggleButton>
-                                );
-                            })}
+                            {sessionType === "stat"
+                                ? STATS.map((stat, index) => {
+                                      return (
+                                          <ToggleButton
+                                              key={index}
+                                              value={stat}
+                                              aria-label={stat}
+                                              className={classes.btn}
+                                          >
+                                              <CustomIcon
+                                                  variant={stat}
+                                                  size="medium"
+                                              />
+                                          </ToggleButton>
+                                      );
+                                  })
+                                : ENERGIES.map((energy, index) => {
+                                      return (
+                                          <ToggleButton
+                                              key={index}
+                                              value={energy}
+                                              aria-label={energy}
+                                              className={classes.btn}
+                                          >
+                                              <CustomIcon
+                                                  variant={energy}
+                                                  size="medium"
+                                              />
+                                          </ToggleButton>
+                                      );
+                                  })}
                         </ToggleButtonGroup>
                     </div>
                     <div className={classes.container}>
                         <Typography variant="h4" component="h4" align="center">
-                            Select the dominant stat
+                            {sessionType === "stat"
+                                ? "Select the dominant stat"
+                                : "Select the most restored energy"}
                         </Typography>
                         <ToggleButtonGroup
                             value={dominant}
@@ -277,21 +303,37 @@ const ProjectsDesktopPage = ({
                             aria-label="dominant stat"
                             className={classes.btnGroup}
                         >
-                            {STATS.map((stat, index) => {
-                                return (
-                                    <ToggleButton
-                                        key={index}
-                                        value={stat}
-                                        aria-label={stat}
-                                        className={classes.btn}
-                                    >
-                                        <CustomIcon
-                                            variant={stat}
-                                            size="medium"
-                                        />
-                                    </ToggleButton>
-                                );
-                            })}
+                            {sessionType === "stat"
+                                ? STATS.map((stat, index) => {
+                                      return (
+                                          <ToggleButton
+                                              key={index}
+                                              value={stat}
+                                              aria-label={stat}
+                                              className={classes.btn}
+                                          >
+                                              <CustomIcon
+                                                  variant={stat}
+                                                  size="medium"
+                                              />
+                                          </ToggleButton>
+                                      );
+                                  })
+                                : ENERGIES.map((energy, index) => {
+                                      return (
+                                          <ToggleButton
+                                              key={index}
+                                              value={energy}
+                                              aria-label={energy}
+                                              className={classes.btn}
+                                          >
+                                              <CustomIcon
+                                                  variant={energy}
+                                                  size="medium"
+                                              />
+                                          </ToggleButton>
+                                      );
+                                  })}
                         </ToggleButtonGroup>
                     </div>
                 </DialogContent>

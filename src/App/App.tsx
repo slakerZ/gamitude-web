@@ -5,6 +5,10 @@ import clsx from "clsx";
 import { connect } from "react-redux";
 import { selectToken, selectTooltipToggle } from "../redux/user/user.selectors";
 import { setUser, setTooltipToggle } from "../redux/user/user.actions";
+import { selectSessionType } from "../redux/session/session.selectors";
+import { ReduxStateType } from "..//redux/root.reducer";
+import { setSessionType } from "..//redux/session/session.actions";
+
 // MUI Core
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
@@ -30,7 +34,7 @@ import CustomTooltipText from "../components/atoms/custom-tooltip-text/custom-to
 // Organisms
 import Rank from "../components/organisms/rank/rank.component";
 import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
-import SessionManager from "../components/organisms/session-manager/session-manager.component";
+import SessionTypeSwitch from "../components/atoms/session-type-switch/session-type-switch.component";
 import Timer from "../components/organisms/timer/timer.component";
 import Methods from "../components/organisms/methods/methods.component";
 // Local
@@ -54,6 +58,8 @@ const App: FC<AppType> = ({
     setUser,
     setTooltipToggle,
     tooltipToggle,
+    setSessionType,
+    sessionType,
 }: AppType): ReactElement => {
     const classes = useAppStyles();
 
@@ -248,7 +254,10 @@ const App: FC<AppType> = ({
                         <Divider />
                         <StatsAndEnergies />
                         <Divider />
-                        <SessionManager />
+                        <SessionTypeSwitch
+                            sessionType={sessionType}
+                            setSessionType={setSessionType}
+                        />
                         <Timer />
                         <Methods />
                     </div>
@@ -258,14 +267,15 @@ const App: FC<AppType> = ({
     );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: ReduxStateType) => ({
     token: selectToken(state),
     tooltipToggle: selectTooltipToggle(state),
+    sessionType: selectSessionType(state),
 });
-
 const mapDispatchToProps = (dispatch: any) => ({
     setUser: (value: any) => dispatch(setUser(value)),
     setTooltipToggle: (value: any) => dispatch(setTooltipToggle(value)),
+    setSessionType: (value: any) => dispatch(setSessionType(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

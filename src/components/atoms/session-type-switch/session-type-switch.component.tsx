@@ -1,8 +1,4 @@
-import React, { ReactElement, Fragment, useState } from "react";
-import { connect } from "react-redux";
-import { selectSessionType } from "../../../redux/session/session.selectors";
-import { ReduxStateType } from "../../../redux/root.reducer";
-import { setSessionType } from "../../../redux/session/session.actions";
+import React, { ReactElement, Fragment } from "react";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -10,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import useSessionManagerStyles from "./styles";
 import { SessionManagerPropType } from "./types";
 
-const SessionManager = ({
+const SessionTypeSwitch = ({
     setSessionType,
     sessionType,
 }: SessionManagerPropType): ReactElement => {
@@ -49,12 +45,4 @@ const SessionManager = ({
     );
 };
 
-const mapStateToProps = (state: ReduxStateType) => ({
-    sessionType: selectSessionType(state),
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-    setSessionType: (value: any) => dispatch(setSessionType(value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SessionManager);
+export default SessionTypeSwitch;

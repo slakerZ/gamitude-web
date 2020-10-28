@@ -3,6 +3,8 @@ export interface AppType {
     setUser: (props: SetUserProps) => null;
     tooltipToggle: boolean;
     setTooltipToggle: (props: SetTooltipToggleProps) => null;
+    sessionType: "stat" | "energy";
+    setSessionType: (props: any) => null;
 }
 export interface LinkType {
     to: string;
