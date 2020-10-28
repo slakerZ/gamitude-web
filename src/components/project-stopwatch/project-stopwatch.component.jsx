@@ -101,8 +101,6 @@ const ProjectStopWatch = ({
         play();
         // Sync with api
         submit(totalTime);
-        //Reset timer
-        setSessionTime(0);
     };
 
     return (
