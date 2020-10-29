@@ -36,6 +36,7 @@ import { setProjects } from "../../redux/projects/projects.actions";
 import { addProject } from "../../redux/projects/projects.actions";
 // Atoms
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
+import ToggleAbleTooltip from "../../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 // Molecules
 import Project from "../../components/molecules/project/project.component";
 // Local
@@ -166,24 +167,30 @@ const ProjectsDesktopPage = ({
                 >
                     {folders.map(({ label, icon, index }) => {
                         return (
-                            <Tab
-                                label={label}
-                                key={index}
-                                {...a11yProps(index, "projects-in-folder")}
-                                icon={
-                                    <CustomIcon variant={icon} size="small" />
-                                }
-                            />
+                            <ToggleAbleTooltip target="folder" key={index}>
+                                <Tab
+                                    label={label}
+                                    {...a11yProps(index, "projects-in-folder")}
+                                    icon={
+                                        <CustomIcon
+                                            variant={icon}
+                                            size="small"
+                                        />
+                                    }
+                                />
+                            </ToggleAbleTooltip>
                         );
                     })}
                 </Tabs>
-                <IconButton
-                    color="primary"
-                    aria-label="add folder"
-                    onClick={handleAddFolder}
-                >
-                    <AddIcon />
-                </IconButton>
+                <ToggleAbleTooltip target="folder">
+                    <IconButton
+                        color="primary"
+                        aria-label="add folder"
+                        onClick={handleAddFolder}
+                    >
+                        <AddIcon />
+                    </IconButton>
+                </ToggleAbleTooltip>
             </div>
             <div
                 className={classes.projectsWrapper}
@@ -214,14 +221,16 @@ const ProjectsDesktopPage = ({
             </div>
 
             <div className={classes.fabWrapper} aria-label="Add Project">
-                <Fab
-                    color="secondary"
-                    aria-label="add"
-                    className={classes.add}
-                    onClick={handleClickOpen}
-                >
-                    <AddIcon />
-                </Fab>
+                <ToggleAbleTooltip target="project">
+                    <Fab
+                        color="secondary"
+                        aria-label="add"
+                        className={classes.add}
+                        onClick={handleClickOpen}
+                    >
+                        <AddIcon />
+                    </Fab>
+                </ToggleAbleTooltip>
             </div>
 
             <Dialog
@@ -260,32 +269,40 @@ const ProjectsDesktopPage = ({
                             {sessionType === "stat"
                                 ? STATS.map((stat, index) => {
                                       return (
-                                          <ToggleButton
+                                          <ToggleAbleTooltip
+                                              target={stat}
                                               key={index}
-                                              value={stat}
-                                              aria-label={stat}
-                                              className={classes.btn}
                                           >
-                                              <CustomIcon
-                                                  variant={stat}
-                                                  size="medium"
-                                              />
-                                          </ToggleButton>
+                                              <ToggleButton
+                                                  value={stat}
+                                                  aria-label={stat}
+                                                  className={classes.btn}
+                                              >
+                                                  <CustomIcon
+                                                      variant={stat}
+                                                      size="medium"
+                                                  />
+                                              </ToggleButton>
+                                          </ToggleAbleTooltip>
                                       );
                                   })
                                 : ENERGIES.map((energy, index) => {
                                       return (
-                                          <ToggleButton
+                                          <ToggleAbleTooltip
+                                              target={energy}
                                               key={index}
-                                              value={energy}
-                                              aria-label={energy}
-                                              className={classes.btn}
                                           >
-                                              <CustomIcon
-                                                  variant={energy}
-                                                  size="medium"
-                                              />
-                                          </ToggleButton>
+                                              <ToggleButton
+                                                  value={energy}
+                                                  aria-label={energy}
+                                                  className={classes.btn}
+                                              >
+                                                  <CustomIcon
+                                                      variant={energy}
+                                                      size="medium"
+                                                  />
+                                              </ToggleButton>
+                                          </ToggleAbleTooltip>
                                       );
                                   })}
                         </ToggleButtonGroup>
@@ -306,32 +323,40 @@ const ProjectsDesktopPage = ({
                             {sessionType === "stat"
                                 ? STATS.map((stat, index) => {
                                       return (
-                                          <ToggleButton
+                                          <ToggleAbleTooltip
+                                              target={stat}
                                               key={index}
-                                              value={stat}
-                                              aria-label={stat}
-                                              className={classes.btn}
                                           >
-                                              <CustomIcon
-                                                  variant={stat}
-                                                  size="medium"
-                                              />
-                                          </ToggleButton>
+                                              <ToggleButton
+                                                  value={stat}
+                                                  aria-label={stat}
+                                                  className={classes.btn}
+                                              >
+                                                  <CustomIcon
+                                                      variant={stat}
+                                                      size="medium"
+                                                  />
+                                              </ToggleButton>
+                                          </ToggleAbleTooltip>
                                       );
                                   })
                                 : ENERGIES.map((energy, index) => {
                                       return (
-                                          <ToggleButton
+                                          <ToggleAbleTooltip
+                                              target={energy}
                                               key={index}
-                                              value={energy}
-                                              aria-label={energy}
-                                              className={classes.btn}
                                           >
-                                              <CustomIcon
-                                                  variant={energy}
-                                                  size="medium"
-                                              />
-                                          </ToggleButton>
+                                              <ToggleButton
+                                                  value={energy}
+                                                  aria-label={energy}
+                                                  className={classes.btn}
+                                              >
+                                                  <CustomIcon
+                                                      variant={energy}
+                                                      size="medium"
+                                                  />
+                                              </ToggleButton>
+                                          </ToggleAbleTooltip>
                                       );
                                   })}
                         </ToggleButtonGroup>

@@ -18,7 +18,7 @@ const ToggleAbleTooltip = ({
             disableHoverListener={!tooltipToggle && target !== "tooltipToggle"}
             disableTouchListener={!tooltipToggle && target !== "tooltipToggle"}
         >
-            {children}
+            <span>{children}</span>
         </Tooltip>
     );
 };

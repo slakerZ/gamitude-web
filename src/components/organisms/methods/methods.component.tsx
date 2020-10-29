@@ -5,6 +5,7 @@ import Tab from "@material-ui/core/Tab";
 import { METHODS } from "./constants";
 import TimerIcon from "@material-ui/icons/Timer";
 import useMethodsStyles from "./styles";
+import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 const Methods = () => {
     const classes = useMethodsStyles();
@@ -29,13 +30,14 @@ const Methods = () => {
             >
                 {METHODS.map(({ label }, index) => {
                     return (
-                        <Tab
-                            className={classes.tab}
-                            label={label}
-                            key={index}
-                            {...a11yProps(index, "custom-method")}
-                            icon={<TimerIcon />}
-                        />
+                        <ToggleAbleTooltip target="method" key={index}>
+                            <Tab
+                                className={classes.tab}
+                                label={label}
+                                {...a11yProps(index, "custom-method")}
+                                icon={<TimerIcon />}
+                            />
+                        </ToggleAbleTooltip>
                     );
                 })}
             </Tabs>

@@ -1,5 +1,7 @@
 import { TooltipObjectType } from './types'
 
+// Stats and energies
+
 const body = {
     title: "Body",
     bodyItems: [
@@ -34,7 +36,7 @@ const mind = {
 };
 
 const soul = {
-    title: "Soul - Human Spirit",
+    title: "Soul",
     bodyItems: [
         "Energy meant to represent your sense of meaning and purpose, whether you have the deep sense of meaning inside",
         "Build up through:",
@@ -44,9 +46,32 @@ const soul = {
     ],
 };
 
-const tooltipToggle = {
-    title: "Toggle Tooltips",
-    bodyItems: ["Toggle Tooltips visibility on and off"],
+const strength = {
+    title: "Strength",
+    bodyItems: [
+        "Stat meant to represent Bulkiness, Fitness and Endurance, use it for projects like 'Strength Training', 'HIIT' etc.",
+    ],
+};
+
+const creativity = {
+    title: "Creativity",
+    bodyItems: [
+        "Stat meant to represent proficiency in Arts, Crafts and other forms of creative work, like writing a book",
+    ],
+};
+
+const intelligence = {
+    title: "Intelligence",
+    bodyItems: [
+        "Stat meant to represent proficiency in Math, Informatics and Science",
+    ],
+};
+
+const fluency = {
+    title: "Fluency",
+    bodyItems: [
+        "Stat meant to represent proficiency in Humanities, Linguistics and Economics",
+    ],
 };
 
 const selectBoostedEnergies = {
@@ -74,6 +99,53 @@ const selectDominantStats = {
     bodyItems: ["... out of these 2 the fluency takes #1 spot"],
 };
 
+// Session
+
+const sessionTimer = {
+    title: "Session Timer",
+    bodyItems: [
+        "Flexible timer that will either act as a countdown timer or stopwatch",
+        "Click on it to begin session it will notify you twice:",
+        "When there's a minute left",
+        "When the session was finished",
+        "Doesn't apply to stopwatch"
+    ]
+}
+
+const add5 = {
+    title: "Add 5",
+    bodyItems: [
+        "Prolong your session by 5 minutes",
+        'Used when you want to "just finish this one quickly"'
+    ]
+}
+
+const sessionTypeSwitch = {
+    title: "Session Type Switch",
+    bodyItems: [
+        "Switch type of your session between energy and stat",
+        "Stat session type increases your stats while energy sesion type replenishes energies",
+        "You can think of them like: Stat = actual work done Energy = activities done during breaks"
+    ]
+}
+
+const method = {
+    title: 'Session Method',
+    bodyItems: [
+        "This sets session time displayed on timer above",
+        "Infinity sign means that instead of countdown timer stopwatch will be used"
+    ]
+}
+
+// Menu
+
+const logout = {
+    title: "Logout",
+    bodyItems: [
+        "See you soon!"
+    ]
+}
+
 const bulletJournal = {
     title: "Bullet Journal",
     bodyItems: [
@@ -95,6 +167,11 @@ const profileSettings = {
     ],
 };
 
+const tooltipToggle = {
+    title: "Toggle Tooltips",
+    bodyItems: ["Toggle Tooltips visibility on and off"],
+};
+
 const projects = {
     title: "Projects",
     bodyItems: [
@@ -102,15 +179,23 @@ const projects = {
     ],
 };
 
-const breakTimer = {
-    title: "Break Timer",
+// Activities
+
+const project = {
+    title: "Project",
     bodyItems: [
-        "After each completed session an adequate amount of time is going to appear here.",
-        "For Ultradian rhythm - after 90 minutes of work 30 minutes of break will be added",
-        "For Pomodoro Technique - after first 4 session 5 minutes will be added after each 5th session 15 minutes will be added",
-        "For other techniques - 1 minute of break for each 5 minutes of session",
+        "Work on your project with the method that suits your best",
     ],
 };
+
+const folder = {
+    title: 'Folder',
+    bodyItems: [
+        "Organize your projects into folders to keep your fields of effort separated"
+    ]
+}
+
+// Rank
 
 const rankRequirements = {
     title: "Rank Requirements",
@@ -141,40 +226,7 @@ const rankTier = {
     ],
 };
 
-const creativity = {
-    title: "Creativity",
-    bodyItems: [
-        "Stat meant to represent proficiency in Arts, Crafts and other forms of creative work, like writing a book",
-    ],
-};
-
-const fluency = {
-    title: "Fluency",
-    bodyItems: [
-        "Stat meant to represent proficiency in Humanities, Linguistics and Economics",
-    ],
-};
-
-const intelligence = {
-    title: "Intelligence",
-    bodyItems: [
-        "Stat meant to represent proficiency in Math, Informatics and Science",
-    ],
-};
-
-const strength = {
-    title: "Strength",
-    bodyItems: [
-        "Stat meant to represent Bulkiness, Fitness and Endurance, use it for projects like 'Strength Training', 'HIIT' etc.",
-    ],
-};
-
-const logout = {
-    title: "Logout",
-    bodyItems: [
-        "See you soon!"
-    ]
-}
+// Error
 
 const tooltipNotFound = {
     title: "Not Found",
@@ -211,8 +263,6 @@ export const targetToTooltipObject = (
             return profileSettings;
         case "projects":
             return projects;
-        case "breakTimer":
-            return breakTimer;
         case "rankRequirements":
             return rankRequirements;
         case "rankImage":
@@ -233,6 +283,18 @@ export const targetToTooltipObject = (
             return tooltipToggle;
         case "logout":
             return logout;
+        case "project":
+            return project;
+        case "folder":
+            return folder;
+        case "add5":
+            return add5;
+        case "method":
+            return method;
+        case "sessionTimer":
+            return sessionTimer;
+        case "sessionTypeSwitch":
+            return sessionTypeSwitch
         default:
             return tooltipNotFound;
     }

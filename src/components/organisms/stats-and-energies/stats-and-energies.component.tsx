@@ -16,6 +16,7 @@ import { setStats } from "../../../redux/stats/stats.actions";
 import { selectStats } from "../../../redux/stats/stats.selectors";
 // Atoms
 import CustomIconWithTypography from "../../atoms/custom-icon-with-typography/custom-icon-with-typography.component";
+import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
 // Local
 import { StatsAndEnergiesType } from "./types";
 import useStatsAndEnergiesStyles from "./styles";
@@ -125,15 +126,19 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
                                     Retry
                                 </Button>
                             ) : (
-                                mappedEnergies.map((tuple) => {
+                                mappedEnergies.map((tuple, index) => {
                                     const [energyName, energyValue] = tuple;
                                     return (
-                                        <CustomIconWithTypography
-                                            variant={energyName}
-                                            key={energyName}
+                                        <ToggleAbleTooltip
+                                            target={energyName}
+                                            key={index}
                                         >
-                                            {energyValue.toString()}
-                                        </CustomIconWithTypography>
+                                            <CustomIconWithTypography
+                                                variant={energyName}
+                                            >
+                                                {energyValue.toString()}
+                                            </CustomIconWithTypography>
+                                        </ToggleAbleTooltip>
                                     );
                                 })
                             )}
@@ -149,15 +154,19 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
                                     Retry
                                 </Button>
                             ) : (
-                                mappedStats.map((tuple) => {
+                                mappedStats.map((tuple, index) => {
                                     const [statName, statValue] = tuple;
                                     return (
-                                        <CustomIconWithTypography
-                                            variant={statName}
-                                            key={statName}
+                                        <ToggleAbleTooltip
+                                            target={statName}
+                                            key={index}
                                         >
-                                            {statValue.toString()}
-                                        </CustomIconWithTypography>
+                                            <CustomIconWithTypography
+                                                variant={statName}
+                                            >
+                                                {statValue.toString()}
+                                            </CustomIconWithTypography>
+                                        </ToggleAbleTooltip>
                                     );
                                 })
                             )}

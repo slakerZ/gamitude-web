@@ -209,10 +209,12 @@ const App: FC<AppType> = ({
                         <Divider />
                         <StatsAndEnergies />
                         <Divider />
-                        <SessionTypeSwitch
-                            sessionType={sessionType}
-                            setSessionType={setSessionType}
-                        />
+                        <ToggleAbleTooltip target="sessionTypeSwitch">
+                            <SessionTypeSwitch
+                                sessionType={sessionType}
+                                setSessionType={setSessionType}
+                            />
+                        </ToggleAbleTooltip>
                         <Timer />
                         <Methods />
                     </div>
