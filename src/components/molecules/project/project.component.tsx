@@ -38,6 +38,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
+import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
 //Components
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 // Local
@@ -131,15 +132,17 @@ const Project = ({
                 className={classes.summary}
             >
                 <CustomIcon variant={dominant} size="medium" />
-                <FormControlLabel
-                    className={classes.selectProject}
-                    aria-label="Select Project"
-                    onClick={handleSelectionChanged}
-                    onFocus={(event) => event.stopPropagation()}
-                    control={<Radio />}
-                    label={name}
-                    value={name}
-                />
+                <ToggleAbleTooltip target="project">
+                    <FormControlLabel
+                        className={classes.selectProject}
+                        aria-label="Select Project"
+                        onClick={handleSelectionChanged}
+                        onFocus={(event) => event.stopPropagation()}
+                        control={<Radio />}
+                        label={name}
+                        value={name}
+                    />
+                </ToggleAbleTooltip>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
                 <TextField
@@ -151,9 +154,11 @@ const Project = ({
                 />
 
                 <div className={classes.container}>
-                    <Typography component="h5" variant="h5" align="center">
-                        Select stats that this projects boosts
-                    </Typography>
+                    <ToggleAbleTooltip target={"selectBoostedStats"}>
+                        <Typography component="h5" variant="h5" align="center">
+                            Select stats that this projects boosts
+                        </Typography>
+                    </ToggleAbleTooltip>
                     <ToggleButtonGroup
                         value={boosted}
                         onChange={handleChangeStat}
@@ -162,23 +167,30 @@ const Project = ({
                     >
                         {STATS.map((stat, index) => {
                             return (
-                                <ToggleButton
-                                    key={index}
-                                    value={stat}
-                                    aria-label={stat}
-                                    className={classes.btn}
-                                >
-                                    <CustomIcon variant={stat} size="medium" />
-                                </ToggleButton>
+                                <ToggleAbleTooltip target={stat} key={index}>
+                                    <ToggleButton
+                                        key={index}
+                                        value={stat}
+                                        aria-label={stat}
+                                        className={classes.btn}
+                                    >
+                                        <CustomIcon
+                                            variant={stat}
+                                            size="medium"
+                                        />
+                                    </ToggleButton>
+                                </ToggleAbleTooltip>
                             );
                         })}
                     </ToggleButtonGroup>
                 </div>
 
                 <div className={classes.container}>
-                    <Typography variant="h5" component="h5" align="center">
-                        Select the dominant stat
-                    </Typography>
+                    <ToggleAbleTooltip target={"selectDominantStats"}>
+                        <Typography variant="h5" component="h5" align="center">
+                            Select the dominant stat
+                        </Typography>
+                    </ToggleAbleTooltip>
                     <ToggleButtonGroup
                         value={dominant}
                         exclusive
@@ -188,14 +200,18 @@ const Project = ({
                     >
                         {STATS.map((stat, index) => {
                             return (
-                                <ToggleButton
-                                    key={index}
-                                    value={stat}
-                                    aria-label={stat}
-                                    className={classes.btn}
-                                >
-                                    <CustomIcon variant={stat} size="medium" />
-                                </ToggleButton>
+                                <ToggleAbleTooltip target={stat} key={index}>
+                                    <ToggleButton
+                                        value={stat}
+                                        aria-label={stat}
+                                        className={classes.btn}
+                                    >
+                                        <CustomIcon
+                                            variant={stat}
+                                            size="medium"
+                                        />
+                                    </ToggleButton>
+                                </ToggleAbleTooltip>
                             );
                         })}
                     </ToggleButtonGroup>

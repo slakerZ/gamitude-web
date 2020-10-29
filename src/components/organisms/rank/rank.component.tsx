@@ -10,7 +10,7 @@ import { getRank } from "../../../api/stats/stats.api";
 // Components
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 import Skeleton from "@material-ui/lab/Skeleton";
-
+import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
 // Selectors
 import { selectToken } from "../../../redux/user/user.selectors";
 import { selectSessionsComplete } from "../../../redux/session/session.selectors";
@@ -54,9 +54,11 @@ const Rank = ({
 
     return (
         <div className={classes.root}>
-            <Typography variant="h2" component="h2" align="center">
-                {rank.name}
-            </Typography>
+            <ToggleAbleTooltip target="rankName">
+                <Typography variant="h2" component="h2" align="center">
+                    {rank.name}
+                </Typography>
+            </ToggleAbleTooltip>
             <div className={classes.avatarWrapper}>
                 <Badge
                     overlap="circle"
@@ -65,35 +67,39 @@ const Rank = ({
                         horizontal: "right",
                     }}
                     badgeContent={
-                        <div className={classes.badgeWrapper}>
-                            {state.loading ? (
-                                <CircularProgress />
-                            ) : state.error ? (
-                                <CustomIcon size="small" variant="error" />
-                            ) : (
-                                <CustomIcon
-                                    variant={rank.tier.toLowerCase()}
-                                    size="small"
-                                />
-                            )}
-                        </div>
+                        <ToggleAbleTooltip target="rankTier">
+                            <div className={classes.badgeWrapper}>
+                                {state.loading ? (
+                                    <CircularProgress />
+                                ) : state.error ? (
+                                    <CustomIcon size="small" variant="error" />
+                                ) : (
+                                    <CustomIcon
+                                        variant={rank.tier.toLowerCase()}
+                                        size="small"
+                                    />
+                                )}
+                            </div>
+                        </ToggleAbleTooltip>
                     }
                 >
-                    {state.loading ? (
-                        <Skeleton
-                            variant="rect"
-                            animation="wave"
-                            className={classes.placeholder}
-                        />
-                    ) : state.error ? (
-                        <CustomIcon variant="notFound" size="avatar" />
-                    ) : (
-                        <Avatar
-                            className={classes.rank}
-                            alt="Your productivity Spirit Animal"
-                            src={rank.imageUrl}
-                        />
-                    )}
+                    <ToggleAbleTooltip target="rankImage">
+                        {state.loading ? (
+                            <Skeleton
+                                variant="rect"
+                                animation="wave"
+                                className={classes.placeholder}
+                            />
+                        ) : state.error ? (
+                            <CustomIcon variant="notFound" size="avatar" />
+                        ) : (
+                            <Avatar
+                                className={classes.rank}
+                                alt="Your productivity Spirit Animal"
+                                src={rank.imageUrl}
+                            />
+                        )}
+                    </ToggleAbleTooltip>
                 </Badge>
             </div>
         </div>

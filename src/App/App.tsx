@@ -30,7 +30,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 // Atoms
 import CustomIcon from "../components/atoms/custom-icon/custom-icon.component";
 import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
-import CustomTooltipText from "../components/atoms/custom-tooltip-text/custom-tooltip-text.component";
+import ToggleAbleTooltip from "../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 // Organisms
 import Rank from "../components/organisms/rank/rank.component";
 import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
@@ -102,33 +102,16 @@ const App: FC<AppType> = ({
 
                     <div className={classes.center}>
                         <Link to="/" className={classes.title}>
-                            <Tooltip
-                                title={
-                                    <CustomTooltipText
-                                        target="home"
-                                        variant="simple"
-                                    />
-                                }
-                                disableFocusListener={!tooltipToggle}
-                                disableHoverListener={!tooltipToggle}
-                                disableTouchListener={!tooltipToggle}
-                            >
+                            <ToggleAbleTooltip target={"home"}>
                                 <Typography variant="h3" component="h3">
                                     {"Gamitude"}
                                 </Typography>
-                            </Tooltip>
+                            </ToggleAbleTooltip>
                         </Link>
                     </div>
 
                     <div className={classes.right}>
-                        <Tooltip
-                            title={
-                                <CustomTooltipText
-                                    target={"tooltipToggle"}
-                                    variant="simple"
-                                />
-                            }
-                        >
+                        <ToggleAbleTooltip target={"tooltipToggle"}>
                             <IconButton onClick={toggleTooltips}>
                                 {tooltipToggle ? (
                                     <HelpIcon />
@@ -136,32 +119,14 @@ const App: FC<AppType> = ({
                                     <HelpOutlineIcon />
                                 )}
                             </IconButton>
-                        </Tooltip>
-                        <Tooltip
-                            title={
-                                <CustomTooltipText
-                                    target="profileSettings"
-                                    variant="simple"
-                                />
-                            }
-                            disableFocusListener={!tooltipToggle}
-                            disableHoverListener={!tooltipToggle}
-                            disableTouchListener={!tooltipToggle}
-                        >
+                        </ToggleAbleTooltip>
+                        <ToggleAbleTooltip target={"profileSettings"}>
                             <IconButton component={Link} to={"/profile"}>
                                 <SettingsIcon />
                             </IconButton>
-                        </Tooltip>
-                        <Tooltip
-                            title={
-                                <Typography variant="h5" component="h5">
-                                    {"Logout"}
-                                </Typography>
-                            }
-                            disableFocusListener={!tooltipToggle}
-                            disableHoverListener={!tooltipToggle}
-                            disableTouchListener={!tooltipToggle}
-                        >
+                        </ToggleAbleTooltip>
+
+                        <ToggleAbleTooltip target={"logout"}>
                             <IconButton
                                 onClick={logout}
                                 component={Link}
@@ -169,7 +134,7 @@ const App: FC<AppType> = ({
                             >
                                 <ExitToAppIcon />
                             </IconButton>
-                        </Tooltip>
+                        </ToggleAbleTooltip>
                     </div>
                 </Toolbar>
             </AppBar>
@@ -191,24 +156,14 @@ const App: FC<AppType> = ({
                     <List>
                         {NAV_LINKS.map(({ to, label, icon, tooltip }) => (
                             <ListItem button key={to} component={Link} to={to}>
-                                <Tooltip
-                                    title={
-                                        <CustomTooltipText
-                                            target={tooltip}
-                                            variant={"simple"}
-                                        />
-                                    }
-                                    disableFocusListener={!tooltipToggle}
-                                    disableHoverListener={!tooltipToggle}
-                                    disableTouchListener={!tooltipToggle}
-                                >
+                                <ToggleAbleTooltip target={tooltip}>
                                     <ListItemIcon>
                                         <CustomIcon
                                             size="small"
                                             variant={icon}
                                         />
                                     </ListItemIcon>
-                                </Tooltip>
+                                </ToggleAbleTooltip>
                                 <ListItemText primary={label} />
                             </ListItem>
                         ))}
@@ -254,10 +209,12 @@ const App: FC<AppType> = ({
                         <Divider />
                         <StatsAndEnergies />
                         <Divider />
-                        <SessionTypeSwitch
-                            sessionType={sessionType}
-                            setSessionType={setSessionType}
-                        />
+                        <ToggleAbleTooltip target="sessionTypeSwitch">
+                            <SessionTypeSwitch
+                                sessionType={sessionType}
+                                setSessionType={setSessionType}
+                            />
+                        </ToggleAbleTooltip>
                         <Timer />
                         <Methods />
                     </div>
