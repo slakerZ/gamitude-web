@@ -1,19 +1,12 @@
 import { ProjectsActionTypes } from "./projects.types";
-import {
-    SetBoostedPropTypes,
-    SetBoostedReturnValues,
-    SetDominantPropTypes,
-    SetDominantReturnValues,
-    SetNamePropTypes,
-    SetNameReturnValues,
-    SetMethodPropTypes,
-    SetMethodReturnValues,
-} from "./types";
 
 export const setBoosted = ({
     index,
     newBoosted,
-}: SetBoostedPropTypes): SetBoostedReturnValues => ({
+}: {
+    index: any;
+    newBoosted: any;
+}) => ({
     type: ProjectsActionTypes.SET_BOOSTED,
     index: index,
     boosted: newBoosted,
@@ -22,25 +15,22 @@ export const setBoosted = ({
 export const setDominant = ({
     index,
     newDominant,
-}: SetDominantPropTypes): SetDominantReturnValues => ({
+}: {
+    index: any;
+    newDominant: any;
+}) => ({
     type: ProjectsActionTypes.SET_DOMINANT,
     dominant: newDominant,
     index: index,
 });
 
-export const setName = ({
-    index,
-    name,
-}: SetNamePropTypes): SetNameReturnValues => ({
+export const setName = ({ index, name }: { index: any; name: any }) => ({
     type: ProjectsActionTypes.SET_NAME,
     index: index,
     name: name,
 });
 
-export const setMethod = ({
-    index,
-    method,
-}: SetMethodPropTypes): SetMethodReturnValues => ({
+export const setMethod = ({ index, method }: { index: any; method: any }) => ({
     type: ProjectsActionTypes.SET_METHOD,
     method: method,
     index: index,

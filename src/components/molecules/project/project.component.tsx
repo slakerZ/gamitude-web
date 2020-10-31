@@ -14,11 +14,11 @@ import { selectProjects } from "../../../redux/projects/projects.selectors";
 import { deleteProject } from "../../../redux/projects/projects.actions";
 import { selectToken } from "../../../redux/user/user.selectors";
 import {
-    setDominant,
+    setDominant as setDominantRedux,
     setSelectedProject,
 } from "../../../redux/projects/projects.actions";
-import { setName } from "../../../redux/projects/projects.actions";
-import { setBoosted } from "../../../redux/projects/projects.actions";
+import { setName as setNameRedux } from "../../../redux/projects/projects.actions";
+import { setBoosted as setBoostedRedux } from "../../../redux/projects/projects.actions";
 
 // MUI
 import Typography from "@material-ui/core/Typography";
@@ -31,9 +31,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import TextField from "@material-ui/core/TextField";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -41,48 +38,35 @@ import Radio from "@material-ui/core/Radio";
 import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
 //Components
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
+import BoostedDominantBtnGroup from "../../atoms/custom-toggle-button-group/boosted-dominant-btn-group.component";
 // Local
 import { ProjectType } from "./types";
 import useProjectStyles from "./styles";
-import { STATS, ENERGIES } from "../../../constants";
+import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
 
 const Project = ({
     index,
     projects,
-    setName,
     token,
     deleteProject,
-    setBoosted,
-    setDominant,
     setSelectedProject,
+    setNameRedux,
+    setBoostedRedux,
+    setDominantRedux,
 }: ProjectType) => {
     const classes = useProjectStyles();
 
-    const [text, setText] = useState("");
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
-    const dominant = projects[index].dominant;
-    const boosted = projects[index].boosted;
-    const name = projects[index].name;
+    const dominantRedux = projects[index].dominant;
+    const boostedRedux = projects[index].boosted;
+    const nameRedux = projects[index].name;
 
-    const syncWithRedux = (event: any) => {
-        setName({
-            index: index,
-            name: event.target.value,
-        });
-    };
-
-    const handleChangeStat = (event: any, newBoosted: any) => {
-        if (newBoosted.length > 0 && newBoosted.includes(dominant)) {
-            setBoosted({ index, newBoosted });
-        }
-    };
-
-    const handleChangeDominant = (event: any, newDominant: any) => {
-        if (boosted.includes(newDominant)) {
-            setDominant({ index, newDominant });
-        }
-    };
+    const [name, setName] = useState(nameRedux);
+    const [boosted, setBoosted] = useState(boostedRedux);
+    const [dominant, setDominant] = useState(dominantRedux);
+    const [projectType, setProjectType] = useState("STAT");
 
     const handleDeletion = () => {
         setOpen(true);
@@ -108,11 +92,23 @@ const Project = ({
     };
 
     const [editProjectState, editProject] = useAsyncFn(async () => {
-        const name = projects[index].name;
         const id = projects[index].id;
         const method = projects[index].method;
-        const boosted = projects[index].boosted;
-        const dominant = projects[index].dominant;
+
+        setNameRedux({
+            index: index,
+            name: name,
+        });
+        setBoostedRedux({
+            index: index,
+            newBoosted: boosted,
+        });
+        setDominantRedux({
+            index: index,
+            newDominant: dominant,
+        });
+
+        setExpanded(false);
 
         const response = await axios.put(
             putDeleteProjectUrl(id),
@@ -120,13 +116,16 @@ const Project = ({
             putDeleteAddProjectHeaders(token),
         );
         const data = await response.data;
-        if (data) {
-        }
         return data;
-    }, [putDeleteProjectUrl]);
+    }, [name, boosted, dominant]);
 
     return (
-        <Accordion square className={classes.container}>
+        <Accordion
+            expanded={expanded}
+            onChange={() => setExpanded(!expanded)}
+            square
+            className={classes.container}
+        >
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 className={classes.summary}
@@ -145,77 +144,16 @@ const Project = ({
                 </ToggleAbleTooltip>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
-                <TextField
-                    label="PROJECT NAME"
-                    variant="outlined"
-                    value={text}
-                    onChange={(event) => setText(event.target.value)}
-                    onBlur={syncWithRedux}
+                <BoostedDominantBtnGroup
+                    boosted={boosted}
+                    setBoosted={setBoosted}
+                    dominant={dominant}
+                    setDominant={setDominant}
+                    name={name}
+                    setName={setName}
+                    sessionType={projectType}
+                    setSessionType={setProjectType}
                 />
-
-                <div className={classes.container}>
-                    <ToggleAbleTooltip target={"selectBoostedStats"}>
-                        <Typography component="h5" variant="h5" align="center">
-                            Select stats that this projects boosts
-                        </Typography>
-                    </ToggleAbleTooltip>
-                    <ToggleButtonGroup
-                        value={boosted}
-                        onChange={handleChangeStat}
-                        aria-label="boosted stats"
-                        className={classes.btnGroup}
-                    >
-                        {STATS.map((stat, index) => {
-                            return (
-                                <ToggleAbleTooltip target={stat} key={index}>
-                                    <ToggleButton
-                                        key={index}
-                                        value={stat}
-                                        aria-label={stat}
-                                        className={classes.btn}
-                                    >
-                                        <CustomIcon
-                                            variant={stat}
-                                            size="medium"
-                                        />
-                                    </ToggleButton>
-                                </ToggleAbleTooltip>
-                            );
-                        })}
-                    </ToggleButtonGroup>
-                </div>
-
-                <div className={classes.container}>
-                    <ToggleAbleTooltip target={"selectDominantStats"}>
-                        <Typography variant="h5" component="h5" align="center">
-                            Select the dominant stat
-                        </Typography>
-                    </ToggleAbleTooltip>
-                    <ToggleButtonGroup
-                        value={dominant}
-                        exclusive
-                        onChange={handleChangeDominant}
-                        aria-label="dominant stat"
-                        className={classes.btnGroup}
-                    >
-                        {STATS.map((stat, index) => {
-                            return (
-                                <ToggleAbleTooltip target={stat} key={index}>
-                                    <ToggleButton
-                                        value={stat}
-                                        aria-label={stat}
-                                        className={classes.btn}
-                                    >
-                                        <CustomIcon
-                                            variant={stat}
-                                            size="medium"
-                                        />
-                                    </ToggleButton>
-                                </ToggleAbleTooltip>
-                            );
-                        })}
-                    </ToggleButtonGroup>
-                </div>
 
                 <Button onClick={handleDeletion} variant="contained">
                     <Typography component="h6" variant="h6">
@@ -233,30 +171,20 @@ const Project = ({
                     )}
                 </Button>
 
-                <Dialog
+                <CustomDialog
                     open={open}
-                    onClose={handleCancel}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                    className={classes.root}
+                    setOpen={setOpen}
+                    title={"Are you sure you want to delete this project?"}
+                    onSubmit={handleDeletionConfirm}
                 >
-                    <DialogTitle id="alert-dialog-title">
-                        {"Are you sure you want to delete this project?"}
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            {" This action CANNOT be undone."}
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCancel} color="primary">
-                            {"No"}
-                        </Button>
-                        <Button onClick={handleDeletionConfirm} color="primary">
-                            {"Yes"}
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                    <Typography
+                        variant="h4"
+                        component="h4"
+                        className={classes.textDanger}
+                    >
+                        {" This action CANNOT be undone."}
+                    </Typography>
+                </CustomDialog>
             </AccordionDetails>
         </Accordion>
     );
@@ -268,9 +196,9 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    setName: (value: any) => dispatch(setName(value)),
-    setBoosted: (value: any) => dispatch(setBoosted(value)),
-    setDominant: (value: any) => dispatch(setDominant(value)),
+    setNameRedux: (value: any) => dispatch(setNameRedux(value)),
+    setBoostedRedux: (value: any) => dispatch(setBoostedRedux(value)),
+    setDominantRedux: (value: any) => dispatch(setDominantRedux(value)),
     deleteProject: (value: any) => dispatch(deleteProject(value)),
     setSelectedProject: (value: any) => dispatch(setSelectedProject(value)),
 });

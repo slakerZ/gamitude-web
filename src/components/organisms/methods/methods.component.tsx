@@ -20,8 +20,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 
-// TODO: Search for a way to adjust formik to do this
-
 const Methods = ({
     methods,
     setSelectedMethod,

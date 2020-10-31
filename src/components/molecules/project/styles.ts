@@ -9,7 +9,9 @@ const useProjectStyles = makeStyles((theme) => ({
         flexDirection: "column",
         backgroundColor: "transparent",
     },
-
+    textDanger: {
+        color: theme.palette.error.main,
+    },
     summary: {
         backgroundColor: theme.palette.primary.light,
     },
