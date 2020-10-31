@@ -7,6 +7,7 @@ const useCustomIconWithTypographyStyles = makeStyles((theme) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            userSelect: "none",
         },
     };
 });

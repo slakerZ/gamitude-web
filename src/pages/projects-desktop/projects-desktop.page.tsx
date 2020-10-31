@@ -167,18 +167,14 @@ const ProjectsDesktopPage = ({
                 >
                     {folders.map(({ label, icon, index }) => {
                         return (
-                            <ToggleAbleTooltip target="folder" key={index}>
-                                <Tab
-                                    label={label}
-                                    {...a11yProps(index, "projects-in-folder")}
-                                    icon={
-                                        <CustomIcon
-                                            variant={icon}
-                                            size="small"
-                                        />
-                                    }
-                                />
-                            </ToggleAbleTooltip>
+                            <Tab
+                                key={index}
+                                label={label}
+                                {...a11yProps(index, "projects-in-folder")}
+                                icon={
+                                    <CustomIcon variant={icon} size="small" />
+                                }
+                            />
                         );
                     })}
                 </Tabs>
