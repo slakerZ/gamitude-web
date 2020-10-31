@@ -1,6 +1,6 @@
-import { SessionMethodType } from "../../../redux/session/types";
+import { MethodType } from "./types";
 
-export const METHODS: SessionMethodType[] = [
+export const METHODS: MethodType[] = [
     {
         label: "5m",
         name: "Just 5",

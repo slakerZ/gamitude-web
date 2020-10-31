@@ -14,8 +14,3 @@ export const setSessionType = (value: any) => ({
     type: SessionActionTypes.SET_SESSION_TYPE,
     payload: value,
 });
-
-export const setSessionMethod = (value: any) => ({
-    type: SessionActionTypes.SET_SESSION_METHOD,
-    payload: value,
-});

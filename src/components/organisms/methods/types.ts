@@ -1,5 +1,6 @@
-import { SessionMethodType } from "../../../redux/session/types";
+import { MethodType } from "../../../redux/methods/types";
 
 export interface MethodsPropType {
-    setSessionMethod: (newMethod: SessionMethodType) => null;
+    methods: MethodType[];
+    setSelectedMethod: (value: number) => null;
 }
