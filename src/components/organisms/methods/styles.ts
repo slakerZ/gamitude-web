@@ -15,6 +15,9 @@ const useMethodsStyels = makeStyles((theme: Theme) => ({
     addMethod: {
         paddingLeft: 0,
     },
+    item: {
+        backgroundColor: theme.palette.primary.main,
+    },
 }));
 
 export default useMethodsStyels;

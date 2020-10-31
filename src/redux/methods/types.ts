@@ -9,7 +9,7 @@ export interface MethodType {
     minutes: number;
     shortBreak: number;
     hasLongBreak: boolean;
-    longBreak: number | undefined;
-    longBreakInterval: number | undefined;
-    type: "timer" | "stopwatch";
+    longBreak: number;
+    longBreakInterval: number;
+    type: "TIMER" | "STOPWATCH";
 }

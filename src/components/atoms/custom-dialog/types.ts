@@ -1,6 +1,7 @@
 export interface CustomDialogPropType {
     open: boolean;
-    setOpen: (value: boolean) => null;
+    setOpen: any;
     title: string;
-    onSubmit: () => null;
+    onSubmit: any;
+    children: any;
 }

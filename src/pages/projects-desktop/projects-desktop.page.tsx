@@ -359,7 +359,7 @@ const ProjectsDesktopPage = ({
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseAdd} color="primary">
+                    <Button variant="contained" onClick={handleCloseAdd}>
                         Cancel
                     </Button>
                     {postState.loading ? (

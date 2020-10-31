@@ -6,12 +6,12 @@ const INITIAL_STATE: MethodsReducerType = {
     selectedMethod: {
         label: "",
         name: "",
-        type: "timer",
+        type: "TIMER",
         minutes: 0,
         shortBreak: 0,
         hasLongBreak: false,
-        longBreak: undefined,
-        longBreakInterval: undefined,
+        longBreak: 0,
+        longBreakInterval: 0,
     },
     methods: METHODS,
 };
@@ -22,6 +22,11 @@ const methodsReducer = (state = INITIAL_STATE, action: any) => {
             return {
                 ...state,
                 selectedMethod: state.methods[action.payload],
+            };
+        case MethodsActionTypes.SET_METHODS:
+            return {
+                ...state,
+                methods: [...state.methods, action.payload],
             };
         default:
             return state;

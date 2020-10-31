@@ -8,23 +8,86 @@ import useMethodsStyles from "./styles";
 import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
 import { setSelectedMethod } from "../../../redux/methods/methods.actions";
 import { MethodsPropType } from "./types";
-import { AddAlarm } from "@material-ui/icons";
+import AddAlarm from "@material-ui/icons/AddAlarm";
 import { ReduxStateType } from "../../../redux/root.reducer";
 import { selectMethods } from "../../../redux/methods/methods.selectors";
+import { setMethods } from "../../../redux/methods/methods.actions";
 import IconButton from "@material-ui/core/IconButton";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogActions from "@material-ui/core/DialogActions";
-import Typography from "@material-ui/core/Typography";
-import { Button } from "@material-ui/core";
+import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
+import TextField from "@material-ui/core/TextField";
+import Checkbox from "@material-ui/core/Checkbox";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Grid from "@material-ui/core/Grid";
 
-const Methods = ({ methods, setSelectedMethod }: MethodsPropType) => {
+// TODO: Search for a way to adjust formik to do this
+
+const Methods = ({
+    methods,
+    setSelectedMethod,
+    setMethods,
+}: MethodsPropType) => {
     const classes = useMethodsStyles();
     const [method, setMethod] = useState(0);
     const [open, setOpen] = useState(false);
 
+    const [label, setLabel] = useState(" ");
+    const [name, setName] = useState(" ");
+    const [minutes, setMinues] = useState(0);
+    const [shortBrake, setShortBrake] = useState(0);
+    const [hasLongBreak, setHasLongBreak] = useState(false);
+    const [longBreak, setLongBreak] = useState(0);
+    const [longBreakInterval, setLongBreakInterval] = useState(0);
+    const [type, setType] = useState("TIMER");
+
     const postMethod = () => {
-        console.log("I'am an api placeholder");
+        setMethods({
+            label,
+            name,
+            minutes,
+            shortBrake,
+            hasLongBreak,
+            longBreak,
+            longBreakInterval,
+            type,
+        });
+        setOpen(false);
+    };
+
+    const handleChangeLabel = (e: any) => {
+        if (e.target.value.length < 3) {
+            setLabel(e.target.value);
+        }
+    };
+
+    const handleChangeName = (e: any) => {
+        if (e.target.value.length < 30) {
+            setName(e.target.value);
+        }
+    };
+
+    const handleChangeMinutes = (e: any) => {
+        setMinues(parseInt(e.target.value));
+    };
+
+    const handleChangeShortBreak = (e: any) => {
+        setShortBrake(parseInt(e.target.value));
+    };
+
+    const handleChangeLongBreak = (e: any) => {
+        setLongBreak(parseInt(e.target.value));
+    };
+
+    const handleChangeLongBreakInterval = (e: any) => {
+        setLongBreakInterval(parseInt(e.target.value));
+    };
+
+    const handleChangeType = (e: any) => {
+        setType(e.target.value);
+    };
+
+    const handleChangeHasLongBreak = () => {
+        setHasLongBreak(!hasLongBreak);
     };
 
     const handleMethodChange = (e: any, newValue: any) => {
@@ -36,13 +99,9 @@ const Methods = ({ methods, setSelectedMethod }: MethodsPropType) => {
         setOpen(true);
     };
 
-    const handleCloseDialog = (e: any) => {
-        setOpen(false);
-    };
-
     useEffect(() => {
         setSelectedMethod(0);
-    }, []);
+    }, [setSelectedMethod]);
 
     return (
         <div className={classes.root} aria-label="methods root">
@@ -76,19 +135,103 @@ const Methods = ({ methods, setSelectedMethod }: MethodsPropType) => {
                     <AddAlarm />
                 </ToggleAbleTooltip>
             </IconButton>
-            <Dialog
+            <CustomDialog
                 open={open}
-                aria-labelledby="add new method"
-                onClose={handleCloseDialog}
+                setOpen={setOpen}
+                title={"Add new method"}
+                onSubmit={postMethod}
             >
-                <DialogTitle id="add new method">
-                    {"Add new method"}
-                </DialogTitle>
-                <DialogActions>
-                    <Button onClick={postMethod}>{"SAVE"}</Button>
-                    <Button onClick={handleCloseDialog}>{"CANCEL"}</Button>
-                </DialogActions>
-            </Dialog>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Label"
+                            fullWidth
+                            value={label}
+                            onChange={handleChangeLabel}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Name"
+                            fullWidth
+                            value={name}
+                            onChange={handleChangeName}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <TextField
+                            label="Type"
+                            select
+                            fullWidth
+                            value={type}
+                            onChange={handleChangeType}
+                        >
+                            <MenuItem className={classes.item} value={"TIMER"}>
+                                {"Timer"}
+                            </MenuItem>
+                            <MenuItem
+                                className={classes.item}
+                                value={"STOPWATCH"}
+                            >
+                                {"Stopwatch"}
+                            </MenuItem>
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <TextField
+                            value={minutes}
+                            onChange={handleChangeMinutes}
+                            label="Minutes"
+                            type="number"
+                            fullWidth
+                        />
+                    </Grid>
+
+                    <Grid item xs={12} sm={4}>
+                        <TextField
+                            label="Short Break"
+                            fullWidth
+                            type="number"
+                            value={shortBrake}
+                            onChange={handleChangeShortBreak}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    name="has_long_break"
+                                    checked={hasLongBreak}
+                                    onChange={handleChangeHasLongBreak}
+                                />
+                            }
+                            label="Has Long Break"
+                        />
+                    </Grid>
+                    {hasLongBreak ? (
+                        <Grid item xs={12} sm={4}>
+                            <TextField
+                                label="Long Break"
+                                fullWidth
+                                type="number"
+                                value={longBreak}
+                                onChange={handleChangeLongBreak}
+                            />
+                        </Grid>
+                    ) : null}
+                    {hasLongBreak ? (
+                        <Grid item xs={12} sm={4}>
+                            <TextField
+                                label="Long Break Interval"
+                                fullWidth
+                                type="number"
+                                value={longBreakInterval}
+                                onChange={handleChangeLongBreakInterval}
+                            />
+                        </Grid>
+                    ) : null}
+                </Grid>
+            </CustomDialog>
         </div>
     );
 };
@@ -99,6 +242,7 @@ const mapStateToProps = (state: ReduxStateType) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
     setSelectedMethod: (value: number) => dispatch(setSelectedMethod(value)),
+    setMethods: (value: any) => dispatch(setMethods(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Methods);

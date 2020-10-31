@@ -8,11 +8,11 @@ export interface FieldType {
     sm: typeof Grid.arguments;
 }
 
-export interface FormikFormType {
+export interface FormikFormPropType {
     initialValues: any;
     schema: any;
     onSubmit: any;
     fields: FieldType[];
     state: any;
-    title: string;
+    title?: string;
 }
