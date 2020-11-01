@@ -1,17 +1,23 @@
-import React, { FC, ReactElement, Fragment, useState } from "react";
+import React, { ReactElement, Fragment, useState } from "react";
+import { connect } from "react-redux";
 import Badge from "@material-ui/core/Badge";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
 // Local
-import { TimerType } from "./types";
+import { TimerPropTypes } from "./types";
 import useTimerStyles from "./styles";
+import { selectSelectedProject } from "../../../redux/projects/projects.selectors";
+import { selectSelectedMethod } from "../../../redux/methods/methods.selectors";
 
-const Timer: FC = (): ReactElement => {
+const Timer = ({
+    selectedProject,
+    selectedMethod,
+}: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
     // TODO: add support for unlimited custom - pagination
-    const [method, setMethod] = useState(25);
+    const [method, setMethod] = useState(selectedMethod.minutes);
 
     const leftPad = (val: number) => (val < 10 ? `0${val}` : `${val}`);
 
@@ -59,7 +65,7 @@ const Timer: FC = (): ReactElement => {
                                         variant="h2"
                                         component="h2"
                                     >
-                                        {leftPad(method)}
+                                        {leftPad(selectedMethod.minutes)}
                                     </Typography>
                                     <Typography
                                         display="inline"
@@ -73,7 +79,7 @@ const Timer: FC = (): ReactElement => {
                                         variant="h3"
                                         component="h3"
                                     >
-                                        {leftPad(4)}
+                                        {leftPad(0)}
                                     </Typography>
                                 </div>
                             </div>
@@ -85,4 +91,9 @@ const Timer: FC = (): ReactElement => {
     );
 };
 
-export default Timer;
+const mapStateToProps = (state: any) => ({
+    selectedProject: selectSelectedProject(state),
+    selectedMethod: selectSelectedMethod(state),
+});
+
+export default connect(mapStateToProps)(Timer);

@@ -1,7 +1,9 @@
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
 const useMethodsStyels = makeStyles((theme: Theme) => ({
-    root: {},
+    root: {
+        display: "flex",
+    },
     tab: {
         color: theme.palette.common.white,
         minWidth: theme.spacing(7),
@@ -9,6 +11,9 @@ const useMethodsStyels = makeStyles((theme: Theme) => ({
             backgroundColor: theme.palette.primary.light,
             color: theme.palette.common.white,
         },
+    },
+    addMethod: {
+        paddingLeft: 0,
     },
 }));
 

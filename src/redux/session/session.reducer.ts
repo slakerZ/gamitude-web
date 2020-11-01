@@ -4,7 +4,7 @@ import { SessionType } from "./types";
 const INITIAL_STATE: SessionType = {
     sessionInProgress: false,
     sessionsComplete: 0,
-    sessionType: "stat",
+    sessionType: "STAT",
 };
 
 const sessionReducer = (state = INITIAL_STATE, action: any) => {

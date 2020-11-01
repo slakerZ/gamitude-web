@@ -13,9 +13,9 @@ const SessionTypeSwitch = ({
     const classes = useSessionManagerStyles();
 
     const handleChangeSessionType = () => {
-        sessionType === "stat"
-            ? setSessionType("energy")
-            : setSessionType("stat");
+        sessionType === "STAT"
+            ? setSessionType("ENERGY")
+            : setSessionType("STAT");
     };
 
     return (
@@ -31,7 +31,7 @@ const SessionTypeSwitch = ({
                     </Grid>
                     <Grid item>
                         <Switch
-                            checked={sessionType === "stat"}
+                            checked={sessionType === "STAT"}
                             onChange={handleChangeSessionType}
                             name="energiesStats"
                         />

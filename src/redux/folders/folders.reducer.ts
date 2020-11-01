@@ -22,10 +22,10 @@ const INITIAL_STATE = {
 
 const foldersReducer = (state = INITIAL_STATE, action: any) => {
     switch (action.type) {
-        case FoldersActionTypes.SET_FOLDERS:
+        case FoldersActionTypes.ADD_FOLDER:
             return {
                 ...state,
-                folders: action.payload,
+                folders: [...state.folders, action.payload],
             };
         default:
             return state;

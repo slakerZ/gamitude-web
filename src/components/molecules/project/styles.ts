@@ -9,25 +9,18 @@ const useProjectStyles = makeStyles((theme) => ({
         flexDirection: "column",
         backgroundColor: "transparent",
     },
-
+    textDanger: {
+        color: theme.palette.error.main,
+    },
     summary: {
         backgroundColor: theme.palette.primary.light,
     },
     details: {
-        backgroundColor: theme.palette.primary.main,
-        flexDirection: "column",
-    },
-    btnGroup: {
-        backgroundColor: "transparent",
         display: "flex",
-        justifyContent: "space-around",
-    },
-    btn: {
-        "&.Mui-selected": {
-            background: theme.palette.primary.dark,
-            "&:hover": {
-                background: theme.palette.primary.light,
-            },
+        flexDirection: "column",
+        backgroundColor: theme.palette.primary.main,
+        "& > *": {
+            margin: theme.spacing(1, 0),
         },
     },
     expansionPanelDetails: {

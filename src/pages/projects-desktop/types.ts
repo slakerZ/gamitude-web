@@ -6,7 +6,7 @@ export interface ProjectsType {
     token: string;
     addProject: any;
     folders: FolderType[];
-    setFolders: any;
+    addFolder: any;
 }
 
 export interface ProjectType {

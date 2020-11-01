@@ -3,18 +3,18 @@ import { Formik, Form } from "formik";
 import Typography from "@material-ui/core/Typography";
 import FormikField from "../../atoms/formik-field/formik-field.component";
 import Button from "@material-ui/core/Button";
-import { FormikFormType } from "./types";
+import { FormikFormPropType } from "./types";
 import useFormikFormStyles from "./styles";
 import Grid from "@material-ui/core/Grid";
 
-const FormikForm: FC<FormikFormType> = ({
+const FormikForm: FC<FormikFormPropType> = ({
     title,
     initialValues,
     schema,
     onSubmit,
     fields,
     state,
-}: FormikFormType) => {
+}: FormikFormPropType) => {
     const classes = useFormikFormStyles();
 
     return (
@@ -26,13 +26,15 @@ const FormikForm: FC<FormikFormType> = ({
             {({ dirty, isValid }) => {
                 return (
                     <Form autoComplete="off" className={classes.form}>
-                        <Typography
-                            className={classes.header}
-                            component="h1"
-                            variant="h1"
-                        >
-                            {title}
-                        </Typography>
+                        {title ? (
+                            <Typography
+                                className={classes.header}
+                                component="h1"
+                                variant="h1"
+                            >
+                                {title}
+                            </Typography>
+                        ) : null}
                         <Grid container spacing={2}>
                             {fields.map(
                                 ({ label, name, type, sm, xs }, index) => {

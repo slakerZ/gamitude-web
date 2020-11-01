@@ -4,6 +4,7 @@ const useSessionManagerStyles = makeStyles((theme) => {
     return {
         root: {
             padding: theme.spacing(2),
+            userSelect: "none",
         },
         switchGrid: {
             display: "flex",

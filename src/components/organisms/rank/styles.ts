@@ -7,6 +7,7 @@ const useRankStyles = makeStyles((theme) => {
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
+            userSelect: "none",
         },
         avatarWrapper: {},
         badgeWrapper: {

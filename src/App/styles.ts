@@ -24,7 +24,9 @@ const useAppStyles = makeStyles((theme: Theme) => ({
         }),
     },
     left: {},
-    center: {},
+    center: {
+        userSelect: "none",
+    },
     right: {},
     content: {
         display: "flex",
