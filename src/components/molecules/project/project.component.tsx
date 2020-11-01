@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useAsyncFn } from "react-use";
-
 // API
 import axios from "axios";
 import {
@@ -19,18 +18,12 @@ import {
 } from "../../../redux/projects/projects.actions";
 import { setName as setNameRedux } from "../../../redux/projects/projects.actions";
 import { setBoosted as setBoostedRedux } from "../../../redux/projects/projects.actions";
-
 // MUI
 import Typography from "@material-ui/core/Typography";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -38,7 +31,7 @@ import Radio from "@material-ui/core/Radio";
 import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
 //Components
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
-import BoostedDominantBtnGroup from "../../atoms/custom-toggle-button-group/boosted-dominant-btn-group.component";
+import BoostedDominantBtnGroup from "../boosted-dominant-btn-group/boosted-dominant-btn-group.component";
 // Local
 import { ProjectType } from "./types";
 import useProjectStyles from "./styles";
@@ -79,10 +72,6 @@ const Project = ({
             putDeleteAddProjectHeaders(token),
         );
         deleteProject(index);
-        setOpen(false);
-    };
-
-    const handleCancel = () => {
         setOpen(false);
     };
 
@@ -155,7 +144,7 @@ const Project = ({
                     setSessionType={setProjectType}
                 />
 
-                <Button onClick={handleDeletion} variant="contained">
+                <Button onClick={handleDeletion} variant="outlined">
                     <Typography component="h6" variant="h6">
                         {"Delete Project"}
                     </Typography>

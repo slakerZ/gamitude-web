@@ -1,10 +1,10 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import SessionTypeSwitch from "../session-type-switch/session-type-switch.component";
-import CustomToggleButtonGroup from "./custom-toggle-button-group.component";
-import { BoostedDominantBtnGroupPropTypes } from "./types";
-import useCustomToggleButtonGroupStyles from "./styles";
+import SessionTypeSwitch from "../../atoms/session-type-switch/session-type-switch.component";
+import CustomToggleButtonGroup from "../../atoms/custom-toggle-button-group/custom-toggle-button-group.component";
+import { BoostedDominantBtnGroupPropTypes } from "../../atoms/custom-toggle-button-group/types";
+import useBoostedDominantBtnGroupStyles from "./styles";
 import { STATS, ENERGIES } from "../../../constants";
 
 const BoostedDominantBtnGroup = ({
@@ -17,7 +17,7 @@ const BoostedDominantBtnGroup = ({
     sessionType,
     setSessionType,
 }: BoostedDominantBtnGroupPropTypes) => {
-    const classes = useCustomToggleButtonGroupStyles();
+    const classes = useBoostedDominantBtnGroupStyles();
 
     const handleNameChange = (event: { target: { value: string } }) => {
         setName(event.target.value);

@@ -1,6 +1,6 @@
 import { FoldersActionTypes } from "./folders.types";
 
-export const setFolders = (value: any) => ({
-    type: FoldersActionTypes.SET_FOLDERS,
+export const addFolder = (value: any) => ({
+    type: FoldersActionTypes.ADD_FOLDER,
     payload: value,
 });

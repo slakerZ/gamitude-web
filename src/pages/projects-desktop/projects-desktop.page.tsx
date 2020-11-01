@@ -21,9 +21,10 @@ import { connect } from "react-redux";
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
-import { setFolders } from "../../redux/folders/folders.actions";
+import { addFolder } from "../../redux/folders/folders.actions";
 import { setProjects } from "../../redux/projects/projects.actions";
 import { addProject } from "../../redux/projects/projects.actions";
+import { selectFolders } from "../../redux/folders/folders.selectors";
 // Atoms
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
 import ToggleAbleTooltip from "../../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
@@ -36,22 +37,29 @@ import {
     TabPanel,
     a11yProps,
 } from "../../components/atoms/tab-panel/tab-panel.component";
-import { selectFolders } from "../../redux/folders/folders.selectors";
 import CustomDialog from "../../components/atoms/custom-dialog/custom-dialog.component";
-import BoostedDominantBtnGroup from "../../components/atoms/custom-toggle-button-group/boosted-dominant-btn-group.component";
+import BoostedDominantBtnGroup from "../../components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
+import { TextField, Typography } from "@material-ui/core";
+import CustomToggleButtonGroup from "../../components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
+import { ICONS } from "../../components/atoms/custom-icon/constants";
 
 const ProjectsDesktopPage = ({
     projects,
     setProjects,
     token,
     addProject,
-    setFolders,
+    addFolder,
     folders,
 }: ProjectsType) => {
     const classes = useProjectDesktopStyles();
 
-    const [currFolder, setCurrFolder] = useState(0);
     const [isNewProjectFormOpen, setIsNewProjectFormOpen] = useState(false);
+    const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = useState(false);
+
+    const [folderName, setFolderName] = useState("");
+    const [icon, setIcon] = useState("");
+    const [currFolder, setCurrFolder] = useState(0);
+
     const [name, setName] = useState("");
     const [boosted, setBoosted] = useState([""]);
     const [dominant, setDominant] = useState("");
@@ -90,10 +98,12 @@ const ProjectsDesktopPage = ({
     });
 
     const handleAddFolder = () => {
-        setFolders([
-            ...folders,
-            { label: "New Folder", icon: "active", index: folders.length },
-        ]);
+        addFolder({
+            label: folderName,
+            icon: icon,
+            index: folders.length,
+        });
+        setIsNewFolderDialogOpen(false);
     };
 
     const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
@@ -106,6 +116,14 @@ const ProjectsDesktopPage = ({
 
     const handleChangeSelectedProject = (event: any) => {
         setSelected(event.target.value);
+    };
+
+    const handleIconChange = (e: any, newIcon: any) => {
+        setIcon(newIcon);
+    };
+
+    const handleChangeFolderName = (e: any) => {
+        setFolderName(e.target.value);
     };
 
     return (
@@ -136,11 +154,44 @@ const ProjectsDesktopPage = ({
                     <IconButton
                         aria-label="Add folder"
                         color="primary"
-                        onClick={handleAddFolder}
+                        onClick={() => setIsNewFolderDialogOpen(true)}
                     >
                         <AddIcon />
                     </IconButton>
                 </ToggleAbleTooltip>
+                <CustomDialog
+                    aria-label="Create New Folder Dialog"
+                    open={isNewFolderDialogOpen}
+                    setOpen={setIsNewFolderDialogOpen}
+                    title={"Create New Folder"}
+                    onSubmit={handleAddFolder}
+                >
+                    <div
+                        aria-label="Create New Folder Dialog's Body"
+                        className={classes.newFolderDialogBody}
+                    >
+                        <TextField
+                            label={"Name"}
+                            variant={"outlined"}
+                            fullWidth
+                            value={folderName}
+                            onChange={handleChangeFolderName}
+                        />
+                        <Typography
+                            variant={"h4"}
+                            component={"h4"}
+                            align={"center"}
+                        >
+                            {"Choose folder icon"}
+                        </Typography>
+                        <CustomToggleButtonGroup
+                            value={icon}
+                            handleChange={handleIconChange}
+                            items={ICONS}
+                            exclusive={true}
+                        />
+                    </div>
+                </CustomDialog>
             </div>
             <div
                 aria-label="Projects in current Folder"
@@ -184,6 +235,7 @@ const ProjectsDesktopPage = ({
             </div>
 
             <CustomDialog
+                aria-label="Create New Project Dialog"
                 open={isNewProjectFormOpen}
                 setOpen={setIsNewProjectFormOpen}
                 title={"Create new project"}
@@ -214,7 +266,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
     setProjects: (value: any) => dispatch(setProjects(value)),
     addProject: (value: any) => dispatch(addProject(value)),
-    setFolders: (value: any) => dispatch(setFolders(value)),
+    addFolder: (value: any) => dispatch(addFolder(value)),
 });
 
 export default connect(

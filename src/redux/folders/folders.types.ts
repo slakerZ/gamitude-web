@@ -1,3 +1,3 @@
 export const FoldersActionTypes = {
-    SET_FOLDERS: "SET_FOLDERS",
+    ADD_FOLDER: "ADD_FOLDER",
 };

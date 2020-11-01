@@ -5,6 +5,7 @@ const useCustomToggleButtonGroupStyles = makeStyles((theme: Theme) => ({
         backgroundColor: "transparent",
         display: "flex",
         justifyContent: "space-around",
+        flexWrap: "wrap",
     },
     btn: {
         "&.Mui-selected": {
