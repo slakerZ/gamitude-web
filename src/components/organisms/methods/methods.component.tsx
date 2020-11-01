@@ -164,13 +164,8 @@ const Methods = ({
                             value={type}
                             onChange={handleChangeType}
                         >
-                            <MenuItem className={classes.item} value={"TIMER"}>
-                                {"Timer"}
-                            </MenuItem>
-                            <MenuItem
-                                className={classes.item}
-                                value={"STOPWATCH"}
-                            >
+                            <MenuItem value={"TIMER"}>{"Timer"}</MenuItem>
+                            <MenuItem value={"STOPWATCH"}>
                                 {"Stopwatch"}
                             </MenuItem>
                         </TextField>

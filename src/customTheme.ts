@@ -21,6 +21,11 @@ const theme = createMuiTheme({
         // warning: {},
         // info: {},
         // success: {},
+        action: {
+            selected: "rgba( 28, 60,135,1)",
+            hover: "rgba( 28, 60,135,1)",
+            disabled: "rgba( 77, 66,  9,1)",
+        },
     },
     typography: {
         allVariants: {
@@ -40,6 +45,13 @@ const theme = createMuiTheme({
             "sans - serif",
             "Atomic Age",
         ].join(","),
+    },
+    overrides: {
+        MuiMenuItem: {
+            root: {
+                backgroundColor: "rgba( 18, 39, 86,1)",
+            },
+        },
     },
 });
 

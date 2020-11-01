@@ -7,4 +7,5 @@ export interface ProjectType {
     deleteProject: any;
     token: any;
     setSelectedProject: any;
+    setStatusRedux: any;
 }

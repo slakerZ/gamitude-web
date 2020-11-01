@@ -3,9 +3,13 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import SessionTypeSwitch from "../../atoms/session-type-switch/session-type-switch.component";
 import CustomToggleButtonGroup from "../../atoms/custom-toggle-button-group/custom-toggle-button-group.component";
-import { BoostedDominantBtnGroupPropTypes } from "../../atoms/custom-toggle-button-group/types";
 import useBoostedDominantBtnGroupStyles from "./styles";
 import { STATS, ENERGIES } from "../../../constants";
+import MenuItem from "@material-ui/core/MenuItem";
+import { connect } from "react-redux";
+import { selectFolders } from "../../../redux/folders/folders.selectors";
+import { BoostedDominantBtnGroupPropTypes } from "./types";
+import { ReduxStateType } from "../../../redux/root.reducer";
 
 const BoostedDominantBtnGroup = ({
     boosted,
@@ -16,10 +20,13 @@ const BoostedDominantBtnGroup = ({
     setName,
     sessionType,
     setSessionType,
+    folders,
+    folder,
+    setFolder,
 }: BoostedDominantBtnGroupPropTypes) => {
     const classes = useBoostedDominantBtnGroupStyles();
 
-    const handleNameChange = (event: { target: { value: string } }) => {
+    const handleNameChange = (event: any) => {
         setName(event.target.value);
     };
 
@@ -33,6 +40,10 @@ const BoostedDominantBtnGroup = ({
         if (boosted.includes(newDominant)) {
             setDominant(newDominant);
         }
+    };
+
+    const handleFolderChange = (event: any) => {
+        setFolder(event.target.value);
     };
 
     return (
@@ -96,7 +107,28 @@ const BoostedDominantBtnGroup = ({
                     />
                 )}
             </div>
+            <TextField
+                label="FOLDER"
+                select
+                variant="outlined"
+                value={folder}
+                onChange={handleFolderChange}
+                fullWidth
+            >
+                {folders.map(({ label, index }) => {
+                    return (
+                        <MenuItem key={index} value={index}>
+                            {label}
+                        </MenuItem>
+                    );
+                })}
+            </TextField>
         </div>
     );
 };
-export default BoostedDominantBtnGroup;
+
+const mapStateToProps = (state: ReduxStateType) => ({
+    folders: selectFolders(state),
+});
+
+export default connect(mapStateToProps)(BoostedDominantBtnGroup);

@@ -10,7 +10,10 @@ import {
 // Redux
 import { connect } from "react-redux";
 import { selectProjects } from "../../../redux/projects/projects.selectors";
-import { deleteProject } from "../../../redux/projects/projects.actions";
+import {
+    deleteProject,
+    setStatus,
+} from "../../../redux/projects/projects.actions";
 import { selectToken } from "../../../redux/user/user.selectors";
 import {
     setDominant as setDominantRedux,
@@ -46,6 +49,7 @@ const Project = ({
     setNameRedux,
     setBoostedRedux,
     setDominantRedux,
+    setStatusRedux,
 }: ProjectType) => {
     const classes = useProjectStyles();
 
@@ -55,7 +59,9 @@ const Project = ({
     const dominantRedux = projects[index].dominant;
     const boostedRedux = projects[index].boosted;
     const nameRedux = projects[index].name;
+    const folderRedux = projects[index].status;
 
+    const [folder, setFolder] = useState(folderRedux);
     const [name, setName] = useState(nameRedux);
     const [boosted, setBoosted] = useState(boostedRedux);
     const [dominant, setDominant] = useState(dominantRedux);
@@ -96,6 +102,10 @@ const Project = ({
             index: index,
             newDominant: dominant,
         });
+        setStatusRedux({
+            index: index,
+            status: folder,
+        });
 
         setExpanded(false);
 
@@ -106,7 +116,7 @@ const Project = ({
         );
         const data = await response.data;
         return data;
-    }, [name, boosted, dominant]);
+    }, [name, boosted, dominant, folder]);
 
     return (
         <Accordion
@@ -142,6 +152,8 @@ const Project = ({
                     setName={setName}
                     sessionType={projectType}
                     setSessionType={setProjectType}
+                    folder={folder}
+                    setFolder={setFolder}
                 />
 
                 <Button onClick={handleDeletion} variant="outlined">
@@ -190,6 +202,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     setDominantRedux: (value: any) => dispatch(setDominantRedux(value)),
     deleteProject: (value: any) => dispatch(deleteProject(value)),
     setSelectedProject: (value: any) => dispatch(setSelectedProject(value)),
+    setStatusRedux: (value: any) => dispatch(setStatus(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);
