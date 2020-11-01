@@ -56,6 +56,7 @@ const ProjectsDesktopPage = ({
     const [isNewProjectFormOpen, setIsNewProjectFormOpen] = useState(false);
     const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = useState(false);
 
+    const [defaultMethod, setDefaultMethod] = useState(0);
     const [folder, setFolder] = useState(folders[0].index);
     const [folderName, setFolderName] = useState("");
     const [icon, setIcon] = useState("");
@@ -253,6 +254,8 @@ const ProjectsDesktopPage = ({
                     setSessionType={setSessionType}
                     folder={folder}
                     setFolder={setFolder}
+                    method={defaultMethod}
+                    setMethod={setDefaultMethod}
                 />
             </CustomDialog>
         </div>

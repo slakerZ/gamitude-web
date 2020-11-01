@@ -1,3 +1,5 @@
+import { MethodType } from "../../../redux/methods/types";
+
 export interface ProjectType {
     index: number;
     setNameRedux: any;
@@ -8,4 +10,6 @@ export interface ProjectType {
     token: any;
     setSelectedProject: any;
     setStatusRedux: any;
+    setFolderRedux: any;
+    methods: MethodType[];
 }

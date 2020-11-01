@@ -8,6 +8,7 @@ import { STATS, ENERGIES } from "../../../constants";
 import MenuItem from "@material-ui/core/MenuItem";
 import { connect } from "react-redux";
 import { selectFolders } from "../../../redux/folders/folders.selectors";
+import { selectMethods } from "../../../redux/methods/methods.selectors";
 import { BoostedDominantBtnGroupPropTypes } from "./types";
 import { ReduxStateType } from "../../../redux/root.reducer";
 
@@ -23,6 +24,9 @@ const BoostedDominantBtnGroup = ({
     folders,
     folder,
     setFolder,
+    methods,
+    method,
+    setMethod,
 }: BoostedDominantBtnGroupPropTypes) => {
     const classes = useBoostedDominantBtnGroupStyles();
 
@@ -44,6 +48,10 @@ const BoostedDominantBtnGroup = ({
 
     const handleFolderChange = (event: any) => {
         setFolder(event.target.value);
+    };
+
+    const handleDefaultMethodChange = (event: any) => {
+        setMethod(event.target.value);
     };
 
     return (
@@ -108,6 +116,7 @@ const BoostedDominantBtnGroup = ({
                 )}
             </div>
             <TextField
+                aria-label="Select Folder"
                 label="FOLDER"
                 select
                 variant="outlined"
@@ -123,12 +132,30 @@ const BoostedDominantBtnGroup = ({
                     );
                 })}
             </TextField>
+            <TextField
+                aria-label="Select Default Method"
+                label="DEFAULT METHOD"
+                select
+                variant="outlined"
+                value={method}
+                onChange={handleDefaultMethodChange}
+                fullWidth
+            >
+                {methods.map(({ label }, index) => {
+                    return (
+                        <MenuItem key={index} value={index}>
+                            {label}
+                        </MenuItem>
+                    );
+                })}
+            </TextField>
         </div>
     );
 };
 
 const mapStateToProps = (state: ReduxStateType) => ({
     folders: selectFolders(state),
+    methods: selectMethods(state),
 });
 
 export default connect(mapStateToProps)(BoostedDominantBtnGroup);

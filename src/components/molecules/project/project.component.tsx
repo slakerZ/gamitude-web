@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { selectProjects } from "../../../redux/projects/projects.selectors";
 import {
     deleteProject,
+    setMethod,
     setStatus,
 } from "../../../redux/projects/projects.actions";
 import { selectToken } from "../../../redux/user/user.selectors";
@@ -19,8 +20,12 @@ import {
     setDominant as setDominantRedux,
     setSelectedProject,
 } from "../../../redux/projects/projects.actions";
-import { setName as setNameRedux } from "../../../redux/projects/projects.actions";
+import {
+    setName as setNameRedux,
+    setMethod as setFolderRedux,
+} from "../../../redux/projects/projects.actions";
 import { setBoosted as setBoostedRedux } from "../../../redux/projects/projects.actions";
+import { selectMethods } from "../../../redux/methods/methods.selectors";
 // MUI
 import Typography from "@material-ui/core/Typography";
 import Accordion from "@material-ui/core/Accordion";
@@ -50,6 +55,8 @@ const Project = ({
     setBoostedRedux,
     setDominantRedux,
     setStatusRedux,
+    setFolderRedux,
+    methods,
 }: ProjectType) => {
     const classes = useProjectStyles();
 
@@ -60,7 +67,10 @@ const Project = ({
     const boostedRedux = projects[index].boosted;
     const nameRedux = projects[index].name;
     const folderRedux = projects[index].status;
+    // TODO: New api adjust
+    const methodRedux = projects[index].method;
 
+    const [defaultMethod, setDefaultMethod] = useState(0);
     const [folder, setFolder] = useState(folderRedux);
     const [name, setName] = useState(nameRedux);
     const [boosted, setBoosted] = useState(boostedRedux);
@@ -106,6 +116,10 @@ const Project = ({
             index: index,
             status: folder,
         });
+        setFolderRedux({
+            index: index,
+            method: methods[defaultMethod],
+        });
 
         setExpanded(false);
 
@@ -116,7 +130,7 @@ const Project = ({
         );
         const data = await response.data;
         return data;
-    }, [name, boosted, dominant, folder]);
+    }, [name, boosted, dominant, folder, defaultMethod]);
 
     return (
         <Accordion
@@ -154,6 +168,8 @@ const Project = ({
                     setSessionType={setProjectType}
                     folder={folder}
                     setFolder={setFolder}
+                    method={defaultMethod}
+                    setMethod={setDefaultMethod}
                 />
 
                 <Button onClick={handleDeletion} variant="outlined">
@@ -194,6 +210,7 @@ const Project = ({
 const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     token: selectToken(state),
+    methods: selectMethods(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -203,6 +220,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     deleteProject: (value: any) => dispatch(deleteProject(value)),
     setSelectedProject: (value: any) => dispatch(setSelectedProject(value)),
     setStatusRedux: (value: any) => dispatch(setStatus(value)),
+    setFolderRedux: (value: any) => dispatch(setFolderRedux(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);

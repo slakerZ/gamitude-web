@@ -19,14 +19,16 @@ import Checkbox from "@material-ui/core/Checkbox";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
+import { selectSelectedMethod } from "../../../redux/methods/methods.selectors";
 
 const Methods = ({
     methods,
     setSelectedMethod,
     setMethods,
+    selectedMethod,
 }: MethodsPropType) => {
     const classes = useMethodsStyles();
-    const [method, setMethod] = useState(0);
+    const [method, setMethod] = useState(methods.indexOf(selectedMethod));
     const [open, setOpen] = useState(false);
 
     const [label, setLabel] = useState(" ");
@@ -231,6 +233,7 @@ const Methods = ({
 
 const mapStateToProps = (state: ReduxStateType) => ({
     methods: selectMethods(state),
+    selectedMethod: selectSelectedMethod(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

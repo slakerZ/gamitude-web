@@ -1,4 +1,5 @@
 import { FolderType } from "../../../redux/folders/types";
+import { MethodType } from "../../../redux/methods/types";
 
 export interface BoostedDominantBtnGroupPropTypes {
     boosted: any[];
@@ -12,4 +13,7 @@ export interface BoostedDominantBtnGroupPropTypes {
     folders: FolderType[];
     folder: any;
     setFolder: any;
+    methods: MethodType[];
+    method: any;
+    setMethod: any;
 }
