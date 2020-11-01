@@ -139,7 +139,7 @@ const ProjectsDesktopPage = ({
                     onChange={handleChange}
                     className={classes.tabs}
                 >
-                    {folders.map(({ label, icon, index }) => {
+                    {folders.map(({ label, icon }, index) => {
                         return (
                             <Tab
                                 key={index}
