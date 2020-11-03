@@ -1,9 +1,10 @@
-import React, { ReactElement } from "react";
-// UI Core
-import TextField from "@material-ui/core/TextField";
-// Formik
 import { Field, ErrorMessage } from "formik";
+import React, { ReactElement } from "react";
+
+import TextField from "@material-ui/core/TextField";
+
 import { FormikFieldPropType } from "./types";
+
 import useFormikFieldStyles from "./styles";
 
 const FormikField = ({

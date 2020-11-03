@@ -1,10 +1,12 @@
 import React, { ReactElement, Fragment } from "react";
-import Switch from "@material-ui/core/Switch";
+
 import Grid from "@material-ui/core/Grid";
+import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
-// Local
-import useSessionManagerStyles from "./styles";
+
 import { SessionManagerPropType } from "./types";
+
+import useSessionManagerStyles from "./styles";
 
 const SessionTypeSwitch = ({
     setSessionType,

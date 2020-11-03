@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { a11yProps } from "../../atoms/tab-panel/tab-panel.component";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import TimerIcon from "@material-ui/icons/Timer";
-import useMethodsStyles from "./styles";
-import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
-import { setSelectedMethod } from "../../../redux/methods/methods.actions";
-import { MethodsPropType } from "./types";
-import AddAlarm from "@material-ui/icons/AddAlarm";
-import { ReduxStateType } from "../../../redux/root.reducer";
-import { selectMethods } from "../../../redux/methods/methods.selectors";
-import { setMethods } from "../../../redux/methods/methods.actions";
-import IconButton from "@material-ui/core/IconButton";
-import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
-import TextField from "@material-ui/core/TextField";
+
 import Checkbox from "@material-ui/core/Checkbox";
-import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import MenuItem from "@material-ui/core/MenuItem";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import TextField from "@material-ui/core/TextField";
+import AddAlarm from "@material-ui/icons/AddAlarm";
+import TimerIcon from "@material-ui/icons/Timer";
+
+import { setSelectedMethod } from "../../../redux/methods/methods.actions";
+import { setMethods } from "../../../redux/methods/methods.actions";
+import { selectMethods } from "../../../redux/methods/methods.selectors";
 import { selectSelectedMethod } from "../../../redux/methods/methods.selectors";
+import { ReduxStateType } from "../../../redux/root.reducer";
+
+import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
+import { a11yProps } from "../../atoms/tab-panel/tab-panel.component";
+import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
+
+import { MethodsPropType } from "./types";
+
+import useMethodsStyles from "./styles";
 
 const Methods = ({
     methods,

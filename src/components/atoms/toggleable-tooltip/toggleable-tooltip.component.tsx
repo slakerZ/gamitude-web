@@ -1,9 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
+
 import Tooltip from "@material-ui/core/Tooltip";
+
 import { ReduxStateType } from "../../../redux/root.reducer";
 import { selectTooltipToggle } from "../../../redux/user/user.selectors";
+
 import CustomTooltipText from "../custom-tooltip-text/custom-tooltip-text.component";
+
 import { ToggleAbleTooltipPropType } from "./types";
 
 const ToggleAbleTooltip = ({
