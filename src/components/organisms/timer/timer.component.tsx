@@ -5,10 +5,10 @@ import Badge from "@material-ui/core/Badge";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-import { selectSelectedMethod } from "../../../redux/methods/methods.selectors";
-import { selectSelectedProject } from "../../../redux/projects/projects.selectors";
+import { selectSelectedMethod } from "redux/methods/methods.selectors";
+import { selectSelectedProject } from "redux/projects/projects.selectors";
 
-import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import { TimerPropTypes } from "./types";
 

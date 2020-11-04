@@ -13,35 +13,34 @@ import Radio from "@material-ui/core/Radio";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-import { selectMethods } from "../../../redux/methods/methods.selectors";
+import { selectMethods } from "redux/methods/methods.selectors";
 import {
     deleteProject,
     setMethod,
     setStatus,
-} from "../../../redux/projects/projects.actions";
+} from "redux/projects/projects.actions";
 import {
     setDominant as setDominantRedux,
     setSelectedProject,
-} from "../../../redux/projects/projects.actions";
+} from "redux/projects/projects.actions";
 import {
     setName as setNameRedux,
     setMethod as setFolderRedux,
-} from "../../../redux/projects/projects.actions";
-import { setBoosted as setBoostedRedux } from "../../../redux/projects/projects.actions";
-import { selectProjects } from "../../../redux/projects/projects.selectors";
-import { selectToken } from "../../../redux/user/user.selectors";
+} from "redux/projects/projects.actions";
+import { setBoosted as setBoostedRedux } from "redux/projects/projects.actions";
+import { selectProjects } from "redux/projects/projects.selectors";
+import { selectToken } from "redux/user/user.selectors";
 
 import {
     putDeleteProjectUrl,
     putDeleteAddProjectHeaders,
     putProjectRequestBody,
-} from "../../../api/projects/projects.api";
+} from "api/projects/projects.api";
 
-import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
-import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
-import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
-
-import BoostedDominantBtnGroup from "../boosted-dominant-btn-group/boosted-dominant-btn-group.component";
+import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+import BoostedDominantBtnGroup from "components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
 
 import { ProjectType } from "./types";
 

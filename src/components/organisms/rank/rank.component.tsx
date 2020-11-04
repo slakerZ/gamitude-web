@@ -8,14 +8,14 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 
-import { ReduxStateType } from "../../../redux/root.reducer";
-import { selectSessionsComplete } from "../../../redux/session/session.selectors";
-import { selectToken } from "../../../redux/user/user.selectors";
+import { ReduxStateType } from "redux/root.reducer";
+import { selectSessionsComplete } from "redux/session/session.selectors";
+import { selectToken } from "redux/user/user.selectors";
 
-import { getRank } from "../../../api/stats/stats.api";
+import { getRank } from "api/stats/stats.api";
 
-import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
-import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import useRankStyles from "./styles";
 

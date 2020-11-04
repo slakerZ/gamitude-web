@@ -7,17 +7,17 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 
-import { setEnergies } from "../../../redux/energies/energies.actions";
-import { selectEnergies } from "../../../redux/energies/energies.selectors";
-import { selectSessionsComplete } from "../../../redux/session/session.selectors";
-import { setStats } from "../../../redux/stats/stats.actions";
-import { selectStats } from "../../../redux/stats/stats.selectors";
-import { selectToken } from "../../../redux/user/user.selectors";
+import { setEnergies } from "redux/energies/energies.actions";
+import { selectEnergies } from "redux/energies/energies.selectors";
+import { selectSessionsComplete } from "redux/session/session.selectors";
+import { setStats } from "redux/stats/stats.actions";
+import { selectStats } from "redux/stats/stats.selectors";
+import { selectToken } from "redux/user/user.selectors";
 
-import { getStats, getEnergies } from "../../../api/stats/stats.api";
+import { getStats, getEnergies } from "api/stats/stats.api";
 
-import CustomIconWithTypography from "../../atoms/custom-icon-with-typography/custom-icon-with-typography.component";
-import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
+import CustomIconWithTypography from "components/atoms/custom-icon-with-typography/custom-icon-with-typography.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import { StatsAndEnergiesType } from "./types";
 

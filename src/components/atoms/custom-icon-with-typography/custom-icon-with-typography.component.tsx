@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from "react";
 
 import Typography from "@material-ui/core/Typography";
 
-import CustomIcon from "../custom-icon/custom-icon.component";
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 
 import { CustomIconWithTypographyType } from "./types";
 

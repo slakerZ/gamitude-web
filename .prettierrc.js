@@ -1,14 +1,10 @@
 module.exports = {
     importOrder: [
         "^@material-ui/(.*)$",
-        "^../../../redux/(.*)$",
-        "^../../../api/(.*)$",
-        "^../../atoms/(.*)$",
-        "^../boosted-dominant-btn-group/(.*)$",
-        "^../custom-tooltip-text/(.*)$",
-        "^../custom-icon/(.*)$",
+        "^redux/(.*)$",
+        "^api/(.*)$",
+        "^components/(.*)$",
         "^../../../constants",
-        "^./constants",
         "^./types",
         "^./styles",
     ],

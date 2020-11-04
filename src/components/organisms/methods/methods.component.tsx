@@ -12,15 +12,15 @@ import TextField from "@material-ui/core/TextField";
 import AddAlarm from "@material-ui/icons/AddAlarm";
 import TimerIcon from "@material-ui/icons/Timer";
 
-import { setSelectedMethod } from "../../../redux/methods/methods.actions";
-import { setMethods } from "../../../redux/methods/methods.actions";
-import { selectMethods } from "../../../redux/methods/methods.selectors";
-import { selectSelectedMethod } from "../../../redux/methods/methods.selectors";
-import { ReduxStateType } from "../../../redux/root.reducer";
+import { setSelectedMethod } from "redux/methods/methods.actions";
+import { setMethods } from "redux/methods/methods.actions";
+import { selectMethods } from "redux/methods/methods.selectors";
+import { selectSelectedMethod } from "redux/methods/methods.selectors";
+import { ReduxStateType } from "redux/root.reducer";
 
-import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
-import { a11yProps } from "../../atoms/tab-panel/tab-panel.component";
-import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
+import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
+import { a11yProps } from "components/atoms/tab-panel/tab-panel.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import { MethodsPropType } from "./types";
 

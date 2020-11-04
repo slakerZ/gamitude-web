@@ -3,7 +3,7 @@ import React from "react";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
-import CustomIcon from "../custom-icon/custom-icon.component";
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 
 import { CustomToggleButtonGroupPropTypes } from "./types";
 
