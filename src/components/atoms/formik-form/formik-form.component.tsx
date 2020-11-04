@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import { FormikFormPropType } from "./types";
 import useFormikFormStyles from "./styles";
 import Grid from "@material-ui/core/Grid";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const FormikForm: FC<FormikFormPropType> = ({
     title,
@@ -56,7 +57,15 @@ const FormikForm: FC<FormikFormPropType> = ({
                             variant="outlined"
                             className={classes.submit}
                         >
-                            {state.error ? "retry" : title}
+                            {state.error ? (
+                                "RETRY"
+                            ) : state.loading ? (
+                                <CircularProgress />
+                            ) : title ? (
+                                title
+                            ) : (
+                                "SUBMIT"
+                            )}
                         </Button>
                     </Form>
                 );

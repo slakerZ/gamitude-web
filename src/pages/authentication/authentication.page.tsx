@@ -1,5 +1,4 @@
-import React, { useState, MouseEvent } from "react";
-import axios from "axios";
+import React, { useState, MouseEvent, useEffect } from "react";
 import { useAsyncFn } from "react-use";
 import clsx from "clsx";
 import Fade from "@material-ui/core/Fade";
@@ -20,64 +19,78 @@ import {
     signInFields,
 } from "./sign-in-schema";
 import { setUser } from "../../redux/user/user.actions";
-import {
-    signInUrl,
-    signInRequestBody,
-} from "../../api/authentication/authentication.api";
-import {
-    signUpUrl,
-    signUpRequestBody,
-} from "../../api/authentication/authentication.api";
 import FormikForm from "../../components/atoms/formik-form/formik-form.component";
 import { AuthenticationType } from "./types";
-import {
-    SignUpValuesType,
-    SignInValuesType,
-} from "../../api/authentication/types";
 import { ReduxStateType } from "../../redux/root.reducer";
+import { postRegister } from "api/users/users.api";
+import { postRegisterRequestBodyType } from "api/users/types";
+import { postLogin } from "api/authorization/authorization.api";
+import { postLoginRequestBodyType } from "api/authorization/types";
+import CustomSnackBar from "components/atoms/custom-snackbar/custom-snackbar.component";
+import { AlertProps } from "@material-ui/lab/Alert";
 
 const AuthenticationPage = ({ setUser }: AuthenticationType) => {
     const classes = useSignInUpStyles();
 
-    const [isSignUp, setIsSignUp] = useState(false);
+    const [isSignUp, setIsSignUp] = useState(true);
+    const [apiFeedbackOpen, setApiFeedbackOpen] = useState(false);
+    const [severity, setSeverity] = useState<AlertProps["severity"]>(undefined);
+    const [message, setMessage] = useState("");
 
     const [signUpState, signUp] = useAsyncFn(
-        async (values: SignUpValuesType) => {
-            const response = await axios.post(
-                signUpUrl,
-                signUpRequestBody(values),
-            );
-            const data = await response.data;
-            setIsSignUp(!isSignUp);
+        async (postRegisterRequestBody: postRegisterRequestBodyType) => {
+            const data = await postRegister(postRegisterRequestBody);
             return data;
         },
-        [signUpUrl],
+        [postRegister],
     );
 
     const [signInState, signIn] = useAsyncFn(
-        async (values: SignInValuesType) => {
-            const response = await axios.post(
-                signInUrl,
-                signInRequestBody(values),
-            );
-            const data = await response.data;
-            setUser(data);
+        async (postLoginRequestBody: postLoginRequestBodyType) => {
+            const data = await postLogin(postLoginRequestBody);
+            setUser(data.data);
             return data;
         },
-        [signInUrl],
+        [postLogin],
     );
 
     const handleSwitchSignUpIn = (event: MouseEvent) => {
         event.preventDefault();
         setIsSignUp(!isSignUp);
+        setApiFeedbackOpen(false);
     };
+
+    useEffect(() => {
+        if (signUpState.error && !signUpState.loading && !signUpState.value) {
+            const msg = signUpState.error.message.includes("401")
+                ? "Username or Email already taken"
+                : "Failed to register";
+            setSeverity("error");
+            setMessage(msg);
+            setApiFeedbackOpen(true);
+        } else if (signUpState.value) {
+            setSeverity("success");
+            setMessage("Successfully registered");
+            setApiFeedbackOpen(true);
+            setIsSignUp(false);
+        }
+    }, [signUpState]);
+
+    useEffect(() => {
+        if (signInState.error && !signInState.loading && !signInState.value) {
+            const msg = "Failed to Log in";
+            setSeverity("error");
+            setMessage(msg);
+            setApiFeedbackOpen(true);
+        }
+    }, [signInState]);
 
     return (
         <div className={classes.root}>
-            <Fade in={!isSignUp} timeout={FADE_TIMEOUT}>
+            <Fade in={isSignUp} timeout={FADE_TIMEOUT}>
                 <div
                     className={clsx(classes.signUp, {
-                        [classes.none]: isSignUp,
+                        [classes.none]: !isSignUp,
                     })}
                 >
                     <div className={classes.formWrapper}>
@@ -86,8 +99,8 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
                             schema={SignUpSchema}
                             onSubmit={signUp}
                             fields={signUpFields}
-                            state={signUpState}
                             title={"Sign Up"}
+                            state={signUpState}
                         />
                         <Typography
                             className={classes.link}
@@ -101,10 +114,10 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
                     <div className={clsx(classes.image, classes.signUpImage)} />
                 </div>
             </Fade>
-            <Fade in={isSignUp} timeout={FADE_TIMEOUT}>
+            <Fade in={!isSignUp} timeout={FADE_TIMEOUT}>
                 <div
                     className={clsx(classes.signIn, {
-                        [classes.none]: !isSignUp,
+                        [classes.none]: isSignUp,
                     })}
                 >
                     <div className={clsx(classes.image, classes.signInImage)} />
@@ -117,6 +130,7 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
                             state={signInState}
                             title={"Sign In"}
                         />
+
                         {signInState.value &&
                         !signInState.loading &&
                         !signInState.error ? (
@@ -133,6 +147,13 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
                     </div>
                 </div>
             </Fade>
+
+            <CustomSnackBar
+                open={apiFeedbackOpen}
+                setOpen={setApiFeedbackOpen}
+                severity={severity}
+                message={message}
+            />
         </div>
     );
 };
