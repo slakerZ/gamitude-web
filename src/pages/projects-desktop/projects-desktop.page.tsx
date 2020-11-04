@@ -1,47 +1,47 @@
-import React, { useState, MouseEvent } from "react";
 import axios from "axios";
+import React, { useState, MouseEvent } from "react";
+import { connect } from "react-redux";
 import { useAsyncFn, useEffectOnce } from "react-use";
-// MUI
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+
+import { TextField, Typography } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import RadioGroup from "@material-ui/core/RadioGroup";
 import IconButton from "@material-ui/core/IconButton";
-// API
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import AddIcon from "@material-ui/icons/Add";
+
+import { addFolder } from "redux/folders/folders.actions";
+import { selectFolders } from "redux/folders/folders.selectors";
+import { setProjects } from "redux/projects/projects.actions";
+import { addProject } from "redux/projects/projects.actions";
+import { selectProjects } from "redux/projects/projects.selectors";
+import { selectSessionInProgress } from "redux/session/session.selectors";
+import { selectToken } from "redux/user/user.selectors";
+
+import { convertForFront, parseProjects } from "api/mappings";
 import {
     getAddProjectsUrl,
     addProjectRequestBody,
     putDeleteAddProjectHeaders,
     getProjectsHeaders,
-} from "../../api/projects/projects.api";
-import { convertForFront, parseProjects } from "../../api/mappings";
-// Redux
-import { connect } from "react-redux";
-import { selectToken } from "../../redux/user/user.selectors";
-import { selectProjects } from "../../redux/projects/projects.selectors";
-import { selectSessionInProgress } from "../../redux/session/session.selectors";
-import { addFolder } from "../../redux/folders/folders.actions";
-import { setProjects } from "../../redux/projects/projects.actions";
-import { addProject } from "../../redux/projects/projects.actions";
-import { selectFolders } from "../../redux/folders/folders.selectors";
-// Atoms
-import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
-import ToggleAbleTooltip from "../../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
-// Molecules
-import Project from "../../components/molecules/project/project.component";
-// Local
-import { ProjectsType } from "./types";
-import useProjectDesktopStyles from "./styles";
+} from "api/projects/projects.api";
+
+import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
+import { ICONS } from "components/atoms/custom-icon/constants";
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
+import CustomToggleButtonGroup from "components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
 import {
     TabPanel,
     a11yProps,
-} from "../../components/atoms/tab-panel/tab-panel.component";
-import CustomDialog from "../../components/atoms/custom-dialog/custom-dialog.component";
-import BoostedDominantBtnGroup from "../../components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
-import { TextField, Typography } from "@material-ui/core";
-import CustomToggleButtonGroup from "../../components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
-import { ICONS } from "../../components/atoms/custom-icon/constants";
+} from "components/atoms/tab-panel/tab-panel.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+import BoostedDominantBtnGroup from "components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
+import Project from "components/molecules/project/project.component";
+
+import { ProjectsType } from "./types";
+
+import useProjectDesktopStyles from "./styles";
 
 const ProjectsDesktopPage = ({
     projects,

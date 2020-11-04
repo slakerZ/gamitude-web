@@ -4,6 +4,7 @@ module.exports = {
         "^redux/(.*)$",
         "^api/(.*)$",
         "^components/(.*)$",
+        "^pages/(.*)$",
         "^../../../constants",
         "^./types",
         "^./styles",

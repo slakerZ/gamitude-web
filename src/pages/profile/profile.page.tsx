@@ -1,5 +1,5 @@
 import React from "react";
-// UI Core
+
 import { makeStyles } from "@material-ui/core";
 
 const ProfilePage = () => {
