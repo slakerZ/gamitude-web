@@ -3,3 +3,12 @@ export interface postRegisterRequestBodyType {
     email: string;
     password: string;
 }
+
+export interface postRegisterResponseBodyType {
+    data: {
+        id: string;
+        userName: string;
+        email: string;
+    };
+    success: boolean;
+}

@@ -1,10 +1,10 @@
 import { DEV_ENDPOINT, PROD_ENDPOINT } from "api/constants";
 import axios from "axios";
-import { postLoginRequestBodyType } from "./types";
+import { postLoginRequestBodyType, postLoginResponseBodyType } from "./types";
 
 export const postLogin = async (
     postLoginRequestBody: postLoginRequestBodyType,
-): Promise<any> => {
+): Promise<postLoginResponseBodyType> => {
     const url =
         process.env.NODE_ENV === "development"
             ? `${DEV_ENDPOINT}/authorization/login`
