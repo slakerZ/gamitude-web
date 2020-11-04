@@ -1,113 +1,34 @@
 import React from "react";
 
+import { useLax } from "use-lax";
+
+import Header from "../../components/atoms/homepage-header/Header";
+import Idea from "../../components/atoms/homepage-idea/Idea";
+import Metodologies from "../../components/atoms/homepage-metodologies/Metodologies";
+import Creators from "../../components/atoms/homepage-creators/Creators";
+import Bullet from "../../components/atoms/homepage-bullet/Bullet";
+import Credits from "../../components/atoms/homepage-credits/Credits";
+import Elastic from "../../components/atoms/homepage-elastic/Elastic";
+import Energy from "../../components/atoms/homepage-energy/Energy";
+import Rank from "../../components/atoms/homepage-rank/Rank";
+import Shop from "../../components/atoms/homepage-shop/Shop";
+import Stats from "../../components/atoms/homepage-stats/Stats";
+
 const HomePage = () => {
+    useLax();
     return (
         <div>
-            <h1>Home</h1>
-            <div>
-                Icons made by{" "}
-                <a
-                    href="https://www.flaticon.com/authors/freepik"
-                    title="Freepik"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Freepik
-                </a>{" "}
-                from{" "}
-                <a
-                    href="https://www.flaticon.com/"
-                    title="Flaticon"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    www.flaticon.com
-                </a>
-            </div>{" "}
-            <div>
-                Icons made by{" "}
-                <a
-                    href="https://www.flaticon.com/authors/smashicons"
-                    title="Smashicons"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Smashicons
-                </a>{" "}
-                from{" "}
-                <a
-                    href="https://www.flaticon.com/"
-                    title="Flaticon"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    www.flaticon.com
-                </a>
-            </div>
-            <div>
-                Icons made by{" "}
-                <a href="https://www.flaticon.com/authors/srip" title="srip">
-                    srip
-                </a>{" "}
-                from{" "}
-                <a href="https://www.flaticon.com/" title="Flaticon">
-                    www.flaticon.com
-                </a>
-            </div>
-            <div>
-                Icons made by{" "}
-                <a
-                    href="https://www.flaticon.com/authors/wanicon"
-                    title="wanicon"
-                >
-                    wanicon
-                </a>{" "}
-                from{" "}
-                <a href="https://www.flaticon.com/" title="Flaticon">
-                    www.flaticon.com
-                </a>
-            </div>
-            <div>
-                Icons made by{" "}
-                <a
-                    href="https://www.flaticon.com/authors/pixel-perfect"
-                    title="Pixel perfect"
-                >
-                    Pixel perfect
-                </a>{" "}
-                from{" "}
-                <a href="https://www.flaticon.com/" title="Flaticon">
-                    www.flaticon.com
-                </a>
-            </div>
-            <div>
-                Icons made by{" "}
-                <a
-                    href="https://www.flaticon.com/authors/ultimatearm"
-                    title="ultimatearm"
-                >
-                    ultimatearm
-                </a>{" "}
-                from{" "}
-                <a href="https://www.flaticon.com/" title="Flaticon">
-                    {" "}
-                    www.flaticon.com
-                </a>
-            </div>
-            <div>
-                Icons made by{" "}
-                <a
-                    href="https://www.flaticon.com/authors/itim2101"
-                    title="itim2101"
-                >
-                    itim2101
-                </a>{" "}
-                from{" "}
-                <a href="https://www.flaticon.com/" title="Flaticon">
-                    {" "}
-                    www.flaticon.com
-                </a>
-            </div>
+            <Header />
+            <Idea />
+            <Metodologies />
+            <Stats />
+            <Energy />
+            <Rank />
+            <Elastic />
+            <Bullet />
+            <Shop />
+            <Creators />
+            <Credits />
         </div>
     );
 };
