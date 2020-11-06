@@ -6,7 +6,7 @@ import Badge from "@material-ui/core/Badge";
 import Avatar from "@material-ui/core/Avatar";
 import CircularProgress from "@material-ui/core/CircularProgress";
 // API
-import { getRank } from "../../../api/stats/stats.api";
+// import { getRank } from "api/rank/rank.api";
 // Components
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -33,13 +33,13 @@ const Rank = ({
     });
 
     const [state, submit] = useAsyncFn(async () => {
-        const result = await getRank(token);
-        setRank({
-            name: result.name,
-            tier: result.tier,
-            imageUrl: result.imageUrl,
-            rankFortes: ["intelligence", "creativity", "fluency", "strength"],
-        });
+        // const result = await getRank(token);
+        // setRank({
+        //     name: result.name,
+        //     tier: result.tier,
+        //     imageUrl: result.imageUrl,
+        //     rankFortes: ["intelligence", "creativity", "fluency", "strength"],
+        // });
     }, []);
 
     useEffectOnce(() => {

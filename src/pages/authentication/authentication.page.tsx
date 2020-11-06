@@ -23,9 +23,9 @@ import FormikForm from "../../components/atoms/formik-form/formik-form.component
 import { AuthenticationType } from "./types";
 import { ReduxStateType } from "../../redux/root.reducer";
 import { postRegister } from "api/users/users.api";
-import { postRegisterRequestBodyType } from "api/users/types";
+import { RegisterRequestBodyType } from "api/users/types";
 import { postLogin } from "api/authorization/authorization.api";
-import { postLoginRequestBodyType } from "api/authorization/types";
+import { LoginRequestBodyType } from "api/authorization/types";
 import CustomSnackBar from "components/atoms/custom-snackbar/custom-snackbar.component";
 import { AlertProps } from "@material-ui/lab/Alert";
 
@@ -38,7 +38,7 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
     const [message, setMessage] = useState("");
 
     const [signUpState, signUp] = useAsyncFn(
-        async (postRegisterRequestBody: postRegisterRequestBodyType) => {
+        async (postRegisterRequestBody: RegisterRequestBodyType) => {
             const data = await postRegister(postRegisterRequestBody);
             return data;
         },
@@ -46,7 +46,7 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
     );
 
     const [signInState, signIn] = useAsyncFn(
-        async (postLoginRequestBody: postLoginRequestBodyType) => {
+        async (postLoginRequestBody: LoginRequestBodyType) => {
             const data = await postLogin(postLoginRequestBody);
             setUser(data.data);
             return data;

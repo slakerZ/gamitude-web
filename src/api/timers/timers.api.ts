@@ -1,12 +1,12 @@
 import axios from "axios";
 import { API_ENDPOINT } from "api/constants";
-import { ProjectResponseBodyType, ProjectRequestBodyType } from "./types";
+import { TimerRequestBodyType, TimerResponseBodyType } from "./types";
 
-const ENDPOINT = `${API_ENDPOINT}/projects`;
+const ENDPOINT = `${API_ENDPOINT}/timers`;
 
-export const getProjects = async (
+export const getTimers = async (
     token: string,
-): Promise<ProjectResponseBodyType> => {
+): Promise<TimerResponseBodyType> => {
     const url = `${ENDPOINT}`;
     const config = {
         headers: {
@@ -19,10 +19,10 @@ export const getProjects = async (
     return result;
 };
 
-export const postProject = async (
+export const postTimer = async (
     token: string,
-    requestBody: ProjectRequestBodyType,
-): Promise<ProjectResponseBodyType> => {
+    requestBody: TimerRequestBodyType,
+): Promise<TimerResponseBodyType> => {
     const url = `${ENDPOINT}`;
     const config = {
         headers: {
@@ -35,11 +35,11 @@ export const postProject = async (
     return result;
 };
 
-export const getProjectById = async (
+export const getTimerById = async (
     token: string,
-    projectId: string,
-): Promise<ProjectResponseBodyType> => {
-    const url = `${ENDPOINT}/${projectId}`;
+    timerId: string,
+): Promise<TimerResponseBodyType> => {
+    const url = `${ENDPOINT}/${timerId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -51,12 +51,12 @@ export const getProjectById = async (
     return result;
 };
 
-export const putProjectById = async (
+export const putTimerById = async (
     token: string,
-    requestBody: ProjectRequestBodyType,
-    projectId: string,
-): Promise<ProjectResponseBodyType> => {
-    const url = `${ENDPOINT}/${projectId}`;
+    timerId: string,
+    requestBody: TimerRequestBodyType,
+): Promise<TimerResponseBodyType> => {
+    const url = `${ENDPOINT}/${timerId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -68,8 +68,11 @@ export const putProjectById = async (
     return result;
 };
 
-export const deleteProjectById = async (token: string, projectId: string) => {
-    const url = `${ENDPOINT}/${projectId}`;
+export const deleteTimerById = async (
+    token: string,
+    timerId: string,
+): Promise<TimerResponseBodyType> => {
+    const url = `${ENDPOINT}/${timerId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

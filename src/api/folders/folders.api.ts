@@ -1,12 +1,12 @@
-import axios from "axios";
 import { API_ENDPOINT } from "api/constants";
-import { ProjectResponseBodyType, ProjectRequestBodyType } from "./types";
+import axios from "axios";
+import { FolderResponseBodyType, FolderRequestBodyType } from "./types";
 
-const ENDPOINT = `${API_ENDPOINT}/projects`;
+const ENDPOINT = `${API_ENDPOINT}/folders`;
 
-export const getProjects = async (
+export const getFolders = async (
     token: string,
-): Promise<ProjectResponseBodyType> => {
+): Promise<FolderResponseBodyType> => {
     const url = `${ENDPOINT}`;
     const config = {
         headers: {
@@ -19,10 +19,10 @@ export const getProjects = async (
     return result;
 };
 
-export const postProject = async (
+export const postFolder = async (
     token: string,
-    requestBody: ProjectRequestBodyType,
-): Promise<ProjectResponseBodyType> => {
+    requestBody: FolderRequestBodyType,
+): Promise<FolderResponseBodyType> => {
     const url = `${ENDPOINT}`;
     const config = {
         headers: {
@@ -35,11 +35,11 @@ export const postProject = async (
     return result;
 };
 
-export const getProjectById = async (
+export const getFolderById = async (
     token: string,
-    projectId: string,
-): Promise<ProjectResponseBodyType> => {
-    const url = `${ENDPOINT}/${projectId}`;
+    folderId: string,
+): Promise<FolderResponseBodyType> => {
+    const url = `${ENDPOINT}/${folderId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -51,12 +51,12 @@ export const getProjectById = async (
     return result;
 };
 
-export const putProjectById = async (
+export const putFolderById = async (
     token: string,
-    requestBody: ProjectRequestBodyType,
-    projectId: string,
-): Promise<ProjectResponseBodyType> => {
-    const url = `${ENDPOINT}/${projectId}`;
+    requestBody: FolderRequestBodyType,
+    folderId: string,
+): Promise<FolderResponseBodyType> => {
+    const url = `${ENDPOINT}/${folderId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -68,8 +68,8 @@ export const putProjectById = async (
     return result;
 };
 
-export const deleteProjectById = async (token: string, projectId: string) => {
-    const url = `${ENDPOINT}/${projectId}`;
+export const deleteFolderById = async (token: string, folderId: string) => {
+    const url = `${ENDPOINT}/${folderId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

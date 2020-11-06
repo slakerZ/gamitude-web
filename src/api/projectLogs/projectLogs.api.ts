@@ -1,12 +1,12 @@
 import axios from "axios";
 import { API_ENDPOINT } from "api/constants";
-import { ProjectResponseBodyType, ProjectRequestBodyType } from "./types";
+import { ProjectLogRequestBodyType, ProjectLogResponseBodyType } from "./types";
 
-const ENDPOINT = `${API_ENDPOINT}/projects`;
+const ENDPOINT = `${API_ENDPOINT}/projectlogs`;
 
-export const getProjects = async (
+export const getProjectLogs = async (
     token: string,
-): Promise<ProjectResponseBodyType> => {
+): Promise<ProjectLogResponseBodyType> => {
     const url = `${ENDPOINT}`;
     const config = {
         headers: {
@@ -19,10 +19,10 @@ export const getProjects = async (
     return result;
 };
 
-export const postProject = async (
+export const postProjectLog = async (
     token: string,
-    requestBody: ProjectRequestBodyType,
-): Promise<ProjectResponseBodyType> => {
+    requestBody: ProjectLogRequestBodyType,
+): Promise<ProjectLogResponseBodyType> => {
     const url = `${ENDPOINT}`;
     const config = {
         headers: {
@@ -35,11 +35,11 @@ export const postProject = async (
     return result;
 };
 
-export const getProjectById = async (
+export const getProjectLogById = async (
     token: string,
-    projectId: string,
-): Promise<ProjectResponseBodyType> => {
-    const url = `${ENDPOINT}/${projectId}`;
+    projectLogId: string,
+): Promise<ProjectLogResponseBodyType> => {
+    const url = `${ENDPOINT}/${projectLogId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -51,12 +51,12 @@ export const getProjectById = async (
     return result;
 };
 
-export const putProjectById = async (
+export const putProjectLogById = async (
     token: string,
-    requestBody: ProjectRequestBodyType,
-    projectId: string,
-): Promise<ProjectResponseBodyType> => {
-    const url = `${ENDPOINT}/${projectId}`;
+    projectLogId: string,
+    requestBody: ProjectLogRequestBodyType,
+): Promise<ProjectLogResponseBodyType> => {
+    const url = `${ENDPOINT}/${projectLogId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -68,8 +68,11 @@ export const putProjectById = async (
     return result;
 };
 
-export const deleteProjectById = async (token: string, projectId: string) => {
-    const url = `${ENDPOINT}/${projectId}`;
+export const deleteProjectLogById = async (
+    token: string,
+    projectLogId: string,
+) => {
+    const url = `${ENDPOINT}/${projectLogId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

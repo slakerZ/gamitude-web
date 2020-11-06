@@ -1,33 +1,32 @@
-import { DEV_ENDPOINT, PROD_ENDPOINT } from "api/constants";
-import {
-    postRegisterRequestBodyType,
-    postRegisterResponseBodyType,
-} from "./types";
+import { API_ENDPOINT } from "api/constants";
+import { RegisterRequestBodyType, RegisterResponseBodyType } from "./types";
 import axios from "axios";
 
-export const getUsers = async (): Promise<any> => {
-    const offset = 0;
-    const limit = 20;
+const ENDPOINT = `${API_ENDPOINT}/users`;
+
+export const getUsers = async (
+    token: string,
+    offset: number,
+    limit: number,
+): Promise<any> => {
     const query = `?offset=${offset}&limit=${limit}`;
 
-    const url =
-        process.env.NODE_ENV === "development"
-            ? `${DEV_ENDPOINT}/users/${query}`
-            : `${PROD_ENDPOINT}/users${query}`;
+    const url = `${ENDPOINT}/${query}`;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
 
-    const response = await axios.get(url);
+    const response = await axios.get(url, config);
     const result = await response.data;
     return result;
 };
 
 export const postRegister = async (
-    requestBody: postRegisterRequestBodyType,
-): Promise<postRegisterResponseBodyType> => {
-    const url =
-        process.env.NODE_ENV === "development"
-            ? `${DEV_ENDPOINT}/users`
-            : `${PROD_ENDPOINT}/users`;
-
+    requestBody: RegisterRequestBodyType,
+): Promise<RegisterResponseBodyType> => {
+    const url = `${ENDPOINT}`;
     const response = await axios.post(url, requestBody);
     const result = await response.data;
     return result;
@@ -37,10 +36,7 @@ export const putUsers = async (
     token: string,
     newUserInfo: any,
 ): Promise<any> => {
-    const url =
-        process.env.NODE_ENV === "development"
-            ? `${DEV_ENDPOINT}/users`
-            : `${PROD_ENDPOINT}/users`;
+    const url = `${ENDPOINT}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -56,11 +52,7 @@ export const getUserById = async (
     userId: string,
     token: string,
 ): Promise<any> => {
-    const url =
-        process.env.NODE_ENV === "development"
-            ? `${DEV_ENDPOINT}/users/${userId}`
-            : `${PROD_ENDPOINT}/users/${userId}`;
-
+    const url = `${ENDPOINT}/${userId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -76,11 +68,7 @@ export const deleteUserById = async (
     userId: string,
     token: string,
 ): Promise<any> => {
-    const url =
-        process.env.NODE_ENV === "development"
-            ? `${DEV_ENDPOINT}/users/${userId}`
-            : `${PROD_ENDPOINT}/users/${userId}`;
-
+    const url = `${ENDPOINT}/${userId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -96,11 +84,7 @@ export const changeUserPassword = async (
     token: string,
     passwordChangeData: any,
 ): Promise<any> => {
-    const url =
-        process.env.NODE_ENV === "development"
-            ? `${DEV_ENDPOINT}/users/password`
-            : `${PROD_ENDPOINT}/users/password`;
-
+    const url = `${ENDPOINT}/password`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

@@ -1,14 +1,13 @@
-import { DEV_ENDPOINT, PROD_ENDPOINT } from "api/constants";
+import { API_ENDPOINT } from "api/constants";
 import axios from "axios";
-import { postLoginRequestBodyType, postLoginResponseBodyType } from "./types";
+import { LoginRequestBodyType, LoginResponseBodyType } from "./types";
+
+const ENDPOINT = `${API_ENDPOINT}/authorization`;
 
 export const postLogin = async (
-    postLoginRequestBody: postLoginRequestBodyType,
-): Promise<postLoginResponseBodyType> => {
-    const url =
-        process.env.NODE_ENV === "development"
-            ? `${DEV_ENDPOINT}/authorization/login`
-            : `${PROD_ENDPOINT}/authorization/login`;
+    postLoginRequestBody: LoginRequestBodyType,
+): Promise<LoginResponseBodyType> => {
+    const url = `${ENDPOINT}/login`;
 
     const response = await axios.post(url, postLoginRequestBody);
     const result = await response.data;

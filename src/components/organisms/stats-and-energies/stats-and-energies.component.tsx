@@ -5,7 +5,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 import Skeleton from "@material-ui/lab/Skeleton";
 // API
-import { getStats, getEnergies } from "../../../api/stats/stats.api";
+// import { getStats, getEnergies } from "../../../api/stats/stats.api";
 // Redux
 import { connect } from "react-redux";
 import { setEnergies } from "../../../redux/energies/energies.actions";
@@ -46,27 +46,27 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
     ]);
 
     const [getEnergiesState, getEnergiesSubmit] = useAsyncFn(async () => {
-        const result = await getEnergies(token);
-        setEnergies(result);
-        setMappedEnergies([
-            ["body", result.body],
-            ["emotions", result.emotions],
-            ["mind", result.mind],
-            ["soul", result.soul],
-        ]);
-        return result;
+        // const result = await getEnergies(token);
+        // setEnergies(result);
+        // setMappedEnergies([
+        //     ["body", result.body],
+        //     ["emotions", result.emotions],
+        //     ["mind", result.mind],
+        //     ["soul", result.soul],
+        // ]);
+        // return result;
     }, []);
 
     const [getStatsState, getStatsSubmit] = useAsyncFn(async () => {
-        const result = await getStats(token);
-        setStats(result);
-        setMappedStats([
-            ["strength", result.strength],
-            ["creativity", result.creativity],
-            ["intelligence", result.intelligence],
-            ["fluency", result.fluency],
-        ]);
-        return result;
+        // const result = await getStats(token);
+        // setStats(result);
+        // setMappedStats([
+        //     ["strength", result.strength],
+        //     ["creativity", result.creativity],
+        //     ["intelligence", result.intelligence],
+        //     ["fluency", result.fluency],
+        // ]);
+        // return result;
     }, []);
 
     useEffectOnce(() => {

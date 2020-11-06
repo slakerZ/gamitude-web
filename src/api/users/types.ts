@@ -1,10 +1,10 @@
-export interface postRegisterRequestBodyType {
+export interface RegisterRequestBodyType {
     userName: string;
     email: string;
     password: string;
 }
 
-export interface postRegisterResponseBodyType {
+export interface RegisterResponseBodyType {
     data: {
         id: string;
         userName: string;

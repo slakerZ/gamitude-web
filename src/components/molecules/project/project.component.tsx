@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { useAsyncFn } from "react-use";
 // API
-import axios from "axios";
-import {
-    putDeleteProjectUrl,
-    putDeleteAddProjectHeaders,
-    putProjectRequestBody,
-} from "../../../api/projects/projects.api";
+import { deleteProjectById, putProjectById } from "api/projects/projects.api";
 // Redux
 import { connect } from "react-redux";
 import { selectProjects } from "../../../redux/projects/projects.selectors";
@@ -83,12 +78,11 @@ const Project = ({
 
     const handleDeletionConfirm = () => {
         const id = projects[index].id;
-        axios.delete(
-            putDeleteProjectUrl(id),
-            putDeleteAddProjectHeaders(token),
-        );
-        deleteProject(index);
-        setOpen(false);
+        deleteProjectById(token, id).then((data) => {
+            console.log(data);
+            deleteProject(index);
+            setOpen(false);
+        });
     };
 
     const handleSelectionChanged = (event: any) => {
@@ -123,13 +117,19 @@ const Project = ({
 
         setExpanded(false);
 
-        const response = await axios.put(
-            putDeleteProjectUrl(id),
-            putProjectRequestBody(name, method, boosted, dominant),
-            putDeleteAddProjectHeaders(token),
-        );
-        const data = await response.data;
-        return data;
+        const requestBody = {
+            name: name,
+            folderId: folder.id,
+            defaultTimerId: method.id,
+        };
+        // const response = putProjectById(token, ,id)
+        // const response = await axios.put(
+        //     putDeleteProjectUrl(id),
+        //     putProjectRequestBody(name, method, boosted, dominant),
+        //     putDeleteAddProjectHeaders(token),
+        // );
+        // const data = await response.data;
+        // return data;
     }, [name, boosted, dominant, folder, defaultMethod]);
 
     return (

@@ -1,9 +1,9 @@
-export interface postLoginRequestBodyType {
+export interface LoginRequestBodyType {
     login: string;
     password: string;
 }
 
-export interface postLoginResponseBodyType {
+export interface LoginResponseBodyType {
     data: {
         userId: string;
         token: string;

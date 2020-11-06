@@ -9,13 +9,7 @@ import AddIcon from "@material-ui/icons/Add";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import IconButton from "@material-ui/core/IconButton";
 // API
-import {
-    getAddProjectsUrl,
-    addProjectRequestBody,
-    putDeleteAddProjectHeaders,
-    getProjectsHeaders,
-} from "../../api/projects/projects.api";
-import { convertForFront, parseProjects } from "../../api/mappings";
+import { getProjects, postProject } from "api/projects/projects.api";
 // Redux
 import { connect } from "react-redux";
 import { selectToken } from "../../redux/user/user.selectors";
@@ -42,6 +36,7 @@ import BoostedDominantBtnGroup from "../../components/molecules/boosted-dominant
 import { TextField, Typography } from "@material-ui/core";
 import CustomToggleButtonGroup from "../../components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
 import { ICONS } from "../../components/atoms/custom-icon/constants";
+import { FullProjectType } from "api/projects/types";
 
 const ProjectsDesktopPage = ({
     projects,
@@ -63,40 +58,37 @@ const ProjectsDesktopPage = ({
     const [currFolder, setCurrFolder] = useState(0);
 
     const [name, setName] = useState("");
-    const [boosted, setBoosted] = useState([""]);
+    const [boosted, setBoosted] = useState([]);
     const [dominant, setDominant] = useState("");
     const [selected, setSelected] = useState("");
     const [sessionType, setSessionType] = useState("STAT");
 
-    const [postState, postProject] = useAsyncFn(async () => {
-        const filteredBoosted = boosted.filter((el: string) => {
-            return el !== "";
-        });
-        const response = await axios.post(
-            getAddProjectsUrl,
-            addProjectRequestBody(name, filteredBoosted, dominant),
-            putDeleteAddProjectHeaders(token),
-        );
-        const data = await response.data;
-        const convertedData = convertForFront(data);
-        addProject(convertedData);
-        setIsNewProjectFormOpen(false);
-        return data;
+    const [createNewProjectState, createNewProject] = useAsyncFn(async () => {
+        // const requestBody = {
+        //     name: name,
+        //     folderId: folders[folder].folderId;
+        // }
+        // const response = await postProject(token, )
+        // const data = await response.data;
+        // const convertedData = convertForFront(data);
+        // addProject(convertedData);
+        // setIsNewProjectFormOpen(false);
+        // return data;
     }, [name, boosted, dominant]);
 
-    const [getProjectsState, getProjects] = useAsyncFn(async () => {
-        const response = await axios.get(
-            getAddProjectsUrl,
-            getProjectsHeaders(token),
-        );
-        const result = await response.data;
-        const parsedProjects = parseProjects(result);
-        setProjects(parsedProjects);
-        return result;
+    const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
+        // const response = await axios.get(
+        //     getAddProjectsUrl,
+        //     getProjectsHeaders(token),
+        // );
+        // const result = await response.data;
+        // const parsedProjects = parseProjects(result);
+        // setProjects(parsedProjects);
+        // return result;
     });
 
     useEffectOnce(() => {
-        getProjects();
+        getProjectsList();
     });
 
     const handleAddFolder = () => {
@@ -241,7 +233,7 @@ const ProjectsDesktopPage = ({
                 open={isNewProjectFormOpen}
                 setOpen={setIsNewProjectFormOpen}
                 title={"Create new project"}
-                onSubmit={postProject}
+                onSubmit={createNewProject}
             >
                 <BoostedDominantBtnGroup
                     boosted={boosted}
