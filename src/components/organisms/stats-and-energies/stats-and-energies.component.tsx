@@ -1,11 +1,11 @@
-import React, { Fragment, FC, ReactElement, useState } from "react";
+import React, { Fragment, FC, ReactElement } from "react";
 import { useUpdateEffect, useAsyncFn, useEffectOnce } from "react-use";
 import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 import Skeleton from "@material-ui/lab/Skeleton";
 // API
-// import { getStats, getEnergies } from "../../../api/stats/stats.api";
+import { getStats, getEnergies } from "api/statistics/statistics.api";
 // Redux
 import { connect } from "react-redux";
 import { setEnergies } from "../../../redux/energies/energies.actions";
@@ -31,42 +31,14 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
 }: StatsAndEnergiesType): ReactElement => {
     const classes = useStatsAndEnergiesStyles();
 
-    const [mappedEnergies, setMappedEnergies] = useState<[string, number][]>([
-        ["body", 0],
-        ["emotions", 0],
-        ["mind", 0],
-        ["soul", 0],
-    ]);
-
-    const [mappedStats, setMappedStats] = useState<[string, number][]>([
-        ["strength", 0],
-        ["creativity", 0],
-        ["intelligence", 0],
-        ["fluency", 0],
-    ]);
-
     const [getEnergiesState, getEnergiesSubmit] = useAsyncFn(async () => {
-        // const result = await getEnergies(token);
-        // setEnergies(result);
-        // setMappedEnergies([
-        //     ["body", result.body],
-        //     ["emotions", result.emotions],
-        //     ["mind", result.mind],
-        //     ["soul", result.soul],
-        // ]);
-        // return result;
+        const result = await getEnergies(token);
+        setEnergies(result.data);
     }, []);
 
     const [getStatsState, getStatsSubmit] = useAsyncFn(async () => {
-        // const result = await getStats(token);
-        // setStats(result);
-        // setMappedStats([
-        //     ["strength", result.strength],
-        //     ["creativity", result.creativity],
-        //     ["intelligence", result.intelligence],
-        //     ["fluency", result.fluency],
-        // ]);
-        // return result;
+        const result = await getStats(token);
+        setStats(result.data);
     }, []);
 
     useEffectOnce(() => {
@@ -78,31 +50,6 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
         getStatsSubmit();
         getEnergiesSubmit();
     }, [sessionsComplete]);
-
-    // Not sure if necesssary
-    // useUpdateEffect(() => {
-    //     setMappedEnergies([
-    //         ["body", body],
-    //         ["emotions", emotions],
-    //         ["mind", mind],
-    //         ["soul", soul],
-    //     ]);
-    //     setMappedStats([
-    //         ["strength", strength],
-    //         ["creativity", creativity],
-    //         ["intelligence", intelligence],
-    //         ["fluency", fluency],
-    //     ]);
-    // }, [
-    //     body,
-    //     emotions,
-    //     mind,
-    //     soul,
-    //     strength,
-    //     creativity,
-    //     intelligence,
-    //     fluency,
-    // ]);
 
     return (
         <Fragment>
@@ -126,21 +73,36 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
                                     Retry
                                 </Button>
                             ) : (
-                                mappedEnergies.map((tuple, index) => {
-                                    const [energyName, energyValue] = tuple;
-                                    return (
-                                        <ToggleAbleTooltip
-                                            target={energyName}
-                                            key={index}
+                                <Fragment>
+                                    <ToggleAbleTooltip target={"body"}>
+                                        <CustomIconWithTypography
+                                            variant={"body"}
                                         >
-                                            <CustomIconWithTypography
-                                                variant={energyName}
-                                            >
-                                                {energyValue.toString()}
-                                            </CustomIconWithTypography>
-                                        </ToggleAbleTooltip>
-                                    );
-                                })
+                                            {energies.body.toString()}
+                                        </CustomIconWithTypography>
+                                    </ToggleAbleTooltip>
+                                    <ToggleAbleTooltip target={"emotions"}>
+                                        <CustomIconWithTypography
+                                            variant={"emotions"}
+                                        >
+                                            {energies.emotions.toString()}
+                                        </CustomIconWithTypography>
+                                    </ToggleAbleTooltip>
+                                    <ToggleAbleTooltip target={"mind"}>
+                                        <CustomIconWithTypography
+                                            variant={"mind"}
+                                        >
+                                            {energies.mind.toString()}
+                                        </CustomIconWithTypography>
+                                    </ToggleAbleTooltip>
+                                    <ToggleAbleTooltip target={"soul"}>
+                                        <CustomIconWithTypography
+                                            variant={"soul"}
+                                        >
+                                            {energies.soul.toString()}
+                                        </CustomIconWithTypography>
+                                    </ToggleAbleTooltip>
+                                </Fragment>
                             )}
                         </Grid>
                         <Grid item xs={6}>
@@ -154,21 +116,36 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
                                     Retry
                                 </Button>
                             ) : (
-                                mappedStats.map((tuple, index) => {
-                                    const [statName, statValue] = tuple;
-                                    return (
-                                        <ToggleAbleTooltip
-                                            target={statName}
-                                            key={index}
+                                <Fragment>
+                                    <ToggleAbleTooltip target={"strength"}>
+                                        <CustomIconWithTypography
+                                            variant={"strength"}
                                         >
-                                            <CustomIconWithTypography
-                                                variant={statName}
-                                            >
-                                                {statValue.toString()}
-                                            </CustomIconWithTypography>
-                                        </ToggleAbleTooltip>
-                                    );
-                                })
+                                            {stats.strength.toString()}
+                                        </CustomIconWithTypography>
+                                    </ToggleAbleTooltip>
+                                    <ToggleAbleTooltip target={"creativity"}>
+                                        <CustomIconWithTypography
+                                            variant={"creativity"}
+                                        >
+                                            {stats.creativity.toString()}
+                                        </CustomIconWithTypography>
+                                    </ToggleAbleTooltip>
+                                    <ToggleAbleTooltip target={"intelligence"}>
+                                        <CustomIconWithTypography
+                                            variant={"intelligence"}
+                                        >
+                                            {stats.intelligence.toString()}
+                                        </CustomIconWithTypography>
+                                    </ToggleAbleTooltip>
+                                    <ToggleAbleTooltip target={"fluency"}>
+                                        <CustomIconWithTypography
+                                            variant={"fluency"}
+                                        >
+                                            {stats.fluency.toString()}
+                                        </CustomIconWithTypography>
+                                    </ToggleAbleTooltip>
+                                </Fragment>
                             )}
                         </Grid>
                     </Grid>

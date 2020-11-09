@@ -17,7 +17,7 @@ const Timer = ({
     const classes = useTimerStyles();
 
     // TODO: add support for unlimited custom - pagination
-    const [method, setMethod] = useState(selectedMethod.minutes);
+    // const [method, setMethod] = useState(selectedMethod.minutes);
 
     const leftPad = (val: number) => (val < 10 ? `0${val}` : `${val}`);
 
@@ -65,7 +65,7 @@ const Timer = ({
                                         variant="h2"
                                         component="h2"
                                     >
-                                        {leftPad(selectedMethod.minutes)}
+                                        {/* {leftPad(selectedMethod.workTime)} */}
                                     </Typography>
                                     <Typography
                                         display="inline"

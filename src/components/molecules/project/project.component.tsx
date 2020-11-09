@@ -39,6 +39,7 @@ import BoostedDominantBtnGroup from "../boosted-dominant-btn-group/boosted-domin
 import { ProjectType } from "./types";
 import useProjectStyles from "./styles";
 import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
+import { ProjectSessionType } from "types";
 
 const Project = ({
     index,
@@ -70,7 +71,7 @@ const Project = ({
     const [name, setName] = useState(nameRedux);
     const [boosted, setBoosted] = useState(boostedRedux);
     const [dominant, setDominant] = useState(dominantRedux);
-    const [projectType, setProjectType] = useState("STAT");
+    const [projectType, setProjectType] = useState<ProjectSessionType>("STAT");
 
     const handleDeletion = () => {
         setOpen(true);

@@ -1,4 +1,5 @@
-interface FullTimerType {
+export interface TimerType {
+    label: string;
     id: string;
     userId: string;
     name: string;
@@ -19,6 +20,6 @@ export interface TimerRequestBodyType {
 }
 
 export interface TimerResponseBodyType {
-    data: FullTimerType | FullTimerType[];
+    data: TimerType | TimerType[];
     success: boolean;
 }

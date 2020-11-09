@@ -15,6 +15,6 @@ export interface FullRankType {
 }
 
 export interface RankResponseBodyType {
-    data: FullRankType | FullRankType[];
+    data: FullRankType;
     success: boolean;
 }

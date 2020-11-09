@@ -1,14 +1,13 @@
-import { EnergyType } from "redux/energies/types";
-import { StatType } from "redux/stats/types";
-
-export type ProjectTypeType = "STAT" | "ENERGY";
+import { EnergyType } from "types";
+import { StatType } from "types";
+import { ProjectSessionType } from "types";
 
 export interface FullProjectType {
     id: string;
     name: string;
     folderId: string;
     defaultTimerId: string;
-    projectType: ProjectTypeType;
+    projectType: ProjectSessionType;
     dominantStat: StatType | EnergyType;
     stats: StatType[] | EnergyType[];
     totalTimeSpend: number;
@@ -23,7 +22,7 @@ export interface ProjectRequestBodyType {
     name: string;
     folderId: string;
     defaultTimerId: string;
-    projectType: ProjectTypeType;
+    projectType: ProjectSessionType;
     dominantStat: StatType | EnergyType;
     stats: StatType[] | EnergyType[];
     daysPerWeek: number;

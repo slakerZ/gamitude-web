@@ -1,5 +1,5 @@
-export interface FolderType {
-    label: string;
-    icon: string;
-    index: number;
+import { FolderType } from "api/folders/types";
+
+export interface FoldersReducerType {
+    folders: FolderType[];
 }

@@ -5,7 +5,7 @@ export const setSelectedMethod = (value: any) => ({
     payload: value,
 });
 
-export const setMethods = (value: any) => ({
-    type: MethodsActionTypes.SET_METHODS,
+export const addTimer = (value: any) => ({
+    type: MethodsActionTypes.ADD_TIMER,
     payload: value,
 });

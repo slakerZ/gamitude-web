@@ -1,5 +1,5 @@
-import { EnergyType } from "redux/energies/types";
-import { StatType } from "redux/stats/types";
+import { EnergyType } from "types";
+import { StatType } from "types";
 
 interface FullProjectLogType {
     id: string;

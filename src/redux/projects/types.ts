@@ -1,5 +1,5 @@
-import { EnergyType } from "../energies/types";
-import { StatType } from "../stats/types";
+import { EnergyType } from "types";
+import { StatType } from "types";
 
 export interface ProjectType {
     id: string;

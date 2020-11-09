@@ -1,19 +1,19 @@
-import { MethodType, MethodsReducerType } from "./types";
+import { MethodsReducerType } from "./types";
 import { MethodsActionTypes } from "./methods.types";
-import { METHODS } from "./constants";
 
 const INITIAL_STATE: MethodsReducerType = {
     selectedMethod: {
         label: "",
+        id: "",
+        userId: "",
         name: "",
-        type: "TIMER",
-        minutes: 0,
-        shortBreak: 0,
-        hasLongBreak: false,
-        longBreak: 0,
-        longBreakInterval: 0,
+        workTime: 0,
+        breakTime: 0,
+        longerBreakTime: 0,
+        breakInterval: 0,
+        overTime: 5,
     },
-    methods: METHODS,
+    methods: [],
 };
 
 const methodsReducer = (state = INITIAL_STATE, action: any) => {
@@ -23,7 +23,7 @@ const methodsReducer = (state = INITIAL_STATE, action: any) => {
                 ...state,
                 selectedMethod: state.methods[action.payload],
             };
-        case MethodsActionTypes.SET_METHODS:
+        case MethodsActionTypes.ADD_TIMER:
             return {
                 ...state,
                 methods: [...state.methods, action.payload],

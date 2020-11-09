@@ -6,7 +6,7 @@ import Badge from "@material-ui/core/Badge";
 import Avatar from "@material-ui/core/Avatar";
 import CircularProgress from "@material-ui/core/CircularProgress";
 // API
-// import { getRank } from "api/rank/rank.api";
+import { getUsersCurrentRank } from "api/rank/rank.api";
 // Components
 import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -29,25 +29,19 @@ const Rank = ({
         name: "Loading...",
         tier: "loading",
         imageUrl: "",
-        rankFortes: ["intelligence", "creativity"],
     });
 
-    const [state, submit] = useAsyncFn(async () => {
-        // const result = await getRank(token);
-        // setRank({
-        //     name: result.name,
-        //     tier: result.tier,
-        //     imageUrl: result.imageUrl,
-        //     rankFortes: ["intelligence", "creativity", "fluency", "strength"],
-        // });
+    const [getCurrentRankState, getCurrentRank] = useAsyncFn(async () => {
+        const response = await getUsersCurrentRank(token);
+        setRank(response.data);
     }, []);
 
     useEffectOnce(() => {
-        submit();
+        getCurrentRank();
     });
 
     useUpdateEffect(() => {
-        submit();
+        getCurrentRank();
     }, [sessionsComplete]);
 
     const classes = useRankStyles();
@@ -69,9 +63,9 @@ const Rank = ({
                     badgeContent={
                         <ToggleAbleTooltip target="rankTier">
                             <div className={classes.badgeWrapper}>
-                                {state.loading ? (
+                                {getCurrentRankState.loading ? (
                                     <CircularProgress />
-                                ) : state.error ? (
+                                ) : getCurrentRankState.error ? (
                                     <CustomIcon size="small" variant="error" />
                                 ) : (
                                     <CustomIcon
@@ -84,13 +78,13 @@ const Rank = ({
                     }
                 >
                     <ToggleAbleTooltip target="rankImage">
-                        {state.loading ? (
+                        {getCurrentRankState.loading ? (
                             <Skeleton
                                 variant="rect"
                                 animation="wave"
                                 className={classes.placeholder}
                             />
-                        ) : state.error ? (
+                        ) : getCurrentRankState.error ? (
                             <CustomIcon variant="notFound" size="avatar" />
                         ) : (
                             <Avatar

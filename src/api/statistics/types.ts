@@ -1,19 +1,23 @@
+export interface StatsType {
+    strength: number;
+    creativity: number;
+    intelligence: number;
+    fluency: number;
+}
+
+export interface EnergiesType {
+    body: number;
+    emotions: number;
+    mind: number;
+    soul: number;
+}
+
 export interface StatisticsStatsResponseBodyType {
-    data: {
-        strength: number;
-        creativity: number;
-        intelligence: number;
-        fluency: number;
-    };
+    data: StatsType;
     success: boolean;
 }
 
 export interface StatisticsEnergiessResponseBodyType {
-    data: {
-        body: number;
-        emotions: number;
-        mind: number;
-        soul: number;
-    };
+    data: EnergiesType;
     success: boolean;
 }

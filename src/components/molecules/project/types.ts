@@ -1,4 +1,4 @@
-import { MethodType } from "../../../redux/methods/types";
+import { TimerType } from "api/timers/types";
 
 export interface ProjectType {
     index: number;
@@ -11,5 +11,5 @@ export interface ProjectType {
     setSelectedProject: any;
     setStatusRedux: any;
     setFolderRedux: any;
-    methods: MethodType[];
+    methods: TimerType[];
 }

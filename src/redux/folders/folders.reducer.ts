@@ -1,27 +1,17 @@
 import { FoldersActionTypes } from "./folders.types";
+import { FoldersReducerType } from "./types";
 
-const INITIAL_STATE = {
-    folders: [
-        {
-            label: "ACTIVE",
-            icon: "active",
-            index: 0,
-        },
-        {
-            label: "INACTIVE",
-            icon: "paused",
-            index: 1,
-        },
-        {
-            label: "DONE",
-            icon: "done",
-            index: 2,
-        },
-    ],
+const INITIAL_STATE: FoldersReducerType = {
+    folders: [],
 };
 
 const foldersReducer = (state = INITIAL_STATE, action: any) => {
     switch (action.type) {
+        case FoldersActionTypes.SET_FOLDERS:
+            return {
+                ...state,
+                folders: action.payload,
+            };
         case FoldersActionTypes.ADD_FOLDER:
             return {
                 ...state,

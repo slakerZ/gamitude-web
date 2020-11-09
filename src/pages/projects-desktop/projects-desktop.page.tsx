@@ -1,5 +1,5 @@
 import React, { useState, MouseEvent } from "react";
-import axios from "axios";
+import { FolderType } from "api/folders/types";
 import { useAsyncFn, useEffectOnce } from "react-use";
 // MUI
 import Tabs from "@material-ui/core/Tabs";
@@ -9,15 +9,16 @@ import AddIcon from "@material-ui/icons/Add";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import IconButton from "@material-ui/core/IconButton";
 // API
+import { getFolders, postFolder } from "api/folders/folders.api";
 import { getProjects, postProject } from "api/projects/projects.api";
 // Redux
 import { connect } from "react-redux";
+import { selectMethods } from "redux/methods/methods.selectors";
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
-import { addFolder } from "../../redux/folders/folders.actions";
-import { setProjects } from "../../redux/projects/projects.actions";
-import { addProject } from "../../redux/projects/projects.actions";
+import { addFolder, setFolders } from "../../redux/folders/folders.actions";
+import { setProjects, addProject } from "../../redux/projects/projects.actions";
 import { selectFolders } from "../../redux/folders/folders.selectors";
 // Atoms
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
@@ -25,7 +26,7 @@ import ToggleAbleTooltip from "../../components/atoms/toggleable-tooltip/togglea
 // Molecules
 import Project from "../../components/molecules/project/project.component";
 // Local
-import { ProjectsType } from "./types";
+import { ProjectsPropTypes } from "./types";
 import useProjectDesktopStyles from "./styles";
 import {
     TabPanel,
@@ -37,6 +38,8 @@ import { TextField, Typography } from "@material-ui/core";
 import CustomToggleButtonGroup from "../../components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
 import { ICONS } from "../../components/atoms/custom-icon/constants";
 import { FullProjectType } from "api/projects/types";
+import { EnergyType, StatType } from "types";
+import { ProjectSessionType } from "types";
 
 const ProjectsDesktopPage = ({
     projects,
@@ -45,63 +48,95 @@ const ProjectsDesktopPage = ({
     addProject,
     addFolder,
     folders,
-}: ProjectsType) => {
+    setFolders,
+    methods,
+}: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
 
     const [isNewProjectFormOpen, setIsNewProjectFormOpen] = useState(false);
     const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = useState(false);
 
-    const [defaultMethod, setDefaultMethod] = useState(0);
-    const [folder, setFolder] = useState(folders[0].index);
-    const [folderName, setFolderName] = useState("");
-    const [icon, setIcon] = useState("");
-    const [currFolder, setCurrFolder] = useState(0);
+    const [selectedProject, setSelectedProject] = useState("");
 
-    const [name, setName] = useState("");
-    const [boosted, setBoosted] = useState([]);
-    const [dominant, setDominant] = useState("");
-    const [selected, setSelected] = useState("");
-    const [sessionType, setSessionType] = useState("STAT");
+    // Projects Dialog
+    const [projectName, setProjectName] = useState("");
+    const [projectsSessionType, setProjectsSessionType] = useState<
+        ProjectSessionType
+    >("STAT");
+    const [projectBoostedStatistics, setprojectBoostesStatistics] = useState<
+        StatType[] | EnergyType[]
+    >(["STRENGTH"]);
+    const [projectDominantStatistic, setProjectDominantStatistic] = useState<
+        StatType | EnergyType
+    >("STRENGTH");
+    const [projectsCurrFolderIndex, setProjectsCurrFolderIndex] = useState(0);
+    const [projectDefaultMethodIndex, setProjectDefaultMethodIndex] = useState(
+        0,
+    );
+
+    // Folders Dialog
+    const [folderIndex, setFolderIndex] = useState(0);
+    const [folderName, setFolderName] = useState("");
+    const [folderIcon, setFolderIcon] = useState("");
+
+    const [createNewFolderState, createNewFolder] = useAsyncFn(async () => {
+        const requestBody = {
+            name: folderName,
+            icon: folderIcon,
+            description: "",
+        };
+        const result = await postFolder(token, requestBody);
+        addFolder(result.data);
+        setIsNewFolderDialogOpen(false);
+        return result;
+    }, [folderName, folderIcon]);
 
     const [createNewProjectState, createNewProject] = useAsyncFn(async () => {
-        // const requestBody = {
-        //     name: name,
-        //     folderId: folders[folder].folderId;
-        // }
-        // const response = await postProject(token, )
-        // const data = await response.data;
-        // const convertedData = convertForFront(data);
-        // addProject(convertedData);
-        // setIsNewProjectFormOpen(false);
-        // return data;
-    }, [name, boosted, dominant]);
+        const requestBody = {
+            name: projectName,
+            folderId: folders[folderIndex].id,
+            defaultTimerId: methods[projectDefaultMethodIndex].id,
+            projectType: projectsSessionType,
+            dominantStat: projectDominantStatistic,
+            stats: projectBoostedStatistics,
+            daysPerWeek: 0,
+            hoursPerDay: 0,
+            dayInterval: 0,
+        };
+        console.log(requestBody);
+        const result = await postProject(token, requestBody);
+        addProject(result.data);
+        setIsNewProjectFormOpen(false);
+        return result.data;
+    }, [
+        projectName,
+        folderIndex,
+        projectDefaultMethodIndex,
+        projectsSessionType,
+        projectBoostedStatistics,
+        projectDominantStatistic,
+    ]);
 
     const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
-        // const response = await axios.get(
-        //     getAddProjectsUrl,
-        //     getProjectsHeaders(token),
-        // );
-        // const result = await response.data;
-        // const parsedProjects = parseProjects(result);
-        // setProjects(parsedProjects);
-        // return result;
+        const response = await getProjects(token);
+        const result = response.data;
+        setProjects(result);
+        return result;
+    });
+
+    const [getFoldersListState, getFoldersList] = useAsyncFn(async () => {
+        const response = await getFolders(token);
+        const result = response.data;
+        setFolders(result);
     });
 
     useEffectOnce(() => {
+        getFoldersList();
         getProjectsList();
     });
 
-    const handleAddFolder = () => {
-        addFolder({
-            label: folderName,
-            icon: icon,
-            index: folders.length,
-        });
-        setIsNewFolderDialogOpen(false);
-    };
-
     const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
-        setCurrFolder(newValue);
+        setProjectsCurrFolderIndex(newValue);
     };
 
     const handleClickOpen = () => {
@@ -109,11 +144,11 @@ const ProjectsDesktopPage = ({
     };
 
     const handleChangeSelectedProject = (event: any) => {
-        setSelected(event.target.value);
+        setSelectedProject(event.target.value);
     };
 
     const handleIconChange = (e: any, newIcon: any) => {
-        setIcon(newIcon);
+        setFolderIcon(newIcon);
     };
 
     const handleChangeFolderName = (e: any) => {
@@ -127,15 +162,15 @@ const ProjectsDesktopPage = ({
                     aria-label="Folders navigation"
                     orientation="vertical"
                     variant="scrollable"
-                    value={currFolder}
+                    value={projectsCurrFolderIndex}
                     onChange={handleChange}
                     className={classes.tabs}
                 >
-                    {folders.map(({ label, icon }, index) => {
+                    {folders.map(({ name, icon }, index) => {
                         return (
                             <Tab
                                 key={index}
-                                label={label}
+                                label={name}
                                 {...a11yProps(index, "projects-in-folder")}
                                 icon={
                                     <CustomIcon variant={icon} size="small" />
@@ -158,7 +193,7 @@ const ProjectsDesktopPage = ({
                     open={isNewFolderDialogOpen}
                     setOpen={setIsNewFolderDialogOpen}
                     title={"Create New Folder"}
-                    onSubmit={handleAddFolder}
+                    onSubmit={createNewFolder}
                 >
                     <div
                         aria-label="Create New Folder Dialog's Body"
@@ -179,7 +214,7 @@ const ProjectsDesktopPage = ({
                             {"Choose folder icon"}
                         </Typography>
                         <CustomToggleButtonGroup
-                            value={icon}
+                            value={folderIcon}
                             handleChange={handleIconChange}
                             items={ICONS}
                             exclusive={true}
@@ -197,7 +232,7 @@ const ProjectsDesktopPage = ({
                     return (
                         <TabPanel
                             key={index}
-                            value={currFolder}
+                            value={projectsCurrFolderIndex}
                             index={status}
                             role={"folder"}
                             id={"projects-in-folder"}
@@ -205,7 +240,7 @@ const ProjectsDesktopPage = ({
                             <RadioGroup
                                 aria-label="selected_project"
                                 name="selected_project"
-                                value={selected}
+                                value={selectedProject}
                                 onChange={handleChangeSelectedProject}
                             >
                                 <Project index={index} />
@@ -236,18 +271,18 @@ const ProjectsDesktopPage = ({
                 onSubmit={createNewProject}
             >
                 <BoostedDominantBtnGroup
-                    boosted={boosted}
-                    setBoosted={setBoosted}
-                    dominant={dominant}
-                    setDominant={setDominant}
-                    name={name}
-                    setName={setName}
-                    sessionType={sessionType}
-                    setSessionType={setSessionType}
-                    folder={folder}
-                    setFolder={setFolder}
-                    method={defaultMethod}
-                    setMethod={setDefaultMethod}
+                    boosted={projectBoostedStatistics}
+                    setBoosted={setprojectBoostesStatistics}
+                    dominant={projectDominantStatistic}
+                    setDominant={setProjectDominantStatistic}
+                    name={projectName}
+                    setName={setProjectName}
+                    sessionType={projectsSessionType}
+                    setSessionType={setProjectsSessionType}
+                    folder={folderIndex}
+                    setFolder={setFolderIndex}
+                    method={projectDefaultMethodIndex}
+                    setMethod={setProjectDefaultMethodIndex}
                 />
             </CustomDialog>
         </div>
@@ -259,12 +294,14 @@ const mapStateToProps = (state: any) => ({
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
     folders: selectFolders(state),
+    methods: selectMethods(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setProjects: (value: any) => dispatch(setProjects(value)),
     addProject: (value: any) => dispatch(addProject(value)),
-    addFolder: (value: any) => dispatch(addFolder(value)),
+    addFolder: (value: FolderType) => dispatch(addFolder(value)),
+    setFolders: (value: any) => dispatch(setFolders(value)),
 });
 
 export default connect(

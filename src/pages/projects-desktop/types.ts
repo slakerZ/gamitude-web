@@ -1,12 +1,14 @@
-import { FolderType } from "../../redux/folders/types";
+import { FolderType } from "api/folders/types";
 
-export interface ProjectsType {
+export interface ProjectsPropTypes {
     projects: any;
+    setFolders: any;
     setProjects: any;
     token: string;
     addProject: any;
     folders: FolderType[];
-    addFolder: any;
+    addFolder: (value: FolderType) => null;
+    methods: any;
 }
 
 export interface ProjectType {

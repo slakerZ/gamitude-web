@@ -1,8 +1,8 @@
-import { MethodType } from "../../../redux/methods/types";
+import { TimerType } from "api/timers/types";
 
 export interface MethodsPropType {
-    methods: MethodType[];
+    methods: TimerType[];
     setSelectedMethod: (value: number) => null;
-    setMethods: any;
-    selectedMethod: MethodType;
+    addTimer: any;
+    selectedMethod: TimerType;
 }

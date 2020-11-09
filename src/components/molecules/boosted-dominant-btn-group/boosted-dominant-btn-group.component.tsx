@@ -55,7 +55,7 @@ const BoostedDominantBtnGroup = ({
     };
 
     return (
-        <div aria-label={"Boosted Stats / Energies"}>
+        <div className={classes.root} aria-label={"Boosted Stats / Energies"}>
             <TextField
                 label="PROJECT NAME"
                 variant="outlined"
@@ -124,10 +124,10 @@ const BoostedDominantBtnGroup = ({
                 onChange={handleFolderChange}
                 fullWidth
             >
-                {folders.map(({ label, index }) => {
+                {folders.map(({ name }, index) => {
                     return (
                         <MenuItem key={index} value={index}>
-                            {label}
+                            {name}
                         </MenuItem>
                     );
                 })}
