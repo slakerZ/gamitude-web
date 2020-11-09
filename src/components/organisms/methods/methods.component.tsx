@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useEffectOnce } from "react-use";
+import React, { useState } from "react";
+import { useEffectOnce, useAsyncFn } from "react-use";
 import { postTimer, getTimers } from "api/timers/timers.api";
 import { connect } from "react-redux";
 import { a11yProps } from "../../atoms/tab-panel/tab-panel.component";
@@ -22,39 +22,54 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 import { selectSelectedTimer } from "../../../redux/timers/timers.selectors";
+import { selectToken } from "redux/user/user.selectors";
+import { setTimers } from "redux/timers/timers.actions";
 
 const Methods = ({
     methods,
     setSelectedMethod,
     addTimer,
     selectedMethod,
+    token,
+    setTimers,
 }: MethodsPropType) => {
     const classes = useMethodsStyles();
-    const [method, setMethod] = useState(methods.indexOf(selectedMethod));
+    const defaultSelected =
+        methods.indexOf(selectedMethod) !== -1
+            ? methods.indexOf(selectedMethod)
+            : 0;
+
+    const [method, setMethod] = useState(defaultSelected);
     const [open, setOpen] = useState(false);
 
     const [label, setLabel] = useState(" ");
     const [name, setName] = useState(" ");
-    const [minutes, setMinues] = useState(0);
-    const [shortBrake, setShortBrake] = useState(0);
+    const [workTime, setWorkTime] = useState(0);
+    const [breakTime, setBreakTime] = useState(0);
+    const [overTime, setOverTime] = useState(5);
     const [hasLongBreak, setHasLongBreak] = useState(false);
-    const [longBreak, setLongBreak] = useState(0);
-    const [longBreakInterval, setLongBreakInterval] = useState(0);
+    const [longerBreakTime, setLongerBreakTime] = useState(0);
+    const [breakInterval, setBreakInterval] = useState(0);
     const [type, setType] = useState("TIMER");
 
-    const postMethod = () => {
-        addTimer({
-            label,
+    const [postMethodState, postMethod] = useAsyncFn(async () => {
+        const newTimer = {
+            workTime,
+            breakTime,
+            overTime,
             name,
-            minutes,
-            shortBrake,
-            hasLongBreak,
-            longBreak,
-            longBreakInterval,
-            type,
-        });
+            longerBreakTime,
+            breakInterval,
+        };
+        postTimer(token, newTimer);
+        addTimer(newTimer);
         setOpen(false);
-    };
+    }, [label, name, workTime, breakTime, longerBreakTime, breakInterval]);
+
+    const [getMethodsListState, getMethodsList] = useAsyncFn(async () => {
+        const response = await getTimers(token);
+        setTimers(response.data);
+    });
 
     const handleChangeLabel = (e: any) => {
         if (e.target.value.length < 3) {
@@ -69,19 +84,19 @@ const Methods = ({
     };
 
     const handleChangeMinutes = (e: any) => {
-        setMinues(parseInt(e.target.value));
+        setWorkTime(parseInt(e.target.value));
     };
 
     const handleChangeShortBreak = (e: any) => {
-        setShortBrake(parseInt(e.target.value));
+        setBreakTime(parseInt(e.target.value));
     };
 
     const handleChangeLongBreak = (e: any) => {
-        setLongBreak(parseInt(e.target.value));
+        setLongerBreakTime(parseInt(e.target.value));
     };
 
     const handleChangeLongBreakInterval = (e: any) => {
-        setLongBreakInterval(parseInt(e.target.value));
+        setBreakInterval(parseInt(e.target.value));
     };
 
     const handleChangeType = (e: any) => {
@@ -101,9 +116,9 @@ const Methods = ({
         setOpen(true);
     };
 
-    useEffect(() => {
-        setSelectedMethod(0);
-    }, [setSelectedMethod]);
+    useEffectOnce(() => {
+        getMethodsList();
+    });
 
     return (
         <div className={classes.root} aria-label="methods root">
@@ -176,7 +191,7 @@ const Methods = ({
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <TextField
-                            value={minutes}
+                            value={workTime}
                             onChange={handleChangeMinutes}
                             label="Minutes"
                             type="number"
@@ -189,7 +204,7 @@ const Methods = ({
                             label="Short Break"
                             fullWidth
                             type="number"
-                            value={shortBrake}
+                            value={breakTime}
                             onChange={handleChangeShortBreak}
                         />
                     </Grid>
@@ -211,7 +226,7 @@ const Methods = ({
                                 label="Long Break"
                                 fullWidth
                                 type="number"
-                                value={longBreak}
+                                value={longerBreakTime}
                                 onChange={handleChangeLongBreak}
                             />
                         </Grid>
@@ -222,7 +237,7 @@ const Methods = ({
                                 label="Long Break Interval"
                                 fullWidth
                                 type="number"
-                                value={longBreakInterval}
+                                value={breakInterval}
                                 onChange={handleChangeLongBreakInterval}
                             />
                         </Grid>
@@ -236,9 +251,11 @@ const Methods = ({
 const mapStateToProps = (state: ReduxStateType) => ({
     methods: selectTimers(state),
     selectedMethod: selectSelectedTimer(state),
+    token: selectToken(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
+    setTimers: (value: any) => dispatch(setTimers(value)),
     setSelectedMethod: (value: number) => dispatch(setSelectedTimer(value)),
     addTimer: (value: any) => dispatch(addTimer(value)),
 });

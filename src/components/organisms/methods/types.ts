@@ -5,4 +5,6 @@ export interface MethodsPropType {
     setSelectedMethod: (value: number) => null;
     addTimer: any;
     selectedMethod: TimerType;
+    token: string;
+    setTimers: any;
 }

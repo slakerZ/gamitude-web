@@ -28,6 +28,11 @@ const timersReducer = (state = INITIAL_STATE, action: any) => {
                 ...state,
                 timers: [...state.timers, action.payload],
             };
+        case TimersActionTypes.SET_TIMERS:
+            return {
+                ...state,
+                timers: action.payload,
+            };
         default:
             return state;
     }

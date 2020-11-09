@@ -9,3 +9,8 @@ export const addTimer = (value: any) => ({
     type: TimersActionTypes.ADD_TIMER,
     payload: value,
 });
+
+export const setTimers = (value: any) => ({
+    type: TimersActionTypes.SET_TIMERS,
+    payload: value,
+});

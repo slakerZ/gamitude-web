@@ -46,7 +46,7 @@ const Timer = ({
                                 className={classes.addFive}
                             >
                                 <Typography variant="h4" component="h4">
-                                    {"+5"}
+                                    +{selectedMethod.overTime}
                                 </Typography>
                             </Button>
                         </ToggleAbleTooltip>
@@ -65,7 +65,7 @@ const Timer = ({
                                         variant="h2"
                                         component="h2"
                                     >
-                                        {/* {leftPad(selectedMethod.workTime)} */}
+                                        {leftPad(selectedMethod.workTime)}
                                     </Typography>
                                     <Typography
                                         display="inline"
