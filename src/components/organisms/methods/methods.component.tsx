@@ -8,12 +8,12 @@ import Tab from "@material-ui/core/Tab";
 import TimerIcon from "@material-ui/icons/Timer";
 import useMethodsStyles from "./styles";
 import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
-import { setSelectedMethod } from "../../../redux/methods/methods.actions";
+import { setSelectedTimer } from "redux/timers/timers.actions";
 import { MethodsPropType } from "./types";
 import AddAlarm from "@material-ui/icons/AddAlarm";
 import { ReduxStateType } from "../../../redux/root.reducer";
-import { selectMethods } from "../../../redux/methods/methods.selectors";
-import { addTimer } from "../../../redux/methods/methods.actions";
+import { selectTimers } from "../../../redux/timers/timers.selectors";
+import { addTimer } from "../../../redux/timers/timers.actions";
 import IconButton from "@material-ui/core/IconButton";
 import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
 import TextField from "@material-ui/core/TextField";
@@ -21,7 +21,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
-import { selectSelectedMethod } from "../../../redux/methods/methods.selectors";
+import { selectSelectedTimer } from "../../../redux/timers/timers.selectors";
 
 const Methods = ({
     methods,
@@ -234,12 +234,12 @@ const Methods = ({
 };
 
 const mapStateToProps = (state: ReduxStateType) => ({
-    methods: selectMethods(state),
-    selectedMethod: selectSelectedMethod(state),
+    methods: selectTimers(state),
+    selectedMethod: selectSelectedTimer(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    setSelectedMethod: (value: number) => dispatch(setSelectedMethod(value)),
+    setSelectedMethod: (value: number) => dispatch(setSelectedTimer(value)),
     addTimer: (value: any) => dispatch(addTimer(value)),
 });
 

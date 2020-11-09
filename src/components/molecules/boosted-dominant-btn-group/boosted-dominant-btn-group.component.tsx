@@ -8,7 +8,7 @@ import { STATS, ENERGIES } from "../../../constants";
 import MenuItem from "@material-ui/core/MenuItem";
 import { connect } from "react-redux";
 import { selectFolders } from "../../../redux/folders/folders.selectors";
-import { selectMethods } from "../../../redux/methods/methods.selectors";
+import { selectTimers } from "../../../redux/timers/timers.selectors";
 import { BoostedDominantBtnGroupPropTypes } from "./types";
 import { ReduxStateType } from "../../../redux/root.reducer";
 
@@ -155,7 +155,7 @@ const BoostedDominantBtnGroup = ({
 
 const mapStateToProps = (state: ReduxStateType) => ({
     folders: selectFolders(state),
-    methods: selectMethods(state),
+    methods: selectTimers(state),
 });
 
 export default connect(mapStateToProps)(BoostedDominantBtnGroup);

@@ -13,7 +13,7 @@ import { getFolders, postFolder } from "api/folders/folders.api";
 import { getProjects, postProject } from "api/projects/projects.api";
 // Redux
 import { connect } from "react-redux";
-import { selectMethods } from "redux/methods/methods.selectors";
+import { selectTimers } from "redux/timers/timers.selectors";
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
@@ -294,7 +294,7 @@ const mapStateToProps = (state: any) => ({
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
     folders: selectFolders(state),
-    methods: selectMethods(state),
+    methods: selectTimers(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

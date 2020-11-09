@@ -20,7 +20,7 @@ import {
     setMethod as setFolderRedux,
 } from "../../../redux/projects/projects.actions";
 import { setBoosted as setBoostedRedux } from "../../../redux/projects/projects.actions";
-import { selectMethods } from "../../../redux/methods/methods.selectors";
+import { selectTimers } from "../../../redux/timers/timers.selectors";
 // MUI
 import Typography from "@material-ui/core/Typography";
 import Accordion from "@material-ui/core/Accordion";
@@ -211,7 +211,7 @@ const Project = ({
 const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     token: selectToken(state),
-    methods: selectMethods(state),
+    methods: selectTimers(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

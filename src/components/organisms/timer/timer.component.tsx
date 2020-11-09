@@ -8,7 +8,7 @@ import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip
 import { TimerPropTypes } from "./types";
 import useTimerStyles from "./styles";
 import { selectSelectedProject } from "../../../redux/projects/projects.selectors";
-import { selectSelectedMethod } from "../../../redux/methods/methods.selectors";
+import { selectSelectedTimer } from "../../../redux/timers/timers.selectors";
 
 const Timer = ({
     selectedProject,
@@ -93,7 +93,7 @@ const Timer = ({
 
 const mapStateToProps = (state: any) => ({
     selectedProject: selectSelectedProject(state),
-    selectedMethod: selectSelectedMethod(state),
+    selectedMethod: selectSelectedTimer(state),
 });
 
 export default connect(mapStateToProps)(Timer);
