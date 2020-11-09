@@ -141,10 +141,10 @@ const BoostedDominantBtnGroup = ({
                 onChange={handleDefaultMethodChange}
                 fullWidth
             >
-                {methods.map(({ label }, index) => {
+                {methods.map(({ name }, index) => {
                     return (
                         <MenuItem key={index} value={index}>
-                            {label}
+                            {name}
                         </MenuItem>
                     );
                 })}

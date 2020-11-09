@@ -7,7 +7,7 @@ export interface FullProjectType {
     name: string;
     folderId: string;
     defaultTimerId: string;
-    projectType: ProjectSessionType;
+    projectType: string;
     dominantStat: StatType | EnergyType;
     stats: StatType[] | EnergyType[];
     totalTimeSpend: number;
@@ -22,7 +22,7 @@ export interface ProjectRequestBodyType {
     name: string;
     folderId: string;
     defaultTimerId: string;
-    projectType: ProjectSessionType;
+    projectType: string;
     dominantStat: StatType | EnergyType;
     stats: StatType[] | EnergyType[];
     daysPerWeek: number;

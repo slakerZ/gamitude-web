@@ -96,7 +96,7 @@ const ProjectsDesktopPage = ({
             name: projectName,
             folderId: folders[folderIndex].id,
             defaultTimerId: methods[projectDefaultMethodIndex].id,
-            projectType: projectsSessionType,
+            projectType: "None",
             dominantStat: projectDominantStatistic,
             stats: projectBoostedStatistics,
             daysPerWeek: 0,
@@ -120,6 +120,7 @@ const ProjectsDesktopPage = ({
     const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
         const response = await getProjects(token);
         const result = response.data;
+        console.log(result);
         setProjects(result);
         return result;
     });
@@ -227,13 +228,15 @@ const ProjectsDesktopPage = ({
                 className={classes.projectsWrapper}
             >
                 {projects.map((project: any) => {
-                    const { status } = project;
+                    const { folderId } = project;
                     const index = projects.indexOf(project);
                     return (
                         <TabPanel
                             key={index}
                             value={projectsCurrFolderIndex}
-                            index={status}
+                            index={folders.findIndex((folder) => {
+                                return folder.id === folderId;
+                            })}
                             role={"folder"}
                             id={"projects-in-folder"}
                         >

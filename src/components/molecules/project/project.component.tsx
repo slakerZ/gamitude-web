@@ -59,12 +59,12 @@ const Project = ({
     const [open, setOpen] = useState(false);
     const [expanded, setExpanded] = useState(false);
 
-    const dominantRedux = projects[index].dominant;
-    const boostedRedux = projects[index].boosted;
+    const dominantRedux = projects[index].dominantStat;
+    const boostedRedux = projects[index].stats;
     const nameRedux = projects[index].name;
-    const folderRedux = projects[index].status;
+    const folderRedux = projects[index].folderId;
     // TODO: New api adjust
-    const methodRedux = projects[index].method;
+    const methodRedux = projects[index].defaultTimerId;
 
     const [defaultMethod, setDefaultMethod] = useState(0);
     const [folder, setFolder] = useState(folderRedux);
