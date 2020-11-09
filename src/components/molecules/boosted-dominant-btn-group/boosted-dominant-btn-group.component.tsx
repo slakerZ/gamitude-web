@@ -13,10 +13,8 @@ import CustomToggleButtonGroup from "components/atoms/custom-toggle-button-group
 import SessionTypeSwitch from "components/atoms/session-type-switch/session-type-switch.component";
 
 import { STATS, ENERGIES } from "../../../constants";
-
-import { BoostedDominantBtnGroupPropTypes } from "./types";
-
 import useBoostedDominantBtnGroupStyles from "./styles";
+import { BoostedDominantBtnGroupPropTypes } from "./types";
 
 const BoostedDominantBtnGroup = ({
     boosted,

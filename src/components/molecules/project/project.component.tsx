@@ -1,7 +1,8 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
+
+import axios from "axios";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -40,11 +41,11 @@ import {
 import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
 import BoostedDominantBtnGroup from "components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
 
-import { ProjectType } from "./types";
-
 import useProjectStyles from "./styles";
+import { ProjectType } from "./types";
 
 const Project = ({
     index,

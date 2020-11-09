@@ -10,9 +10,8 @@ import { selectSelectedProject } from "redux/projects/projects.selectors";
 
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
-import { TimerPropTypes } from "./types";
-
 import useTimerStyles from "./styles";
+import { TimerPropTypes } from "./types";
 
 const Timer = ({
     selectedProject,
