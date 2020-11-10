@@ -22,7 +22,7 @@ import { selectFolders } from "../../redux/folders/folders.selectors";
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
 import ToggleAbleTooltip from "../../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 // Molecules
-import Project from "../../components/molecules/project-tile/project-tile.component";
+import ProjectTile from "../../components/molecules/project-tile/project-tile.component";
 // Local
 import {
     ProjectsPropTypes,
@@ -181,7 +181,7 @@ const ProjectsDesktopPage = ({
                                     value={selectedProject}
                                     onChange={handleChangeSelectedProject}
                                 >
-                                    <Project
+                                    <ProjectTile
                                         index={index}
                                         getProjectsList={getProjectsList}
                                     />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAsyncFn } from "react-use";
 // API
 import { deleteProjectById, putProjectById } from "api/projects/projects.api";
@@ -14,7 +14,6 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Button from "@material-ui/core/Button";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
@@ -26,6 +25,11 @@ import { ProjectTilePropTypes } from "./types";
 import useProjectStyles from "./styles";
 import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
 import { ProjectSessionType } from "types";
+import {
+    editMessage,
+    editSeverity,
+    setOpen as setSnackbarOpen,
+} from "redux/snackbar/snackbar.actions";
 
 const Project = ({
     index,
@@ -33,6 +37,9 @@ const Project = ({
     token,
     setSelectedProject,
     getProjectsList,
+    setSnackbarMessage,
+    setSnackbarOpen,
+    setSnackbarSeverity,
 }: ProjectTilePropTypes) => {
     const classes = useProjectStyles();
 
@@ -57,10 +64,9 @@ const Project = ({
 
     const [deleteProjectState, deleteProject] = useAsyncFn(async () => {
         const id = projects[index].id;
-        deleteProjectById(token, id).then(() => {
-            getProjectsList();
-            return;
-        });
+        const response = await deleteProjectById(token, id);
+        getProjectsList();
+        return response;
     });
 
     const [editProjectState, editProject] = useAsyncFn(async () => {
@@ -96,6 +102,22 @@ const Project = ({
         event.stopPropagation();
         setSelectedProject(projects[index]);
     };
+
+    useEffect(() => {
+        if (editProjectState.error) {
+            setSnackbarSeverity("error");
+            setSnackbarMessage("Failed to edit project");
+            setSnackbarOpen(true);
+        }
+    }, [editProjectState]);
+
+    useEffect(() => {
+        if (deleteProjectState.error) {
+            setSnackbarSeverity("error");
+            setSnackbarMessage("Failed to delete project");
+            setSnackbarOpen(true);
+        }
+    }, [deleteProjectState]);
 
     return (
         <Accordion
@@ -175,6 +197,9 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
     setSelectedProject: (value: any) => dispatch(setSelectedProject(value)),
+    setSnackbarOpen: (value: any) => dispatch(setSnackbarOpen(value)),
+    setSnackbarSeverity: (value: any) => dispatch(editSeverity(value)),
+    setSnackbarMessage: (value: any) => dispatch(editMessage(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);
