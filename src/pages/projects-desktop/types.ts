@@ -5,10 +5,7 @@ export interface ProjectsPropTypes {
     setFolders: any;
     setProjects: any;
     token: string;
-    addProject: any;
     folders: FolderType[];
-    addFolder: (value: FolderType) => null;
-    methods: any;
 }
 
 export interface ProjectType {

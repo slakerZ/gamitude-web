@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { FolderType } from "api/folders/types";
 import { useAsyncFn, useEffectOnce } from "react-use";
 // MUI
 import Tabs from "@material-ui/core/Tabs";
@@ -13,12 +12,11 @@ import { getFolders, postFolder } from "api/folders/folders.api";
 import { getProjects, postProject } from "api/projects/projects.api";
 // Redux
 import { connect } from "react-redux";
-import { selectTimers } from "redux/timers/timers.selectors";
 import { selectToken } from "../../redux/user/user.selectors";
 import { selectProjects } from "../../redux/projects/projects.selectors";
 import { selectSessionInProgress } from "../../redux/session/session.selectors";
-import { addFolder, setFolders } from "../../redux/folders/folders.actions";
-import { setProjects, addProject } from "../../redux/projects/projects.actions";
+import { setFolders } from "../../redux/folders/folders.actions";
+import { setProjects } from "../../redux/projects/projects.actions";
 import { selectFolders } from "../../redux/folders/folders.selectors";
 // Atoms
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
@@ -50,17 +48,15 @@ const ProjectsDesktopPage = ({
     projects,
     setProjects,
     token,
-    addProject,
-    addFolder,
     folders,
     setFolders,
-    methods,
 }: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
 
     const [isNewProjectFormOpen, setIsNewProjectFormOpen] = useState(false);
     const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = useState(false);
 
+    // This is only for front components to mark the right radio button
     const [selectedProject, setSelectedProject] = useState("");
     const [projectsCurrFolderIndex, setProjectsCurrFolderIndex] = useState(0);
 
@@ -373,13 +369,10 @@ const mapStateToProps = (state: any) => ({
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
     folders: selectFolders(state),
-    methods: selectTimers(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setProjects: (value: any) => dispatch(setProjects(value)),
-    addProject: (value: any) => dispatch(addProject(value)),
-    addFolder: (value: FolderType) => dispatch(addFolder(value)),
     setFolders: (value: any) => dispatch(setFolders(value)),
 });
 
