@@ -26,3 +26,9 @@ export interface NewProjectDialogPropTypes {
     setOpen: any;
     getProjectsList: any;
 }
+export interface NewFolderDialogPropTypes {
+    token: string;
+    open: boolean;
+    setOpen: any;
+    getFoldersList: any;
+}

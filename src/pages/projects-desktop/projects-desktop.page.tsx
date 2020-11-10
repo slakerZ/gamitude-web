@@ -26,7 +26,11 @@ import ToggleAbleTooltip from "../../components/atoms/toggleable-tooltip/togglea
 // Molecules
 import Project from "../../components/molecules/project/project.component";
 // Local
-import { ProjectsPropTypes, NewProjectDialogPropTypes } from "./types";
+import {
+    ProjectsPropTypes,
+    NewProjectDialogPropTypes,
+    NewFolderDialogPropTypes,
+} from "./types";
 import useProjectDesktopStyles from "./styles";
 import {
     TabPanel,
@@ -60,22 +64,6 @@ const ProjectsDesktopPage = ({
     const [selectedProject, setSelectedProject] = useState("");
     const [projectsCurrFolderIndex, setProjectsCurrFolderIndex] = useState(0);
 
-    // Folders Dialog
-    const [folderName, setFolderName] = useState("");
-    const [folderIcon, setFolderIcon] = useState("");
-
-    const [createNewFolderState, createNewFolder] = useAsyncFn(async () => {
-        const requestBody = {
-            name: folderName,
-            icon: folderIcon,
-            description: "",
-        };
-        const result = await postFolder(token, requestBody);
-        addFolder(result.data);
-        setIsNewFolderDialogOpen(false);
-        return result;
-    }, [folderName, folderIcon]);
-
     const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
         const response = await getProjects(token);
         const result = response.data;
@@ -98,20 +86,12 @@ const ProjectsDesktopPage = ({
         setProjectsCurrFolderIndex(newValue);
     };
 
-    const handleClickOpen = () => {
+    const handleOpenNewProjectDialog = () => {
         setIsNewProjectFormOpen(true);
     };
 
     const handleChangeSelectedProject = (event: any) => {
         setSelectedProject(event.target.value);
-    };
-
-    const handleIconChange = (e: any, newIcon: any) => {
-        setFolderIcon(newIcon);
-    };
-
-    const handleChangeFolderName = (e: any) => {
-        setFolderName(e.target.value);
     };
 
     return (
@@ -147,39 +127,6 @@ const ProjectsDesktopPage = ({
                         <AddIcon />
                     </IconButton>
                 </ToggleAbleTooltip>
-                <CustomDialog
-                    aria-label="Create New Folder Dialog"
-                    open={isNewFolderDialogOpen}
-                    setOpen={setIsNewFolderDialogOpen}
-                    title={"Create New Folder"}
-                    onSubmit={createNewFolder}
-                >
-                    <div
-                        aria-label="Create New Folder Dialog's Body"
-                        className={classes.newFolderDialogBody}
-                    >
-                        <TextField
-                            label={"Name"}
-                            variant={"outlined"}
-                            fullWidth
-                            value={folderName}
-                            onChange={handleChangeFolderName}
-                        />
-                        <Typography
-                            variant={"h4"}
-                            component={"h4"}
-                            align={"center"}
-                        >
-                            {"Choose folder icon"}
-                        </Typography>
-                        <CustomToggleButtonGroup
-                            value={folderIcon}
-                            handleChange={handleIconChange}
-                            items={ICONS}
-                            exclusive={true}
-                        />
-                    </div>
-                </CustomDialog>
             </div>
             <div
                 aria-label="Projects in current Folder"
@@ -217,13 +164,19 @@ const ProjectsDesktopPage = ({
                         color="secondary"
                         aria-label="add"
                         className={classes.add}
-                        onClick={handleClickOpen}
+                        onClick={handleOpenNewProjectDialog}
                     >
                         <AddIcon />
                     </Fab>
                 </ToggleAbleTooltip>
             </div>
 
+            <NewFolderDialog
+                open={isNewFolderDialogOpen}
+                setOpen={setIsNewFolderDialogOpen}
+                token={token}
+                getFoldersList={getFoldersList}
+            />
             <NewProjectDialog
                 open={isNewProjectFormOpen}
                 setOpen={setIsNewProjectFormOpen}
@@ -231,6 +184,99 @@ const ProjectsDesktopPage = ({
                 getProjectsList={getProjectsList}
             />
         </div>
+    );
+};
+
+const NewFolderDialog = ({
+    open,
+    setOpen,
+    token,
+    getFoldersList,
+}: NewFolderDialogPropTypes) => {
+    const classes = useProjectDesktopStyles();
+
+    const [folderName, setFolderName] = useState("");
+    const [folderIcon, setFolderIcon] = useState("");
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarSeverity, setSnackbarSeverity] = useState<
+        AlertProps["severity"]
+    >("info");
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    const [createNewFolderState, createNewFolder] = useAsyncFn(async () => {
+        const requestBody = {
+            name: folderName,
+            icon: folderIcon,
+            description: "",
+        };
+        const result = await postFolder(token, requestBody);
+        setOpen(false);
+        getFoldersList();
+        // Reset
+        setFolderName("");
+        setFolderIcon("");
+        return result;
+    }, [folderName, folderIcon]);
+
+    const handleIconChange = (e: any, newIcon: any) => {
+        setFolderIcon(newIcon);
+    };
+
+    const handleChangeFolderName = (e: any) => {
+        setFolderName(e.target.value);
+    };
+
+    useEffect(() => {
+        if (createNewFolderState.error) {
+            setSnackbarSeverity("error");
+            setSnackbarMessage("Failed to create new folder");
+            setSnackbarOpen(true);
+        }
+    }, [createNewFolderState]);
+
+    return (
+        <Fragment>
+            <CustomDialog
+                aria-label="Create New Folder Dialog"
+                open={open}
+                setOpen={setOpen}
+                title={"Create New Folder"}
+                onSubmit={createNewFolder}
+            >
+                <div
+                    aria-label="Create New Folder Dialog's Body"
+                    className={classes.newFolderDialogBody}
+                >
+                    <TextField
+                        label={"Name"}
+                        variant={"outlined"}
+                        fullWidth
+                        value={folderName}
+                        onChange={handleChangeFolderName}
+                    />
+                    <Typography
+                        variant={"h4"}
+                        component={"h4"}
+                        align={"center"}
+                    >
+                        {"Choose folder icon"}
+                    </Typography>
+                    <CustomToggleButtonGroup
+                        value={folderIcon}
+                        handleChange={handleIconChange}
+                        items={ICONS}
+                        exclusive={true}
+                    />
+                </div>
+            </CustomDialog>
+            <CustomSnackbar
+                open={snackbarOpen}
+                setOpen={setSnackbarOpen}
+                message={snackbarMessage}
+                severity={snackbarSeverity}
+            />
+        </Fragment>
     );
 };
 
@@ -268,9 +314,15 @@ const NewProjectDialog = ({
             dayInterval: 0,
         };
         const result = await postProject(token, requestBody);
-        addProject(result.data);
         setOpen(false);
         getProjectsList();
+        // Reset
+        setName("");
+        setProjectType("STAT");
+        setStats([]);
+        setDominantStat("");
+        setFolderId("");
+        setDefaultTimerId("");
         return result.data;
     }, [name, folderId, defaultTimerId, projectType, stats, dominantStat]);
 
