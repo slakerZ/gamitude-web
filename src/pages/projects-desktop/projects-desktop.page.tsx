@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { FolderType } from "api/folders/types";
 import { useAsyncFn, useEffectOnce } from "react-use";
 // MUI
@@ -39,6 +39,8 @@ import CustomToggleButtonGroup from "../../components/atoms/custom-toggle-button
 import { ICONS } from "../../components/atoms/custom-icon/constants";
 import { EnergyType, StatType } from "types";
 import { ProjectSessionType } from "types";
+import CustomSnackbar from "components/atoms/custom-snackbar/custom-snackbar.component";
+import { AlertProps } from "@material-ui/lab/Alert";
 
 const ProjectsDesktopPage = ({
     projects,
@@ -238,7 +240,6 @@ const NewProjectDialog = ({
     token,
     getProjectsList,
 }: NewProjectDialogPropTypes) => {
-    // Projects Dialog
     const [name, setName] = useState("");
     const [projectType, setProjectType] = useState<ProjectSessionType>("STAT");
     const [stats, setStats] = useState<StatType[] | EnergyType[] | any[]>([]);
@@ -247,6 +248,12 @@ const NewProjectDialog = ({
     >("");
     const [folderId, setFolderId] = useState("");
     const [defaultTimerId, setDefaultTimerId] = useState("");
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarSeverity, setSnackbarSeverity] = useState<
+        AlertProps["severity"]
+    >("info");
+    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     const [createNewProjectState, createNewProject] = useAsyncFn(async () => {
         const requestBody = {
@@ -267,29 +274,45 @@ const NewProjectDialog = ({
         return result.data;
     }, [name, folderId, defaultTimerId, projectType, stats, dominantStat]);
 
+    useEffect(() => {
+        if (createNewProjectState.error) {
+            setSnackbarSeverity("error");
+            setSnackbarMessage("Failed to create new project");
+            setSnackbarOpen(true);
+        }
+    }, [createNewProjectState]);
+
     return (
-        <CustomDialog
-            aria-label="Create New Project Dialog"
-            open={open}
-            setOpen={setOpen}
-            title={"Create new project"}
-            onSubmit={createNewProject}
-        >
-            <BoostedDominantBtnGroup
-                boosted={stats}
-                setBoosted={setStats}
-                dominant={dominantStat}
-                setDominant={setDominantStat}
-                name={name}
-                setName={setName}
-                sessionType={projectType}
-                setSessionType={setProjectType}
-                folder={folderId}
-                setFolder={setFolderId}
-                method={defaultTimerId}
-                setMethod={setDefaultTimerId}
+        <Fragment>
+            <CustomDialog
+                aria-label="Create New Project Dialog"
+                open={open}
+                setOpen={setOpen}
+                title={"Create new project"}
+                onSubmit={createNewProject}
+            >
+                <BoostedDominantBtnGroup
+                    boosted={stats}
+                    setBoosted={setStats}
+                    dominant={dominantStat}
+                    setDominant={setDominantStat}
+                    name={name}
+                    setName={setName}
+                    sessionType={projectType}
+                    setSessionType={setProjectType}
+                    folder={folderId}
+                    setFolder={setFolderId}
+                    method={defaultTimerId}
+                    setMethod={setDefaultTimerId}
+                />
+            </CustomDialog>
+            <CustomSnackbar
+                open={snackbarOpen}
+                setOpen={setSnackbarOpen}
+                message={snackbarMessage}
+                severity={snackbarSeverity}
             />
-        </CustomDialog>
+        </Fragment>
     );
 };
 
