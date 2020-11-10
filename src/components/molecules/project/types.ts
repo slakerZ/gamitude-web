@@ -12,4 +12,5 @@ export interface ProjectType {
     setStatusRedux: any;
     setFolderRedux: any;
     methods: TimerType[];
+    folders: any;
 }

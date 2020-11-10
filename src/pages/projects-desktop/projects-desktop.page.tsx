@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from "react";
+import React, { useState } from "react";
 import { FolderType } from "api/folders/types";
 import { useAsyncFn, useEffectOnce } from "react-use";
 // MUI
@@ -26,7 +26,7 @@ import ToggleAbleTooltip from "../../components/atoms/toggleable-tooltip/togglea
 // Molecules
 import Project from "../../components/molecules/project/project.component";
 // Local
-import { ProjectsPropTypes } from "./types";
+import { ProjectsPropTypes, NewProjectDialogPropTypes } from "./types";
 import useProjectDesktopStyles from "./styles";
 import {
     TabPanel,
@@ -37,7 +37,6 @@ import BoostedDominantBtnGroup from "../../components/molecules/boosted-dominant
 import { TextField, Typography } from "@material-ui/core";
 import CustomToggleButtonGroup from "../../components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
 import { ICONS } from "../../components/atoms/custom-icon/constants";
-import { FullProjectType } from "api/projects/types";
 import { EnergyType, StatType } from "types";
 import { ProjectSessionType } from "types";
 
@@ -57,25 +56,9 @@ const ProjectsDesktopPage = ({
     const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = useState(false);
 
     const [selectedProject, setSelectedProject] = useState("");
-
-    // Projects Dialog
-    const [projectName, setProjectName] = useState("");
-    const [projectsSessionType, setProjectsSessionType] = useState<
-        ProjectSessionType
-    >("STAT");
-    const [projectBoostedStatistics, setprojectBoostesStatistics] = useState<
-        StatType[] | EnergyType[]
-    >(["STRENGTH"]);
-    const [projectDominantStatistic, setProjectDominantStatistic] = useState<
-        StatType | EnergyType
-    >("STRENGTH");
     const [projectsCurrFolderIndex, setProjectsCurrFolderIndex] = useState(0);
-    const [projectDefaultMethodIndex, setProjectDefaultMethodIndex] = useState(
-        0,
-    );
 
     // Folders Dialog
-    const [folderIndex, setFolderIndex] = useState(0);
     const [folderName, setFolderName] = useState("");
     const [folderIcon, setFolderIcon] = useState("");
 
@@ -91,36 +74,9 @@ const ProjectsDesktopPage = ({
         return result;
     }, [folderName, folderIcon]);
 
-    const [createNewProjectState, createNewProject] = useAsyncFn(async () => {
-        const requestBody = {
-            name: projectName,
-            folderId: folders[folderIndex].id,
-            defaultTimerId: methods[projectDefaultMethodIndex].id,
-            projectType: "None",
-            dominantStat: projectDominantStatistic,
-            stats: projectBoostedStatistics,
-            daysPerWeek: 0,
-            hoursPerDay: 0,
-            dayInterval: 0,
-        };
-        console.log(requestBody);
-        const result = await postProject(token, requestBody);
-        addProject(result.data);
-        setIsNewProjectFormOpen(false);
-        return result.data;
-    }, [
-        projectName,
-        folderIndex,
-        projectDefaultMethodIndex,
-        projectsSessionType,
-        projectBoostedStatistics,
-        projectDominantStatistic,
-    ]);
-
     const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
         const response = await getProjects(token);
         const result = response.data;
-        console.log(result);
         setProjects(result);
         return result;
     });
@@ -266,29 +222,74 @@ const ProjectsDesktopPage = ({
                 </ToggleAbleTooltip>
             </div>
 
-            <CustomDialog
-                aria-label="Create New Project Dialog"
+            <NewProjectDialog
                 open={isNewProjectFormOpen}
                 setOpen={setIsNewProjectFormOpen}
-                title={"Create new project"}
-                onSubmit={createNewProject}
-            >
-                <BoostedDominantBtnGroup
-                    boosted={projectBoostedStatistics}
-                    setBoosted={setprojectBoostesStatistics}
-                    dominant={projectDominantStatistic}
-                    setDominant={setProjectDominantStatistic}
-                    name={projectName}
-                    setName={setProjectName}
-                    sessionType={projectsSessionType}
-                    setSessionType={setProjectsSessionType}
-                    folder={folderIndex}
-                    setFolder={setFolderIndex}
-                    method={projectDefaultMethodIndex}
-                    setMethod={setProjectDefaultMethodIndex}
-                />
-            </CustomDialog>
+                token={token}
+                getProjectsList={getProjectsList}
+            />
         </div>
+    );
+};
+
+const NewProjectDialog = ({
+    open,
+    setOpen,
+    token,
+    getProjectsList,
+}: NewProjectDialogPropTypes) => {
+    // Projects Dialog
+    const [name, setName] = useState("");
+    const [projectType, setProjectType] = useState<ProjectSessionType>("STAT");
+    const [stats, setStats] = useState<StatType[] | EnergyType[] | any[]>([]);
+    const [dominantStat, setDominantStat] = useState<
+        StatType | EnergyType | string
+    >("");
+    const [folderId, setFolderId] = useState("");
+    const [defaultTimerId, setDefaultTimerId] = useState("");
+
+    const [createNewProjectState, createNewProject] = useAsyncFn(async () => {
+        const requestBody = {
+            name: name,
+            folderId: folderId,
+            defaultTimerId: defaultTimerId,
+            projectType: "None",
+            dominantStat: dominantStat,
+            stats: stats,
+            daysPerWeek: 0,
+            hoursPerDay: 0,
+            dayInterval: 0,
+        };
+        const result = await postProject(token, requestBody);
+        addProject(result.data);
+        setOpen(false);
+        getProjectsList();
+        return result.data;
+    }, [name, folderId, defaultTimerId, projectType, stats, dominantStat]);
+
+    return (
+        <CustomDialog
+            aria-label="Create New Project Dialog"
+            open={open}
+            setOpen={setOpen}
+            title={"Create new project"}
+            onSubmit={createNewProject}
+        >
+            <BoostedDominantBtnGroup
+                boosted={stats}
+                setBoosted={setStats}
+                dominant={dominantStat}
+                setDominant={setDominantStat}
+                name={name}
+                setName={setName}
+                sessionType={projectType}
+                setSessionType={setProjectType}
+                folder={folderId}
+                setFolder={setFolderId}
+                method={defaultTimerId}
+                setMethod={setDefaultTimerId}
+            />
+        </CustomDialog>
     );
 };
 

@@ -40,11 +40,13 @@ import { ProjectType } from "./types";
 import useProjectStyles from "./styles";
 import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
 import { ProjectSessionType } from "types";
+import { selectFolders } from "redux/folders/folders.selectors";
 
 const Project = ({
     index,
     projects,
     token,
+    folders,
     deleteProject,
     setSelectedProject,
     setNameRedux,
@@ -66,7 +68,7 @@ const Project = ({
     // TODO: New api adjust
     const methodRedux = projects[index].defaultTimerId;
 
-    const [defaultMethod, setDefaultMethod] = useState(0);
+    const [defaultMethod, setDefaultMethod] = useState(methodRedux);
     const [folder, setFolder] = useState(folderRedux);
     const [name, setName] = useState(nameRedux);
     const [boosted, setBoosted] = useState(boostedRedux);
@@ -212,6 +214,7 @@ const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     token: selectToken(state),
     methods: selectTimers(state),
+    folders: selectFolders(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

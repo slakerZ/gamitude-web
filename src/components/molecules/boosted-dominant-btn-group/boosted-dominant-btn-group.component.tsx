@@ -124,9 +124,9 @@ const BoostedDominantBtnGroup = ({
                 onChange={handleFolderChange}
                 fullWidth
             >
-                {folders.map(({ name }, index) => {
+                {folders.map(({ name, id }, index) => {
                     return (
-                        <MenuItem key={index} value={index}>
+                        <MenuItem key={index} value={id}>
                             {name}
                         </MenuItem>
                     );
@@ -141,9 +141,9 @@ const BoostedDominantBtnGroup = ({
                 onChange={handleDefaultMethodChange}
                 fullWidth
             >
-                {methods.map(({ name }, index) => {
+                {methods.map(({ name, id }, index) => {
                     return (
-                        <MenuItem key={index} value={index}>
+                        <MenuItem key={index} value={id}>
                             {name}
                         </MenuItem>
                     );

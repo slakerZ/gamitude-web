@@ -19,3 +19,10 @@ export interface ProjectType {
     dominantStat: string;
     stats: string[];
 }
+
+export interface NewProjectDialogPropTypes {
+    token: string;
+    open: boolean;
+    setOpen: any;
+    getProjectsList: any;
+}

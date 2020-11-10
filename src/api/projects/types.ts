@@ -23,8 +23,8 @@ export interface ProjectRequestBodyType {
     folderId: string;
     defaultTimerId: string;
     projectType: string;
-    dominantStat: StatType | EnergyType;
-    stats: StatType[] | EnergyType[];
+    dominantStat: StatType | EnergyType | string;
+    stats: StatType[] | EnergyType[] | any[];
     daysPerWeek: number;
     hoursPerDay: number;
     dayInterval: number;
