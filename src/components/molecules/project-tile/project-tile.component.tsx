@@ -32,12 +32,16 @@ const Project = ({
     projects,
     token,
     setSelectedProject,
+    getProjectsList,
 }: ProjectTilePropTypes) => {
     const classes = useProjectStyles();
 
-    const [open, setOpen] = useState(false);
+    const [isDeleteWarningDialogOpen, setIsDeleteWarningDialogOpen] = useState(
+        false,
+    );
     const [expanded, setExpanded] = useState(false);
 
+    // Get defaults from redux
     const dominantRedux = projects[index].dominantStat;
     const boostedRedux = projects[index].stats;
     const nameRedux = projects[index].name;
@@ -51,20 +55,13 @@ const Project = ({
     const [dominant, setDominant] = useState(dominantRedux);
     const [projectType, setProjectType] = useState<ProjectSessionType>("STAT");
 
-    const handleDeletion = () => {
-        setOpen(true);
-    };
-
-    const handleDeletionConfirm = () => {
+    const [deleteProjectState, deleteProject] = useAsyncFn(async () => {
         const id = projects[index].id;
-        deleteProjectById(token, id);
-        setOpen(false);
-    };
-
-    const handleSelectionChanged = (event: any) => {
-        event.stopPropagation();
-        setSelectedProject(projects[index]);
-    };
+        deleteProjectById(token, id).then(() => {
+            getProjectsList();
+            return;
+        });
+    });
 
     const [editProjectState, editProject] = useAsyncFn(async () => {
         const id = projects[index].id;
@@ -82,11 +79,23 @@ const Project = ({
             dayInterval: 0,
         };
 
-        console.log(requestBody);
-
         const response = await putProjectById(token, requestBody, id);
         return response.data;
     }, [name, boosted, dominant, folder, defaultMethod]);
+
+    const handleDeletion = () => {
+        setIsDeleteWarningDialogOpen(true);
+    };
+
+    const handleDeletionConfirm = () => {
+        deleteProject();
+        setIsDeleteWarningDialogOpen(false);
+    };
+
+    const handleSelectionChanged = (event: any) => {
+        event.stopPropagation();
+        setSelectedProject(projects[index]);
+    };
 
     return (
         <Accordion
@@ -135,18 +144,14 @@ const Project = ({
                 </Button>
 
                 <Button onClick={editProject} variant="outlined">
-                    {editProjectState.loading ? (
-                        <CircularProgress className={classes.progress} />
-                    ) : (
-                        <Typography component="h6" variant="h6">
-                            {editProjectState.error ? "Retry" : "Save"}
-                        </Typography>
-                    )}
+                    <Typography component="h6" variant="h6">
+                        {"Save"}
+                    </Typography>
                 </Button>
 
                 <CustomDialog
-                    open={open}
-                    setOpen={setOpen}
+                    open={isDeleteWarningDialogOpen}
+                    setOpen={setIsDeleteWarningDialogOpen}
                     title={"Are you sure you want to delete this project?"}
                     onSubmit={handleDeletionConfirm}
                 >

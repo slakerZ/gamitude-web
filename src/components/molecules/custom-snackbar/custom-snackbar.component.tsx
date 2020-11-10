@@ -1,7 +1,14 @@
 import React from "react";
+import { connect } from "react-redux";
 import CustomAlert from "components/atoms/custom-alert/custom-alert.component";
 import { CustomSnackbarPropTypes } from "./types";
 import Snackbar from "@material-ui/core/Snackbar";
+import {
+    selectMessage,
+    selectSeverity,
+    selectOpen,
+} from "redux/snackbar/snackbar.selectors";
+import { setOpen } from "redux/snackbar/snackbar.actions";
 
 const CustomSnackbar = ({
     open,
@@ -25,4 +32,14 @@ const CustomSnackbar = ({
     );
 };
 
-export default CustomSnackbar;
+const mapStateToProps = (state: any) => ({
+    message: selectMessage(state),
+    severity: selectSeverity(state),
+    open: selectOpen(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+    setOpen: (value: any) => dispatch(setOpen(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomSnackbar);

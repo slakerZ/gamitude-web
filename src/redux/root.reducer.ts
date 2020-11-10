@@ -9,6 +9,7 @@ import storage from "redux-persist/lib/storage";
 import userReducer from "./user/user.reducer";
 import foldersReducer from "./folders/folders.reducer";
 import timersReducer from "./timers/timers.reducer";
+import snackbarReducer from "./snackbar/snackbar.reducer";
 
 const persistConfig = {
     key: "root",
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
     session: sessionReducer,
     folders: foldersReducer,
     timers: timersReducer,
+    snackbar: snackbarReducer,
 });
 
 export type ReduxStateType = ReturnType<typeof rootReducer>;

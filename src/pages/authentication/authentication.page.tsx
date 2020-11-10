@@ -25,16 +25,21 @@ import { postRegister } from "api/users/users.api";
 import { RegisterRequestBodyType } from "api/users/types";
 import { postLogin } from "api/authorization/authorization.api";
 import { LoginRequestBodyType } from "api/authorization/types";
-import CustomSnackBar from "components/atoms/custom-snackbar/custom-snackbar.component";
-import { AlertProps } from "@material-ui/lab/Alert";
+import {
+    editMessage,
+    editSeverity,
+    setOpen as setSnackbarOpen,
+} from "redux/snackbar/snackbar.actions";
 
-const AuthenticationPage = ({ setUser }: AuthenticationType) => {
+const AuthenticationPage = ({
+    setUser,
+    editMessage,
+    editSeverity,
+    setSnackbarOpen,
+}: AuthenticationType) => {
     const classes = useSignInUpStyles();
 
     const [isSignUp, setIsSignUp] = useState(true);
-    const [apiFeedbackOpen, setApiFeedbackOpen] = useState(false);
-    const [severity, setSeverity] = useState<AlertProps["severity"]>(undefined);
-    const [message, setMessage] = useState("");
 
     const [signUpState, signUp] = useAsyncFn(
         async (postRegisterRequestBody: RegisterRequestBodyType) => {
@@ -56,7 +61,7 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
     const handleSwitchSignUpIn = (event: MouseEvent) => {
         event.preventDefault();
         setIsSignUp(!isSignUp);
-        setApiFeedbackOpen(false);
+        setSnackbarOpen(false);
     };
 
     useEffect(() => {
@@ -64,13 +69,13 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
             const msg = signUpState.error.message.includes("401")
                 ? "Username or Email already taken"
                 : "Failed to register";
-            setSeverity("error");
-            setMessage(msg);
-            setApiFeedbackOpen(true);
+            editSeverity("error");
+            editMessage(msg);
+            setSnackbarOpen(true);
         } else if (signUpState.value) {
-            setSeverity("success");
-            setMessage("Successfully registered");
-            setApiFeedbackOpen(true);
+            editSeverity("success");
+            editMessage("Successfully registered");
+            setSnackbarOpen(true);
             setIsSignUp(false);
         }
     }, [signUpState]);
@@ -78,9 +83,9 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
     useEffect(() => {
         if (signInState.error && !signInState.loading && !signInState.value) {
             const msg = "Failed to Log in";
-            setSeverity("error");
-            setMessage(msg);
-            setApiFeedbackOpen(true);
+            editSeverity("error");
+            editMessage(msg);
+            setSnackbarOpen(true);
         }
     }, [signInState]);
 
@@ -146,19 +151,15 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
                     </div>
                 </div>
             </Fade>
-
-            <CustomSnackBar
-                open={apiFeedbackOpen}
-                setOpen={setApiFeedbackOpen}
-                severity={severity}
-                message={message}
-            />
         </div>
     );
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
     setUser: (user: any) => dispatch(setUser(user)),
+    editMessage: (value: any) => dispatch(editMessage(value)),
+    editSeverity: (value: any) => dispatch(editSeverity(value)),
+    setSnackbarOpen: (value: any) => dispatch(setSnackbarOpen(value)),
 });
 
 export default connect(null, mapDispatchToProps)(AuthenticationPage);

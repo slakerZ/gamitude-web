@@ -41,10 +41,14 @@ import CustomToggleButtonGroup from "../../components/atoms/custom-toggle-button
 import { ICONS } from "../../components/atoms/custom-icon/constants";
 import { EnergyType, StatType } from "types";
 import { ProjectSessionType } from "types";
-import CustomSnackbar from "components/atoms/custom-snackbar/custom-snackbar.component";
 import { AlertProps } from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Skeleton from "@material-ui/lab/Skeleton";
+import {
+    editMessage,
+    editSeverity,
+    setOpen,
+} from "redux/snackbar/snackbar.actions";
 
 const ProjectsDesktopPage = ({
     projects,
@@ -52,6 +56,9 @@ const ProjectsDesktopPage = ({
     token,
     folders,
     setFolders,
+    setSnackbarMessage,
+    setSnackbarOpen,
+    setSnackbarSeverity,
 }: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
 
@@ -174,7 +181,10 @@ const ProjectsDesktopPage = ({
                                     value={selectedProject}
                                     onChange={handleChangeSelectedProject}
                                 >
-                                    <Project index={index} />
+                                    <Project
+                                        index={index}
+                                        getProjectsList={getProjectsList}
+                                    />
                                 </RadioGroup>
                             </TabPanel>
                         );
@@ -200,12 +210,18 @@ const ProjectsDesktopPage = ({
                 setOpen={setIsNewFolderDialogOpen}
                 token={token}
                 getFoldersList={getFoldersList}
+                setSnackbarMessage={setSnackbarMessage}
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarSeverity={setSnackbarSeverity}
             />
             <NewProjectDialog
                 open={isNewProjectFormOpen}
                 setOpen={setIsNewProjectFormOpen}
                 token={token}
                 getProjectsList={getProjectsList}
+                setSnackbarMessage={setSnackbarMessage}
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarSeverity={setSnackbarSeverity}
             />
         </div>
     );
@@ -216,17 +232,14 @@ const NewFolderDialog = ({
     setOpen,
     token,
     getFoldersList,
+    setSnackbarMessage,
+    setSnackbarOpen,
+    setSnackbarSeverity,
 }: NewFolderDialogPropTypes) => {
     const classes = useProjectDesktopStyles();
 
     const [folderName, setFolderName] = useState("");
     const [folderIcon, setFolderIcon] = useState("");
-
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarSeverity, setSnackbarSeverity] = useState<
-        AlertProps["severity"]
-    >("info");
-    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     const [createNewFolderState, createNewFolder] = useAsyncFn(async () => {
         const requestBody = {
@@ -294,12 +307,6 @@ const NewFolderDialog = ({
                     />
                 </div>
             </CustomDialog>
-            <CustomSnackbar
-                open={snackbarOpen}
-                setOpen={setSnackbarOpen}
-                message={snackbarMessage}
-                severity={snackbarSeverity}
-            />
         </Fragment>
     );
 };
@@ -309,6 +316,9 @@ const NewProjectDialog = ({
     setOpen,
     token,
     getProjectsList,
+    setSnackbarMessage,
+    setSnackbarOpen,
+    setSnackbarSeverity,
 }: NewProjectDialogPropTypes) => {
     const [name, setName] = useState("");
     const [projectType, setProjectType] = useState<ProjectSessionType>("STAT");
@@ -318,12 +328,6 @@ const NewProjectDialog = ({
     >("");
     const [folderId, setFolderId] = useState("");
     const [defaultTimerId, setDefaultTimerId] = useState("");
-
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarSeverity, setSnackbarSeverity] = useState<
-        AlertProps["severity"]
-    >("info");
-    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     const [createNewProjectState, createNewProject] = useAsyncFn(async () => {
         const requestBody = {
@@ -382,12 +386,6 @@ const NewProjectDialog = ({
                     setMethod={setDefaultTimerId}
                 />
             </CustomDialog>
-            <CustomSnackbar
-                open={snackbarOpen}
-                setOpen={setSnackbarOpen}
-                message={snackbarMessage}
-                severity={snackbarSeverity}
-            />
         </Fragment>
     );
 };
@@ -402,6 +400,9 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
     setProjects: (value: any) => dispatch(setProjects(value)),
     setFolders: (value: any) => dispatch(setFolders(value)),
+    setSnackbarOpen: (value: any) => dispatch(setOpen(value)),
+    setSnackbarSeverity: (value: any) => dispatch(editSeverity(value)),
+    setSnackbarMessage: (value: any) => dispatch(editMessage(value)),
 });
 
 export default connect(

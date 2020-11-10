@@ -1,7 +1,6 @@
-import { TimersReducerType } from "./types";
 import { TimersActionTypes } from "./timers.types";
 
-const INITIAL_STATE: TimersReducerType = {
+const INITIAL_STATE = {
     selectedTimer: {
         label: "",
         id: "",

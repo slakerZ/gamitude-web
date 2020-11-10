@@ -6,6 +6,9 @@ export interface ProjectsPropTypes {
     setProjects: any;
     token: string;
     folders: FolderType[];
+    setSnackbarMessage: any;
+    setSnackbarOpen: any;
+    setSnackbarSeverity: any;
 }
 
 export interface ProjectType {
@@ -22,10 +25,16 @@ export interface NewProjectDialogPropTypes {
     open: boolean;
     setOpen: any;
     getProjectsList: any;
+    setSnackbarMessage: any;
+    setSnackbarOpen: any;
+    setSnackbarSeverity: any;
 }
 export interface NewFolderDialogPropTypes {
     token: string;
     open: boolean;
     setOpen: any;
     getFoldersList: any;
+    setSnackbarMessage: any;
+    setSnackbarOpen: any;
+    setSnackbarSeverity: any;
 }

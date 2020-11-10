@@ -30,6 +30,8 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import CustomIcon from "../components/atoms/custom-icon/custom-icon.component";
 import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
 import ToggleAbleTooltip from "../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+// Molecules
+import CustomSnackbar from "components/molecules/custom-snackbar/custom-snackbar.component";
 // Organisms
 import Rank from "../components/organisms/rank/rank.component";
 import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
@@ -219,6 +221,7 @@ const App: FC<AppType> = ({
                     </div>
                 </Drawer>
             ) : null}
+            <CustomSnackbar />
         </div>
     );
 };

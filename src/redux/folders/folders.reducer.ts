@@ -1,7 +1,6 @@
 import { FoldersActionTypes } from "./folders.types";
-import { FoldersReducerType } from "./types";
 
-const INITIAL_STATE: FoldersReducerType = {
+const INITIAL_STATE = {
     folders: [],
 };
 

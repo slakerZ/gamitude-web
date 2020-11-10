@@ -5,4 +5,5 @@ export interface ProjectTilePropTypes {
     projects: any;
     token: any;
     setSelectedProject: any;
+    getProjectsList: any;
 }
