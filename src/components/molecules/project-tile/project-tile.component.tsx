@@ -4,23 +4,9 @@ import { useAsyncFn } from "react-use";
 import { deleteProjectById, putProjectById } from "api/projects/projects.api";
 // Redux
 import { connect } from "react-redux";
-import { selectProjects } from "../../../redux/projects/projects.selectors";
-import {
-    deleteProject,
-    setMethod,
-    setStatus,
-} from "../../../redux/projects/projects.actions";
-import { selectToken } from "../../../redux/user/user.selectors";
-import {
-    setDominant as setDominantRedux,
-    setSelectedProject,
-} from "../../../redux/projects/projects.actions";
-import {
-    setName as setNameRedux,
-    setMethod as setFolderRedux,
-} from "../../../redux/projects/projects.actions";
-import { setBoosted as setBoostedRedux } from "../../../redux/projects/projects.actions";
-import { selectTimers } from "../../../redux/timers/timers.selectors";
+import { selectProjects } from "redux/projects/projects.selectors";
+import { selectToken } from "redux/user/user.selectors";
+import { setSelectedProject } from "redux/projects/projects.actions";
 // MUI
 import Typography from "@material-ui/core/Typography";
 import Accordion from "@material-ui/core/Accordion";
@@ -31,31 +17,22 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
-import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 //Components
-import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import BoostedDominantBtnGroup from "../boosted-dominant-btn-group/boosted-dominant-btn-group.component";
 // Local
-import { ProjectType } from "./types";
+import { ProjectTilePropTypes } from "./types";
 import useProjectStyles from "./styles";
-import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
+import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
 import { ProjectSessionType } from "types";
-import { selectFolders } from "redux/folders/folders.selectors";
 
 const Project = ({
     index,
     projects,
     token,
-    folders,
-    deleteProject,
     setSelectedProject,
-    setNameRedux,
-    setBoostedRedux,
-    setDominantRedux,
-    setStatusRedux,
-    setFolderRedux,
-    methods,
-}: ProjectType) => {
+}: ProjectTilePropTypes) => {
     const classes = useProjectStyles();
 
     const [open, setOpen] = useState(false);
@@ -65,7 +42,6 @@ const Project = ({
     const boostedRedux = projects[index].stats;
     const nameRedux = projects[index].name;
     const folderRedux = projects[index].folderId;
-    // TODO: New api adjust
     const methodRedux = projects[index].defaultTimerId;
 
     const [defaultMethod, setDefaultMethod] = useState(methodRedux);
@@ -81,11 +57,8 @@ const Project = ({
 
     const handleDeletionConfirm = () => {
         const id = projects[index].id;
-        deleteProjectById(token, id).then((data) => {
-            console.log(data);
-            deleteProject(index);
-            setOpen(false);
-        });
+        deleteProjectById(token, id);
+        setOpen(false);
     };
 
     const handleSelectionChanged = (event: any) => {
@@ -95,44 +68,24 @@ const Project = ({
 
     const [editProjectState, editProject] = useAsyncFn(async () => {
         const id = projects[index].id;
-        const method = projects[index].method;
-
-        setNameRedux({
-            index: index,
-            name: name,
-        });
-        setBoostedRedux({
-            index: index,
-            newBoosted: boosted,
-        });
-        setDominantRedux({
-            index: index,
-            newDominant: dominant,
-        });
-        setStatusRedux({
-            index: index,
-            status: folder,
-        });
-        setFolderRedux({
-            index: index,
-            method: methods[defaultMethod],
-        });
-
         setExpanded(false);
 
         const requestBody = {
             name: name,
-            folderId: folder.id,
-            defaultTimerId: method.id,
+            folderId: folder,
+            defaultTimerId: defaultMethod,
+            projectType: "None",
+            dominantStat: dominant,
+            stats: boosted,
+            daysPerWeek: 0,
+            hoursPerDay: 0,
+            dayInterval: 0,
         };
-        // const response = putProjectById(token, ,id)
-        // const response = await axios.put(
-        //     putDeleteProjectUrl(id),
-        //     putProjectRequestBody(name, method, boosted, dominant),
-        //     putDeleteAddProjectHeaders(token),
-        // );
-        // const data = await response.data;
-        // return data;
+
+        console.log(requestBody);
+
+        const response = await putProjectById(token, requestBody, id);
+        return response.data;
     }, [name, boosted, dominant, folder, defaultMethod]);
 
     return (
@@ -213,18 +166,10 @@ const Project = ({
 const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     token: selectToken(state),
-    methods: selectTimers(state),
-    folders: selectFolders(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    setNameRedux: (value: any) => dispatch(setNameRedux(value)),
-    setBoostedRedux: (value: any) => dispatch(setBoostedRedux(value)),
-    setDominantRedux: (value: any) => dispatch(setDominantRedux(value)),
-    deleteProject: (value: any) => dispatch(deleteProject(value)),
     setSelectedProject: (value: any) => dispatch(setSelectedProject(value)),
-    setStatusRedux: (value: any) => dispatch(setStatus(value)),
-    setFolderRedux: (value: any) => dispatch(setFolderRedux(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);

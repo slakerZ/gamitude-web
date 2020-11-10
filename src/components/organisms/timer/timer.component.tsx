@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment, useState } from "react";
+import React, { ReactElement, Fragment } from "react";
 import { connect } from "react-redux";
 import Badge from "@material-ui/core/Badge";
 import Typography from "@material-ui/core/Typography";
@@ -15,9 +15,6 @@ const Timer = ({
     selectedMethod,
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
-
-    // TODO: add support for unlimited custom - pagination
-    // const [method, setMethod] = useState(selectedMethod.minutes);
 
     const leftPad = (val: number) => (val < 10 ? `0${val}` : `${val}`);
 

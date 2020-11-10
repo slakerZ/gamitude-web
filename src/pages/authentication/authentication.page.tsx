@@ -21,7 +21,6 @@ import {
 import { setUser } from "../../redux/user/user.actions";
 import FormikForm from "../../components/atoms/formik-form/formik-form.component";
 import { AuthenticationType } from "./types";
-import { ReduxStateType } from "../../redux/root.reducer";
 import { postRegister } from "api/users/users.api";
 import { RegisterRequestBodyType } from "api/users/types";
 import { postLogin } from "api/authorization/authorization.api";

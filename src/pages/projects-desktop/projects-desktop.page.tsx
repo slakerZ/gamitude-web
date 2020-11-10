@@ -22,7 +22,7 @@ import { selectFolders } from "../../redux/folders/folders.selectors";
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
 import ToggleAbleTooltip from "../../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 // Molecules
-import Project from "../../components/molecules/project/project.component";
+import Project from "../../components/molecules/project-tile/project-tile.component";
 // Local
 import {
     ProjectsPropTypes,
@@ -43,6 +43,8 @@ import { EnergyType, StatType } from "types";
 import { ProjectSessionType } from "types";
 import CustomSnackbar from "components/atoms/custom-snackbar/custom-snackbar.component";
 import { AlertProps } from "@material-ui/lab/Alert";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const ProjectsDesktopPage = ({
     projects,
@@ -78,81 +80,107 @@ const ProjectsDesktopPage = ({
         getProjectsList();
     });
 
-    const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
+    const handleChangeCurrentFolder = (
+        event: React.ChangeEvent<any>,
+        newValue: number,
+    ) => {
         setProjectsCurrFolderIndex(newValue);
     };
 
+    const handleChangeSelectedProject = (
+        event: React.ChangeEvent<any>,
+        newValue: any,
+    ) => {
+        setSelectedProject(newValue);
+    };
     const handleOpenNewProjectDialog = () => {
         setIsNewProjectFormOpen(true);
     };
 
-    const handleChangeSelectedProject = (event: any) => {
-        setSelectedProject(event.target.value);
+    const handleOpenNewFolderDialog = () => {
+        setIsNewFolderDialogOpen(true);
     };
 
     return (
         <div aria-label="Folders" className={classes.root}>
-            <div className={classes.tabsWrapper}>
-                <Tabs
-                    aria-label="Folders navigation"
-                    orientation="vertical"
-                    variant="scrollable"
-                    value={projectsCurrFolderIndex}
-                    onChange={handleChange}
-                    className={classes.tabs}
+            {getFoldersListState.loading ? (
+                <Skeleton
+                    animation="wave"
+                    variant="rect"
+                    className={classes.tabsPlaceholder}
+                />
+            ) : (
+                <div className={classes.tabsWrapper}>
+                    <Tabs
+                        aria-label="Folders navigation"
+                        orientation="vertical"
+                        variant="scrollable"
+                        value={projectsCurrFolderIndex}
+                        onChange={handleChangeCurrentFolder}
+                        className={classes.tabs}
+                    >
+                        {folders.map(({ name, icon }, index) => {
+                            return (
+                                <Tab
+                                    key={index}
+                                    label={name}
+                                    {...a11yProps(index, "projects-in-folder")}
+                                    icon={
+                                        <CustomIcon
+                                            variant={icon}
+                                            size="small"
+                                        />
+                                    }
+                                />
+                            );
+                        })}
+                    </Tabs>
+                    <ToggleAbleTooltip target="folder">
+                        <IconButton
+                            aria-label="Add folder"
+                            color="primary"
+                            onClick={handleOpenNewFolderDialog}
+                        >
+                            <AddIcon />
+                        </IconButton>
+                    </ToggleAbleTooltip>
+                </div>
+            )}
+            {getProjectsListState.loading ? (
+                <div className={classes.center}>
+                    <CircularProgress />
+                </div>
+            ) : (
+                <div
+                    aria-label="Projects in current Folder"
+                    className={classes.projectsWrapper}
                 >
-                    {folders.map(({ name, icon }, index) => {
+                    {projects.map((project: any) => {
+                        const { folderId } = project;
+                        const index = projects.indexOf(project);
                         return (
-                            <Tab
+                            <TabPanel
                                 key={index}
-                                label={name}
-                                {...a11yProps(index, "projects-in-folder")}
-                                icon={
-                                    <CustomIcon variant={icon} size="small" />
-                                }
-                            />
+                                value={projectsCurrFolderIndex}
+                                index={folders.findIndex((folder) => {
+                                    return folder.id === folderId;
+                                })}
+                                role={"folder"}
+                                id={"projects-in-folder"}
+                            >
+                                <RadioGroup
+                                    aria-label="selected_project"
+                                    name="selected_project"
+                                    value={selectedProject}
+                                    onChange={handleChangeSelectedProject}
+                                >
+                                    <Project index={index} />
+                                </RadioGroup>
+                            </TabPanel>
                         );
                     })}
-                </Tabs>
-                <ToggleAbleTooltip target="folder">
-                    <IconButton
-                        aria-label="Add folder"
-                        color="primary"
-                        onClick={() => setIsNewFolderDialogOpen(true)}
-                    >
-                        <AddIcon />
-                    </IconButton>
-                </ToggleAbleTooltip>
-            </div>
-            <div
-                aria-label="Projects in current Folder"
-                className={classes.projectsWrapper}
-            >
-                {projects.map((project: any) => {
-                    const { folderId } = project;
-                    const index = projects.indexOf(project);
-                    return (
-                        <TabPanel
-                            key={index}
-                            value={projectsCurrFolderIndex}
-                            index={folders.findIndex((folder) => {
-                                return folder.id === folderId;
-                            })}
-                            role={"folder"}
-                            id={"projects-in-folder"}
-                        >
-                            <RadioGroup
-                                aria-label="selected_project"
-                                name="selected_project"
-                                value={selectedProject}
-                                onChange={handleChangeSelectedProject}
-                            >
-                                <Project index={index} />
-                            </RadioGroup>
-                        </TabPanel>
-                    );
-                })}
-            </div>
+                </div>
+            )}
 
             <div className={classes.fabWrapper} aria-label="Add Project">
                 <ToggleAbleTooltip target="project">

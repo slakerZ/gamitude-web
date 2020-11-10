@@ -17,6 +17,10 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
         flexDirection: "column",
         alignItems: "center",
     },
+    tabsPlaceholder: {
+        width: "161px",
+        height: "877px",
+    },
     tabs: {
         backgroundColor: theme.palette.secondary.main,
         justifyContent: "center",
@@ -47,6 +51,13 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
         "& > *": {
             margin: theme.spacing(1, 0),
         },
+    },
+    center: {
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
     },
 }));
 

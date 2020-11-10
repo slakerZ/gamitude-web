@@ -42,8 +42,8 @@ const Methods = ({
     const [method, setMethod] = useState(defaultSelected);
     const [open, setOpen] = useState(false);
 
-    const [label, setLabel] = useState(" ");
-    const [name, setName] = useState(" ");
+    const [label, setLabel] = useState("");
+    const [name, setName] = useState("");
     const [workTime, setWorkTime] = useState(0);
     const [breakTime, setBreakTime] = useState(0);
     const [overTime, setOverTime] = useState(5);
