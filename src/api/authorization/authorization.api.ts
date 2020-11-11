@@ -1,5 +1,7 @@
 import { API_ENDPOINT } from "api/constants";
+
 import axios from "axios";
+
 import { LoginRequestBodyType, LoginResponseBodyType } from "./types";
 
 const ENDPOINT = `${API_ENDPOINT}/authorization`;
@@ -10,6 +12,8 @@ export const postLogin = async (
     const url = `${ENDPOINT}/login`;
 
     const response = await axios.post(url, postLoginRequestBody);
+
     const result = await response.data;
+
     return result;
 };

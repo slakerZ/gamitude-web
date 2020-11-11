@@ -70,7 +70,6 @@ const Methods = ({
             breakInterval: breakInterval,
             // type,
         };
-        console.log(newTimer);
         const response = await postTimer(token, newTimer);
         setOpen(false);
         getMethodsList();

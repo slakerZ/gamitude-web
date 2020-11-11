@@ -1,6 +1,5 @@
 import { EnergyType } from "types";
 import { StatType } from "types";
-import { ProjectSessionType } from "types";
 
 export interface FullProjectType {
     id: string;
