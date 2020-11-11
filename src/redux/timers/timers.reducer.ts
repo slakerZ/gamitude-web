@@ -20,7 +20,7 @@ const timersReducer = (state = INITIAL_STATE, action: any) => {
         case TimersActionTypes.SET_SELECTED_TIMER:
             return {
                 ...state,
-                selectedTimer: state.timers[action.payload],
+                selectedTimer: action.payload,
             };
         case TimersActionTypes.ADD_TIMER:
             return {

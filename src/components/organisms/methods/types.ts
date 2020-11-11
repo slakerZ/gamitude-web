@@ -2,7 +2,7 @@ import { TimerType } from "api/timers/types";
 
 export interface MethodsPropType {
     methods: TimerType[];
-    setSelectedMethod: (value: number) => null;
+    setSelectedTimer: any;
     addTimer: any;
     selectedMethod: TimerType;
     token: string;

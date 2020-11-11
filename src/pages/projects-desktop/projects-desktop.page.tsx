@@ -41,7 +41,6 @@ import CustomToggleButtonGroup from "../../components/atoms/custom-toggle-button
 import { ICONS } from "../../components/atoms/custom-icon/constants";
 import { EnergyType, StatType } from "types";
 import { ProjectSessionType } from "types";
-import { AlertProps } from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {
@@ -270,7 +269,12 @@ const NewFolderDialog = ({
             setSnackbarMessage("Failed to create new folder");
             setSnackbarOpen(true);
         }
-    }, [createNewFolderState]);
+    }, [
+        createNewFolderState,
+        setSnackbarSeverity,
+        setSnackbarMessage,
+        setSnackbarOpen,
+    ]);
 
     return (
         <Fragment>
@@ -360,7 +364,12 @@ const NewProjectDialog = ({
             setSnackbarMessage("Failed to create new project");
             setSnackbarOpen(true);
         }
-    }, [createNewProjectState]);
+    }, [
+        createNewProjectState,
+        setSnackbarSeverity,
+        setSnackbarMessage,
+        setSnackbarOpen,
+    ]);
 
     return (
         <Fragment>

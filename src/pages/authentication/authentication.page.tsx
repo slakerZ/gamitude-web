@@ -78,7 +78,7 @@ const AuthenticationPage = ({
             setSnackbarOpen(true);
             setIsSignUp(false);
         }
-    }, [signUpState]);
+    }, [signUpState, editSeverity, editMessage, setSnackbarOpen]);
 
     useEffect(() => {
         if (signInState.error && !signInState.loading && !signInState.value) {
@@ -87,7 +87,7 @@ const AuthenticationPage = ({
             editMessage(msg);
             setSnackbarOpen(true);
         }
-    }, [signInState]);
+    }, [signInState, editSeverity, editMessage, setSnackbarOpen]);
 
     return (
         <div className={classes.root}>

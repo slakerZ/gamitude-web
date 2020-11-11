@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useEffectOnce, useAsyncFn } from "react-use";
 import { postTimer, getTimers } from "api/timers/timers.api";
 import { connect } from "react-redux";
@@ -27,7 +27,7 @@ import { setTimers } from "redux/timers/timers.actions";
 
 const Methods = ({
     methods,
-    setSelectedMethod,
+    setSelectedTimer,
     addTimer,
     selectedMethod,
     token,
@@ -68,7 +68,9 @@ const Methods = ({
 
     const [getMethodsListState, getMethodsList] = useAsyncFn(async () => {
         const response = await getTimers(token);
-        setTimers(response.data);
+        const timers = response.data;
+        setTimers(timers);
+        setSelectedTimer(timers[0]);
     });
 
     const handleChangeLabel = (e: any) => {
@@ -107,9 +109,13 @@ const Methods = ({
         setHasLongBreak(!hasLongBreak);
     };
 
+    const handleChangeOvertime = (e: any) => {
+        setOverTime(e.target.value);
+    };
+
     const handleMethodChange = (e: any, newValue: any) => {
         setMethod(newValue);
-        setSelectedMethod(newValue);
+        setSelectedTimer(methods[newValue]);
     };
 
     const handleOpenDialog = (e: any) => {
@@ -119,6 +125,10 @@ const Methods = ({
     useEffectOnce(() => {
         getMethodsList();
     });
+
+    useEffect(() => {
+        setMethod(methods.indexOf(selectedMethod));
+    }, [selectedMethod]);
 
     return (
         <div className={classes.root} aria-label="methods root">
@@ -159,20 +169,22 @@ const Methods = ({
                 onSubmit={postMethod}
             >
                 <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={4}>
                         <TextField
                             label="Label"
                             fullWidth
                             value={label}
                             onChange={handleChangeLabel}
+                            variant={"outlined"}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={4}>
                         <TextField
                             label="Name"
                             fullWidth
                             value={name}
                             onChange={handleChangeName}
+                            variant={"outlined"}
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -182,6 +194,7 @@ const Methods = ({
                             fullWidth
                             value={type}
                             onChange={handleChangeType}
+                            variant={"outlined"}
                         >
                             <MenuItem value={"TIMER"}>{"Timer"}</MenuItem>
                             <MenuItem value={"STOPWATCH"}>
@@ -196,6 +209,7 @@ const Methods = ({
                             label="Minutes"
                             type="number"
                             fullWidth
+                            variant={"outlined"}
                         />
                     </Grid>
 
@@ -206,6 +220,17 @@ const Methods = ({
                             type="number"
                             value={breakTime}
                             onChange={handleChangeShortBreak}
+                            variant={"outlined"}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <TextField
+                            label="Over Time step"
+                            fullWidth
+                            type="number"
+                            value={overTime}
+                            onChange={handleChangeOvertime}
+                            variant={"outlined"}
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -228,6 +253,7 @@ const Methods = ({
                                 type="number"
                                 value={longerBreakTime}
                                 onChange={handleChangeLongBreak}
+                                variant={"outlined"}
                             />
                         </Grid>
                     ) : null}
@@ -239,6 +265,7 @@ const Methods = ({
                                 type="number"
                                 value={breakInterval}
                                 onChange={handleChangeLongBreakInterval}
+                                variant={"outlined"}
                             />
                         </Grid>
                     ) : null}
@@ -256,7 +283,7 @@ const mapStateToProps = (state: ReduxStateType) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
     setTimers: (value: any) => dispatch(setTimers(value)),
-    setSelectedMethod: (value: number) => dispatch(setSelectedTimer(value)),
+    setSelectedTimer: (value: number) => dispatch(setSelectedTimer(value)),
     addTimer: (value: any) => dispatch(addTimer(value)),
 });
 

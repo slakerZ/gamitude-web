@@ -86,6 +86,7 @@ const Project = ({
         };
 
         const response = await putProjectById(token, requestBody, id);
+        getProjectsList();
         return response.data;
     }, [name, boosted, dominant, folder, defaultMethod]);
 
@@ -109,7 +110,12 @@ const Project = ({
             setSnackbarMessage("Failed to edit project");
             setSnackbarOpen(true);
         }
-    }, [editProjectState]);
+    }, [
+        editProjectState,
+        setSnackbarSeverity,
+        setSnackbarMessage,
+        setSnackbarOpen,
+    ]);
 
     useEffect(() => {
         if (deleteProjectState.error) {
@@ -117,7 +123,12 @@ const Project = ({
             setSnackbarMessage("Failed to delete project");
             setSnackbarOpen(true);
         }
-    }, [deleteProjectState]);
+    }, [
+        deleteProjectState,
+        setSnackbarSeverity,
+        setSnackbarMessage,
+        setSnackbarOpen,
+    ]);
 
     return (
         <Accordion

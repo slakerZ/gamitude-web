@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment } from "react";
+import React, { ReactElement, Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import Badge from "@material-ui/core/Badge";
 import Typography from "@material-ui/core/Typography";
@@ -8,11 +8,17 @@ import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip
 import { TimerPropTypes } from "./types";
 import useTimerStyles from "./styles";
 import { selectSelectedProject } from "../../../redux/projects/projects.selectors";
-import { selectSelectedTimer } from "../../../redux/timers/timers.selectors";
+import {
+    selectSelectedTimer,
+    selectTimers,
+} from "../../../redux/timers/timers.selectors";
+import { setSelectedTimer } from "redux/timers/timers.actions";
 
 const Timer = ({
     selectedProject,
-    selectedMethod,
+    selectedTimer,
+    setSelectedTimer,
+    timers,
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
@@ -25,6 +31,15 @@ const Timer = ({
     const handleSession = () => {
         console.log("started");
     };
+
+    useEffect(() => {
+        const defaultTimer = timers.find(
+            (timer: any) => timer.id === selectedProject.defaultTimerId,
+        );
+        if (defaultTimer) {
+            setSelectedTimer(defaultTimer);
+        }
+    }, [selectedProject]);
 
     return (
         <Fragment>
@@ -43,7 +58,7 @@ const Timer = ({
                                 className={classes.addFive}
                             >
                                 <Typography variant="h4" component="h4">
-                                    +{selectedMethod.overTime}
+                                    +{selectedTimer.overTime}
                                 </Typography>
                             </Button>
                         </ToggleAbleTooltip>
@@ -62,7 +77,7 @@ const Timer = ({
                                         variant="h2"
                                         component="h2"
                                     >
-                                        {leftPad(selectedMethod.workTime)}
+                                        {leftPad(selectedTimer.workTime)}
                                     </Typography>
                                     <Typography
                                         display="inline"
@@ -90,7 +105,12 @@ const Timer = ({
 
 const mapStateToProps = (state: any) => ({
     selectedProject: selectSelectedProject(state),
-    selectedMethod: selectSelectedTimer(state),
+    selectedTimer: selectSelectedTimer(state),
+    timers: selectTimers(state),
 });
 
-export default connect(mapStateToProps)(Timer);
+const mapDispatchToProps = (dispatch: any) => ({
+    setSelectedTimer: (value: any) => dispatch(setSelectedTimer(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);

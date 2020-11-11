@@ -20,6 +20,6 @@ export interface TimerRequestBodyType {
 }
 
 export interface TimerResponseBodyType {
-    data: TimerType | TimerType[];
+    data: TimerType[];
     success: boolean;
 }
