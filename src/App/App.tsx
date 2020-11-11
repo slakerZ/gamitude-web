@@ -1,47 +1,53 @@
-import React, { lazy, Suspense, FC, ReactElement, useState } from "react";
-import { Route, Switch, Link } from "react-router-dom";
-import clsx from "clsx";
-// Redux
-import { connect } from "react-redux";
-import { selectToken, selectTooltipToggle } from "../redux/user/user.selectors";
-import { setUser, setTooltipToggle } from "../redux/user/user.actions";
-import { selectSessionType } from "../redux/session/session.selectors";
 import { ReduxStateType } from "..//redux/root.reducer";
 import { setSessionType } from "..//redux/session/session.actions";
-
-// MUI Core
-import Drawer from "@material-ui/core/Drawer";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import IconButton from "@material-ui/core/IconButton";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
+import CustomIcon from "../components/atoms/custom-icon/custom-icon.component";
+import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
+import SessionTypeSwitch from "../components/atoms/session-type-switch/session-type-switch.component";
+import ToggleAbleTooltip from "../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+import Methods from "../components/organisms/methods/methods.component";
+import Rank from "../components/organisms/rank/rank.component";
+import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
+import Timer from "../components/organisms/timer/timer.component";
+import { selectSessionType } from "../redux/session/session.selectors";
+import { setUser, setTooltipToggle } from "../redux/user/user.actions";
+import { selectToken, selectTooltipToggle } from "../redux/user/user.selectors";
+import { NAV_LINKS } from "./constants";
+import useAppStyles from "./styles";
+import { AppType } from "./types";
+import { Button, Toolbar } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
-import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 import Tooltip from "@material-ui/core/Tooltip";
-// MUI Icons
+import Typography from "@material-ui/core/Typography";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HelpIcon from "@material-ui/icons/Help";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsIcon from "@material-ui/icons/Settings";
+import clsx from "clsx";
+import React, { lazy, Suspense, FC, ReactElement, useState } from "react";
+import { connect } from "react-redux";
+import { Route, Switch, Link, useLocation } from "react-router-dom";
+
+// Redux
+
+// MUI Core
+
+// MUI Icons
+
 // Atoms
-import CustomIcon from "../components/atoms/custom-icon/custom-icon.component";
-import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
-import ToggleAbleTooltip from "../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
 // Organisms
-import Rank from "../components/organisms/rank/rank.component";
-import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
-import SessionTypeSwitch from "../components/atoms/session-type-switch/session-type-switch.component";
-import Timer from "../components/organisms/timer/timer.component";
-import Methods from "../components/organisms/methods/methods.component";
+
 // Local
-import useAppStyles from "./styles";
-import { AppType } from "./types";
-import { NAV_LINKS } from "./constants";
-import { Toolbar } from "@material-ui/core";
+
 // Lazy Loading
 const HomePage = lazy(() => import("../pages/home/home.page"));
 const ProjectsPage = lazy(() => import("../pages/projects/projects.page"));
@@ -62,6 +68,7 @@ const App: FC<AppType> = ({
     sessionType,
 }: AppType): ReactElement => {
     const classes = useAppStyles();
+    const location = useLocation();
 
     const [navOpen, setNavOpen] = useState(false);
 
@@ -87,56 +94,104 @@ const App: FC<AppType> = ({
                     [classes.appBarShift]: navOpen,
                 })}
             >
-                <Toolbar className={classes.toolbar}>
-                    <div className={classes.left}>
-                        {token ? (
-                            <IconButton onClick={handleToggleNavOpen}>
-                                {navOpen ? (
-                                    <ChevronLeftIcon />
-                                ) : (
-                                    <ChevronRightIcon />
-                                )}
-                            </IconButton>
-                        ) : null}
-                    </div>
+                {location.pathname == "/" && !token ? (
+                    <Toolbar className={classes.toolbar}>
+                        <div className={classes.left}>
+                            {token ? (
+                                <IconButton onClick={handleToggleNavOpen}>
+                                    {navOpen ? (
+                                        <ChevronLeftIcon />
+                                    ) : (
+                                        <ChevronRightIcon />
+                                    )}
+                                </IconButton>
+                            ) : null}
+                        </div>
 
-                    <div className={classes.center}>
-                        <Link to="/" className={classes.title}>
-                            <ToggleAbleTooltip target={"home"}>
-                                <Typography variant="h3" component="h3">
-                                    {"Gamitude"}
-                                </Typography>
+                        <div className={classes.center}>
+                            <Link to="/" className={classes.title}>
+                                <ToggleAbleTooltip target={"home"}>
+                                    <Typography variant="h3" component="h3">
+                                        {"Gamitude"}
+                                    </Typography>
+                                </ToggleAbleTooltip>
+                            </Link>
+                        </div>
+
+                        <div className={classes.right}>
+                            <ToggleAbleTooltip target={"login"}>
+                                <Button
+                                    className={classes.sticky}
+                                    component={Link}
+                                    to={"/signInSignUp"}
+                                >
+                                    Get Started!
+                                </Button>
                             </ToggleAbleTooltip>
-                        </Link>
-                    </div>
+                        </div>
+                    </Toolbar>
+                ) : (
+                    <Toolbar className={classes.toolbar}>
+                        <div className={classes.left}>
+                            {token ? (
+                                <IconButton onClick={handleToggleNavOpen}>
+                                    {navOpen ? (
+                                        <ChevronLeftIcon />
+                                    ) : (
+                                        <ChevronRightIcon />
+                                    )}
+                                </IconButton>
+                            ) : null}
+                        </div>
 
-                    <div className={classes.right}>
-                        <ToggleAbleTooltip target={"tooltipToggle"}>
-                            <IconButton onClick={toggleTooltips}>
-                                {tooltipToggle ? (
-                                    <HelpIcon />
-                                ) : (
-                                    <HelpOutlineIcon />
-                                )}
-                            </IconButton>
-                        </ToggleAbleTooltip>
-                        <ToggleAbleTooltip target={"profileSettings"}>
-                            <IconButton component={Link} to={"/profile"}>
-                                <SettingsIcon />
-                            </IconButton>
-                        </ToggleAbleTooltip>
+                        <div className={classes.center}>
+                            {token ? (
+                                <Link to="/projects" className={classes.title}>
+                                    <ToggleAbleTooltip target={"home"}>
+                                        <Typography variant="h3" component="h3">
+                                            {"Gamitude"}
+                                        </Typography>
+                                    </ToggleAbleTooltip>
+                                </Link>
+                            ) : (
+                                <Link to="/" className={classes.title}>
+                                    <ToggleAbleTooltip target={"home"}>
+                                        <Typography variant="h3" component="h3">
+                                            {"Gamitude"}
+                                        </Typography>
+                                    </ToggleAbleTooltip>
+                                </Link>
+                            )}
+                        </div>
 
-                        <ToggleAbleTooltip target={"logout"}>
-                            <IconButton
-                                onClick={logout}
-                                component={Link}
-                                to={"/signInSignUp"}
-                            >
-                                <ExitToAppIcon />
-                            </IconButton>
-                        </ToggleAbleTooltip>
-                    </div>
-                </Toolbar>
+                        <div className={classes.right}>
+                            <ToggleAbleTooltip target={"tooltipToggle"}>
+                                <IconButton onClick={toggleTooltips}>
+                                    {tooltipToggle ? (
+                                        <HelpIcon />
+                                    ) : (
+                                        <HelpOutlineIcon />
+                                    )}
+                                </IconButton>
+                            </ToggleAbleTooltip>
+                            <ToggleAbleTooltip target={"profileSettings"}>
+                                <IconButton component={Link} to={"/profile"}>
+                                    <SettingsIcon />
+                                </IconButton>
+                            </ToggleAbleTooltip>
+
+                            <ToggleAbleTooltip target={"logout"}>
+                                <IconButton
+                                    onClick={logout}
+                                    component={Link}
+                                    to={"/signInSignUp"}
+                                >
+                                    <ExitToAppIcon />
+                                </IconButton>
+                            </ToggleAbleTooltip>
+                        </div>
+                    </Toolbar>
+                )}
             </AppBar>
             {token ? (
                 <Drawer
@@ -174,7 +229,15 @@ const App: FC<AppType> = ({
                 <div className={classes.content}>
                     <Toolbar />
                     <Switch>
-                        <Route exact path="/" component={HomePage} />
+                        {token ? (
+                            <Route
+                                exact
+                                path="/projects"
+                                component={ProjectsPage}
+                            />
+                        ) : (
+                            <Route exact path="/" component={HomePage} />
+                        )}
                         <Route
                             exact
                             path="/projects"

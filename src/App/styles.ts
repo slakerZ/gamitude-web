@@ -1,10 +1,10 @@
-import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NAVIGATION_WIDTH, CONTROL_PANEL_WIDTH } from "./constants";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 const useAppStyles = makeStyles((theme: Theme) => ({
     root: {
         backgroundColor: theme.palette.primary.light,
-        width: "100vw",
+        width: "vw",
         height: "100vh",
         display: "flex",
     },
@@ -84,6 +84,13 @@ const useAppStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
+    },
+    sticky: {
+        position: "sticky",
+        top: 0,
+        color: "white",
+        padding: "10px",
+        fontSize: "20px",
     },
 }));
 
