@@ -121,11 +121,12 @@ const App: FC<AppType> = ({
                         <div className={classes.right}>
                             <ToggleAbleTooltip target={"login"}>
                                 <Button
+                                    variant="contained"
                                     className={classes.sticky}
                                     component={Link}
                                     to={"/signInSignUp"}
                                 >
-                                    Get Started!
+                                    Get Started
                                 </Button>
                             </ToggleAbleTooltip>
                         </div>

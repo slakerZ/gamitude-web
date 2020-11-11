@@ -88,6 +88,7 @@ const useAppStyles = makeStyles((theme: Theme) => ({
     sticky: {
         position: "sticky",
         top: 0,
+        backgroundColor: theme.palette.secondary.main,
         color: "white",
         padding: "10px",
         fontSize: "20px",

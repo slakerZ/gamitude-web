@@ -33,7 +33,7 @@
 }
 
 .blok {
-    filter: blur(1px) grayscale(50%);
+    filter: blur(3px) grayscale(50%);
 }
 
 .tekst {

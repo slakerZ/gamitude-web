@@ -9,6 +9,7 @@ import "./style.css";
 import { Button, Fade } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
     Ideabutton: {
@@ -48,8 +49,8 @@ const useStyles = makeStyles({
     },
     creatorsbutton: {
         position: "absolute",
-        top: "985%",
-        left: "44.5%",
+        top: "972%",
+        left: "44%",
     },
 });
 
@@ -227,6 +228,7 @@ const Homepage = () => {
                     variant="contained"
                     color="primary"
                     onClick={handleChange}
+                    data-lax-preset="zoomInOut"
                 >
                     {clicks ? "Learn less" : "Learn more"}
                 </Button>
@@ -767,8 +769,10 @@ const Homepage = () => {
                     color="primary"
                     className={`${style.shopbutton} lax`}
                     data-lax-preset="fadeInOut"
+                    component={Link}
+                    to={"/signInSignUp"}
                 >
-                    Register now
+                    Get Started now
                 </Button>
             </div>
             <div id="header" className="section">
