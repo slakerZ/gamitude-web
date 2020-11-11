@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     statbutton: {
         position: "absolute",
         top: "380%",
-        left: "40%",
+        left: "30%",
     },
     chek: {
         position: "absolute",
@@ -490,7 +490,7 @@ const Homepage = () => {
                     data-lax-preset="fadeInOut"
                     component={Link}
                     to={"/signInSignUp"}
-                    style={{ left: "55%" }}
+                    style={{ left: "65%" }}
                 >
                     Get Started now
                 </Button>
