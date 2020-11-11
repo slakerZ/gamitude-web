@@ -1,9 +1,11 @@
 import React, { FC, ReactElement } from "react";
-// Atoms
-import CustomIcon from "../custom-icon/custom-icon.component";
+
 import Typography from "@material-ui/core/Typography";
-// Local
+
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
+
 import { CustomIconWithTypographyType } from "./types";
+
 import useCustomIconWithTypographyStyles from "./styles";
 
 const CustomIconWithTypography: FC<CustomIconWithTypographyType> = ({

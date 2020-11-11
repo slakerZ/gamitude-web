@@ -1,40 +1,44 @@
-import React, { useState, MouseEvent } from "react";
 import axios from "axios";
-import { useAsyncFn } from "react-use";
 import clsx from "clsx";
-import Fade from "@material-ui/core/Fade";
-import { Redirect } from "react-router-dom";
-import useSignInUpStyles from "./styles";
-import { FADE_TIMEOUT } from "./constants";
-import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
-import {
-    SignUpSchema,
-    signUpInitialValues,
-    signUpFields,
-} from "./sign-up-schema";
+import React, { useState, MouseEvent } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { useAsyncFn } from "react-use";
+
+import Fade from "@material-ui/core/Fade";
+import Link from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
+
+import { ReduxStateType } from "redux/root.reducer";
+import { setUser } from "redux/user/user.actions";
+
+import {
+    signInUrl,
+    signInRequestBody,
+} from "api/authentication/authentication.api";
+import {
+    signUpUrl,
+    signUpRequestBody,
+} from "api/authentication/authentication.api";
+import { SignUpValuesType, SignInValuesType } from "api/authentication/types";
+
+import FormikForm from "components/atoms/formik-form/formik-form.component";
+
+import { FADE_TIMEOUT } from "pages/authentication/constants";
 import {
     SignInSchema,
     signInInitialValues,
     signInFields,
-} from "./sign-in-schema";
-import { setUser } from "../../redux/user/user.actions";
+} from "pages/authentication/sign-in-schema";
 import {
-    signInUrl,
-    signInRequestBody,
-} from "../../api/authentication/authentication.api";
-import {
-    signUpUrl,
-    signUpRequestBody,
-} from "../../api/authentication/authentication.api";
-import FormikForm from "../../components/atoms/formik-form/formik-form.component";
+    SignUpSchema,
+    signUpInitialValues,
+    signUpFields,
+} from "pages/authentication/sign-up-schema";
+
 import { AuthenticationType } from "./types";
-import {
-    SignUpValuesType,
-    SignInValuesType,
-} from "../../api/authentication/types";
-import { ReduxStateType } from "../../redux/root.reducer";
+
+import useSignInUpStyles from "./styles";
 
 const AuthenticationPage = ({ setUser }: AuthenticationType) => {
     const classes = useSignInUpStyles();

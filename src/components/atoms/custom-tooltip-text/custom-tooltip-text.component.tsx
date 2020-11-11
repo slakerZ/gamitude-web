@@ -1,7 +1,9 @@
 import React, { Fragment, ReactElement, FC } from "react";
+
 import Typography from "@material-ui/core/Typography";
-// Local
-import { targetToTooltipObject } from "./constants";
+
+import { targetToTooltipObject } from "components/atoms/custom-tooltip-text/constants";
+
 import { TooltipTextProps } from "./types";
 
 const CustomTooltipText: FC<TooltipTextProps> = ({

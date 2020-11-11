@@ -1,14 +1,17 @@
 import React, { ReactElement, Fragment, useState } from "react";
 import { connect } from "react-redux";
+
 import Badge from "@material-ui/core/Badge";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
-// Local
-import { TimerPropTypes } from "./types";
+import Typography from "@material-ui/core/Typography";
+
+import { selectSelectedMethod } from "redux/methods/methods.selectors";
+import { selectSelectedProject } from "redux/projects/projects.selectors";
+
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
 import useTimerStyles from "./styles";
-import { selectSelectedProject } from "../../../redux/projects/projects.selectors";
-import { selectSelectedMethod } from "../../../redux/methods/methods.selectors";
+import { TimerPropTypes } from "./types";
 
 const Timer = ({
     selectedProject,

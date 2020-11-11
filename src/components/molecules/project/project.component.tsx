@@ -1,49 +1,51 @@
 import React, { useState } from "react";
-import { useAsyncFn } from "react-use";
-// API
-import axios from "axios";
-import {
-    putDeleteProjectUrl,
-    putDeleteAddProjectHeaders,
-    putProjectRequestBody,
-} from "../../../api/projects/projects.api";
-// Redux
 import { connect } from "react-redux";
-import { selectProjects } from "../../../redux/projects/projects.selectors";
+import { useAsyncFn } from "react-use";
+
+import axios from "axios";
+
+import Accordion from "@material-ui/core/Accordion";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
+import { selectMethods } from "redux/methods/methods.selectors";
 import {
     deleteProject,
     setMethod,
     setStatus,
-} from "../../../redux/projects/projects.actions";
-import { selectToken } from "../../../redux/user/user.selectors";
+} from "redux/projects/projects.actions";
 import {
     setDominant as setDominantRedux,
     setSelectedProject,
-} from "../../../redux/projects/projects.actions";
+} from "redux/projects/projects.actions";
 import {
     setName as setNameRedux,
     setMethod as setFolderRedux,
-} from "../../../redux/projects/projects.actions";
-import { setBoosted as setBoostedRedux } from "../../../redux/projects/projects.actions";
-import { selectMethods } from "../../../redux/methods/methods.selectors";
-// MUI
-import Typography from "@material-ui/core/Typography";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import Button from "@material-ui/core/Button";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
-import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
-//Components
-import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
-import BoostedDominantBtnGroup from "../boosted-dominant-btn-group/boosted-dominant-btn-group.component";
-// Local
-import { ProjectType } from "./types";
+} from "redux/projects/projects.actions";
+import { setBoosted as setBoostedRedux } from "redux/projects/projects.actions";
+import { selectProjects } from "redux/projects/projects.selectors";
+import { selectToken } from "redux/user/user.selectors";
+
+import {
+    putDeleteProjectUrl,
+    putDeleteAddProjectHeaders,
+    putProjectRequestBody,
+} from "api/projects/projects.api";
+
+import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
+import BoostedDominantBtnGroup from "components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
+
 import useProjectStyles from "./styles";
-import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
+import { ProjectType } from "./types";
 
 const Project = ({
     index,

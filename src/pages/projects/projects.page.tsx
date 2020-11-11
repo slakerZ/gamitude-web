@@ -1,12 +1,12 @@
 import React from "react";
-import { useWindowSize } from "react-use";
 import { connect } from "react-redux";
-// Selectors
-import { selectToken } from "../../redux/user/user.selectors";
-// Pages
-import ProjectsDesktopPage from "../projects-desktop/projects-desktop.page";
-import ProjectsMobilePage from "../projects-mobile/projects-mobile.page";
 import { Redirect } from "react-router-dom";
+import { useWindowSize } from "react-use";
+
+import { selectToken } from "redux/user/user.selectors";
+
+import ProjectsDesktopPage from "pages/projects-desktop/projects-desktop.page";
+import ProjectsMobilePage from "pages/projects-mobile/projects-mobile.page";
 
 interface ProjectsPageProps {
     token: string;
