@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useEffectOnce, useAsyncFn } from "react-use";
 import { postTimer, getTimers } from "api/timers/timers.api";
 import { connect } from "react-redux";
@@ -13,7 +13,6 @@ import { MethodsPropType } from "./types";
 import AddAlarm from "@material-ui/icons/AddAlarm";
 import { ReduxStateType } from "../../../redux/root.reducer";
 import { selectTimers } from "../../../redux/timers/timers.selectors";
-import { addTimer } from "../../../redux/timers/timers.actions";
 import IconButton from "@material-ui/core/IconButton";
 import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
 import TextField from "@material-ui/core/TextField";
@@ -24,14 +23,22 @@ import Grid from "@material-ui/core/Grid";
 import { selectSelectedTimer } from "../../../redux/timers/timers.selectors";
 import { selectToken } from "redux/user/user.selectors";
 import { setTimers } from "redux/timers/timers.actions";
+import {
+    editMessage,
+    editSeverity,
+    setOpen as setSnackbarOpen,
+} from "redux/snackbar/snackbar.actions";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const Methods = ({
     methods,
     setSelectedTimer,
-    addTimer,
     selectedMethod,
     token,
     setTimers,
+    setSnackbarMessage,
+    setSnackbarOpen,
+    setSnackbarSeverity,
 }: MethodsPropType) => {
     const classes = useMethodsStyles();
     const defaultSelected =
@@ -54,23 +61,37 @@ const Methods = ({
 
     const [postMethodState, postMethod] = useAsyncFn(async () => {
         const newTimer = {
-            workTime,
-            breakTime,
-            overTime,
-            name,
-            longerBreakTime,
-            breakInterval,
+            // label,
+            workTime: workTime,
+            breakTime: breakTime,
+            overTime: overTime,
+            name: name,
+            longerBreakTime: longerBreakTime,
+            breakInterval: breakInterval,
+            // type,
         };
-        postTimer(token, newTimer);
-        addTimer(newTimer);
+        console.log(newTimer);
+        const response = await postTimer(token, newTimer);
         setOpen(false);
-    }, [label, name, workTime, breakTime, longerBreakTime, breakInterval]);
+        getMethodsList();
+        return response;
+    }, [
+        label,
+        name,
+        workTime,
+        breakTime,
+        longerBreakTime,
+        breakInterval,
+        type,
+        overTime,
+    ]);
 
     const [getMethodsListState, getMethodsList] = useAsyncFn(async () => {
         const response = await getTimers(token);
         const timers = response.data;
         setTimers(timers);
         setSelectedTimer(timers[0]);
+        return response;
     });
 
     const handleChangeLabel = (e: any) => {
@@ -110,7 +131,7 @@ const Methods = ({
     };
 
     const handleChangeOvertime = (e: any) => {
-        setOverTime(e.target.value);
+        setOverTime(parseInt(e.target.value));
     };
 
     const handleMethodChange = (e: any, newValue: any) => {
@@ -127,41 +148,81 @@ const Methods = ({
     });
 
     useEffect(() => {
-        setMethod(methods.indexOf(selectedMethod));
+        const methodIndex = methods.indexOf(selectedMethod);
+        if (methodIndex !== -1) {
+            setMethod(methodIndex);
+        }
     }, [selectedMethod]);
+
+    useEffect(() => {
+        if (postMethodState.error) {
+            setSnackbarSeverity("error");
+            setSnackbarMessage("Failed to create new timer");
+            setSnackbarOpen(true);
+        }
+    }, [
+        postMethodState,
+        setSnackbarMessage,
+        setSnackbarOpen,
+        setSnackbarSeverity,
+    ]);
+
+    useEffect(() => {
+        if (getMethodsListState.error) {
+            setSnackbarSeverity("error");
+            setSnackbarMessage("Failed to get timers list");
+            setSnackbarOpen(true);
+        }
+    }, [
+        getMethodsListState,
+        setSnackbarMessage,
+        setSnackbarOpen,
+        setSnackbarSeverity,
+    ]);
 
     return (
         <div className={classes.root} aria-label="methods root">
-            <Tabs
-                aria-label="list of custom methods"
-                value={method}
-                onChange={handleMethodChange}
-                variant="scrollable"
-                scrollButtons="on"
-                indicatorColor="primary"
-                textColor="primary"
-            >
-                {methods.map(({ label }, index) => {
-                    return (
-                        <Tab
-                            className={classes.tab}
-                            key={index}
-                            label={label}
-                            {...a11yProps(index, "custom-method")}
-                            icon={<TimerIcon />}
-                        />
-                    );
-                })}
-            </Tabs>
-            <IconButton
-                aria-label={"add new method"}
-                className={classes.addMethod}
-                onClick={handleOpenDialog}
-            >
-                <ToggleAbleTooltip target={"method"}>
-                    <AddAlarm />
-                </ToggleAbleTooltip>
-            </IconButton>
+            {getMethodsListState.loading ? (
+                <Skeleton
+                    variant="rect"
+                    animation="wave"
+                    className={classes.placeholder}
+                />
+            ) : (
+                <Fragment>
+                    <Tabs
+                        aria-label="list of custom methods"
+                        value={method}
+                        onChange={handleMethodChange}
+                        variant="scrollable"
+                        scrollButtons="on"
+                        indicatorColor="primary"
+                        textColor="primary"
+                    >
+                        {methods.map(({ label }, index) => {
+                            return (
+                                <Tab
+                                    className={classes.tab}
+                                    key={index}
+                                    label={label}
+                                    {...a11yProps(index, "custom-method")}
+                                    icon={<TimerIcon />}
+                                />
+                            );
+                        })}
+                    </Tabs>
+                    <IconButton
+                        aria-label={"add new method"}
+                        className={classes.addMethod}
+                        onClick={handleOpenDialog}
+                    >
+                        <ToggleAbleTooltip target={"method"}>
+                            <AddAlarm />
+                        </ToggleAbleTooltip>
+                    </IconButton>
+                </Fragment>
+            )}
+
             <CustomDialog
                 open={open}
                 setOpen={setOpen}
@@ -284,7 +345,9 @@ const mapStateToProps = (state: ReduxStateType) => ({
 const mapDispatchToProps = (dispatch: any) => ({
     setTimers: (value: any) => dispatch(setTimers(value)),
     setSelectedTimer: (value: number) => dispatch(setSelectedTimer(value)),
-    addTimer: (value: any) => dispatch(addTimer(value)),
+    setSnackbarOpen: (value: any) => dispatch(setSnackbarOpen(value)),
+    setSnackbarSeverity: (value: any) => dispatch(editSeverity(value)),
+    setSnackbarMessage: (value: any) => dispatch(editMessage(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Methods);

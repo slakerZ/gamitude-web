@@ -15,6 +15,10 @@ const useMethodsStyels = makeStyles((theme: Theme) => ({
     addMethod: {
         paddingLeft: 0,
     },
+    placeholder: {
+        width: 276,
+        height: 50,
+    },
 }));
 
 export default useMethodsStyels;
