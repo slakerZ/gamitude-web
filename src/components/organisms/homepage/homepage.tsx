@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     statbutton: {
         position: "absolute",
         top: "380%",
-        left: "46%",
+        left: "40%",
     },
     chek: {
         position: "absolute",
@@ -34,13 +34,13 @@ const useStyles = makeStyles({
     },
     energybutton: {
         position: "absolute",
-        top: "470%",
+        top: "475%",
         left: "46%",
     },
     rankbutton: {
         position: "absolute",
         top: "575%",
-        left: "46%",
+        left: "68%",
     },
     shopbutton: {
         position: "absolute",
@@ -118,11 +118,11 @@ const Homepage = () => {
                     className="header"
                     //data-lax-translate-y="0 0, vh 300"
                 >
-                    <p className="tytul lax" data-lax-preset="zoomInOut 1">
+                    <p className="tytul lax" data-lax-preset="fadeInOut">
                         Purpose and goal
                     </p>
                     <Fade in={clicks}>
-                        <p className="Is lax" data-lax-preset="zoomInOut">
+                        <p className="Is lax" data-lax-preset="fadeInOut">
                             Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Nunc justo libero, egestas vestibulum odio
                             eget, lobortis cursus sapien.{" "}
@@ -137,7 +137,7 @@ const Homepage = () => {
                             left: "10%",
                             top: "130%",
                         }}
-                        data-lax-preset="zoomInOut"
+                        data-lax-preset="fadeInOut"
                     >
                         Gamitude is a project that has a goal to help people
                         manage their energy. By doing so, they can stay focused
@@ -152,7 +152,7 @@ const Homepage = () => {
                             left: "60%",
                             top: "130%",
                         }}
-                        data-lax-preset="zoomInOut"
+                        data-lax-preset="fadeInOut"
                     >
                         It also has a purpose to motivate people to develop
                         themselves in different areas of life and orginise
@@ -169,7 +169,7 @@ const Homepage = () => {
                                 top: "150%",
                                 left: "13%",
                             }}
-                            data-lax-preset="zoomInOut"
+                            data-lax-preset="fadeInOut"
                         />
                         <img
                             className="ikonal lax"
@@ -179,7 +179,7 @@ const Homepage = () => {
                                 top: "150%",
                                 left: "28%",
                             }}
-                            data-lax-preset="zoomInOut"
+                            data-lax-preset="fadeInOut"
                         />
                         <img
                             className="ikonar lax"
@@ -189,7 +189,7 @@ const Homepage = () => {
                                 top: "140%",
                                 left: "63%",
                             }}
-                            data-lax-preset="zoomInOut"
+                            data-lax-preset="fadeInOut"
                         />
                         <img
                             className="ikonar lax"
@@ -199,7 +199,7 @@ const Homepage = () => {
                                 top: "140%",
                                 left: "75%",
                             }}
-                            data-lax-preset="zoomInOut"
+                            data-lax-preset="fadeInOut"
                         />
                         <img
                             alt="fluency"
@@ -209,7 +209,7 @@ const Homepage = () => {
                                 top: "160%",
                                 left: "75%",
                             }}
-                            data-lax-preset="zoomInOut"
+                            data-lax-preset="fadeInOut"
                         />
                         <img
                             alt="creativity"
@@ -219,7 +219,7 @@ const Homepage = () => {
                                 top: "160%",
                                 left: "63%",
                             }}
-                            data-lax-preset="zoomInOut"
+                            data-lax-preset="fadeInOut"
                         />
                     </div>
                 </Fade>
@@ -228,7 +228,7 @@ const Homepage = () => {
                     variant="contained"
                     color="primary"
                     onClick={handleChange}
-                    data-lax-preset="zoomInOut"
+                    data-lax-preset="fadeInOut"
                 >
                     {clicks ? "Learn less" : "Learn more"}
                 </Button>
@@ -267,7 +267,7 @@ const Homepage = () => {
                     <p style={{ textAlign: "center" }}>
                         <b>Pomodoro</b>
                     </p>
-                    <Fade in={!mclick}>
+                    <Fade in={!mclicked}>
                         <ul>
                             <li>Decide on the task to be done.</li>
                             <li>
@@ -301,7 +301,7 @@ const Homepage = () => {
                         left: "10%",
                     }}
                 >
-                    <Fade in={mclick}>
+                    <Fade in={mclicked}>
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Nunc justo libero, egestas vestibulum odio
@@ -323,7 +323,7 @@ const Homepage = () => {
                     <p style={{ textAlign: "center" }}>
                         <b>90/30</b>
                     </p>
-                    <Fade in={!mclicked}>
+                    <Fade in={!mclick}>
                         <ul>
                             <li>
                                 Decide what is your most important task to focus
@@ -353,7 +353,7 @@ const Homepage = () => {
                         left: "60%",
                     }}
                 >
-                    <Fade in={mclicked}>
+                    <Fade in={mclick}>
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Nunc justo libero, egestas vestibulum odio
@@ -395,6 +395,8 @@ const Homepage = () => {
                             icons below.
                         </p>
                         <div
+                            className="lax"
+                            data-lax-preset="fadeInOut"
                             style={{
                                 top: "340%",
                                 width: "100%",
@@ -449,7 +451,8 @@ const Homepage = () => {
                 </Fade>
                 <Fade in={clickstats}>
                     <div
-                        className="tekst"
+                        className="tekst lax"
+                        data-lax-preset="fadeInOut"
                         style={{
                             top: "320%",
                             textAlign: "center",
@@ -475,20 +478,33 @@ const Homepage = () => {
                     variant="contained"
                     color="primary"
                     onClick={handleClickstats}
-                    className={style.statbutton}
+                    className={`${style.statbutton} lax`}
+                    data-lax-preset="fadeInOut"
                 >
                     {clickstats ? "Learn less" : "Learn more"}
+                </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={`${style.statbutton} lax`}
+                    data-lax-preset="fadeInOut"
+                    component={Link}
+                    to={"/signInSignUp"}
+                    style={{ left: "55%" }}
+                >
+                    Get Started now
                 </Button>
             </div>
             <div id="header" className="section">
                 <img
-                    className="lax blok next"
+                    className="lax blok piaty"
                     alt="Energy"
                     src="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
                     //data-lax-translate-y="0 0, vh -100"
                 />
                 <div
-                    className="lax next"
+                    className="lax piaty"
+                    style={{ top: "410%" }}
                     //data-lax-translate-y="0 0, vh 100"
                     //data-lax-opacity="0 1, 300 0"
                     data-lax-preset="blurInOut"
@@ -499,7 +515,7 @@ const Homepage = () => {
                     <div
                         className="tekst"
                         style={{
-                            top: "420%",
+                            top: "425%",
                             textAlign: "center",
                             left: "15%",
                             width: "70%",
@@ -568,7 +584,8 @@ const Homepage = () => {
                     variant="contained"
                     color="primary"
                     onClick={handleClickenergy}
-                    className={style.energybutton}
+                    data-lax-preset="blurInOut"
+                    className={`${style.energybutton} lax`}
                 >
                     {clickenergy ? "Learn less" : "Learn more"}
                 </Button>
@@ -584,7 +601,7 @@ const Homepage = () => {
                     className="lax szósty"
                     //data-lax-translate-y="0 0, vh 100"
                     //data-lax-opacity="0 1, 300 0"
-                    data-lax-preset="zoomInOut"
+                    data-lax-preset="fadeInOut"
                     style={{ top: "510%" }}
                 >
                     <p className="tytul">Ranks</p>
@@ -600,7 +617,7 @@ const Homepage = () => {
                         color: "white",
                     }}
                 >
-                    <p className="lax" data-lax-preset="zoomInOut">
+                    <p className="lax" data-lax-preset="fadeInOut">
                         In our project, we wanted make users feel rewarded for
                         their effort. We came up with an idea to use game system
                         that uses ranks to categorize improvements. We inspired
@@ -614,9 +631,20 @@ const Homepage = () => {
                     color="primary"
                     href="https://www.youtube.com/channel/UCHsRtomD4twRf5WVHHk-cMw"
                     className={`${style.rankbutton} lax`}
-                    data-lax-preset="zoomInOut"
+                    data-lax-preset="fadeInOut"
                 >
                     Check out Tierzoo!!
+                </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={`${style.rankbutton} lax`}
+                    data-lax-preset="fadeInOut"
+                    component={Link}
+                    to={"/signInSignUp"}
+                    style={{ left: "20%" }}
+                >
+                    Get Started now
                 </Button>
                 <img
                     className="lax"
@@ -625,11 +653,11 @@ const Homepage = () => {
                     style={{
                         position: "absolute",
                         left: "58%",
-                        height: "45%",
-                        width: "40%",
+                        height: "35%",
+                        width: "30%",
                         top: "530%",
                     }}
-                    data-lax-preset="zoomInOut"
+                    data-lax-preset="fadeInOut"
                 />
             </div>
             <div id="header" className="section">
@@ -701,7 +729,6 @@ const Homepage = () => {
                     }}
                 >
                     <p className="lax" data-lax-preset="blurInOut">
-                        {" "}
                         Bullet Journal is a method of managing tasks in longer
                         periods of time. You are separating tasks between 3 main
                         categories: Day, Week, Month. With this, you are
@@ -712,8 +739,8 @@ const Homepage = () => {
                         className="lax"
                         alt="Bullet Journal example"
                         src={bullet}
-                        height="50%"
-                        width="70%"
+                        height="40%"
+                        width="60%"
                         style={{
                             paddingBottom: "20px",
                         }}
@@ -733,7 +760,7 @@ const Homepage = () => {
                     //data-lax-translate-y="0 0, vh 100"
                     //data-lax-opacity="0 1, 300 0"
                     style={{ top: "810%" }}
-                    data-lax-preset="zoomInOut"
+                    data-lax-preset="fadeInOut"
                 >
                     <p className="tytul">Shop</p>
                 </div>
@@ -747,7 +774,7 @@ const Homepage = () => {
                         fontSize: "30px",
                     }}
                 >
-                    <p className="lax" data-lax-preset="zoomInOut">
+                    <p className="lax" data-lax-preset="fadeInOut">
                         We are offering different visual packs called skins that
                         will affect how your site look. There are many
                         diversified themes of those skins like Ice Age, Video
@@ -761,7 +788,7 @@ const Homepage = () => {
                             height: "55%",
                             width: "55%",
                         }}
-                        data-lax-preset="zoomInOut"
+                        data-lax-preset="fadeInOut"
                     />
                 </div>
                 <Button
