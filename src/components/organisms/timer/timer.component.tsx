@@ -26,7 +26,9 @@ const Timer = ({
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
-    const [sessionTime, setSessionTime] = useState(selectedTimer.workTime);
+    const [sessionTime, setSessionTime] = useState(
+        selectedTimer ? selectedTimer.workTime : 0,
+    );
     const [date, setDate] = useState(new Date());
 
     const [playMin] = useSound(minuteSound, {
@@ -73,7 +75,8 @@ const Timer = ({
                                 className={classes.addFive}
                             >
                                 <Typography variant="h4" component="h4">
-                                    +{selectedTimer.overTime}
+                                    +
+                                    {selectedTimer ? selectedTimer.overTime : 0}
                                 </Typography>
                             </Button>
                         </ToggleAbleTooltip>
@@ -92,7 +95,11 @@ const Timer = ({
                                         variant="h2"
                                         component="h2"
                                     >
-                                        {leftPad(selectedTimer.workTime)}
+                                        {leftPad(
+                                            selectedTimer
+                                                ? selectedTimer.workTime
+                                                : 0,
+                                        )}
                                     </Typography>
                                     <Typography
                                         display="inline"

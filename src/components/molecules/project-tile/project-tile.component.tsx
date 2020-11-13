@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAsyncFn } from "react-use";
+import clsx from "clsx";
 // API
 import { deleteProjectById, putProjectById } from "api/projects/projects.api";
 // Redux
@@ -30,6 +31,7 @@ import {
     editSeverity,
     setOpen as setSnackbarOpen,
 } from "redux/snackbar/snackbar.actions";
+import { selectSessionType } from "redux/session/session.selectors";
 
 const Project = ({
     index,
@@ -40,6 +42,7 @@ const Project = ({
     setSnackbarMessage,
     setSnackbarOpen,
     setSnackbarSeverity,
+    sessionType,
 }: ProjectTilePropTypes) => {
     const classes = useProjectStyles();
 
@@ -54,13 +57,16 @@ const Project = ({
     const nameRedux = projects[index].name;
     const folderRedux = projects[index].folderId;
     const methodRedux = projects[index].defaultTimerId;
+    const typeRedux = projects[index].projectType;
 
     const [defaultMethod, setDefaultMethod] = useState(methodRedux);
     const [folder, setFolder] = useState(folderRedux);
     const [name, setName] = useState(nameRedux);
     const [boosted, setBoosted] = useState(boostedRedux);
     const [dominant, setDominant] = useState(dominantRedux);
-    const [projectType, setProjectType] = useState<ProjectSessionType>("STAT");
+    const [projectType, setProjectType] = useState<ProjectSessionType>(
+        typeRedux,
+    );
 
     const [deleteProjectState, deleteProject] = useAsyncFn(async () => {
         const id = projects[index].id;
@@ -135,7 +141,9 @@ const Project = ({
             expanded={expanded}
             onChange={() => setExpanded(!expanded)}
             square
-            className={classes.container}
+            className={clsx(classes.container, {
+                [classes.hide]: sessionType !== projectType,
+            })}
         >
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -204,6 +212,7 @@ const Project = ({
 const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     token: selectToken(state),
+    sessionType: selectSessionType(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

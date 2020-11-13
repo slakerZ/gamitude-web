@@ -32,6 +32,9 @@ const useProjectStyles = makeStyles((theme) => ({
             fontSize: "2rem",
         },
     },
+    hide: {
+        display: "none",
+    },
 }));
 
 export default useProjectStyles;

@@ -161,9 +161,8 @@ const ProjectsDesktopPage = ({
                     aria-label="Projects in current Folder"
                     className={classes.projectsWrapper}
                 >
-                    {projects.map((project: any) => {
+                    {projects.map((project: any, index: number) => {
                         const { folderId } = project;
-                        const index = projects.indexOf(project);
                         return (
                             <TabPanel
                                 key={index}
@@ -348,6 +347,10 @@ const NewProjectDialog = ({
         const result = await postProject(token, requestBody);
         setOpen(false);
         getProjectsList();
+        // Success Info
+        setSnackbarSeverity("success");
+        setSnackbarMessage("Successfully created project");
+        setSnackbarOpen(true);
         // Reset
         setName("");
         setProjectType("STAT");
@@ -356,7 +359,17 @@ const NewProjectDialog = ({
         setFolderId("");
         setDefaultTimerId("");
         return result.data;
-    }, [name, folderId, defaultTimerId, projectType, stats, dominantStat]);
+    }, [
+        name,
+        folderId,
+        defaultTimerId,
+        projectType,
+        stats,
+        dominantStat,
+        setSnackbarSeverity,
+        setSnackbarMessage,
+        setSnackbarOpen,
+    ]);
 
     useEffect(() => {
         if (createNewProjectState.error) {

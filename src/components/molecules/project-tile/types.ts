@@ -7,4 +7,5 @@ export interface ProjectTilePropTypes {
     setSnackbarMessage: any;
     setSnackbarOpen: any;
     setSnackbarSeverity: any;
+    sessionType: any;
 }
