@@ -6,8 +6,8 @@ export interface TimerType {
     workTime: number;
     breakTime: number;
     overTime: number;
-    longerBreakTime: number;
-    breakInterval: number;
+    longerBreakTime?: number | null;
+    breakInterval?: number | null;
 }
 
 export interface TimerRequestBodyType {
@@ -15,8 +15,8 @@ export interface TimerRequestBodyType {
     breakTime: number;
     overTime: number;
     name: string;
-    longerBreakTime: number;
-    breakInterval: number;
+    longerBreakTime?: number | null;
+    breakInterval?: number | null;
 }
 
 export interface TimerResponseBodyType {

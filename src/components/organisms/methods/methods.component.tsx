@@ -61,14 +61,14 @@ const Methods = ({
 
     const [postMethodState, postMethod] = useAsyncFn(async () => {
         const newTimer = {
-            // label,
+            label: label,
             workTime: workTime,
             breakTime: breakTime,
             overTime: overTime,
             name: name,
-            longerBreakTime: longerBreakTime,
-            breakInterval: breakInterval,
-            // type,
+            longerBreakTime: longerBreakTime === 0 ? null : longerBreakTime,
+            breakInterval: breakInterval === 0 ? null : breakInterval,
+            timerType: type,
         };
         const response = await postTimer(token, newTimer);
         setOpen(false);

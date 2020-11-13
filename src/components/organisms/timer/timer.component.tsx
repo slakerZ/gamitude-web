@@ -1,5 +1,6 @@
-import React, { ReactElement, Fragment, useEffect } from "react";
+import React, { ReactElement, Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
+import useSound from "use-sound";
 import Badge from "@material-ui/core/Badge";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -14,6 +15,9 @@ import {
 } from "../../../redux/timers/timers.selectors";
 import { setSelectedTimer } from "redux/timers/timers.actions";
 
+const endSound = require("assets/sounds/congratulations.mp3");
+const minuteSound = require("assets/sounds/bell.mp3");
+
 const Timer = ({
     selectedProject,
     selectedTimer,
@@ -22,11 +26,22 @@ const Timer = ({
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
+    const [sessionTime, setSessionTime] = useState(selectedTimer.workTime);
+    const [date, setDate] = useState(new Date());
+
+    const [playMin] = useSound(minuteSound, {
+        volume: 0.2,
+        interrupt: true,
+    });
+
+    const [play, { stop }] = useSound(endSound, {
+        volume: 0.2,
+        interrupt: true,
+    });
+
     const leftPad = (val: number) => (val < 10 ? `0${val}` : `${val}`);
 
-    const handleOvertime = () => {
-        console.log("added 5");
-    };
+    const handleOvertime = () => {};
 
     const handleSession = () => {
         console.log("started");

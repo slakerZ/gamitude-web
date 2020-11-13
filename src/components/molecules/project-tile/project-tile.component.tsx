@@ -77,7 +77,7 @@ const Project = ({
             name: name,
             folderId: folder,
             defaultTimerId: defaultMethod,
-            projectType: "None",
+            projectType: projectType,
             dominantStat: dominant,
             stats: boosted,
             daysPerWeek: 0,
@@ -88,7 +88,7 @@ const Project = ({
         const response = await putProjectById(token, requestBody, id);
         getProjectsList();
         return response.data;
-    }, [name, boosted, dominant, folder, defaultMethod]);
+    }, [name, boosted, dominant, folder, defaultMethod, projectType]);
 
     const handleDeletion = () => {
         setIsDeleteWarningDialogOpen(true);

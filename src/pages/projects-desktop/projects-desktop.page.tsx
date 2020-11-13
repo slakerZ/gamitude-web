@@ -338,7 +338,7 @@ const NewProjectDialog = ({
             name: name,
             folderId: folderId,
             defaultTimerId: defaultTimerId,
-            projectType: "None",
+            projectType: projectType,
             dominantStat: dominantStat,
             stats: stats,
             daysPerWeek: 0,

@@ -27,5 +27,6 @@ module.exports = {
         "sort-imports": "off",
         "import/order": "off",
         "no-console": "error",
+        "@typescript-eslint/no-var-requires": 0,
     },
 };
