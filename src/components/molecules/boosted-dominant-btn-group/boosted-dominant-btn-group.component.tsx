@@ -66,6 +66,8 @@ const BoostedDominantBtnGroup = ({
             <SessionTypeSwitch
                 sessionType={sessionType}
                 setSessionType={setSessionType}
+                setBoosted={setBoosted}
+                setDominant={setDominant}
             />
             <div
                 aria-label={"Boosted Stats / Energies"}
