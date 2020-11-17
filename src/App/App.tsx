@@ -1,5 +1,12 @@
-import React, { lazy, Suspense, FC, ReactElement, useState } from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import React, {
+    lazy,
+    Suspense,
+    FC,
+    ReactElement,
+    useState,
+    useEffect,
+} from "react";
+import { Route, Switch, Link, Redirect } from "react-router-dom";
 import clsx from "clsx";
 // Redux
 import { connect } from "react-redux";
@@ -65,6 +72,7 @@ const App: FC<AppType> = ({
     const classes = useAppStyles();
 
     const [navOpen, setNavOpen] = useState(false);
+    const [tokenExpired, setTokenExpired] = useState(false);
 
     const handleToggleNavOpen = () => {
         setNavOpen(!navOpen);
@@ -79,6 +87,14 @@ const App: FC<AppType> = ({
     const toggleTooltips = () => {
         setTooltipToggle({ tooltipToggle: !tooltipToggle });
     };
+
+    useEffect(() => {
+        if (!token) {
+            setTokenExpired(true);
+        } else {
+            setTokenExpired(false);
+        }
+    }, [token]);
 
     return (
         <div className={classes.root}>
@@ -222,6 +238,7 @@ const App: FC<AppType> = ({
                 </Drawer>
             ) : null}
             <CustomSnackbar />
+            {tokenExpired ? <Redirect to="/signInSignUp" /> : null}
         </div>
     );
 };

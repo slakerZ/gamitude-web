@@ -3,4 +3,6 @@ export interface TimerPropTypes {
     selectedTimer: any;
     setSelectedTimer: any;
     timers: any;
+    setSessionInProgress: any;
+    sessionInProgress: any;
 }

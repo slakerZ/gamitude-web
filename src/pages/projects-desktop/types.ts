@@ -9,6 +9,7 @@ export interface ProjectsPropTypes {
     setSnackbarMessage: any;
     setSnackbarOpen: any;
     setSnackbarSeverity: any;
+    setUser: any;
 }
 
 export interface ProjectType {

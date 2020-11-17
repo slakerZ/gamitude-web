@@ -48,6 +48,7 @@ import {
     editSeverity,
     setOpen,
 } from "redux/snackbar/snackbar.actions";
+import { setUser } from "redux/user/user.actions";
 
 const ProjectsDesktopPage = ({
     projects,
@@ -58,6 +59,7 @@ const ProjectsDesktopPage = ({
     setSnackbarMessage,
     setSnackbarOpen,
     setSnackbarSeverity,
+    setUser,
 }: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
 
@@ -106,6 +108,18 @@ const ProjectsDesktopPage = ({
     const handleOpenNewFolderDialog = () => {
         setIsNewFolderDialogOpen(true);
     };
+
+    useEffect(() => {
+        if (getFoldersListState.error) {
+            const unpacked: any = { ...getFoldersListState.error };
+            const statusCode = unpacked.response.status;
+            if (statusCode === 401) {
+                setUser({
+                    token: null,
+                });
+            }
+        }
+    }, [getFoldersListState, getProjectsListState]);
 
     return (
         <div aria-label="Folders" className={classes.root}>
@@ -425,6 +439,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     setSnackbarOpen: (value: any) => dispatch(setOpen(value)),
     setSnackbarSeverity: (value: any) => dispatch(editSeverity(value)),
     setSnackbarMessage: (value: any) => dispatch(editMessage(value)),
+    setUser: (value: any) => dispatch(setUser(value)),
 });
 
 export default connect(
