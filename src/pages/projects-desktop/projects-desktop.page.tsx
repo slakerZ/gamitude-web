@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useAsyncFn, useEffectOnce } from "react-use";
 // MUI
 import Tabs from "@material-ui/core/Tabs";
@@ -8,8 +8,8 @@ import AddIcon from "@material-ui/icons/Add";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import IconButton from "@material-ui/core/IconButton";
 // API
-import { getFolders, postFolder } from "api/folders/folders.api";
-import { getProjects, postProject } from "api/projects/projects.api";
+import { getFolders } from "api/folders/folders.api";
+import { getProjects } from "api/projects/projects.api";
 // Redux
 import { connect } from "react-redux";
 import { selectToken } from "../../redux/user/user.selectors";
@@ -24,23 +24,12 @@ import ToggleAbleTooltip from "../../components/atoms/toggleable-tooltip/togglea
 // Molecules
 import ProjectTile from "../../components/molecules/project-tile/project-tile.component";
 // Local
-import {
-    ProjectsPropTypes,
-    NewProjectDialogPropTypes,
-    NewFolderDialogPropTypes,
-} from "./types";
+import { ProjectsPropTypes } from "./types";
 import useProjectDesktopStyles from "./styles";
 import {
     TabPanel,
     a11yProps,
 } from "../../components/atoms/tab-panel/tab-panel.component";
-import CustomDialog from "../../components/atoms/custom-dialog/custom-dialog.component";
-import BoostedDominantBtnGroup from "../../components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
-import { TextField, Typography } from "@material-ui/core";
-import CustomToggleButtonGroup from "../../components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
-import { ICONS } from "../../components/atoms/custom-icon/constants";
-import { EnergyType, StatType } from "types";
-import { ProjectSessionType } from "types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Skeleton from "@material-ui/lab/Skeleton";
 import {
@@ -49,6 +38,8 @@ import {
     setOpen,
 } from "redux/snackbar/snackbar.actions";
 import { setUser } from "redux/user/user.actions";
+import NewFolderDialog from "components/atoms/custom-dialog/new-folder-dialog.component";
+import NewProjectDialog from "components/atoms/custom-dialog/new-project-dialog.component";
 
 const ProjectsDesktopPage = ({
     projects,
@@ -236,193 +227,6 @@ const ProjectsDesktopPage = ({
                 setSnackbarSeverity={setSnackbarSeverity}
             />
         </div>
-    );
-};
-
-const NewFolderDialog = ({
-    open,
-    setOpen,
-    token,
-    getFoldersList,
-    setSnackbarMessage,
-    setSnackbarOpen,
-    setSnackbarSeverity,
-}: NewFolderDialogPropTypes) => {
-    const classes = useProjectDesktopStyles();
-
-    const [folderName, setFolderName] = useState("");
-    const [folderIcon, setFolderIcon] = useState("");
-
-    const [createNewFolderState, createNewFolder] = useAsyncFn(async () => {
-        const requestBody = {
-            name: folderName,
-            icon: folderIcon,
-            description: "",
-        };
-        const result = await postFolder(token, requestBody);
-        setOpen(false);
-        getFoldersList();
-        // Reset
-        setFolderName("");
-        setFolderIcon("");
-        return result;
-    }, [folderName, folderIcon]);
-
-    const handleIconChange = (e: any, newIcon: any) => {
-        setFolderIcon(newIcon);
-    };
-
-    const handleChangeFolderName = (e: any) => {
-        setFolderName(e.target.value);
-    };
-
-    useEffect(() => {
-        if (createNewFolderState.error) {
-            setSnackbarSeverity("error");
-            setSnackbarMessage("Failed to create new folder");
-            setSnackbarOpen(true);
-        }
-    }, [
-        createNewFolderState,
-        setSnackbarSeverity,
-        setSnackbarMessage,
-        setSnackbarOpen,
-    ]);
-
-    return (
-        <Fragment>
-            <CustomDialog
-                aria-label="Create New Folder Dialog"
-                open={open}
-                setOpen={setOpen}
-                title={"Create New Folder"}
-                onSubmit={createNewFolder}
-            >
-                <div
-                    aria-label="Create New Folder Dialog's Body"
-                    className={classes.newFolderDialogBody}
-                >
-                    <TextField
-                        label={"Name"}
-                        variant={"outlined"}
-                        fullWidth
-                        value={folderName}
-                        onChange={handleChangeFolderName}
-                    />
-                    <Typography
-                        variant={"h4"}
-                        component={"h4"}
-                        align={"center"}
-                    >
-                        {"Choose folder icon"}
-                    </Typography>
-                    <CustomToggleButtonGroup
-                        value={folderIcon}
-                        handleChange={handleIconChange}
-                        items={ICONS}
-                        exclusive={true}
-                    />
-                </div>
-            </CustomDialog>
-        </Fragment>
-    );
-};
-
-const NewProjectDialog = ({
-    open,
-    setOpen,
-    token,
-    getProjectsList,
-    setSnackbarMessage,
-    setSnackbarOpen,
-    setSnackbarSeverity,
-}: NewProjectDialogPropTypes) => {
-    const [name, setName] = useState("");
-    const [projectType, setProjectType] = useState<ProjectSessionType>("STAT");
-    const [stats, setStats] = useState<StatType[] | EnergyType[] | any[]>([]);
-    const [dominantStat, setDominantStat] = useState<
-        StatType | EnergyType | string
-    >("");
-    const [folderId, setFolderId] = useState("");
-    const [defaultTimerId, setDefaultTimerId] = useState("");
-
-    const [createNewProjectState, createNewProject] = useAsyncFn(async () => {
-        const requestBody = {
-            name: name,
-            folderId: folderId,
-            defaultTimerId: defaultTimerId,
-            projectType: projectType,
-            dominantStat: dominantStat,
-            stats: stats,
-            daysPerWeek: 0,
-            hoursPerDay: 0,
-            dayInterval: 0,
-        };
-        const result = await postProject(token, requestBody);
-        setOpen(false);
-        getProjectsList();
-        // Success Info
-        setSnackbarSeverity("success");
-        setSnackbarMessage("Successfully created project");
-        setSnackbarOpen(true);
-        // Reset
-        setName("");
-        setProjectType("STAT");
-        setStats([]);
-        setDominantStat("");
-        setFolderId("");
-        setDefaultTimerId("");
-        return result.data;
-    }, [
-        name,
-        folderId,
-        defaultTimerId,
-        projectType,
-        stats,
-        dominantStat,
-        setSnackbarSeverity,
-        setSnackbarMessage,
-        setSnackbarOpen,
-    ]);
-
-    useEffect(() => {
-        if (createNewProjectState.error) {
-            setSnackbarSeverity("error");
-            setSnackbarMessage("Failed to create new project");
-            setSnackbarOpen(true);
-        }
-    }, [
-        createNewProjectState,
-        setSnackbarSeverity,
-        setSnackbarMessage,
-        setSnackbarOpen,
-    ]);
-
-    return (
-        <Fragment>
-            <CustomDialog
-                aria-label="Create New Project Dialog"
-                open={open}
-                setOpen={setOpen}
-                title={"Create new project"}
-                onSubmit={createNewProject}
-            >
-                <BoostedDominantBtnGroup
-                    boosted={stats}
-                    setBoosted={setStats}
-                    dominant={dominantStat}
-                    setDominant={setDominantStat}
-                    name={name}
-                    setName={setName}
-                    sessionType={projectType}
-                    setSessionType={setProjectType}
-                    folder={folderId}
-                    setFolder={setFolderId}
-                    method={defaultTimerId}
-                    setMethod={setDefaultTimerId}
-                />
-            </CustomDialog>
-        </Fragment>
     );
 };
 

@@ -135,70 +135,84 @@ const Timer = ({
     }, [sessionInProgress, sessionTime]);
 
     return (
-        <Fragment>
-            <div className={classes.root}>
-                <Badge
-                    overlap="circle"
-                    anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "right",
-                    }}
-                    badgeContent={
-                        <ToggleAbleTooltip target="add5">
-                            <Button
-                                variant="text"
-                                onClick={handleOvertime}
-                                className={classes.addFive}
-                            >
-                                <Typography variant="h4" component="h4">
-                                    +{currOverTime}
-                                </Typography>
-                            </Button>
-                        </ToggleAbleTooltip>
-                    }
-                >
-                    <ToggleAbleTooltip target="sessionTimer">
+        <div className={classes.root}>
+            <Typography
+                variant="h6"
+                component="h6"
+                aria-label="Selected project name or please select message"
+            >
+                {selectedProject.id
+                    ? selectedProject.name
+                    : "Please select a project"}
+            </Typography>
+            <Badge
+                overlap="circle"
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                }}
+                badgeContent={
+                    <ToggleAbleTooltip target="add5">
                         <Button
-                            className={classes.timerButton}
+                            aria-label="Overtime button"
                             variant="text"
-                            onClick={handleSession}
+                            onClick={handleOvertime}
+                            className={classes.overTimeButton}
+                            disabled={!selectedProject.id}
                         >
-                            <div className={classes.timerDisplay}>
-                                <div className={classes.minSecWrapper}>
-                                    <Typography
-                                        display="inline"
-                                        variant="h2"
-                                        component="h2"
-                                    >
-                                        {leftPad(
-                                            milisecondsToMinutes(sessionTime)
-                                                .minutes,
-                                        )}
-                                    </Typography>
-                                    <Typography
-                                        display="inline"
-                                        variant="h3"
-                                        component="h3"
-                                    >
-                                        {":"}
-                                    </Typography>
-                                    <Typography
-                                        display="inline"
-                                        variant="h3"
-                                        component="h3"
-                                    >
-                                        {leftPad(
-                                            milisecondsToMinutes(sessionTime)
-                                                .seconds,
-                                        )}
-                                    </Typography>
-                                </div>
-                            </div>
+                            <Typography variant="h4" component="h4">
+                                +{currOverTime}
+                            </Typography>
                         </Button>
                     </ToggleAbleTooltip>
-                </Badge>
-            </div>
-        </Fragment>
+                }
+            >
+                <ToggleAbleTooltip target="sessionTimer">
+                    <Button
+                        aria-label="Timer Button"
+                        className={classes.timerButton}
+                        variant="text"
+                        onClick={handleSession}
+                        disabled={!selectedProject.id}
+                    >
+                        <div className={classes.timerDisplay}>
+                            <Fragment>
+                                <Typography
+                                    aria-label="Minutes on Timer"
+                                    display="inline"
+                                    variant="h2"
+                                    component="h2"
+                                >
+                                    {leftPad(
+                                        milisecondsToMinutes(sessionTime)
+                                            .minutes,
+                                    )}
+                                </Typography>
+                                <Typography
+                                    aria-label="Colon Between mintues and seconds"
+                                    display="inline"
+                                    variant="h3"
+                                    component="h3"
+                                >
+                                    {":"}
+                                </Typography>
+                                <Typography
+                                    aria-label="Seconds on Timer"
+                                    display="inline"
+                                    variant="h3"
+                                    component="h3"
+                                >
+                                    {leftPad(
+                                        milisecondsToMinutes(sessionTime)
+                                            .seconds,
+                                    )}
+                                </Typography>
+                            </Fragment>
+                        </div>
+                    </Button>
+                </ToggleAbleTooltip>
+            </Badge>
+        </div>
     );
 };
 

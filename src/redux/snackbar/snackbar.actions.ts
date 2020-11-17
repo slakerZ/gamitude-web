@@ -14,3 +14,8 @@ export const setOpen = (payload: any) => ({
     type: SnackbarActionTypes.SET_OPEN,
     payload: payload,
 });
+
+export const setSnackbarState = (payload: any) => ({
+    type: SnackbarActionTypes.SET_SNACKBAR_STATE,
+    payload: payload,
+});

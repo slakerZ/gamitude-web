@@ -42,16 +42,7 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
     addNewForm: {
         backgroundColor: theme.palette.primary.main,
     },
-    addProjectDialogContent: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-    },
-    newFolderDialogBody: {
-        "& > *": {
-            margin: theme.spacing(1, 0),
-        },
-    },
+
     center: {
         width: "100%",
         height: "100%",

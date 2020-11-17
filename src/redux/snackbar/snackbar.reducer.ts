@@ -23,6 +23,11 @@ const snackbarReducer = (state = INITIAL_STATE, action: any) => {
                 ...state,
                 open: action.payload,
             };
+        case SnackbarActionTypes.SET_SNACKBAR_STATE:
+            return {
+                ...state,
+                ...action.payload,
+            };
         default:
             return state;
     }
