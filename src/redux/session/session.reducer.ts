@@ -23,6 +23,11 @@ const sessionReducer = (state = INITIAL_STATE, action: any) => {
                 ...state,
                 sessionType: action.payload,
             };
+        case SessionActionTypes.INCREMENT_SESSIONS_COMPLETE:
+            return {
+                ...state,
+                sessionsComplete: state.sessionsComplete + 1,
+            };
         default:
             return state;
     }

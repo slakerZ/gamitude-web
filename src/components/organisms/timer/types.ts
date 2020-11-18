@@ -6,4 +6,5 @@ export interface TimerPropTypes {
     setSessionInProgress: any;
     sessionInProgress: any;
     token: any;
+    incrementSessionsComplete: any;
 }

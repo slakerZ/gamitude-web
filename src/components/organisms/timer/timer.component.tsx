@@ -8,7 +8,10 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import { selectSelectedProject } from "redux/projects/projects.selectors";
-import { setSessionInProgress } from "redux/session/session.actions";
+import {
+    setSessionInProgress,
+    incrementSessionsComplete,
+} from "redux/session/session.actions";
 import { selectSessionInProgress } from "redux/session/session.selectors";
 import { setSelectedTimer } from "redux/timers/timers.actions";
 import {
@@ -35,6 +38,7 @@ const Timer = ({
     setSessionInProgress,
     sessionInProgress,
     token,
+    incrementSessionsComplete,
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
@@ -146,7 +150,9 @@ const Timer = ({
                           stats: selectedProject.stats,
                           projectType: selectedProject.projectType,
                       };
-                      postProjectLog(token, requestBody);
+                      postProjectLog(token, requestBody).then(() => {
+                          incrementSessionsComplete();
+                      });
                   }
               }, intervalFrequency)
             : setInterval(() => null, 1);
@@ -259,6 +265,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
     setSelectedTimer: (value: any) => dispatch(setSelectedTimer(value)),
     setSessionInProgress: (value: any) => dispatch(setSessionInProgress(value)),
+    incrementSessionsComplete: () => dispatch(incrementSessionsComplete()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

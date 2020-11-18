@@ -14,3 +14,7 @@ export const setSessionType = (value: any) => ({
     type: SessionActionTypes.SET_SESSION_TYPE,
     payload: value,
 });
+
+export const incrementSessionsComplete = () => ({
+    type: SessionActionTypes.INCREMENT_SESSIONS_COMPLETE,
+});
