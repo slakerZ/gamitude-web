@@ -6,7 +6,5 @@ export interface MethodsPropType {
     selectedMethod: TimerType;
     token: string;
     setTimers: any;
-    setSnackbarMessage: any;
-    setSnackbarOpen: any;
-    setSnackbarSeverity: any;
+    setSnackbarState: any;
 }

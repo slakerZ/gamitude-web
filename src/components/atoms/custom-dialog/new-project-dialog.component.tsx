@@ -6,15 +6,17 @@ import BoostedDominantBtnGroup from "components/molecules/boosted-dominant-btn-g
 import { EnergyType, StatType } from "types";
 import { ProjectSessionType } from "types";
 import { postProject } from "api/projects/projects.api";
+import { connect } from "react-redux";
+import { setSnackbarState } from "redux/snackbar/snackbar.actions";
+import { selectToken } from "redux/user/user.selectors";
+import { ReduxStateType } from "redux/root.reducer";
 
 const NewProjectDialog = ({
     open,
     setOpen,
     token,
     getProjectsList,
-    setSnackbarMessage,
-    setSnackbarOpen,
-    setSnackbarSeverity,
+    setSnackbarState,
 }: NewProjectDialogPropTypes): ReactElement => {
     const [name, setName] = useState("");
     const [projectType, setProjectType] = useState<ProjectSessionType>("STAT");
@@ -41,9 +43,12 @@ const NewProjectDialog = ({
         setOpen(false);
         getProjectsList();
         // Success Info
-        setSnackbarSeverity("success");
-        setSnackbarMessage("Successfully created project");
-        setSnackbarOpen(true);
+        setSnackbarState({
+            message: "Successfully created project",
+            severity: "success",
+            open: true,
+        });
+
         // Reset
         setName("");
         setProjectType("STAT");
@@ -59,23 +64,18 @@ const NewProjectDialog = ({
         projectType,
         stats,
         dominantStat,
-        setSnackbarSeverity,
-        setSnackbarMessage,
-        setSnackbarOpen,
+        setSnackbarState,
     ]);
 
     useEffect(() => {
         if (createNewProjectState.error) {
-            setSnackbarSeverity("error");
-            setSnackbarMessage("Failed to create new project");
-            setSnackbarOpen(true);
+            setSnackbarState({
+                message: "Failed to create new project",
+                severity: "error",
+                open: true,
+            });
         }
-    }, [
-        createNewProjectState,
-        setSnackbarSeverity,
-        setSnackbarMessage,
-        setSnackbarOpen,
-    ]);
+    }, [createNewProjectState, setSnackbarState]);
 
     return (
         <Fragment>
@@ -105,4 +105,12 @@ const NewProjectDialog = ({
     );
 };
 
-export default NewProjectDialog;
+const mapStateToProps = (state: ReduxStateType) => ({
+    token: selectToken(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+    setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewProjectDialog);

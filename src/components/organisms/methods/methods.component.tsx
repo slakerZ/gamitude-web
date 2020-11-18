@@ -17,11 +17,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { selectSelectedTimer } from "../../../redux/timers/timers.selectors";
 import { selectToken } from "redux/user/user.selectors";
 import { setTimers } from "redux/timers/timers.actions";
-import {
-    editMessage,
-    editSeverity,
-    setOpen as setSnackbarOpen,
-} from "redux/snackbar/snackbar.actions";
+import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import Skeleton from "@material-ui/lab/Skeleton";
 import NewTimerDialog from "components/atoms/custom-dialog/new-timer-dialog.component";
 
@@ -31,9 +27,7 @@ const Methods = ({
     selectedMethod,
     token,
     setTimers,
-    setSnackbarMessage,
-    setSnackbarOpen,
-    setSnackbarSeverity,
+    setSnackbarState,
 }: MethodsPropType) => {
     const classes = useMethodsStyles();
     const defaultSelected =
@@ -74,16 +68,13 @@ const Methods = ({
 
     useEffect(() => {
         if (getMethodsListState.error) {
-            setSnackbarSeverity("error");
-            setSnackbarMessage("Failed to get timers list");
-            setSnackbarOpen(true);
+            setSnackbarState({
+                severity: "error",
+                message: "Failed to get timers list",
+                open: true,
+            });
         }
-    }, [
-        getMethodsListState,
-        setSnackbarMessage,
-        setSnackbarOpen,
-        setSnackbarSeverity,
-    ]);
+    }, [getMethodsListState, setSnackbarState]);
 
     return (
         <div className={classes.root} aria-label="methods root">
@@ -145,9 +136,7 @@ const mapStateToProps = (state: ReduxStateType) => ({
 const mapDispatchToProps = (dispatch: any) => ({
     setTimers: (value: any) => dispatch(setTimers(value)),
     setSelectedTimer: (value: number) => dispatch(setSelectedTimer(value)),
-    setSnackbarOpen: (value: any) => dispatch(setSnackbarOpen(value)),
-    setSnackbarSeverity: (value: any) => dispatch(editSeverity(value)),
-    setSnackbarMessage: (value: any) => dispatch(editMessage(value)),
+    setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Methods);

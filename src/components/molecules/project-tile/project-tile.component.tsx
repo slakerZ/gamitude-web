@@ -26,11 +26,7 @@ import { ProjectTilePropTypes } from "./types";
 import useProjectStyles from "./styles";
 import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
 import { ProjectSessionType } from "types";
-import {
-    editMessage,
-    editSeverity,
-    setOpen as setSnackbarOpen,
-} from "redux/snackbar/snackbar.actions";
+import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectSessionType } from "redux/session/session.selectors";
 
 const Project = ({
@@ -39,9 +35,7 @@ const Project = ({
     token,
     setSelectedProject,
     getProjectsList,
-    setSnackbarMessage,
-    setSnackbarOpen,
-    setSnackbarSeverity,
+    setSnackbarState,
     sessionType,
 }: ProjectTilePropTypes) => {
     const classes = useProjectStyles();
@@ -112,29 +106,23 @@ const Project = ({
 
     useEffect(() => {
         if (editProjectState.error) {
-            setSnackbarSeverity("error");
-            setSnackbarMessage("Failed to edit project");
-            setSnackbarOpen(true);
+            setSnackbarState({
+                severity: "error",
+                message: "Failed to edit project",
+                open: true,
+            });
         }
-    }, [
-        editProjectState,
-        setSnackbarSeverity,
-        setSnackbarMessage,
-        setSnackbarOpen,
-    ]);
+    }, [editProjectState, setSnackbarState]);
 
     useEffect(() => {
         if (deleteProjectState.error) {
-            setSnackbarSeverity("error");
-            setSnackbarMessage("Failed to delete project");
-            setSnackbarOpen(true);
+            setSnackbarState({
+                severity: "error",
+                message: "Failed to delete project",
+                open: true,
+            });
         }
-    }, [
-        deleteProjectState,
-        setSnackbarSeverity,
-        setSnackbarMessage,
-        setSnackbarOpen,
-    ]);
+    }, [deleteProjectState, setSnackbarState]);
 
     return (
         <Accordion
@@ -217,9 +205,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
     setSelectedProject: (value: any) => dispatch(setSelectedProject(value)),
-    setSnackbarOpen: (value: any) => dispatch(setSnackbarOpen(value)),
-    setSnackbarSeverity: (value: any) => dispatch(editSeverity(value)),
-    setSnackbarMessage: (value: any) => dispatch(editMessage(value)),
+    setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);

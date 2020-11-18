@@ -6,9 +6,6 @@ export interface ProjectsPropTypes {
     setProjects: any;
     token: string;
     folders: FolderType[];
-    setSnackbarMessage: any;
-    setSnackbarOpen: any;
-    setSnackbarSeverity: any;
     setUser: any;
 }
 

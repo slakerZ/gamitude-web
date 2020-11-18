@@ -4,8 +4,6 @@ export interface ProjectTilePropTypes {
     token: any;
     setSelectedProject: any;
     getProjectsList: any;
-    setSnackbarMessage: any;
-    setSnackbarOpen: any;
-    setSnackbarSeverity: any;
+    setSnackbarState: any;
     sessionType: any;
 }

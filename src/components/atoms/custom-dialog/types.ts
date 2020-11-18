@@ -11,9 +11,7 @@ export interface NewFolderDialogPropTypes {
     open: boolean;
     setOpen: any;
     getFoldersList: any;
-    setSnackbarMessage: any;
-    setSnackbarOpen: any;
-    setSnackbarSeverity: any;
+    setSnackbarState: any;
 }
 
 export interface NewProjectDialogPropTypes {
@@ -21,9 +19,7 @@ export interface NewProjectDialogPropTypes {
     open: boolean;
     setOpen: any;
     getProjectsList: any;
-    setSnackbarMessage: any;
-    setSnackbarOpen: any;
-    setSnackbarSeverity: any;
+    setSnackbarState: any;
 }
 
 export interface NewTimerDialogPropTypes {

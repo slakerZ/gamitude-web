@@ -32,11 +32,7 @@ import {
 } from "../../components/atoms/tab-panel/tab-panel.component";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Skeleton from "@material-ui/lab/Skeleton";
-import {
-    editMessage,
-    editSeverity,
-    setOpen,
-} from "redux/snackbar/snackbar.actions";
+
 import { setUser } from "redux/user/user.actions";
 import NewFolderDialog from "components/atoms/custom-dialog/new-folder-dialog.component";
 import NewProjectDialog from "components/atoms/custom-dialog/new-project-dialog.component";
@@ -47,9 +43,6 @@ const ProjectsDesktopPage = ({
     token,
     folders,
     setFolders,
-    setSnackbarMessage,
-    setSnackbarOpen,
-    setSnackbarSeverity,
     setUser,
 }: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
@@ -211,20 +204,12 @@ const ProjectsDesktopPage = ({
             <NewFolderDialog
                 open={isNewFolderDialogOpen}
                 setOpen={setIsNewFolderDialogOpen}
-                token={token}
                 getFoldersList={getFoldersList}
-                setSnackbarMessage={setSnackbarMessage}
-                setSnackbarOpen={setSnackbarOpen}
-                setSnackbarSeverity={setSnackbarSeverity}
             />
             <NewProjectDialog
                 open={isNewProjectFormOpen}
                 setOpen={setIsNewProjectFormOpen}
-                token={token}
                 getProjectsList={getProjectsList}
-                setSnackbarMessage={setSnackbarMessage}
-                setSnackbarOpen={setSnackbarOpen}
-                setSnackbarSeverity={setSnackbarSeverity}
             />
         </div>
     );
@@ -240,9 +225,6 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
     setProjects: (value: any) => dispatch(setProjects(value)),
     setFolders: (value: any) => dispatch(setFolders(value)),
-    setSnackbarOpen: (value: any) => dispatch(setOpen(value)),
-    setSnackbarSeverity: (value: any) => dispatch(editSeverity(value)),
-    setSnackbarMessage: (value: any) => dispatch(editMessage(value)),
     setUser: (value: any) => dispatch(setUser(value)),
 });
 

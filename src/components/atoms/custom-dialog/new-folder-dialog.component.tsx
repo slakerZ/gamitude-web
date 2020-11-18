@@ -8,22 +8,22 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import CustomToggleButtonGroup from "components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
 import { ICONS } from "components/atoms/custom-icon/constants";
+import { connect } from "react-redux";
+import { setSnackbarState } from "redux/snackbar/snackbar.actions";
+import { selectToken } from "redux/user/user.selectors";
+import { ReduxStateType } from "redux/root.reducer";
 
 const NewFolderDialog = ({
     open,
     setOpen,
     token,
     getFoldersList,
-    setSnackbarMessage,
-    setSnackbarOpen,
-    setSnackbarSeverity,
+    setSnackbarState,
 }: NewFolderDialogPropTypes): ReactElement => {
     const classes = useCustomDialogStyles();
 
     const [folderName, setFolderName] = useState("");
-
     const [folderIcon, setFolderIcon] = useState("");
-
     const [createNewFolderState, createNewFolder] = useAsyncFn(async () => {
         const requestBody = {
             name: folderName,
@@ -32,17 +32,11 @@ const NewFolderDialog = ({
 
             description: "",
         };
-
         const result = await postFolder(token, requestBody);
-
         setOpen(false);
-
         getFoldersList();
-
         // Reset
-
         setFolderName("");
-
         setFolderIcon("");
 
         return result;
@@ -58,21 +52,13 @@ const NewFolderDialog = ({
 
     useEffect(() => {
         if (createNewFolderState.error) {
-            setSnackbarSeverity("error");
-
-            setSnackbarMessage("Failed to create new folder");
-
-            setSnackbarOpen(true);
+            setSnackbarState({
+                message: "Failed to create new folder",
+                severity: "error",
+                open: true,
+            });
         }
-    }, [
-        createNewFolderState,
-
-        setSnackbarSeverity,
-
-        setSnackbarMessage,
-
-        setSnackbarOpen,
-    ]);
+    }, [createNewFolderState, setSnackbarState]);
 
     return (
         <Fragment>
@@ -115,4 +101,12 @@ const NewFolderDialog = ({
     );
 };
 
-export default NewFolderDialog;
+const mapStateToProps = (state: ReduxStateType) => ({
+    token: selectToken(state),
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+    setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewFolderDialog);
