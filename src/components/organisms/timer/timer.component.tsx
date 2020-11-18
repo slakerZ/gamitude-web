@@ -1,22 +1,27 @@
+import useSound from "use-sound";
+
 import React, { ReactElement, Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import useSound from "use-sound";
+
 import Badge from "@material-ui/core/Badge";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
-import useTimerStyles from "./styles";
-import { selectSelectedProject } from "../../../redux/projects/projects.selectors";
+import { selectSelectedProject } from "redux/projects/projects.selectors";
+import { setSessionInProgress } from "redux/session/session.actions";
+import { selectSessionInProgress } from "redux/session/session.selectors";
+import { setSelectedTimer } from "redux/timers/timers.actions";
 import {
     selectSelectedTimer,
     selectTimers,
-} from "../../../redux/timers/timers.selectors";
-import { setSelectedTimer } from "redux/timers/timers.actions";
-import { setSessionInProgress } from "redux/session/session.actions";
-import { selectSessionInProgress } from "redux/session/session.selectors";
-import { postProjectLog } from "api/projectLogs/projectLogs.api";
+} from "redux/timers/timers.selectors";
 import { selectToken } from "redux/user/user.selectors";
+
+import { postProjectLog } from "api/projectLogs/projectLogs.api";
+
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
+import useTimerStyles from "./styles";
 import { TimerPropTypes } from "./types";
 
 const endSound = require("assets/sounds/congratulations.mp3");

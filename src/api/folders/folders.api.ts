@@ -1,5 +1,7 @@
-import { API_ENDPOINT } from "api/constants";
 import axios from "axios";
+
+import { API_ENDPOINT } from "api/constants";
+
 import { FolderResponseBodyType, FolderRequestBodyType } from "./types";
 
 const ENDPOINT = `${API_ENDPOINT}/folders`;
@@ -68,7 +70,10 @@ export const putFolderById = async (
     return result;
 };
 
-export const deleteFolderById = async (token: string, folderId: string) => {
+export const deleteFolderById = async (
+    token: string,
+    folderId: string,
+): Promise<null> => {
     const url = `${ENDPOINT}/${folderId}`;
     const config = {
         headers: {

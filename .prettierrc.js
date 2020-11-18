@@ -1,7 +1,6 @@
 module.exports = {
     importOrder: [
         "^react",
-        "^(.*)$",
         "^@material-ui/(.*)$",
         "^redux/(.*)$",
         "^api/(.*)$",

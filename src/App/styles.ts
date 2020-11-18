@@ -1,5 +1,6 @@
-import { NAVIGATION_WIDTH, CONTROL_PANEL_WIDTH } from "./constants";
 import { makeStyles, Theme } from "@material-ui/core/styles";
+
+import { NAVIGATION_WIDTH, CONTROL_PANEL_WIDTH } from "./constants";
 
 const useAppStyles = makeStyles((theme: Theme) => ({
     root: {

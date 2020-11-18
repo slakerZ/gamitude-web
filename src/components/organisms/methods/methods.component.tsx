@@ -1,26 +1,31 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useEffectOnce, useAsyncFn } from "react-use";
-import { getTimers } from "api/timers/timers.api";
 import { connect } from "react-redux";
-import { a11yProps } from "../../atoms/tab-panel/tab-panel.component";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import TimerIcon from "@material-ui/icons/Timer";
-import useMethodsStyles from "./styles";
-import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
-import { setSelectedTimer } from "redux/timers/timers.actions";
-import { MethodsPropType } from "./types";
-import AddAlarm from "@material-ui/icons/AddAlarm";
-import { ReduxStateType } from "../../../redux/root.reducer";
-import { selectTimers } from "../../../redux/timers/timers.selectors";
+import { useEffectOnce, useAsyncFn } from "react-use";
+
 import IconButton from "@material-ui/core/IconButton";
-import { selectSelectedTimer } from "../../../redux/timers/timers.selectors";
-import { selectToken } from "redux/user/user.selectors";
-import { setTimers } from "redux/timers/timers.actions";
-import { setSnackbarState } from "redux/snackbar/snackbar.actions";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import AddAlarm from "@material-ui/icons/AddAlarm";
+import TimerIcon from "@material-ui/icons/Timer";
 import Skeleton from "@material-ui/lab/Skeleton";
-import NewTimerDialog from "components/atoms/custom-dialog/new-timer-dialog.component";
+
+import { ReduxStateType } from "redux/root.reducer";
 import { selectSessionInProgress } from "redux/session/session.selectors";
+import { setSnackbarState } from "redux/snackbar/snackbar.actions";
+import { setSelectedTimer } from "redux/timers/timers.actions";
+import { setTimers } from "redux/timers/timers.actions";
+import { selectTimers } from "redux/timers/timers.selectors";
+import { selectSelectedTimer } from "redux/timers/timers.selectors";
+import { selectToken } from "redux/user/user.selectors";
+
+import { getTimers } from "api/timers/timers.api";
+
+import NewTimerDialog from "components/atoms/custom-dialog/new-timer-dialog.component";
+import { a11yProps } from "components/atoms/tab-panel/tab-panel.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
+import useMethodsStyles from "./styles";
+import { MethodsPropType } from "./types";
 
 const Methods = ({
     methods,

@@ -1,5 +1,7 @@
 import axios from "axios";
+
 import { API_ENDPOINT } from "api/constants";
+
 import { RankResponseBodyType, FullRankType } from "./types";
 
 const ENDPOINT = `${API_ENDPOINT}/rank`;

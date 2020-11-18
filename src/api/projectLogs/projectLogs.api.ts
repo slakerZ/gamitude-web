@@ -1,5 +1,7 @@
 import axios from "axios";
+
 import { API_ENDPOINT } from "api/constants";
+
 import { ProjectLogRequestBodyType, ProjectLogResponseBodyType } from "./types";
 
 const ENDPOINT = `${API_ENDPOINT}/projectlogs`;
@@ -71,7 +73,7 @@ export const putProjectLogById = async (
 export const deleteProjectLogById = async (
     token: string,
     projectLogId: string,
-) => {
+): Promise<null> => {
     const url = `${ENDPOINT}/${projectLogId}`;
     const config = {
         headers: {

@@ -1,5 +1,6 @@
+import { CONTROL_PANEL_WIDTH } from "App/constants";
+
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { CONTROL_PANEL_WIDTH } from "../../App/constants";
 
 const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
     root: {

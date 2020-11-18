@@ -1,6 +1,8 @@
-import { API_ENDPOINT } from "api/constants";
-import { RegisterRequestBodyType, RegisterResponseBodyType } from "./types";
 import axios from "axios";
+
+import { API_ENDPOINT } from "api/constants";
+
+import { RegisterRequestBodyType, RegisterResponseBodyType } from "./types";
 
 const ENDPOINT = `${API_ENDPOINT}/users`;
 

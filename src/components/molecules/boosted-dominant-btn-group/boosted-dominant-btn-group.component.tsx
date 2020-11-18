@@ -1,20 +1,21 @@
-import React from "react";
+import { STATS, ENERGIES } from "gamitude_constants";
 
+import React from "react";
+import { connect } from "react-redux";
+
+import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
+import { selectFolders } from "redux/folders/folders.selectors";
 import { ReduxStateType } from "redux/root.reducer";
+import { selectTimers } from "redux/timers/timers.selectors";
 
 import CustomToggleButtonGroup from "components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
 import SessionTypeSwitch from "components/atoms/session-type-switch/session-type-switch.component";
 
-import { STATS, ENERGIES } from "../../../constants";
-import MenuItem from "@material-ui/core/MenuItem";
-import { connect } from "react-redux";
-import { selectFolders } from "../../../redux/folders/folders.selectors";
-import { selectTimers } from "../../../redux/timers/timers.selectors";
-import { BoostedDominantBtnGroupPropTypes } from "./types";
 import useBoostedDominantBtnGroupStyles from "./styles";
+import { BoostedDominantBtnGroupPropTypes } from "./types";
 
 const BoostedDominantBtnGroup = ({
     boosted,

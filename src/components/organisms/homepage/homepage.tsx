@@ -1,15 +1,18 @@
-import shop from "../../../assets/icons/homepage/Themes-shop.png";
-import bar1 from "../../../assets/icons/homepage/bar1-2.png";
-import bar2 from "../../../assets/icons/homepage/bar3-4.png";
-import bullet from "../../../assets/icons/homepage/bulletEx.png";
-import elastic from "../../../assets/icons/homepage/elastic.jpg";
-import habits from "../../../assets/icons/homepage/habits.png";
-import profile from "../../../assets/icons/homepage/profile.png";
-import "./style.css";
-import { Button, Fade } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import shop from "assets/icons/homepage/Themes-shop.png";
+import bar1 from "assets/icons/homepage/bar1-2.png";
+import bar2 from "assets/icons/homepage/bar3-4.png";
+import bullet from "assets/icons/homepage/bulletEx.png";
+import elastic from "assets/icons/homepage/elastic.jpg";
+import habits from "assets/icons/homepage/habits.png";
+import profile from "assets/icons/homepage/profile.png";
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+import { Button, Fade } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+import "./style.css";
 
 const useStyles = makeStyles({
     Ideabutton: {

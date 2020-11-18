@@ -1,6 +1,6 @@
-import { API_ENDPOINT } from "api/constants";
-
 import axios from "axios";
+
+import { API_ENDPOINT } from "api/constants";
 
 import { LoginRequestBodyType, LoginResponseBodyType } from "./types";
 

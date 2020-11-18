@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 import React, {
     lazy,
     Suspense,
@@ -6,26 +8,9 @@ import React, {
     useState,
     useEffect,
 } from "react";
-import { Route, Switch, Link, Redirect, useLocation } from "react-router-dom";
-import clsx from "clsx";
-// Redux
 import { connect } from "react-redux";
-import { selectToken, selectTooltipToggle } from "../redux/user/user.selectors";
-import { setUser, setTooltipToggle } from "../redux/user/user.actions";
-import { selectSessionType } from "../redux/session/session.selectors";
-import { ReduxStateType } from "..//redux/root.reducer";
-import { setSessionType } from "..//redux/session/session.actions";
-import CustomIcon from "../components/atoms/custom-icon/custom-icon.component";
-import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
-import SessionTypeSwitch from "../components/atoms/session-type-switch/session-type-switch.component";
-import ToggleAbleTooltip from "../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
-import Methods from "../components/organisms/methods/methods.component";
-import Rank from "../components/organisms/rank/rank.component";
-import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
-import Timer from "../components/organisms/timer/timer.component";
-import { NAV_LINKS } from "./constants";
-import useAppStyles from "./styles";
-import { AppType } from "./types";
+import { Route, Switch, Link, Redirect, useLocation } from "react-router-dom";
+
 import { Button, Toolbar } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Divider from "@material-ui/core/Divider";
@@ -35,7 +20,6 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -44,17 +28,37 @@ import HelpIcon from "@material-ui/icons/Help";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsIcon from "@material-ui/icons/Settings";
 
+import { ReduxStateType } from "redux/root.reducer";
+import { setSessionType } from "redux/session/session.actions";
+import { selectSessionType } from "redux/session/session.selectors";
+import { setUser, setTooltipToggle } from "redux/user/user.actions";
+import { selectToken, selectTooltipToggle } from "redux/user/user.selectors";
+
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
+import LoadingScreen from "components/atoms/loading-screen/loading-screen.component";
+import SessionTypeSwitch from "components/atoms/session-type-switch/session-type-switch.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
 import CustomSnackbar from "components/molecules/custom-snackbar/custom-snackbar.component";
 
-const HomePage = lazy(() => import("../pages/home/home.page"));
-const ProjectsPage = lazy(() => import("../pages/projects/projects.page"));
+import Methods from "components/organisms/methods/methods.component";
+import Rank from "components/organisms/rank/rank.component";
+import StatsAndEnergies from "components/organisms/stats-and-energies/stats-and-energies.component";
+import Timer from "components/organisms/timer/timer.component";
+
+import { NAV_LINKS } from "./constants";
+import useAppStyles from "./styles";
+import { AppType } from "./types";
+
+const HomePage = lazy(() => import("pages/home/home.page"));
+const ProjectsPage = lazy(() => import("pages/projects/projects.page"));
 const BulletJournalPage = lazy(
-    () => import("../pages/bullet-journal/bullet-journal.page"),
+    () => import("pages/bullet-journal/bullet-journal.page"),
 );
 const SignInSignUpPage = lazy(
-    () => import("../pages/authentication/authentication.page"),
+    () => import("pages/authentication/authentication.page"),
 );
-const ProfilePage = lazy(() => import("../pages/profile/profile.page"));
+const ProfilePage = lazy(() => import("pages/profile/profile.page"));
 
 const App: FC<AppType> = ({
     token,

@@ -5,17 +5,17 @@ import { useUpdateEffect, useAsyncFn, useEffectOnce } from "react-use";
 import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
 import CircularProgress from "@material-ui/core/CircularProgress";
-// API
-import { getUsersCurrentRank } from "api/rank/rank.api";
-// Components
-import CustomIcon from "../../atoms/custom-icon/custom-icon.component";
+import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 import { ReduxStateType } from "redux/root.reducer";
 import { selectSessionsComplete } from "redux/session/session.selectors";
 import { selectToken } from "redux/user/user.selectors";
+
+import { getUsersCurrentRank } from "api/rank/rank.api";
+
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
-import Typography from "@material-ui/core/Typography";
 
 import useRankStyles from "./styles";
 
