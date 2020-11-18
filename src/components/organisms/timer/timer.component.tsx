@@ -108,11 +108,6 @@ const Timer = ({
         const interval = sessionInProgress
             ? setInterval(() => {
                   const distance = endDateAsMs - Date.now();
-                  console.log(
-                      milisecondsToMinutes(
-                          endDate.getTime() - startDate.getTime(),
-                      ).minutes + 1,
-                  );
                   // Is minute left?
                   if (
                       distance >= minuteAsMiliseconds &&
