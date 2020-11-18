@@ -7,6 +7,7 @@ export interface ProjectsPropTypes {
     token: string;
     folders: FolderType[];
     setUser: any;
+    sessionInProgress: any;
 }
 
 export interface ProjectType {

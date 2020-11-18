@@ -27,7 +27,10 @@ import useProjectStyles from "./styles";
 import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
 import { ProjectSessionType } from "types";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
-import { selectSessionType } from "redux/session/session.selectors";
+import {
+    selectSessionInProgress,
+    selectSessionType,
+} from "redux/session/session.selectors";
 
 const Project = ({
     index,
@@ -37,6 +40,7 @@ const Project = ({
     getProjectsList,
     setSnackbarState,
     sessionType,
+    sessionInProgress,
 }: ProjectTilePropTypes) => {
     const classes = useProjectStyles();
 
@@ -100,8 +104,10 @@ const Project = ({
     };
 
     const handleSelectionChanged = (event: any) => {
-        event.stopPropagation();
-        setSelectedProject(projects[index]);
+        if (!sessionInProgress) {
+            event.stopPropagation();
+            setSelectedProject(projects[index]);
+        }
     };
 
     useEffect(() => {
@@ -201,6 +207,7 @@ const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     token: selectToken(state),
     sessionType: selectSessionType(state),
+    sessionInProgress: selectSessionInProgress(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

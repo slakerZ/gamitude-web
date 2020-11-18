@@ -6,4 +6,5 @@ export interface ProjectTilePropTypes {
     getProjectsList: any;
     setSnackbarState: any;
     sessionType: any;
+    sessionInProgress: any;
 }

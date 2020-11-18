@@ -7,4 +7,5 @@ export interface MethodsPropType {
     token: string;
     setTimers: any;
     setSnackbarState: any;
+    sessionInProgress: any;
 }

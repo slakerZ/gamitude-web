@@ -20,6 +20,7 @@ import { setTimers } from "redux/timers/timers.actions";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import Skeleton from "@material-ui/lab/Skeleton";
 import NewTimerDialog from "components/atoms/custom-dialog/new-timer-dialog.component";
+import { selectSessionInProgress } from "redux/session/session.selectors";
 
 const Methods = ({
     methods,
@@ -28,6 +29,7 @@ const Methods = ({
     token,
     setTimers,
     setSnackbarState,
+    sessionInProgress,
 }: MethodsPropType) => {
     const classes = useMethodsStyles();
     const defaultSelected =
@@ -47,8 +49,10 @@ const Methods = ({
     });
 
     const handleMethodChange = (e: any, newValue: any) => {
-        setMethod(newValue);
-        setSelectedTimer(methods[newValue]);
+        if (!sessionInProgress) {
+            setMethod(newValue);
+            setSelectedTimer(methods[newValue]);
+        }
     };
 
     const handleOpenDialog = (e: any) => {
@@ -131,6 +135,7 @@ const mapStateToProps = (state: ReduxStateType) => ({
     methods: selectTimers(state),
     selectedMethod: selectSelectedTimer(state),
     token: selectToken(state),
+    sessionInProgress: selectSessionInProgress(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

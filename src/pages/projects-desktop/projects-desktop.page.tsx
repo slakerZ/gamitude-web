@@ -44,6 +44,7 @@ const ProjectsDesktopPage = ({
     folders,
     setFolders,
     setUser,
+    sessionInProgress,
 }: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
 
@@ -83,7 +84,9 @@ const ProjectsDesktopPage = ({
         event: React.ChangeEvent<any>,
         newValue: any,
     ) => {
-        setSelectedProject(newValue);
+        if (!sessionInProgress) {
+            setSelectedProject(newValue);
+        }
     };
     const handleOpenNewProjectDialog = () => {
         setIsNewProjectFormOpen(true);
