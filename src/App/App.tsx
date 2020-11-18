@@ -106,13 +106,15 @@ const App: FC<AppType> = ({
             >
                 <Toolbar className={classes.toolbar}>
                     <div className={classes.left}>
-                        <IconButton onClick={handleToggleNavOpen}>
-                            {navOpen ? (
-                                <ChevronLeftIcon />
-                            ) : (
-                                <ChevronRightIcon />
-                            )}
-                        </IconButton>
+                        {token ? (
+                            <IconButton onClick={handleToggleNavOpen}>
+                                {navOpen ? (
+                                    <ChevronLeftIcon />
+                                ) : (
+                                    <ChevronRightIcon />
+                                )}
+                            </IconButton>
+                        ) : null}
                     </div>
 
                     <div className={classes.center}>

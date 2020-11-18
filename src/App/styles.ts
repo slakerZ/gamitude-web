@@ -5,7 +5,7 @@ import { NAVIGATION_WIDTH, CONTROL_PANEL_WIDTH } from "./constants";
 const useAppStyles = makeStyles((theme: Theme) => ({
     root: {
         backgroundColor: theme.palette.primary.light,
-        width: "vw",
+        width: "100vw",
         height: "100vh",
         display: "flex",
     },
@@ -85,14 +85,6 @@ const useAppStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-around",
-    },
-    sticky: {
-        position: "sticky",
-        top: 0,
-        backgroundColor: theme.palette.secondary.main,
-        color: "white",
-        padding: "10px",
-        fontSize: "20px",
     },
 }));
 
