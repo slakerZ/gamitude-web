@@ -1,16 +1,20 @@
 import React from "react";
+
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import SessionTypeSwitch from "../../atoms/session-type-switch/session-type-switch.component";
-import CustomToggleButtonGroup from "../../atoms/custom-toggle-button-group/custom-toggle-button-group.component";
-import useBoostedDominantBtnGroupStyles from "./styles";
+
+import { ReduxStateType } from "redux/root.reducer";
+
+import CustomToggleButtonGroup from "components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
+import SessionTypeSwitch from "components/atoms/session-type-switch/session-type-switch.component";
+
 import { STATS, ENERGIES } from "../../../constants";
 import MenuItem from "@material-ui/core/MenuItem";
 import { connect } from "react-redux";
 import { selectFolders } from "../../../redux/folders/folders.selectors";
 import { selectTimers } from "../../../redux/timers/timers.selectors";
 import { BoostedDominantBtnGroupPropTypes } from "./types";
-import { ReduxStateType } from "../../../redux/root.reducer";
+import useBoostedDominantBtnGroupStyles from "./styles";
 
 const BoostedDominantBtnGroup = ({
     boosted,

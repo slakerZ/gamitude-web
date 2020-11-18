@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useAsyncFn, useEffectOnce } from "react-use";
-// MUI
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import RadioGroup from "@material-ui/core/RadioGroup";
 import IconButton from "@material-ui/core/IconButton";
 // API
 import { getFolders } from "api/folders/folders.api";
 import { getProjects } from "api/projects/projects.api";
 // Redux
 import { connect } from "react-redux";
-import { selectToken } from "../../redux/user/user.selectors";
-import { selectProjects } from "../../redux/projects/projects.selectors";
-import { selectSessionInProgress } from "../../redux/session/session.selectors";
-import { setFolders } from "../../redux/folders/folders.actions";
-import { setProjects } from "../../redux/projects/projects.actions";
-import { selectFolders } from "../../redux/folders/folders.selectors";
+import { selectToken } from "redux/user/user.selectors";
+import { selectProjects } from "redux/projects/projects.selectors";
+import { selectSessionInProgress } from "redux/session/session.selectors";
+import { setFolders } from "redux/folders/folders.actions";
+import { setProjects } from "redux/projects/projects.actions";
+import { selectFolders } from "redux/folders/folders.selectors";
 // Atoms
 import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
 import ToggleAbleTooltip from "../../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
@@ -32,7 +27,10 @@ import {
 } from "../../components/atoms/tab-panel/tab-panel.component";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Skeleton from "@material-ui/lab/Skeleton";
-
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import AddIcon from "@material-ui/icons/Add";
 import { setUser } from "redux/user/user.actions";
 import NewFolderDialog from "components/atoms/custom-dialog/new-folder-dialog.component";
 import NewProjectDialog from "components/atoms/custom-dialog/new-project-dialog.component";

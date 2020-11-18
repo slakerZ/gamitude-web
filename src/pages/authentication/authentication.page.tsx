@@ -1,18 +1,16 @@
 import React, { useState, MouseEvent, useEffect } from "react";
-import { useAsyncFn } from "react-use";
 import clsx from "clsx";
-import Fade from "@material-ui/core/Fade";
+import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import useSignInUpStyles from "./styles";
-import { FADE_TIMEOUT } from "./constants";
-import Typography from "@material-ui/core/Typography";
+import { useAsyncFn } from "react-use";
+
+import Fade from "@material-ui/core/Fade";
 import Link from "@material-ui/core/Link";
 import {
     SignUpSchema,
     signUpInitialValues,
     signUpFields,
 } from "./sign-up-schema";
-import { connect } from "react-redux";
 import {
     SignInSchema,
     signInInitialValues,
@@ -30,6 +28,9 @@ import {
     editSeverity,
     setOpen as setSnackbarOpen,
 } from "redux/snackbar/snackbar.actions";
+import useSignInUpStyles from "./styles";
+import Typography from "@material-ui/core/Typography";
+import { FADE_TIMEOUT } from "./constants";
 
 const AuthenticationPage = ({
     setUser,

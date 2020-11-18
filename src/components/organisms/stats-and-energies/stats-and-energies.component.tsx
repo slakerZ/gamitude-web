@@ -1,8 +1,9 @@
 import React, { Fragment, FC, ReactElement } from "react";
 import { useUpdateEffect, useAsyncFn, useEffectOnce } from "react-use";
-import Grid from "@material-ui/core/Grid";
-import CircularProgress from "@material-ui/core/CircularProgress";
+
 import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 // API
 import { getStats, getEnergies } from "api/statistics/statistics.api";
@@ -19,6 +20,7 @@ import CustomIconWithTypography from "../../atoms/custom-icon-with-typography/cu
 import ToggleAbleTooltip from "../../atoms/toggleable-tooltip/toggleable-tooltip.component";
 // Local
 import { StatsAndEnergiesType } from "./types";
+
 import useStatsAndEnergiesStyles from "./styles";
 
 const StatsAndEnergies: FC<StatsAndEnergiesType> = ({

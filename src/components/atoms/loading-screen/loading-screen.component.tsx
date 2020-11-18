@@ -1,7 +1,8 @@
 import React, { ReactElement } from "react";
-// UI Core
-import Typography from "@material-ui/core/Typography";
+
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
+
 import useLoadingScreenStyles from "./styles";
 
 const LoadingScreen = (): ReactElement => {
