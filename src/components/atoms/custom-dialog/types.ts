@@ -25,3 +25,11 @@ export interface NewProjectDialogPropTypes {
     setSnackbarOpen: any;
     setSnackbarSeverity: any;
 }
+
+export interface NewTimerDialogPropTypes {
+    open: any;
+    setOpen: any;
+    token: any;
+    getMethodsList: any;
+    setSnackbarState: any;
+}

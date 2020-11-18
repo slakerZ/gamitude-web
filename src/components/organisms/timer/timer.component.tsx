@@ -63,7 +63,11 @@ const Timer = ({
         };
     };
 
-    const handleOvertime = () => {};
+    const handleOvertime = () => {
+        const overtime = currOverTime * minuteAsMiliseconds;
+        setEndDateAsMs(endDateAsMs + overtime);
+        setSessionTime(sessionTime + overtime);
+    };
 
     const handleSession = () => {
         const currEndDate = new Date();
@@ -158,7 +162,7 @@ const Timer = ({
                             variant="text"
                             onClick={handleOvertime}
                             className={classes.overTimeButton}
-                            disabled={!selectedProject.id}
+                            disabled={!selectedProject.id || !sessionInProgress}
                         >
                             <Typography variant="h4" component="h4">
                                 +{currOverTime}
