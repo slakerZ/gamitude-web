@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { API_ENDPOINT } from "api/constants";
 
 export const getApiVersion = async (): Promise<string> => {

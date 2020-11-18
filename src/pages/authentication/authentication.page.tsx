@@ -1,36 +1,41 @@
-import React, { useState, MouseEvent, useEffect } from "react";
 import clsx from "clsx";
+
+import React, { useState, MouseEvent, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { useAsyncFn } from "react-use";
 
 import Fade from "@material-ui/core/Fade";
 import Link from "@material-ui/core/Link";
-import {
-    SignUpSchema,
-    signUpInitialValues,
-    signUpFields,
-} from "./sign-up-schema";
-import {
-    SignInSchema,
-    signInInitialValues,
-    signInFields,
-} from "./sign-in-schema";
-import { setUser } from "../../redux/user/user.actions";
-import FormikForm from "../../components/atoms/formik-form/formik-form.component";
-import { AuthenticationType } from "./types";
-import { postRegister } from "api/users/users.api";
-import { RegisterRequestBodyType } from "api/users/types";
-import { postLogin } from "api/authorization/authorization.api";
-import { LoginRequestBodyType } from "api/authorization/types";
+import Typography from "@material-ui/core/Typography";
+
 import {
     editMessage,
     editSeverity,
     setOpen as setSnackbarOpen,
 } from "redux/snackbar/snackbar.actions";
-import useSignInUpStyles from "./styles";
-import Typography from "@material-ui/core/Typography";
+import { setUser } from "redux/user/user.actions";
+
+import { postLogin } from "api/authorization/authorization.api";
+import { LoginRequestBodyType } from "api/authorization/types";
+import { RegisterRequestBodyType } from "api/users/types";
+import { postRegister } from "api/users/users.api";
+
+import FormikForm from "components/atoms/formik-form/formik-form.component";
+
 import { FADE_TIMEOUT } from "./constants";
+import {
+    SignInSchema,
+    signInInitialValues,
+    signInFields,
+} from "./sign-in-schema";
+import {
+    SignUpSchema,
+    signUpInitialValues,
+    signUpFields,
+} from "./sign-up-schema";
+import useSignInUpStyles from "./styles";
+import { AuthenticationType } from "./types";
 
 const AuthenticationPage = ({
     setUser,

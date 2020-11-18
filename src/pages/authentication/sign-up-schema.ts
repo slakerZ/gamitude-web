@@ -1,5 +1,6 @@
 import * as Yup from "yup";
-import { FieldType } from "../../components/atoms/formik-form/types";
+
+import { FieldType } from "components/atoms/formik-form/types";
 
 const lowercaseRegex = /(?=.*[a-z])/;
 const uppercaseRegex = /(?=.*[A-Z])/;

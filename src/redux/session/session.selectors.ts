@@ -1,4 +1,4 @@
-import { ReduxStateType } from "../root.reducer";
+import { ReduxStateType } from "redux/root.reducer";
 
 export const selectSessionInProgress = (state: ReduxStateType) =>
     state.session.sessionInProgress;

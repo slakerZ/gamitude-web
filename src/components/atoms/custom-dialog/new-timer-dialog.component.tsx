@@ -1,17 +1,22 @@
 import React, { useState, useEffect, ReactElement } from "react";
 import { connect } from "react-redux";
-import { postTimer } from "api/timers/timers.api";
-import CustomDialog from "../../atoms/custom-dialog/custom-dialog.component";
-import TextField from "@material-ui/core/TextField";
+import { useAsyncFn } from "react-use";
+
 import Checkbox from "@material-ui/core/Checkbox";
-import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
-import { NewTimerDialogPropTypes } from "./types";
-import { useAsyncFn } from "react-use";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+
+import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectToken } from "redux/user/user.selectors";
-import { ReduxStateType } from "redux/root.reducer";
+
+import { postTimer } from "api/timers/timers.api";
+
+import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
+
+import { NewTimerDialogPropTypes } from "./types";
 
 const NewTimerDialog = ({
     open,

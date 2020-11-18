@@ -1,17 +1,22 @@
 import React, { useState, Fragment, useEffect, ReactElement } from "react";
-import { NewFolderDialogPropTypes } from "./types";
-import CustomDialog from "./custom-dialog.component";
-import useCustomDialogStyles from "./styles";
+import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
-import { postFolder } from "api/folders/folders.api";
+
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import CustomToggleButtonGroup from "components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
-import { ICONS } from "components/atoms/custom-icon/constants";
-import { connect } from "react-redux";
+
+import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectToken } from "redux/user/user.selectors";
-import { ReduxStateType } from "redux/root.reducer";
+
+import { postFolder } from "api/folders/folders.api";
+
+import { ICONS } from "components/atoms/custom-icon/constants";
+import CustomToggleButtonGroup from "components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
+
+import CustomDialog from "./custom-dialog.component";
+import useCustomDialogStyles from "./styles";
+import { NewFolderDialogPropTypes } from "./types";
 
 const NewFolderDialog = ({
     open,

@@ -1,39 +1,40 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { useAsyncFn, useEffectOnce } from "react-use";
+
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Fab from "@material-ui/core/Fab";
 import IconButton from "@material-ui/core/IconButton";
-// API
-import { getFolders } from "api/folders/folders.api";
-import { getProjects } from "api/projects/projects.api";
-// Redux
-import { connect } from "react-redux";
-import { selectToken } from "redux/user/user.selectors";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import AddIcon from "@material-ui/icons/Add";
+import Skeleton from "@material-ui/lab/Skeleton";
+
+import { setFolders } from "redux/folders/folders.actions";
+import { selectFolders } from "redux/folders/folders.selectors";
+import { setProjects } from "redux/projects/projects.actions";
 import { selectProjects } from "redux/projects/projects.selectors";
 import { selectSessionInProgress } from "redux/session/session.selectors";
-import { setFolders } from "redux/folders/folders.actions";
-import { setProjects } from "redux/projects/projects.actions";
-import { selectFolders } from "redux/folders/folders.selectors";
-// Atoms
-import CustomIcon from "../../components/atoms/custom-icon/custom-icon.component";
-import ToggleAbleTooltip from "../../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
-// Molecules
-import ProjectTile from "../../components/molecules/project-tile/project-tile.component";
-// Local
-import { ProjectsPropTypes } from "./types";
-import useProjectDesktopStyles from "./styles";
+import { setUser } from "redux/user/user.actions";
+import { selectToken } from "redux/user/user.selectors";
+
+import { getFolders } from "api/folders/folders.api";
+import { getProjects } from "api/projects/projects.api";
+
+import NewFolderDialog from "components/atoms/custom-dialog/new-folder-dialog.component";
+import NewProjectDialog from "components/atoms/custom-dialog/new-project-dialog.component";
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import {
     TabPanel,
     a11yProps,
-} from "../../components/atoms/tab-panel/tab-panel.component";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Skeleton from "@material-ui/lab/Skeleton";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import AddIcon from "@material-ui/icons/Add";
-import { setUser } from "redux/user/user.actions";
-import NewFolderDialog from "components/atoms/custom-dialog/new-folder-dialog.component";
-import NewProjectDialog from "components/atoms/custom-dialog/new-project-dialog.component";
+} from "components/atoms/tab-panel/tab-panel.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
+import ProjectTile from "components/molecules/project-tile/project-tile.component";
+
+import useProjectDesktopStyles from "./styles";
+import { ProjectsPropTypes } from "./types";
 
 const ProjectsDesktopPage = ({
     projects,

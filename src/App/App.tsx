@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 import React, {
     lazy,
     Suspense,
@@ -6,60 +8,57 @@ import React, {
     useState,
     useEffect,
 } from "react";
-import { Route, Switch, Link, Redirect } from "react-router-dom";
-import clsx from "clsx";
-// Redux
 import { connect } from "react-redux";
-import { selectToken, selectTooltipToggle } from "../redux/user/user.selectors";
-import { setUser, setTooltipToggle } from "../redux/user/user.actions";
-import { selectSessionType } from "../redux/session/session.selectors";
-import { ReduxStateType } from "..//redux/root.reducer";
-import { setSessionType } from "..//redux/session/session.actions";
+import { Route, Switch, Link, Redirect, useLocation } from "react-router-dom";
 
-// MUI Core
-import Drawer from "@material-ui/core/Drawer";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import IconButton from "@material-ui/core/IconButton";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { Button, Toolbar } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
-// MUI Icons
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HelpIcon from "@material-ui/icons/Help";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsIcon from "@material-ui/icons/Settings";
-// Atoms
-import CustomIcon from "../components/atoms/custom-icon/custom-icon.component";
-import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
-import ToggleAbleTooltip from "../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
-// Molecules
+
+import { ReduxStateType } from "redux/root.reducer";
+import { setSessionType } from "redux/session/session.actions";
+import { selectSessionType } from "redux/session/session.selectors";
+import { setUser, setTooltipToggle } from "redux/user/user.actions";
+import { selectToken, selectTooltipToggle } from "redux/user/user.selectors";
+
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
+import LoadingScreen from "components/atoms/loading-screen/loading-screen.component";
+import SessionTypeSwitch from "components/atoms/session-type-switch/session-type-switch.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
 import CustomSnackbar from "components/molecules/custom-snackbar/custom-snackbar.component";
-// Organisms
-import Rank from "../components/organisms/rank/rank.component";
-import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
-import SessionTypeSwitch from "../components/atoms/session-type-switch/session-type-switch.component";
-import Timer from "../components/organisms/timer/timer.component";
-import Methods from "../components/organisms/methods/methods.component";
-// Local
+
+import Methods from "components/organisms/methods/methods.component";
+import Rank from "components/organisms/rank/rank.component";
+import StatsAndEnergies from "components/organisms/stats-and-energies/stats-and-energies.component";
+import Timer from "components/organisms/timer/timer.component";
+
+import { NAV_LINKS } from "./constants";
 import useAppStyles from "./styles";
 import { AppType } from "./types";
-import { NAV_LINKS } from "./constants";
-import { Toolbar } from "@material-ui/core";
-// Lazy Loading
-const HomePage = lazy(() => import("../pages/home/home.page"));
-const ProjectsPage = lazy(() => import("../pages/projects/projects.page"));
+
+const HomePage = lazy(() => import("pages/home/home.page"));
+const ProjectsPage = lazy(() => import("pages/projects/projects.page"));
 const BulletJournalPage = lazy(
-    () => import("../pages/bullet-journal/bullet-journal.page"),
+    () => import("pages/bullet-journal/bullet-journal.page"),
 );
 const SignInSignUpPage = lazy(
-    () => import("../pages/authentication/authentication.page"),
+    () => import("pages/authentication/authentication.page"),
 );
-const ProfilePage = lazy(() => import("../pages/profile/profile.page"));
+const ProfilePage = lazy(() => import("pages/profile/profile.page"));
 
 const App: FC<AppType> = ({
     token,
@@ -70,6 +69,7 @@ const App: FC<AppType> = ({
     sessionType,
 }: AppType): ReactElement => {
     const classes = useAppStyles();
+    const location = useLocation();
 
     const [navOpen, setNavOpen] = useState(false);
     const [tokenExpired, setTokenExpired] = useState(false);
@@ -157,6 +157,7 @@ const App: FC<AppType> = ({
             </AppBar>
             {token ? (
                 <Drawer
+                    aria-label="Gamitude left drawer navigation"
                     variant="permanent"
                     className={clsx(classes.navDrawer, {
                         [classes.navDrawerOpen]: navOpen,
@@ -188,7 +189,7 @@ const App: FC<AppType> = ({
                 </Drawer>
             ) : null}
             <Suspense fallback={<LoadingScreen />}>
-                <div className={classes.content}>
+                <div className={classes.content} aria-label="Gamitude Content">
                     <Toolbar />
                     <Switch>
                         <Route exact path="/" component={HomePage} />
@@ -211,8 +212,9 @@ const App: FC<AppType> = ({
                     </Switch>
                 </div>
             </Suspense>
-            {token ? (
+            {token && location.pathname !== "/" ? (
                 <Drawer
+                    aria-label="Control Panel"
                     className={classes.controlPanelDrawer}
                     variant="permanent"
                     classes={{

@@ -1,36 +1,38 @@
-import React, { useState, useEffect } from "react";
-import { useAsyncFn } from "react-use";
 import clsx from "clsx";
-// API
-import { deleteProjectById, putProjectById } from "api/projects/projects.api";
-// Redux
+import { ProjectSessionType } from "types";
+
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { selectProjects } from "redux/projects/projects.selectors";
-import { selectToken } from "redux/user/user.selectors";
-import { setSelectedProject } from "redux/projects/projects.actions";
-// MUI
-import Typography from "@material-ui/core/Typography";
+import { useAsyncFn } from "react-use";
+
 import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Button from "@material-ui/core/Button";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
-import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
-//Components
-import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
-import BoostedDominantBtnGroup from "../boosted-dominant-btn-group/boosted-dominant-btn-group.component";
-// Local
-import { ProjectTilePropTypes } from "./types";
-import useProjectStyles from "./styles";
-import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
-import { ProjectSessionType } from "types";
-import { setSnackbarState } from "redux/snackbar/snackbar.actions";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
+import { setSelectedProject } from "redux/projects/projects.actions";
+import { selectProjects } from "redux/projects/projects.selectors";
 import {
     selectSessionInProgress,
     selectSessionType,
 } from "redux/session/session.selectors";
+import { setSnackbarState } from "redux/snackbar/snackbar.actions";
+import { selectToken } from "redux/user/user.selectors";
+
+import { deleteProjectById, putProjectById } from "api/projects/projects.api";
+
+import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
+import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
+import BoostedDominantBtnGroup from "components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
+
+import useProjectStyles from "./styles";
+import { ProjectTilePropTypes } from "./types";
 
 const Project = ({
     index,
