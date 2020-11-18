@@ -104,108 +104,58 @@ const App: FC<AppType> = ({
                     [classes.appBarShift]: navOpen,
                 })}
             >
-                {location.pathname == "/" && !token ? (
-                    <Toolbar className={classes.toolbar}>
-                        <div className={classes.left}>
-                            {token ? (
-                                <IconButton onClick={handleToggleNavOpen}>
-                                    {navOpen ? (
-                                        <ChevronLeftIcon />
-                                    ) : (
-                                        <ChevronRightIcon />
-                                    )}
-                                </IconButton>
-                            ) : null}
-                        </div>
-
-                        <div className={classes.center}>
-                            <Link to="/" className={classes.title}>
-                                <ToggleAbleTooltip target={"home"}>
-                                    <Typography variant="h3" component="h3">
-                                        {"Gamitude"}
-                                    </Typography>
-                                </ToggleAbleTooltip>
-                            </Link>
-                        </div>
-
-                        <div className={classes.right}>
-                            <ToggleAbleTooltip target={"login"}>
-                                <Button
-                                    variant="contained"
-                                    className={classes.sticky}
-                                    component={Link}
-                                    to={"/signInSignUp"}
-                                >
-                                    Get Started
-                                </Button>
-                            </ToggleAbleTooltip>
-                        </div>
-                    </Toolbar>
-                ) : (
-                    <Toolbar className={classes.toolbar}>
-                        <div className={classes.left}>
-                            {token ? (
-                                <IconButton onClick={handleToggleNavOpen}>
-                                    {navOpen ? (
-                                        <ChevronLeftIcon />
-                                    ) : (
-                                        <ChevronRightIcon />
-                                    )}
-                                </IconButton>
-                            ) : null}
-                        </div>
-
-                        <div className={classes.center}>
-                            {token ? (
-                                <Link to="/projects" className={classes.title}>
-                                    <ToggleAbleTooltip target={"home"}>
-                                        <Typography variant="h3" component="h3">
-                                            {"Gamitude"}
-                                        </Typography>
-                                    </ToggleAbleTooltip>
-                                </Link>
+                <Toolbar className={classes.toolbar}>
+                    <div className={classes.left}>
+                        <IconButton onClick={handleToggleNavOpen}>
+                            {navOpen ? (
+                                <ChevronLeftIcon />
                             ) : (
-                                <Link to="/" className={classes.title}>
-                                    <ToggleAbleTooltip target={"home"}>
-                                        <Typography variant="h3" component="h3">
-                                            {"Gamitude"}
-                                        </Typography>
-                                    </ToggleAbleTooltip>
-                                </Link>
+                                <ChevronRightIcon />
                             )}
-                        </div>
+                        </IconButton>
+                    </div>
 
-                        <div className={classes.right}>
-                            <ToggleAbleTooltip target={"tooltipToggle"}>
-                                <IconButton onClick={toggleTooltips}>
-                                    {tooltipToggle ? (
-                                        <HelpIcon />
-                                    ) : (
-                                        <HelpOutlineIcon />
-                                    )}
-                                </IconButton>
+                    <div className={classes.center}>
+                        <Link to="/" className={classes.title}>
+                            <ToggleAbleTooltip target={"home"}>
+                                <Typography variant="h3" component="h3">
+                                    {"Gamitude"}
+                                </Typography>
                             </ToggleAbleTooltip>
-                            <ToggleAbleTooltip target={"profileSettings"}>
-                                <IconButton component={Link} to={"/profile"}>
-                                    <SettingsIcon />
-                                </IconButton>
-                            </ToggleAbleTooltip>
+                        </Link>
+                    </div>
 
-                            <ToggleAbleTooltip target={"logout"}>
-                                <IconButton
-                                    onClick={logout}
-                                    component={Link}
-                                    to={"/signInSignUp"}
-                                >
-                                    <ExitToAppIcon />
-                                </IconButton>
-                            </ToggleAbleTooltip>
-                        </div>
-                    </Toolbar>
-                )}
+                    <div className={classes.right}>
+                        <ToggleAbleTooltip target={"tooltipToggle"}>
+                            <IconButton onClick={toggleTooltips}>
+                                {tooltipToggle ? (
+                                    <HelpIcon />
+                                ) : (
+                                    <HelpOutlineIcon />
+                                )}
+                            </IconButton>
+                        </ToggleAbleTooltip>
+                        <ToggleAbleTooltip target={"profileSettings"}>
+                            <IconButton component={Link} to={"/profile"}>
+                                <SettingsIcon />
+                            </IconButton>
+                        </ToggleAbleTooltip>
+
+                        <ToggleAbleTooltip target={"logout"}>
+                            <IconButton
+                                onClick={logout}
+                                component={Link}
+                                to={"/signInSignUp"}
+                            >
+                                <ExitToAppIcon />
+                            </IconButton>
+                        </ToggleAbleTooltip>
+                    </div>
+                </Toolbar>
             </AppBar>
             {token ? (
                 <Drawer
+                    aria-label="Gamitude left drawer navigation"
                     variant="permanent"
                     className={clsx(classes.navDrawer, {
                         [classes.navDrawerOpen]: navOpen,
@@ -237,18 +187,10 @@ const App: FC<AppType> = ({
                 </Drawer>
             ) : null}
             <Suspense fallback={<LoadingScreen />}>
-                <div className={classes.content}>
+                <div className={classes.content} aria-label="Gamitude Content">
                     <Toolbar />
                     <Switch>
-                        {token ? (
-                            <Route
-                                exact
-                                path="/projects"
-                                component={ProjectsPage}
-                            />
-                        ) : (
-                            <Route exact path="/" component={HomePage} />
-                        )}
+                        <Route exact path="/" component={HomePage} />
                         <Route
                             exact
                             path="/projects"
@@ -268,8 +210,9 @@ const App: FC<AppType> = ({
                     </Switch>
                 </div>
             </Suspense>
-            {token ? (
+            {token && location.pathname !== "/" ? (
                 <Drawer
+                    aria-label="Control Panel"
                     className={classes.controlPanelDrawer}
                     variant="permanent"
                     classes={{
