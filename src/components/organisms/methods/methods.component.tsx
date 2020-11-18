@@ -52,6 +52,12 @@ const Methods = ({
         if (!sessionInProgress) {
             setMethod(newValue);
             setSelectedTimer(methods[newValue]);
+        } else {
+            setSnackbarState({
+                severity: "info",
+                message: "Cannot change selected timer during session",
+                open: true,
+            });
         }
     };
 

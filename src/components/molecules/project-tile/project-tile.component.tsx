@@ -107,6 +107,12 @@ const Project = ({
         if (!sessionInProgress) {
             event.stopPropagation();
             setSelectedProject(projects[index]);
+        } else {
+            setSnackbarState({
+                severity: "info",
+                message: "Cannot change selected project during session",
+                open: true,
+            });
         }
     };
 
