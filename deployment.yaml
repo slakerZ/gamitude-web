@@ -19,7 +19,7 @@ spec:
         image: FRONT_IMAGE
         env:
           - name: REACT_APP_API_ENDPOINT
-            value: "https://gamitude.rocks/api"
+            value: "https://gamitude.rocks"
         ports:
           - name: front-http
             containerPort: 80
