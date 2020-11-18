@@ -63,7 +63,8 @@ const CustomIcon: FC<CustomIconType> = ({
     };
 
     const getIcon = (variant: string, size: string) => {
-        switch (variant) {
+        const varinatLowered = variant ? variant.toLowerCase() : "wtf";
+        switch (varinatLowered) {
             case "body":
                 return <Body className={setClass(size)} />;
             case "emotions":
@@ -86,7 +87,7 @@ const CustomIcon: FC<CustomIconType> = ({
                         className={clsx(setClass(size), classes.white)}
                     />
                 );
-            case "bulletJournal":
+            case "bulletjournal":
                 return (
                     <BulletJournalIcon
                         className={clsx(setClass(size), classes.white)}
@@ -104,11 +105,11 @@ const CustomIcon: FC<CustomIconType> = ({
                 return <PausedIcon className={setClass(size)} />;
             case "done":
                 return <DoneIcon className={setClass(size)} />;
-            case "rankNav":
+            case "ranknav":
                 return <RankNav className={setClass(size)} />;
-            case "statsNav":
+            case "statsnav":
                 return <StatsNav className={setClass(size)} />;
-            case "projectsNav":
+            case "projectsnav":
                 return <ProjectNav className={setClass(size)} />;
             case "f":
                 return <FRank className={setClass(size)} />;

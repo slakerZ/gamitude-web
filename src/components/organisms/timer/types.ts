@@ -1,4 +1,9 @@
 export interface TimerPropTypes {
     selectedProject: any;
-    selectedMethod: any;
+    selectedTimer: any;
+    setSelectedTimer: any;
+    timers: any;
+    setSessionInProgress: any;
+    sessionInProgress: any;
+    token: any;
 }

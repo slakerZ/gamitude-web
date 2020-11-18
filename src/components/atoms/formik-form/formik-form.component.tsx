@@ -10,6 +10,7 @@ import FormikField from "components/atoms/formik-field/formik-field.component";
 import { FormikFormPropType } from "./types";
 
 import useFormikFormStyles from "./styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const FormikForm: FC<FormikFormPropType> = ({
     title,
@@ -60,7 +61,15 @@ const FormikForm: FC<FormikFormPropType> = ({
                             variant="outlined"
                             className={classes.submit}
                         >
-                            {state.error ? "retry" : title}
+                            {state.error ? (
+                                "RETRY"
+                            ) : state.loading ? (
+                                <CircularProgress />
+                            ) : title ? (
+                                title
+                            ) : (
+                                "SUBMIT"
+                            )}
                         </Button>
                     </Form>
                 );

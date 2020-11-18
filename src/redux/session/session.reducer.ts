@@ -1,7 +1,6 @@
 import { SessionActionTypes } from "./session.types";
-import { SessionType } from "./types";
 
-const INITIAL_STATE: SessionType = {
+const INITIAL_STATE = {
     sessionInProgress: false,
     sessionsComplete: 0,
     sessionType: "STAT",

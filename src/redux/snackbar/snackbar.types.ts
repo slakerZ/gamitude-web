@@ -1,0 +1,6 @@
+export const SnackbarActionTypes = {
+    EDIT_MESSAGE: "EDIT_MESSAGE",
+    SET_OPEN: "SET_OPEN",
+    EDIT_SEVERITY: "EDIT_SEVERITY",
+    SET_SNACKBAR_STATE: "SET_SNACKBAR_STATE",
+};

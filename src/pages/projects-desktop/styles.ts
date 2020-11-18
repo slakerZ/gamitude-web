@@ -17,6 +17,10 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
         flexDirection: "column",
         alignItems: "center",
     },
+    tabsPlaceholder: {
+        width: "161px",
+        height: "877px",
+    },
     tabs: {
         backgroundColor: theme.palette.secondary.main,
         justifyContent: "center",
@@ -38,15 +42,13 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
     addNewForm: {
         backgroundColor: theme.palette.primary.main,
     },
-    addProjectDialogContent: {
+
+    center: {
+        width: "100%",
+        height: "100%",
         display: "flex",
-        flexDirection: "column",
+        alignItems: "center",
         justifyContent: "center",
-    },
-    newFolderDialogBody: {
-        "& > *": {
-            margin: theme.spacing(1, 0),
-        },
     },
 }));
 

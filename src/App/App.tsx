@@ -1,5 +1,12 @@
-import React, { lazy, Suspense, FC, ReactElement, useState } from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import React, {
+    lazy,
+    Suspense,
+    FC,
+    ReactElement,
+    useState,
+    useEffect,
+} from "react";
+import { Route, Switch, Link, Redirect } from "react-router-dom";
 import clsx from "clsx";
 // Redux
 import { connect } from "react-redux";
@@ -19,7 +26,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
 // MUI Icons
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -31,6 +37,8 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import CustomIcon from "../components/atoms/custom-icon/custom-icon.component";
 import LoadingScreen from "../components/atoms/loading-screen/loading-screen.component";
 import ToggleAbleTooltip from "../components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+// Molecules
+import CustomSnackbar from "components/molecules/custom-snackbar/custom-snackbar.component";
 // Organisms
 import Rank from "../components/organisms/rank/rank.component";
 import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
@@ -64,6 +72,7 @@ const App: FC<AppType> = ({
     const classes = useAppStyles();
 
     const [navOpen, setNavOpen] = useState(false);
+    const [tokenExpired, setTokenExpired] = useState(false);
 
     const handleToggleNavOpen = () => {
         setNavOpen(!navOpen);
@@ -78,6 +87,14 @@ const App: FC<AppType> = ({
     const toggleTooltips = () => {
         setTooltipToggle({ tooltipToggle: !tooltipToggle });
     };
+
+    useEffect(() => {
+        if (!token) {
+            setTokenExpired(true);
+        } else {
+            setTokenExpired(false);
+        }
+    }, [token]);
 
     return (
         <div className={classes.root}>
@@ -220,6 +237,8 @@ const App: FC<AppType> = ({
                     </div>
                 </Drawer>
             ) : null}
+            <CustomSnackbar />
+            {tokenExpired ? <Redirect to="/signInSignUp" /> : null}
         </div>
     );
 };

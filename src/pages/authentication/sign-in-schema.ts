@@ -1,23 +1,20 @@
 import * as Yup from "yup";
 
 export const SignInSchema = Yup.object().shape({
-    email: Yup.string()
-        .lowercase()
-        .email("Must be a valid email")
-        .required("This field is required"),
+    login: Yup.string().required("This field is required"),
     password: Yup.string().required("This field is required"),
 });
 
 export const signInInitialValues = {
-    email: "",
+    login: "",
     password: "",
 };
 
 export const signInFields = [
     {
-        label: "Email",
-        name: "email",
-        type: "email",
+        label: "Username",
+        name: "login",
+        type: "text",
         xs: 12,
         sm: 12,
     },

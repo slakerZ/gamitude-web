@@ -1,20 +1,20 @@
 import React from "react";
-import { connect } from "react-redux";
 
-import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
-import { selectFolders } from "redux/folders/folders.selectors";
-import { selectMethods } from "redux/methods/methods.selectors";
 import { ReduxStateType } from "redux/root.reducer";
 
 import CustomToggleButtonGroup from "components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
 import SessionTypeSwitch from "components/atoms/session-type-switch/session-type-switch.component";
 
 import { STATS, ENERGIES } from "../../../constants";
-import useBoostedDominantBtnGroupStyles from "./styles";
+import MenuItem from "@material-ui/core/MenuItem";
+import { connect } from "react-redux";
+import { selectFolders } from "../../../redux/folders/folders.selectors";
+import { selectTimers } from "../../../redux/timers/timers.selectors";
 import { BoostedDominantBtnGroupPropTypes } from "./types";
+import useBoostedDominantBtnGroupStyles from "./styles";
 
 const BoostedDominantBtnGroup = ({
     boosted,
@@ -59,7 +59,7 @@ const BoostedDominantBtnGroup = ({
     };
 
     return (
-        <div aria-label={"Boosted Stats / Energies"}>
+        <div className={classes.root} aria-label={"Boosted Stats / Energies"}>
             <TextField
                 label="PROJECT NAME"
                 variant="outlined"
@@ -70,6 +70,8 @@ const BoostedDominantBtnGroup = ({
             <SessionTypeSwitch
                 sessionType={sessionType}
                 setSessionType={setSessionType}
+                setBoosted={setBoosted}
+                setDominant={setDominant}
             />
             <div
                 aria-label={"Boosted Stats / Energies"}
@@ -128,10 +130,10 @@ const BoostedDominantBtnGroup = ({
                 onChange={handleFolderChange}
                 fullWidth
             >
-                {folders.map(({ label, index }) => {
+                {folders.map(({ name, id }, index) => {
                     return (
-                        <MenuItem key={index} value={index}>
-                            {label}
+                        <MenuItem key={index} value={id}>
+                            {name}
                         </MenuItem>
                     );
                 })}
@@ -145,10 +147,10 @@ const BoostedDominantBtnGroup = ({
                 onChange={handleDefaultMethodChange}
                 fullWidth
             >
-                {methods.map(({ label }, index) => {
+                {methods.map(({ name, id }, index) => {
                     return (
-                        <MenuItem key={index} value={index}>
-                            {label}
+                        <MenuItem key={index} value={id}>
+                            {name}
                         </MenuItem>
                     );
                 })}
@@ -159,7 +161,7 @@ const BoostedDominantBtnGroup = ({
 
 const mapStateToProps = (state: ReduxStateType) => ({
     folders: selectFolders(state),
-    methods: selectMethods(state),
+    methods: selectTimers(state),
 });
 
 export default connect(mapStateToProps)(BoostedDominantBtnGroup);

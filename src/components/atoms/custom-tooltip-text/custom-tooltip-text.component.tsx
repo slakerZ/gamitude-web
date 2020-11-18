@@ -17,10 +17,10 @@ const CustomTooltipText: FC<TooltipTextProps> = ({
                 {title}
             </Typography>
 
-            {bodyItems.map((bodyItem: string) => {
+            {bodyItems.map((bodyItem: string, index) => {
                 return (
                     <Typography
-                        key={bodyItems.indexOf(bodyItem)}
+                        key={index}
                         component="p"
                         variant="body1"
                         align="center"

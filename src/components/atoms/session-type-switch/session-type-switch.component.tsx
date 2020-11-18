@@ -11,6 +11,8 @@ import useSessionManagerStyles from "./styles";
 const SessionTypeSwitch = ({
     setSessionType,
     sessionType,
+    setBoosted,
+    setDominant,
 }: SessionManagerPropType): ReactElement => {
     const classes = useSessionManagerStyles();
 
@@ -18,6 +20,10 @@ const SessionTypeSwitch = ({
         sessionType === "STAT"
             ? setSessionType("ENERGY")
             : setSessionType("STAT");
+        if (setBoosted && setDominant) {
+            setBoosted([]);
+            setDominant("");
+        }
     };
 
     return (

@@ -1,20 +1,11 @@
-import { createSelector } from "reselect";
+import { ReduxStateType } from "redux/root.reducer";
 
-export const selectProjects = (state: any) => state.projects.projects;
+export const selectProjects = (state: ReduxStateType) =>
+    state.projects.projects;
 
-export const selectProject = (state: any, ownProps: any) => {
+export const selectProject = (state: ReduxStateType, ownProps: any) => {
     return state.projects.projects[ownProps.index];
 };
-// Won't re-render when should
-export const selectDominant = createSelector(
-    [selectProject],
-    (project) => project.dominant,
-);
 
-export const selectMethod = createSelector(
-    [selectProject],
-    (project) => project.method,
-);
-
-export const selectSelectedProject = (state: any) =>
+export const selectSelectedProject = (state: ReduxStateType) =>
     state.projects.selectedProject;

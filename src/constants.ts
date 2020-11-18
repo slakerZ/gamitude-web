@@ -1,3 +1,3 @@
-export const STATS = ["strength", "creativity", "intelligence", "fluency"];
+export const STATS = ["STRENGTH", "CREATIVITY", "INTELLIGENCE", "FLUENCY"];
 
-export const ENERGIES = ["body", "emotions", "mind", "soul"];
+export const ENERGIES = ["BODY", "EMOTIONS", "MIND", "SOUL"];
