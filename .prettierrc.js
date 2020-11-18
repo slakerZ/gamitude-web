@@ -1,9 +1,22 @@
 module.exports = {
+    importOrder: [
+        "^react",
+        "^(.*)$",
+        "^@material-ui/(.*)$",
+        "^redux/(.*)$",
+        "^api/(.*)$",
+        "^components/atoms/(.*)$",
+        "^components/molecules(.*)$",
+        "^components/organisms(.*)$",
+        "^pages/(.*)$",
+        "^[./]",
+    ],
+    importOrderSeparation: true,
     semi: true,
     trailingComma: "all",
     singleQuote: false,
     printWidth: 80,
     tabWidth: 4,
     useTabs: false,
-    endOfLine: "lf",
+    endOfLine: "crlf",
 };

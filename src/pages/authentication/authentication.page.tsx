@@ -1,83 +1,101 @@
-import React, { useState, MouseEvent } from "react";
-import axios from "axios";
-import { useAsyncFn } from "react-use";
+import React, { useState, MouseEvent, useEffect } from "react";
 import clsx from "clsx";
-import Fade from "@material-ui/core/Fade";
+import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import useSignInUpStyles from "./styles";
-import { FADE_TIMEOUT } from "./constants";
-import Typography from "@material-ui/core/Typography";
+import { useAsyncFn } from "react-use";
+
+import Fade from "@material-ui/core/Fade";
 import Link from "@material-ui/core/Link";
 import {
     SignUpSchema,
     signUpInitialValues,
     signUpFields,
 } from "./sign-up-schema";
-import { connect } from "react-redux";
 import {
     SignInSchema,
     signInInitialValues,
     signInFields,
 } from "./sign-in-schema";
 import { setUser } from "../../redux/user/user.actions";
-import {
-    signInUrl,
-    signInRequestBody,
-} from "../../api/authentication/authentication.api";
-import {
-    signUpUrl,
-    signUpRequestBody,
-} from "../../api/authentication/authentication.api";
 import FormikForm from "../../components/atoms/formik-form/formik-form.component";
 import { AuthenticationType } from "./types";
+import { postRegister } from "api/users/users.api";
+import { RegisterRequestBodyType } from "api/users/types";
+import { postLogin } from "api/authorization/authorization.api";
+import { LoginRequestBodyType } from "api/authorization/types";
 import {
-    SignUpValuesType,
-    SignInValuesType,
-} from "../../api/authentication/types";
-import { ReduxStateType } from "../../redux/root.reducer";
+    editMessage,
+    editSeverity,
+    setOpen as setSnackbarOpen,
+} from "redux/snackbar/snackbar.actions";
+import useSignInUpStyles from "./styles";
+import Typography from "@material-ui/core/Typography";
+import { FADE_TIMEOUT } from "./constants";
 
-const AuthenticationPage = ({ setUser }: AuthenticationType) => {
+const AuthenticationPage = ({
+    setUser,
+    editMessage,
+    editSeverity,
+    setSnackbarOpen,
+}: AuthenticationType) => {
     const classes = useSignInUpStyles();
 
-    const [isSignUp, setIsSignUp] = useState(false);
+    const [isSignUp, setIsSignUp] = useState(true);
 
     const [signUpState, signUp] = useAsyncFn(
-        async (values: SignUpValuesType) => {
-            const response = await axios.post(
-                signUpUrl,
-                signUpRequestBody(values),
-            );
-            const data = await response.data;
-            setIsSignUp(!isSignUp);
+        async (postRegisterRequestBody: RegisterRequestBodyType) => {
+            const data = await postRegister(postRegisterRequestBody);
             return data;
         },
-        [signUpUrl],
+        [postRegister],
     );
 
     const [signInState, signIn] = useAsyncFn(
-        async (values: SignInValuesType) => {
-            const response = await axios.post(
-                signInUrl,
-                signInRequestBody(values),
-            );
-            const data = await response.data;
-            setUser(data);
+        async (postLoginRequestBody: LoginRequestBodyType) => {
+            const data = await postLogin(postLoginRequestBody);
+            setUser(data.data);
             return data;
         },
-        [signInUrl],
+        [postLogin],
     );
 
     const handleSwitchSignUpIn = (event: MouseEvent) => {
         event.preventDefault();
         setIsSignUp(!isSignUp);
+        setSnackbarOpen(false);
     };
+
+    useEffect(() => {
+        if (signUpState.error && !signUpState.loading && !signUpState.value) {
+            const msg = signUpState.error.message.includes("401")
+                ? "Username or Email already taken"
+                : "Failed to register";
+            editSeverity("error");
+            editMessage(msg);
+            setSnackbarOpen(true);
+        } else if (signUpState.value) {
+            editSeverity("success");
+            editMessage("Successfully registered");
+            setSnackbarOpen(true);
+            setIsSignUp(false);
+        }
+    }, [signUpState, editSeverity, editMessage, setSnackbarOpen]);
+
+    useEffect(() => {
+        if (signInState.error && !signInState.loading && !signInState.value) {
+            const msg = "Failed to Log in";
+            editSeverity("error");
+            editMessage(msg);
+            setSnackbarOpen(true);
+        }
+    }, [signInState, editSeverity, editMessage, setSnackbarOpen]);
 
     return (
         <div className={classes.root}>
-            <Fade in={!isSignUp} timeout={FADE_TIMEOUT}>
+            <Fade in={isSignUp} timeout={FADE_TIMEOUT}>
                 <div
                     className={clsx(classes.signUp, {
-                        [classes.none]: isSignUp,
+                        [classes.none]: !isSignUp,
                     })}
                 >
                     <div className={classes.formWrapper}>
@@ -86,8 +104,8 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
                             schema={SignUpSchema}
                             onSubmit={signUp}
                             fields={signUpFields}
-                            state={signUpState}
                             title={"Sign Up"}
+                            state={signUpState}
                         />
                         <Typography
                             className={classes.link}
@@ -101,10 +119,10 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
                     <div className={clsx(classes.image, classes.signUpImage)} />
                 </div>
             </Fade>
-            <Fade in={isSignUp} timeout={FADE_TIMEOUT}>
+            <Fade in={!isSignUp} timeout={FADE_TIMEOUT}>
                 <div
                     className={clsx(classes.signIn, {
-                        [classes.none]: !isSignUp,
+                        [classes.none]: isSignUp,
                     })}
                 >
                     <div className={clsx(classes.image, classes.signInImage)} />
@@ -117,6 +135,7 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
                             state={signInState}
                             title={"Sign In"}
                         />
+
                         {signInState.value &&
                         !signInState.loading &&
                         !signInState.error ? (
@@ -139,6 +158,9 @@ const AuthenticationPage = ({ setUser }: AuthenticationType) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
     setUser: (user: any) => dispatch(setUser(user)),
+    editMessage: (value: any) => dispatch(editMessage(value)),
+    editSeverity: (value: any) => dispatch(editSeverity(value)),
+    setSnackbarOpen: (value: any) => dispatch(setSnackbarOpen(value)),
 });
 
 export default connect(null, mapDispatchToProps)(AuthenticationPage);

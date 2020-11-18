@@ -1,5 +1,7 @@
 import React, { ReactElement } from "react";
+
 import Box from "@material-ui/core/Box";
+
 import { TabPanelProps, a11yType } from "./types";
 
 export const TabPanel = (props: TabPanelProps): ReactElement => {

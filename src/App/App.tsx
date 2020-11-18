@@ -1,3 +1,18 @@
+import React, {
+    lazy,
+    Suspense,
+    FC,
+    ReactElement,
+    useState,
+    useEffect,
+} from "react";
+import { Route, Switch, Link, Redirect, useLocation } from "react-router-dom";
+import clsx from "clsx";
+// Redux
+import { connect } from "react-redux";
+import { selectToken, selectTooltipToggle } from "../redux/user/user.selectors";
+import { setUser, setTooltipToggle } from "../redux/user/user.actions";
+import { selectSessionType } from "../redux/session/session.selectors";
 import { ReduxStateType } from "..//redux/root.reducer";
 import { setSessionType } from "..//redux/session/session.actions";
 import CustomIcon from "../components/atoms/custom-icon/custom-icon.component";
@@ -8,9 +23,6 @@ import Methods from "../components/organisms/methods/methods.component";
 import Rank from "../components/organisms/rank/rank.component";
 import StatsAndEnergies from "../components/organisms/stats-and-energies/stats-and-energies.component";
 import Timer from "../components/organisms/timer/timer.component";
-import { selectSessionType } from "../redux/session/session.selectors";
-import { setUser, setTooltipToggle } from "../redux/user/user.actions";
-import { selectToken, selectTooltipToggle } from "../redux/user/user.selectors";
 import { NAV_LINKS } from "./constants";
 import useAppStyles from "./styles";
 import { AppType } from "./types";
@@ -31,24 +43,9 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HelpIcon from "@material-ui/icons/Help";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsIcon from "@material-ui/icons/Settings";
-import clsx from "clsx";
-import React, { lazy, Suspense, FC, ReactElement, useState } from "react";
-import { connect } from "react-redux";
-import { Route, Switch, Link, useLocation } from "react-router-dom";
 
-// Redux
+import CustomSnackbar from "components/molecules/custom-snackbar/custom-snackbar.component";
 
-// MUI Core
-
-// MUI Icons
-
-// Atoms
-
-// Organisms
-
-// Local
-
-// Lazy Loading
 const HomePage = lazy(() => import("../pages/home/home.page"));
 const ProjectsPage = lazy(() => import("../pages/projects/projects.page"));
 const BulletJournalPage = lazy(
@@ -71,6 +68,7 @@ const App: FC<AppType> = ({
     const location = useLocation();
 
     const [navOpen, setNavOpen] = useState(false);
+    const [tokenExpired, setTokenExpired] = useState(false);
 
     const handleToggleNavOpen = () => {
         setNavOpen(!navOpen);
@@ -85,6 +83,14 @@ const App: FC<AppType> = ({
     const toggleTooltips = () => {
         setTooltipToggle({ tooltipToggle: !tooltipToggle });
     };
+
+    useEffect(() => {
+        if (!token) {
+            setTokenExpired(true);
+        } else {
+            setTokenExpired(false);
+        }
+    }, [token]);
 
     return (
         <div className={classes.root}>
@@ -284,6 +290,8 @@ const App: FC<AppType> = ({
                     </div>
                 </Drawer>
             ) : null}
+            <CustomSnackbar />
+            {tokenExpired ? <Redirect to="/signInSignUp" /> : null}
         </div>
     );
 };

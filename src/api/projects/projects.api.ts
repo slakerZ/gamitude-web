@@ -1,54 +1,82 @@
-import {
-    mapMethodToPrimaryMethod,
-    mapBoostedToStats,
-    mapDominantToDominantStat,
-} from "../mappings";
-import { DEV_ENDPOINT, PROD_ENDPOINT } from "../constants";
+import axios from "axios";
+import { API_ENDPOINT } from "api/constants";
+import { ProjectResponseBodyType, ProjectRequestBodyType } from "./types";
 
-export const getAddProjectsUrl =
-    process.env.NODE_ENV === "development"
-        ? `${DEV_ENDPOINT}/pro/Projects`
-        : `${PROD_ENDPOINT}/pro/Projects`;
+const ENDPOINT = `${API_ENDPOINT}/projects`;
 
-export const getProjectsHeaders = (token: string) => ({
-    headers: {
-        Authorization: "Bearer " + token,
-    },
-});
+export const getProjects = async (
+    token: string,
+): Promise<ProjectResponseBodyType> => {
+    const url = `${ENDPOINT}`;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
 
-export const putDeleteProjectUrl = (id: number) => {
-    return process.env.NODE_ENV === "development"
-        ? `${DEV_ENDPOINT}/pro/Projects/${id}`
-        : `${PROD_ENDPOINT}/pro/Projects/${id}`;
+    const response = await axios.get(url, config);
+    const result = await response.data;
+    return result;
 };
 
-export const putDeleteAddProjectHeaders = (token: string) => ({
-    headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-    },
-});
+export const postProject = async (
+    token: string,
+    requestBody: ProjectRequestBodyType,
+): Promise<ProjectResponseBodyType> => {
+    const url = `${ENDPOINT}`;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
 
-export const putProjectRequestBody = (
-    name: string,
-    method: number,
-    boosted: string[],
-    dominant: string,
-) => ({
-    Name: name,
-    PrimaryMethod: mapMethodToPrimaryMethod(method),
-    Stats: mapBoostedToStats(boosted),
-    DominantStat: mapDominantToDominantStat(dominant),
-});
+    const response = await axios.post(url, requestBody, config);
+    const result = await response.data;
+    return result;
+};
 
-export const addProjectRequestBody = (
-    name: string,
-    boosted: string[],
-    dominant: string,
-) => ({
-    Name: name,
-    PrimaryMethod: "POMODORO",
-    ProjectStatus: "ACTIVE",
-    Stats: mapBoostedToStats(boosted),
-    DominantStat: mapDominantToDominantStat(dominant),
-});
+export const getProjectById = async (
+    token: string,
+    projectId: string,
+): Promise<ProjectResponseBodyType> => {
+    const url = `${ENDPOINT}/${projectId}`;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    const response = await axios.get(url, config);
+    const result = await response.data;
+    return result;
+};
+
+export const putProjectById = async (
+    token: string,
+    requestBody: ProjectRequestBodyType,
+    projectId: string,
+): Promise<ProjectResponseBodyType> => {
+    const url = `${ENDPOINT}/${projectId}`;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    const response = await axios.put(url, requestBody, config);
+    const result = await response.data;
+    return result;
+};
+
+export const deleteProjectById = async (token: string, projectId: string) => {
+    const url = `${ENDPOINT}/${projectId}`;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    const response = await axios.delete(url, config);
+    const result = await response.data;
+    return result;
+};

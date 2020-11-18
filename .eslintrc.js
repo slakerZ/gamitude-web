@@ -27,6 +27,6 @@ module.exports = {
         "sort-imports": "off",
         "import/order": "off",
         "no-console": "error",
-        "linebreak-style": "linux",
+        "@typescript-eslint/no-var-requires": 0,
     },
 };
