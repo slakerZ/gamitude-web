@@ -16,7 +16,7 @@ interface FullProjectLogType {
 
 export interface ProjectLogRequestBodyType {
     projectId: string;
-    projectTaskId: string;
+    projectTaskId: string | null;
     log: string;
     timeSpend: number;
     dominantStat: EnergyType | StatType;

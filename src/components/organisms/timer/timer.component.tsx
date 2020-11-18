@@ -16,6 +16,8 @@ import {
 import { setSelectedTimer } from "redux/timers/timers.actions";
 import { setSessionInProgress } from "redux/session/session.actions";
 import { selectSessionInProgress } from "redux/session/session.selectors";
+import { postProjectLog } from "api/projectLogs/projectLogs.api";
+import { selectToken } from "redux/user/user.selectors";
 
 const endSound = require("assets/sounds/congratulations.mp3");
 const minuteSound = require("assets/sounds/bell.mp3");
@@ -27,6 +29,7 @@ const Timer = ({
     timers,
     setSessionInProgress,
     sessionInProgress,
+    token,
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
@@ -37,6 +40,7 @@ const Timer = ({
     const [sessionTime, setSessionTime] = useState(
         selectedTimer.workTime * minuteAsMiliseconds,
     );
+    const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [endDateAsMs, setEndDateAsMs] = useState(0);
     const [currWorkTime, setCurrWorkTime] = useState(selectedTimer.workTime);
@@ -67,6 +71,10 @@ const Timer = ({
         const overtime = currOverTime * minuteAsMiliseconds;
         setEndDateAsMs(endDateAsMs + overtime);
         setSessionTime(sessionTime + overtime);
+        const movedEndDate = new Date(
+            endDate.getTime() + currOverTime * minuteAsMiliseconds,
+        );
+        setEndDate(movedEndDate);
     };
 
     const handleSession = () => {
@@ -77,6 +85,7 @@ const Timer = ({
         setEndDate(currEndDate);
         setEndDateAsMs(currEndDateAsMs);
         setSessionInProgress(!sessionInProgress);
+        setStartDate(new Date());
     };
 
     useEffect(() => {
@@ -99,6 +108,11 @@ const Timer = ({
         const interval = sessionInProgress
             ? setInterval(() => {
                   const distance = endDateAsMs - Date.now();
+                  console.log(
+                      milisecondsToMinutes(
+                          endDate.getTime() - startDate.getTime(),
+                      ).minutes + 1,
+                  );
                   // Is minute left?
                   if (
                       distance >= minuteAsMiliseconds &&
@@ -119,6 +133,20 @@ const Timer = ({
                       setSessionInProgress(false);
                       //Play end sound
                       play();
+                      // Api call
+                      const requestBody = {
+                          projectId: selectedProject.id,
+                          projectTaskId: null,
+                          log: "",
+                          timeSpend:
+                              milisecondsToMinutes(
+                                  endDate.getTime() - startDate.getTime(),
+                              ).minutes + 1,
+                          dominantStat: selectedProject.dominantStat,
+                          stats: selectedProject.stats,
+                          projectType: selectedProject.projectType,
+                      };
+                      postProjectLog(token, requestBody);
                   }
               }, intervalFrequency)
             : setInterval(() => null, 1);
@@ -225,6 +253,7 @@ const mapStateToProps = (state: any) => ({
     selectedTimer: selectSelectedTimer(state),
     timers: selectTimers(state),
     sessionInProgress: selectSessionInProgress(state),
+    token: selectToken(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
