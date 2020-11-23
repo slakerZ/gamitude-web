@@ -12,6 +12,9 @@ import { ReactComponent as RankNav } from "assets/icons/navigation/rank.svg";
 import { ReactComponent as Settings } from "assets/icons/navigation/settings.svg";
 import { ReactComponent as Logo } from "assets/icons/navigation/sloth.svg";
 import { ReactComponent as StatsNav } from "assets/icons/navigation/stats.svg";
+import { ReactComponent as Themes } from "assets/icons/navigation/themes.svg";
+import { ReactComponent as TooltipChecked } from "assets/icons/navigation/tooltip_checked.svg";
+import { ReactComponent as TooltipUnChecked } from "assets/icons/navigation/tooltip_unchecked.svg";
 import { ReactComponent as NotFound } from "assets/icons/other/page-not-found.svg";
 import { ReactComponent as ActiveIcon } from "assets/icons/projects/active.svg";
 import { ReactComponent as DoneIcon } from "assets/icons/projects/done.svg";
@@ -91,7 +94,13 @@ const CustomIcon: FC<CustomIconType> = ({
             case "logout":
                 return <Logout className={mappedClasses} />;
             case "settings":
-                return <Logout className={mappedClasses} />;
+                return <Settings className={mappedClasses} />;
+            case "tooltip_checked":
+                return <TooltipChecked className={mappedClasses} />;
+            case "tooltip_unchecked":
+                return <TooltipUnChecked className={mappedClasses} />;
+            case "themes":
+                return <Themes className={mappedClasses} />;
             case "f":
                 return <FRank className={mappedClasses} />;
             case "e":

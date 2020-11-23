@@ -23,10 +23,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import HelpIcon from "@material-ui/icons/Help";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import SettingsIcon from "@material-ui/icons/Settings";
 
 import { ReduxStateType } from "redux/root.reducer";
 import { setSessionType } from "redux/session/session.actions";
@@ -46,7 +42,7 @@ import Rank from "components/organisms/rank/rank.component";
 import StatsAndEnergies from "components/organisms/stats-and-energies/stats-and-energies.component";
 import Timer from "components/organisms/timer/timer.component";
 
-import { NAV_LINKS, NAV_ACTIONS } from "./constants";
+import { NAV_LINKS } from "./constants";
 import useAppStyles from "./styles";
 import { AppType } from "./types";
 
@@ -59,6 +55,7 @@ const SignInSignUpPage = lazy(
     () => import("pages/authentication/authentication.page"),
 );
 const ProfilePage = lazy(() => import("pages/profile/profile.page"));
+const ThemesPage = lazy(() => import("pages/themes/themes.page"));
 
 const App: FC<AppType> = ({
     token,
@@ -127,17 +124,7 @@ const App: FC<AppType> = ({
                         </Link>
                     </div>
 
-                    <div className={classes.right}>
-                        <ToggleAbleTooltip target={"tooltipToggle"}>
-                            <IconButton onClick={toggleTooltips}>
-                                {tooltipToggle ? (
-                                    <HelpIcon />
-                                ) : (
-                                    <HelpOutlineIcon />
-                                )}
-                            </IconButton>
-                        </ToggleAbleTooltip>
-                    </div>
+                    <div className={classes.right}></div>
                 </Toolbar>
             </AppBar>
             {token ? (
@@ -178,24 +165,40 @@ const App: FC<AppType> = ({
                             ))}
                         </List>
                         <List>
-                            {NAV_ACTIONS.map(({ to, label, icon, tooltip }) => (
-                                <ListItem
-                                    button
-                                    key={to}
-                                    component={Link}
-                                    to={to}
-                                >
-                                    <ToggleAbleTooltip target={tooltip}>
-                                        <ListItemIcon>
+                            <ListItem button onClick={toggleTooltips}>
+                                <ToggleAbleTooltip target={"tooltipToggle"}>
+                                    <ListItemIcon>
+                                        {tooltipToggle ? (
                                             <CustomIcon
                                                 size="small"
-                                                variant={icon}
+                                                variant={"tooltip_checked"}
                                             />
-                                        </ListItemIcon>
-                                    </ToggleAbleTooltip>
-                                    <ListItemText primary={label} />
-                                </ListItem>
-                            ))}
+                                        ) : (
+                                            <CustomIcon
+                                                size="small"
+                                                variant={"tooltip_unchecked"}
+                                            />
+                                        )}
+                                    </ListItemIcon>
+                                </ToggleAbleTooltip>
+                                <ListItemText primary={"Toggle Tooltips"} />
+                            </ListItem>
+                            <ListItem
+                                button
+                                component={Link}
+                                to={"/signInSignUp"}
+                                onClick={logout}
+                            >
+                                <ToggleAbleTooltip target={"logout"}>
+                                    <ListItemIcon>
+                                        <CustomIcon
+                                            size="small"
+                                            variant={"logout"}
+                                        />
+                                    </ListItemIcon>
+                                </ToggleAbleTooltip>
+                                <ListItemText primary={"Logout"} />
+                            </ListItem>
                         </List>
                     </div>
                 </Drawer>
@@ -221,6 +224,7 @@ const App: FC<AppType> = ({
                             path="/signInSignUp"
                             component={SignInSignUpPage}
                         />
+                        <Route exact path="/themes" component={ThemesPage} />
                     </Switch>
                 </div>
             </Suspense>

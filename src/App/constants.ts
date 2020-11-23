@@ -13,20 +13,17 @@ export const NAV_LINKS: LinkType[] = [
         icon: "bulletJournal",
         tooltip: "bulletJournal",
     },
-];
-
-export const NAV_ACTIONS = [
+    {
+        to: "/themes",
+        label: "Themes",
+        icon: "themes",
+        tooltip: "themes",
+    },
     {
         to: "/profile",
         label: "Settings",
-        icon: "profile",
+        icon: "settings",
         tooltip: "profileSettings",
-    },
-    {
-        to: "/signInSignUp",
-        label: "Logout",
-        icon: "logout",
-        tooltip: "logout",
     },
 ];
 
