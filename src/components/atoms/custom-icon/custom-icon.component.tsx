@@ -4,10 +4,12 @@ import { ReactComponent as Mind } from "assets/icons/energies/mind.svg";
 import { ReactComponent as Soul } from "assets/icons/energies/soul.svg";
 import { ReactComponent as GuestIcon } from "assets/icons/navigation/guest.svg";
 import { ReactComponent as BulletJournalIcon } from "assets/icons/navigation/journal.svg";
+import { ReactComponent as Logout } from "assets/icons/navigation/logout.svg";
 import { ReactComponent as ProfileIcon } from "assets/icons/navigation/profile.svg";
 import { ReactComponent as ProjectNav } from "assets/icons/navigation/project.svg";
 import { ReactComponent as ProjectsIcon } from "assets/icons/navigation/projects.svg";
 import { ReactComponent as RankNav } from "assets/icons/navigation/rank.svg";
+import { ReactComponent as Settings } from "assets/icons/navigation/settings.svg";
 import { ReactComponent as Logo } from "assets/icons/navigation/sloth.svg";
 import { ReactComponent as StatsNav } from "assets/icons/navigation/stats.svg";
 import { ReactComponent as NotFound } from "assets/icons/other/page-not-found.svg";
@@ -86,6 +88,10 @@ const CustomIcon: FC<CustomIconType> = ({
                 return <StatsNav className={mappedClasses} />;
             case "projectsnav":
                 return <ProjectNav className={mappedClasses} />;
+            case "logout":
+                return <Logout className={mappedClasses} />;
+            case "settings":
+                return <Logout className={mappedClasses} />;
             case "f":
                 return <FRank className={mappedClasses} />;
             case "e":

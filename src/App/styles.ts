@@ -86,6 +86,13 @@ const useAppStyles = makeStyles((theme: Theme) => ({
         flexDirection: "column",
         justifyContent: "space-around",
     },
+    navigationLeft: {
+        overflowX: "hidden",
+        display: "flex",
+        height: "100%",
+        flexDirection: "column",
+        justifyContent: "space-between",
+    },
 }));
 
 export default useAppStyles;

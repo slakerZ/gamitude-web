@@ -13,7 +13,7 @@ const useProjectStyles = makeStyles((theme) => ({
         color: theme.palette.error.main,
     },
     summary: {
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: theme.palette.primary.dark,
     },
     details: {
         display: "flex",
