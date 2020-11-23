@@ -15,9 +15,9 @@ export const ICONS = [
     "active",
     "paused",
     "done",
-    "ranknav",
-    "statsnav",
-    "projectsnav",
     "s",
     "a",
+    "b",
+    "c",
+    "d",
 ];

@@ -1,40 +1,34 @@
-import React, { ReactElement, FC } from "react";
-import clsx from "clsx";
-// Energies
 import { ReactComponent as Body } from "assets/icons/energies/body.svg";
 import { ReactComponent as Emotions } from "assets/icons/energies/emotions.svg";
 import { ReactComponent as Mind } from "assets/icons/energies/mind.svg";
 import { ReactComponent as Soul } from "assets/icons/energies/soul.svg";
-// Stats
-import { ReactComponent as Strength } from "assets/icons/stats/strength.svg";
-import { ReactComponent as Creativity } from "assets/icons/stats/creativity.svg";
-import { ReactComponent as Intelligence } from "assets/icons/stats/intelligence.svg";
-import { ReactComponent as Fluency } from "assets/icons/stats/fluency.svg";
-// Menu
-import { ReactComponent as ProjectsIcon } from "assets/icons/navigation/projects.svg";
-import { ReactComponent as BulletJournalIcon } from "assets/icons/navigation/journal.svg";
-import { ReactComponent as Logo } from "assets/icons/navigation/sloth.svg";
-import { ReactComponent as ProfileIcon } from "assets/icons/navigation/profile.svg";
 import { ReactComponent as GuestIcon } from "assets/icons/navigation/guest.svg";
-// Projects
-import { ReactComponent as ActiveIcon } from "assets/icons/projects/active.svg";
-import { ReactComponent as PausedIcon } from "assets/icons/projects/onHold.svg";
-import { ReactComponent as DoneIcon } from "assets/icons/projects/done.svg";
-// Mobile Menu
+import { ReactComponent as BulletJournalIcon } from "assets/icons/navigation/journal.svg";
+import { ReactComponent as ProfileIcon } from "assets/icons/navigation/profile.svg";
 import { ReactComponent as ProjectNav } from "assets/icons/navigation/project.svg";
+import { ReactComponent as ProjectsIcon } from "assets/icons/navigation/projects.svg";
 import { ReactComponent as RankNav } from "assets/icons/navigation/rank.svg";
+import { ReactComponent as Logo } from "assets/icons/navigation/sloth.svg";
 import { ReactComponent as StatsNav } from "assets/icons/navigation/stats.svg";
-// Ranks
-import { ReactComponent as FRank } from "assets/icons/rank-tiers/006-letter-f.svg";
-import { ReactComponent as ERank } from "assets/icons/rank-tiers/005-letter-e.svg";
-import { ReactComponent as DRank } from "assets/icons/rank-tiers/004-letter-d.svg";
-import { ReactComponent as CRank } from "assets/icons/rank-tiers/003-letter-c.svg";
-import { ReactComponent as BRank } from "assets/icons/rank-tiers/002-letter-b.svg";
-import { ReactComponent as ARank } from "assets/icons/rank-tiers/001-letter-a.svg";
-import { ReactComponent as SRank } from "assets/icons/rank-tiers/019-letter-s.svg";
-// Other
 import { ReactComponent as NotFound } from "assets/icons/other/page-not-found.svg";
-// Local
+import { ReactComponent as ActiveIcon } from "assets/icons/projects/active.svg";
+import { ReactComponent as DoneIcon } from "assets/icons/projects/done.svg";
+import { ReactComponent as PausedIcon } from "assets/icons/projects/onHold.svg";
+import { ReactComponent as ARank } from "assets/icons/rank-tiers/001-letter-a.svg";
+import { ReactComponent as BRank } from "assets/icons/rank-tiers/002-letter-b.svg";
+import { ReactComponent as CRank } from "assets/icons/rank-tiers/003-letter-c.svg";
+import { ReactComponent as DRank } from "assets/icons/rank-tiers/004-letter-d.svg";
+import { ReactComponent as ERank } from "assets/icons/rank-tiers/005-letter-e.svg";
+import { ReactComponent as FRank } from "assets/icons/rank-tiers/006-letter-f.svg";
+import { ReactComponent as SRank } from "assets/icons/rank-tiers/019-letter-s.svg";
+import { ReactComponent as Creativity } from "assets/icons/stats/creativity.svg";
+import { ReactComponent as Fluency } from "assets/icons/stats/fluency.svg";
+import { ReactComponent as Intelligence } from "assets/icons/stats/intelligence.svg";
+import { ReactComponent as Strength } from "assets/icons/stats/strength.svg";
+import clsx from "clsx";
+
+import React, { ReactElement, FC } from "react";
+
 import useCustomIconStyles from "./styles";
 import { CustomIconType } from "./types";
 
@@ -44,89 +38,70 @@ const CustomIcon: FC<CustomIconType> = ({
 }: CustomIconType): ReactElement => {
     const classes = useCustomIconStyles();
 
-    // TODO: probably job for clsx
-    const setClass = (size: string) => {
-        switch (size) {
-            case "bar":
-                return classes.bar;
-            case "small":
-                return classes.small;
-            case "medium":
-                return classes.medium;
-            case "large":
-                return classes.large;
-            case "avatar":
-                return classes.avatar;
-            default:
-                return classes.error;
-        }
-    };
-
     const getIcon = (variant: string, size: string) => {
-        const varinatLowered = variant ? variant.toLowerCase() : "wtf";
-        switch (varinatLowered) {
+        const variantLowered = variant ? variant.toLowerCase() : "";
+        const mappedClasses = clsx(classes.white, {
+            [classes.bar]: size === "bar",
+            [classes.small]: size === "small",
+            [classes.medium]: size === "medium",
+            [classes.large]: size === "large",
+            [classes.avatar]: size === "avatar",
+        });
+        switch (variantLowered) {
             case "body":
-                return <Body className={setClass(size)} />;
+                return <Body className={mappedClasses} />;
             case "emotions":
-                return <Emotions className={setClass(size)} />;
+                return <Emotions className={mappedClasses} />;
             case "mind":
-                return <Mind className={setClass(size)} />;
+                return <Mind className={mappedClasses} />;
             case "soul":
-                return <Soul className={setClass(size)} />;
+                return <Soul className={mappedClasses} />;
             case "strength":
-                return <Strength className={setClass(size)} />;
+                return <Strength className={mappedClasses} />;
             case "creativity":
-                return <Creativity className={setClass(size)} />;
+                return <Creativity className={mappedClasses} />;
             case "intelligence":
-                return <Intelligence className={setClass(size)} />;
+                return <Intelligence className={mappedClasses} />;
             case "fluency":
-                return <Fluency className={setClass(size)} />;
+                return <Fluency className={mappedClasses} />;
             case "projects":
-                return (
-                    <ProjectsIcon
-                        className={clsx(setClass(size), classes.white)}
-                    />
-                );
+                return <ProjectsIcon className={mappedClasses} />;
             case "bulletjournal":
-                return (
-                    <BulletJournalIcon
-                        className={clsx(setClass(size), classes.white)}
-                    />
-                );
+                return <BulletJournalIcon className={mappedClasses} />;
             case "logo":
-                return <Logo className={setClass(size)} />;
+                return <Logo className={mappedClasses} />;
             case "profile":
-                return <ProfileIcon className={setClass(size)} />;
+                return <ProfileIcon className={mappedClasses} />;
             case "guest":
-                return <GuestIcon className={setClass(size)} />;
+                return <GuestIcon className={mappedClasses} />;
             case "active":
-                return <ActiveIcon className={setClass(size)} />;
+                return <ActiveIcon className={mappedClasses} />;
             case "paused":
-                return <PausedIcon className={setClass(size)} />;
+                return <PausedIcon className={mappedClasses} />;
             case "done":
-                return <DoneIcon className={setClass(size)} />;
+                return <DoneIcon className={mappedClasses} />;
             case "ranknav":
-                return <RankNav className={setClass(size)} />;
+                return <RankNav className={mappedClasses} />;
             case "statsnav":
-                return <StatsNav className={setClass(size)} />;
+                return <StatsNav className={mappedClasses} />;
             case "projectsnav":
-                return <ProjectNav className={setClass(size)} />;
+                return <ProjectNav className={mappedClasses} />;
             case "f":
-                return <FRank className={setClass(size)} />;
+                return <FRank className={mappedClasses} />;
             case "e":
-                return <ERank className={setClass(size)} />;
+                return <ERank className={mappedClasses} />;
             case "d":
-                return <DRank className={setClass(size)} />;
+                return <DRank className={mappedClasses} />;
             case "c":
-                return <CRank className={setClass(size)} />;
+                return <CRank className={mappedClasses} />;
             case "b":
-                return <BRank className={setClass(size)} />;
+                return <BRank className={mappedClasses} />;
             case "a":
-                return <ARank className={setClass(size)} />;
+                return <ARank className={mappedClasses} />;
             case "s":
-                return <SRank className={setClass(size)} />;
+                return <SRank className={mappedClasses} />;
             default:
-                return <NotFound className={setClass(size)} />;
+                return <NotFound className={mappedClasses} />;
         }
     };
 
