@@ -52,6 +52,22 @@ const theme = createMuiTheme({
                 backgroundColor: "rgba( 18, 39, 86,1)",
             },
         },
+        MuiOutlinedInput: {
+            root: {
+                color: "rgba(255,255,255,1)",
+                borderRight: "1px solid white",
+                borderBottom: "1px solid white",
+            },
+        },
+        MuiInputLabel: {
+            root: {
+                color: "rgba(255,255,255,1)",
+                "&.Mui-focused": {
+                    color: "rgba(255,255,255,1)",
+                    backgroundColor: "rgba( 18, 39, 86,1)",
+                },
+            },
+        },
     },
 });
 
