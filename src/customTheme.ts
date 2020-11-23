@@ -68,6 +68,11 @@ const theme = createMuiTheme({
                 },
             },
         },
+        MuiList: {
+            root: {
+                backgroundColor: "rgba( 18, 39, 86,1)",
+            },
+        },
     },
 });
 

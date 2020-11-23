@@ -46,7 +46,7 @@ import Rank from "components/organisms/rank/rank.component";
 import StatsAndEnergies from "components/organisms/stats-and-energies/stats-and-energies.component";
 import Timer from "components/organisms/timer/timer.component";
 
-import { NAV_LINKS } from "./constants";
+import { NAV_LINKS, NAV_ACTIONS } from "./constants";
 import useAppStyles from "./styles";
 import { AppType } from "./types";
 
@@ -137,21 +137,6 @@ const App: FC<AppType> = ({
                                 )}
                             </IconButton>
                         </ToggleAbleTooltip>
-                        <ToggleAbleTooltip target={"profileSettings"}>
-                            <IconButton component={Link} to={"/profile"}>
-                                <SettingsIcon />
-                            </IconButton>
-                        </ToggleAbleTooltip>
-
-                        <ToggleAbleTooltip target={"logout"}>
-                            <IconButton
-                                onClick={logout}
-                                component={Link}
-                                to={"/signInSignUp"}
-                            >
-                                <ExitToAppIcon />
-                            </IconButton>
-                        </ToggleAbleTooltip>
                     </div>
                 </Toolbar>
             </AppBar>
@@ -171,21 +156,48 @@ const App: FC<AppType> = ({
                     }}
                 >
                     <Toolbar />
-                    <List>
-                        {NAV_LINKS.map(({ to, label, icon, tooltip }) => (
-                            <ListItem button key={to} component={Link} to={to}>
-                                <ToggleAbleTooltip target={tooltip}>
-                                    <ListItemIcon>
-                                        <CustomIcon
-                                            size="small"
-                                            variant={icon}
-                                        />
-                                    </ListItemIcon>
-                                </ToggleAbleTooltip>
-                                <ListItemText primary={label} />
-                            </ListItem>
-                        ))}
-                    </List>
+                    <div className={classes.navigationLeft}>
+                        <List>
+                            {NAV_LINKS.map(({ to, label, icon, tooltip }) => (
+                                <ListItem
+                                    button
+                                    key={to}
+                                    component={Link}
+                                    to={to}
+                                >
+                                    <ToggleAbleTooltip target={tooltip}>
+                                        <ListItemIcon>
+                                            <CustomIcon
+                                                size="small"
+                                                variant={icon}
+                                            />
+                                        </ListItemIcon>
+                                    </ToggleAbleTooltip>
+                                    <ListItemText primary={label} />
+                                </ListItem>
+                            ))}
+                        </List>
+                        <List>
+                            {NAV_ACTIONS.map(({ to, label, icon, tooltip }) => (
+                                <ListItem
+                                    button
+                                    key={to}
+                                    component={Link}
+                                    to={to}
+                                >
+                                    <ToggleAbleTooltip target={tooltip}>
+                                        <ListItemIcon>
+                                            <CustomIcon
+                                                size="small"
+                                                variant={icon}
+                                            />
+                                        </ListItemIcon>
+                                    </ToggleAbleTooltip>
+                                    <ListItemText primary={label} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </div>
                 </Drawer>
             ) : null}
             <Suspense fallback={<LoadingScreen />}>
