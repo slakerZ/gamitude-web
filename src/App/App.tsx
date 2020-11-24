@@ -28,7 +28,11 @@ import { ReduxStateType } from "redux/root.reducer";
 import { setSessionType } from "redux/session/session.actions";
 import { selectSessionType } from "redux/session/session.selectors";
 import { setUser, setTooltipToggle } from "redux/user/user.actions";
-import { selectToken, selectTooltipToggle } from "redux/user/user.selectors";
+import {
+    selectToken,
+    selectTooltipToggle,
+    selectDateExpires,
+} from "redux/user/user.selectors";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import LoadingScreen from "components/atoms/loading-screen/loading-screen.component";
@@ -64,6 +68,7 @@ const App: FC<AppType> = ({
     tooltipToggle,
     setSessionType,
     sessionType,
+    dateExpires,
 }: AppType): ReactElement => {
     const classes = useAppStyles();
     const location = useLocation();
@@ -86,12 +91,14 @@ const App: FC<AppType> = ({
     };
 
     useEffect(() => {
-        if (!token) {
+        const expires = new Date(dateExpires).getTime();
+        if (expires < Date.now()) {
             setTokenExpired(true);
+            logout();
         } else {
             setTokenExpired(false);
         }
-    }, [token]);
+    }, [dateExpires]);
 
     return (
         <div className={classes.root}>
@@ -265,6 +272,7 @@ const mapStateToProps = (state: ReduxStateType) => ({
     token: selectToken(state),
     tooltipToggle: selectTooltipToggle(state),
     sessionType: selectSessionType(state),
+    dateExpires: selectDateExpires(state),
 });
 const mapDispatchToProps = (dispatch: any) => ({
     setUser: (value: any) => dispatch(setUser(value)),
