@@ -52,9 +52,6 @@ function a11yProps(index: any) {
         "aria-controls": `vertical-tabpanel-${index}`,
     };
 }
-function test(): any {
-    return console.log("works");
-}
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -97,6 +94,7 @@ const Bullet = () => {
     const [journalValue, setJournalValue] = useState(0);
     const [pageValue, setPageValue] = useState(0);
     const [selectedTask, setSelectedTask] = useState(100);
+    const [taskName, setTaskName] = useState("Task Name");
 
     const handleJournalChange = (event: any, newValue: number) => {
         setJournalValue(newValue);
@@ -110,6 +108,10 @@ const Bullet = () => {
     const handleSelectionChanged = (event: any) => {
         event.stopPropagation();
         setSelectedTask(0);
+    };
+
+    const test = (event: any) => {
+        setTaskName("Changed name");
     };
     return (
         <div className={classes.root}>
@@ -280,15 +282,10 @@ const Bullet = () => {
                                     onClick={handleSelectionChanged}
                                     onFocus={(event) => event.stopPropagation()}
                                     control={<Radio />}
-                                    label={"Task name"}
+                                    label={taskName}
                                 />
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Typography>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Suspendisse malesuada lacus
-                                    ex, sit amet blandit leo lobortis eget.
-                                </Typography>
                                 <FormikForm
                                     initialValues={taskInitialValues}
                                     schema={TaskSchema}
