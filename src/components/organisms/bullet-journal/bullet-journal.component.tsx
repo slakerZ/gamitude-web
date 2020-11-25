@@ -7,12 +7,15 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Box from "@material-ui/core/Box";
+import Fab from "@material-ui/core/Fab";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import IconButton from "@material-ui/core/IconButton";
 import Radio from "@material-ui/core/Radio";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, Theme } from "@material-ui/core/styles";
+import AddIcon from "@material-ui/icons/Add";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
@@ -37,11 +40,7 @@ function TabPanel(props: TabPanelProps) {
             aria-labelledby={`vertical-tab-${index}`}
             {...other}
         >
-            {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
+            {value === index && <Box p={3}>{children}</Box>}
         </div>
     );
 }
@@ -87,6 +86,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     summary: {
         backgroundColor: theme.palette.primary.light,
     },
+    fabWrapper: {
+        position: "fixed",
+        bottom: 0,
+        right: `${CONTROL_PANEL_WIDTH}vw`,
+        padding: theme.spacing(1.5),
+    },
+    add: {
+        boxShadow: "5px 5px 10px #000000",
+        backgroundColor: theme.palette.secondary.main,
+    },
 }));
 
 const Bullet = () => {
@@ -111,7 +120,7 @@ const Bullet = () => {
     };
 
     const test = (event: any) => {
-        setTaskName("Changed name");
+        setTaskName("React");
     };
     return (
         <div className={classes.root}>
@@ -154,6 +163,9 @@ const Bullet = () => {
                         }
                         {...a11yProps(2)}
                     />
+                    <IconButton aria-label="Add journal" color="primary">
+                        <AddIcon />
+                    </IconButton>
                 </Tabs>
             </div>
             <div className={classes.tabsWrapper}>
@@ -190,6 +202,9 @@ const Bullet = () => {
                         icon={<CustomIcon variant={"done"} size="small" />}
                         {...a11yProps(4)}
                     />
+                    <IconButton aria-label="Add journal" color="primary">
+                        <AddIcon />
+                    </IconButton>
                 </Tabs>
             </div>
             <div aria-label="Tasks in Journal" className={classes.restWrapper}>
@@ -214,11 +229,13 @@ const Bullet = () => {
                                 />
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Typography>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Suspendisse malesuada lacus
-                                    ex, sit amet blandit leo lobortis eget.
-                                </Typography>
+                                <FormikForm
+                                    initialValues={taskInitialValues}
+                                    schema={TaskSchema}
+                                    fields={taskFields}
+                                    onSubmit={test}
+                                    state={"good"}
+                                />
                             </AccordionDetails>
                         </Accordion>
                     </TabPanel>
@@ -249,11 +266,13 @@ const Bullet = () => {
                                 />
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Typography>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Suspendisse malesuada lacus
-                                    ex, sit amet blandit leo lobortis eget.
-                                </Typography>
+                                <FormikForm
+                                    initialValues={taskInitialValues}
+                                    schema={TaskSchema}
+                                    fields={taskFields}
+                                    onSubmit={test}
+                                    state={"good"}
+                                />
                             </AccordionDetails>
                         </Accordion>
                     </TabPanel>
@@ -297,6 +316,15 @@ const Bullet = () => {
                         </Accordion>
                     </TabPanel>
                 </TabPanel>
+                <div className={classes.fabWrapper} aria-label="Add Project">
+                    <Fab
+                        color="secondary"
+                        aria-label="add"
+                        className={classes.add}
+                    >
+                        <AddIcon />
+                    </Fab>
+                </div>
             </div>
         </div>
     );
