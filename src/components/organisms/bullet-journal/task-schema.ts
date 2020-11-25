@@ -37,7 +37,7 @@ export const taskFields: FieldType[] = [
     {
         label: "Due",
         name: "due",
-        type: "text",
+        type: "date",
         xs: 12,
         sm: 12,
     },
