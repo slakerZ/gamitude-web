@@ -16,6 +16,9 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
+import FormikForm from "components/atoms/formik-form/formik-form.component";
+
+import { taskFields, taskInitialValues, TaskSchema } from "./task-schema";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -48,6 +51,9 @@ function a11yProps(index: any) {
         id: `vertical-tab-${index}`,
         "aria-controls": `vertical-tabpanel-${index}`,
     };
+}
+function test(): any {
+    return console.log("works");
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -283,6 +289,13 @@ const Bullet = () => {
                                     adipiscing elit. Suspendisse malesuada lacus
                                     ex, sit amet blandit leo lobortis eget.
                                 </Typography>
+                                <FormikForm
+                                    initialValues={taskInitialValues}
+                                    schema={TaskSchema}
+                                    fields={taskFields}
+                                    onSubmit={test}
+                                    state={"good"}
+                                />
                             </AccordionDetails>
                         </Accordion>
                     </TabPanel>
