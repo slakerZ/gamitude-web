@@ -1,9 +1,9 @@
 import React from "react";
 
-import LoadingScreen from "components/atoms/loading-screen/loading-screen.component";
+import Bullet from "components/organisms/bullet-journal/bullet-journal.component";
 
 const BulletJournalPage = () => {
-    return <LoadingScreen />;
+    return <Bullet />;
 };
 
 export default BulletJournalPage;
