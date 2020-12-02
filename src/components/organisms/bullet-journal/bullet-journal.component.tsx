@@ -26,34 +26,13 @@ import { selectToken } from "redux/user/user.selectors";
 
 import { getJournals, postJournal } from "api/bulletJournal/journals.api";
 
+import NewJournalDialog from "components/atoms/custom-dialog/new-journal-dialog.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import FormikForm from "components/atoms/formik-form/formik-form.component";
 import ToggleableTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import { taskFields, taskInitialValues, TaskSchema } from "./task-schema";
 import { BulletPropTypes } from "./types";
-
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: any;
-    value: any;
-}
-
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box p={3}>{children}</Box>}
-        </div>
-    );
-}
 
 function a11yProps(index: any) {
     return {
@@ -70,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         overflowX: "hidden",
     },
     tabs: {
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.dark,
         justifyContent: "center",
         borderRight: `1px solid ${theme.palette.divider}`,
         height: "100%",
@@ -81,20 +60,13 @@ const useStyles = makeStyles((theme: Theme) => ({
         padding: "10px",
     },
     tabsWrapper: {
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.dark,
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-end",
-        height: "100%",
+        alignItems: "center",
     },
     restWrapper: {
         width: "100%",
-    },
-    acord: {
-        backgroundColor: theme.palette.primary.light,
-    },
-    summary: {
-        backgroundColor: theme.palette.primary.light,
     },
     fabWrapper: {
         position: "fixed",
@@ -114,28 +86,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Bullet = ({ token, setJournals, journals }: BulletPropTypes) => {
     const classes = useStyles();
-    const [journalValue, setJournalValue] = useState(0);
-    const [pageValue, setPageValue] = useState(0);
-    const [selectedTask, setSelectedTask] = useState(100);
-    const [taskName, setTaskName] = useState("Task Name");
 
-    //const [isNewPageFormOpen, setIsNewPageFormOpen] = useState(false);
+    const [isNewJournalDialogOpen, setIsNewJournalDialogOpen] = useState(false);
     const [pagesCurrJournalIndex, setPagesCurrJournalIndex] = useState(0);
-    const [createNewJournalState, createNewJournal] = useAsyncFn(async () => {
-        const requestBody = {
-            projectId: null,
-
-            name: "new Journal",
-
-            icon: "bulletjournal",
-
-            description: "ewefsfsfsd",
-        };
-        const result = await postJournal(token, requestBody);
-        getJournalsList();
-
-        return result;
-    });
     /*
     const [getPagesListState, getPagesList] = useAsyncFn(async () => {
         const response = await getPages(token);
@@ -150,24 +103,6 @@ const Bullet = ({ token, setJournals, journals }: BulletPropTypes) => {
         const result = response.data;
         setJournals(result);
     });
-
-    const handleJournalChange = (event: any, newValue: number) => {
-        setJournalValue(newValue);
-        setPageValue(0);
-    };
-
-    const handlePageChange = (event: any, newValue: number) => {
-        setPageValue(newValue);
-    };
-
-    const handleSelectionChanged = (event: any) => {
-        event.stopPropagation();
-        setSelectedTask(0);
-    };
-
-    const test = (event: any) => {
-        setTaskName("React");
-    };
 
     useEffectOnce(() => {
         getJournalsList();
@@ -194,7 +129,7 @@ const Bullet = ({ token, setJournals, journals }: BulletPropTypes) => {
     };
 */
     const handleOpenNewJournalDialog = () => {
-        createNewJournal();
+        setIsNewJournalDialogOpen(true);
     };
 
     return (
@@ -242,6 +177,11 @@ const Bullet = ({ token, setJournals, journals }: BulletPropTypes) => {
                     </ToggleableTooltip>
                 </div>
             )}
+            <NewJournalDialog
+                open={isNewJournalDialogOpen}
+                setOpen={setIsNewJournalDialogOpen}
+                getJournalsList={getJournalsList}
+            />
         </div>
     );
 };

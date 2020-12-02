@@ -1,15 +1,20 @@
-import React, { useState, Fragment, useEffect, ReactElement } from "react";
-import { NewProjectDialogPropTypes } from "./types";
-import CustomDialog from "./custom-dialog.component";
-import { useAsyncFn } from "react-use";
-import BoostedDominantBtnGroup from "components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
 import { EnergyType, StatType } from "types";
 import { ProjectSessionType } from "types";
-import { postProject } from "api/projects/projects.api";
+
+import React, { useState, Fragment, useEffect, ReactElement } from "react";
 import { connect } from "react-redux";
+import { useAsyncFn } from "react-use";
+
+import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectToken } from "redux/user/user.selectors";
-import { ReduxStateType } from "redux/root.reducer";
+
+import { postProject } from "api/projects/projects.api";
+
+import BoostedDominantBtnGroup from "components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
+
+import CustomDialog from "./custom-dialog.component";
+import { NewProjectDialogPropTypes } from "./types";
 
 const NewProjectDialog = ({
     open,

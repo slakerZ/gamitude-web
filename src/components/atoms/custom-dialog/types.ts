@@ -29,3 +29,11 @@ export interface NewTimerDialogPropTypes {
     getMethodsList: any;
     setSnackbarState: any;
 }
+
+export interface NewJournalDialogPropTypes {
+    token: string;
+    open: boolean;
+    setOpen: any;
+    getJournalsList: any;
+    setSnackbarState: any;
+}
