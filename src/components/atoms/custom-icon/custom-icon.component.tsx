@@ -29,6 +29,7 @@ import { ReactComponent as SRank } from "assets/icons/rank-tiers/019-letter-s.sv
 import { ReactComponent as Creativity } from "assets/icons/stats/creativity.svg";
 import { ReactComponent as Fluency } from "assets/icons/stats/fluency.svg";
 import { ReactComponent as Intelligence } from "assets/icons/stats/intelligence.svg";
+import { ReactComponent as Money } from "assets/icons/stats/money.svg";
 import { ReactComponent as Strength } from "assets/icons/stats/strength.svg";
 import clsx from "clsx";
 
@@ -47,6 +48,7 @@ const CustomIcon: FC<CustomIconType> = ({
         const variantLowered = variant ? variant.toLowerCase() : "";
         const mappedClasses = clsx(classes.white, {
             [classes.bar]: size === "bar",
+            [classes.xsmall]: size === "xsmall",
             [classes.small]: size === "small",
             [classes.medium]: size === "medium",
             [classes.large]: size === "large",
@@ -69,6 +71,8 @@ const CustomIcon: FC<CustomIconType> = ({
                 return <Intelligence className={mappedClasses} />;
             case "fluency":
                 return <Fluency className={mappedClasses} />;
+            case "money":
+                return <Money className={mappedClasses} />;
             case "projects":
                 return <ProjectsIcon className={mappedClasses} />;
             case "bulletjournal":

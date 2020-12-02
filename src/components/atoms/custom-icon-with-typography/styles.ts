@@ -8,6 +8,9 @@ const useCustomIconWithTypographyStyles = makeStyles((theme) => {
             alignItems: "center",
             justifyContent: "center",
             userSelect: "none",
+            "& > *": {
+                margin: theme.spacing(0, 0.4),
+            },
         },
     };
 });
