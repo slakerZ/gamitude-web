@@ -4,6 +4,10 @@ const useThemesPageStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.primary.main,
         overflowX: "hidden",
+        scrollbarWidth: "none",
+        "&::-webkit-scrollbar": {
+            display: "none",
+        },
     },
     media: {
         height: 200,

@@ -56,6 +56,9 @@ const ThemesPage = ({ token }: ThemesPagePropTypes) => {
     return (
         <Grid container className={classes.root}>
             <Grid item xs={3} className={classes.shopFilter}>
+                <Typography variant="h3" component="h3">
+                    {"Filters"}
+                </Typography>
                 <FormControl component="fieldset">
                     <FormLabel component="legend">{"Items Type"}</FormLabel>
                     <RadioGroup
