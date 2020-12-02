@@ -123,7 +123,7 @@ const Bullet = ({ token, setJournals, journals }: BulletPropTypes) => {
     const [pagesCurrJournalIndex, setPagesCurrJournalIndex] = useState(0);
     const [createNewJournalState, createNewJournal] = useAsyncFn(async () => {
         const requestBody = {
-            projectId: "34125134352354",
+            projectId: null,
 
             name: "new Journal",
 

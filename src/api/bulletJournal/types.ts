@@ -14,7 +14,7 @@ export interface JournalResponseBodyType {
 }
 
 export interface JournalRequestBodyType {
-    projectId: string;
+    projectId: string | null;
     name: string;
     icon: string;
     description: string;
