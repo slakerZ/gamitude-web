@@ -4,6 +4,10 @@ const useCustomIconStyles = makeStyles((theme) => ({
     error: {
         backgroundColor: theme.palette.error.contrastText,
     },
+    xsmall: {
+        width: "3vh",
+        height: "3vh",
+    },
     small: {
         width: "4vh",
         height: "4vh",

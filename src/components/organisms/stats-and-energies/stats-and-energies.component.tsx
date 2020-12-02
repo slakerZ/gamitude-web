@@ -77,28 +77,28 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
                                 <Fragment>
                                     <ToggleAbleTooltip target={"body"}>
                                         <CustomIconWithTypography
-                                            variant={"body"}
+                                            iconVariant={"body"}
                                         >
                                             {energies.body.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
                                     <ToggleAbleTooltip target={"emotions"}>
                                         <CustomIconWithTypography
-                                            variant={"emotions"}
+                                            iconVariant={"emotions"}
                                         >
                                             {energies.emotions.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
                                     <ToggleAbleTooltip target={"mind"}>
                                         <CustomIconWithTypography
-                                            variant={"mind"}
+                                            iconVariant={"mind"}
                                         >
                                             {energies.mind.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
                                     <ToggleAbleTooltip target={"soul"}>
                                         <CustomIconWithTypography
-                                            variant={"soul"}
+                                            iconVariant={"soul"}
                                         >
                                             {energies.soul.toString()}
                                         </CustomIconWithTypography>
@@ -120,28 +120,28 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
                                 <Fragment>
                                     <ToggleAbleTooltip target={"strength"}>
                                         <CustomIconWithTypography
-                                            variant={"strength"}
+                                            iconVariant={"strength"}
                                         >
                                             {stats.strength.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
                                     <ToggleAbleTooltip target={"creativity"}>
                                         <CustomIconWithTypography
-                                            variant={"creativity"}
+                                            iconVariant={"creativity"}
                                         >
                                             {stats.creativity.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
                                     <ToggleAbleTooltip target={"intelligence"}>
                                         <CustomIconWithTypography
-                                            variant={"intelligence"}
+                                            iconVariant={"intelligence"}
                                         >
                                             {stats.intelligence.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
                                     <ToggleAbleTooltip target={"fluency"}>
                                         <CustomIconWithTypography
-                                            variant={"fluency"}
+                                            iconVariant={"fluency"}
                                         >
                                             {stats.fluency.toString()}
                                         </CustomIconWithTypography>

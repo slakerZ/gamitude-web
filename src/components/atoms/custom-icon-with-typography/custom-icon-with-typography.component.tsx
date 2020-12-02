@@ -4,19 +4,20 @@ import Typography from "@material-ui/core/Typography";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 
+import useCustomIconWithTypographyStyles from "./styles";
 import { CustomIconWithTypographyType } from "./types";
 
-import useCustomIconWithTypographyStyles from "./styles";
-
 const CustomIconWithTypography: FC<CustomIconWithTypographyType> = ({
-    variant,
+    iconVariant,
+    iconSize = "small",
     children,
+    variant = "h3",
 }: CustomIconWithTypographyType): ReactElement => {
     const classes = useCustomIconWithTypographyStyles();
     return (
         <div className={classes.root}>
-            <CustomIcon variant={variant} size="small" />
-            <Typography variant="h3" component="h3">
+            <CustomIcon variant={iconVariant} size={iconSize} />
+            <Typography variant={variant} component={"h3"}>
                 {children}
             </Typography>
         </div>

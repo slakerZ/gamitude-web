@@ -12,6 +12,9 @@ import { ReactComponent as RankNav } from "assets/icons/navigation/rank.svg";
 import { ReactComponent as Settings } from "assets/icons/navigation/settings.svg";
 import { ReactComponent as Logo } from "assets/icons/navigation/sloth.svg";
 import { ReactComponent as StatsNav } from "assets/icons/navigation/stats.svg";
+import { ReactComponent as Themes } from "assets/icons/navigation/themes.svg";
+import { ReactComponent as TooltipChecked } from "assets/icons/navigation/tooltip_checked.svg";
+import { ReactComponent as TooltipUnChecked } from "assets/icons/navigation/tooltip_unchecked.svg";
 import { ReactComponent as NotFound } from "assets/icons/other/page-not-found.svg";
 import { ReactComponent as ActiveIcon } from "assets/icons/projects/active.svg";
 import { ReactComponent as DoneIcon } from "assets/icons/projects/done.svg";
@@ -26,6 +29,7 @@ import { ReactComponent as SRank } from "assets/icons/rank-tiers/019-letter-s.sv
 import { ReactComponent as Creativity } from "assets/icons/stats/creativity.svg";
 import { ReactComponent as Fluency } from "assets/icons/stats/fluency.svg";
 import { ReactComponent as Intelligence } from "assets/icons/stats/intelligence.svg";
+import { ReactComponent as Money } from "assets/icons/stats/money.svg";
 import { ReactComponent as Strength } from "assets/icons/stats/strength.svg";
 import clsx from "clsx";
 
@@ -44,6 +48,7 @@ const CustomIcon: FC<CustomIconType> = ({
         const variantLowered = variant ? variant.toLowerCase() : "";
         const mappedClasses = clsx(classes.white, {
             [classes.bar]: size === "bar",
+            [classes.xsmall]: size === "xsmall",
             [classes.small]: size === "small",
             [classes.medium]: size === "medium",
             [classes.large]: size === "large",
@@ -66,6 +71,8 @@ const CustomIcon: FC<CustomIconType> = ({
                 return <Intelligence className={mappedClasses} />;
             case "fluency":
                 return <Fluency className={mappedClasses} />;
+            case "money":
+                return <Money className={mappedClasses} />;
             case "projects":
                 return <ProjectsIcon className={mappedClasses} />;
             case "bulletjournal":
@@ -91,7 +98,13 @@ const CustomIcon: FC<CustomIconType> = ({
             case "logout":
                 return <Logout className={mappedClasses} />;
             case "settings":
-                return <Logout className={mappedClasses} />;
+                return <Settings className={mappedClasses} />;
+            case "tooltip_checked":
+                return <TooltipChecked className={mappedClasses} />;
+            case "tooltip_unchecked":
+                return <TooltipUnChecked className={mappedClasses} />;
+            case "themes":
+                return <Themes className={mappedClasses} />;
             case "f":
                 return <FRank className={mappedClasses} />;
             case "e":

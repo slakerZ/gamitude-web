@@ -8,6 +8,11 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
         width: "100%",
         height: "100%",
         overflowX: "hidden",
+        scrollbarWidth: "none",
+        "&::-webkit-scrollbar": {
+            display: "none",
+        },
+        backgroundColor: theme.palette.primary.dark,
     },
     appBar: {
         backgroundColor: "transparent",
@@ -17,6 +22,8 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        position: "sticky",
+        top: 0,
     },
     tabsPlaceholder: {
         width: "161px",
@@ -29,6 +36,7 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
     },
     projectsWrapper: {
         width: "100%",
+        backgroundColor: theme.palette.primary.main,
     },
     fabWrapper: {
         position: "fixed",

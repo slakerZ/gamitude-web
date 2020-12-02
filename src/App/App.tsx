@@ -23,16 +23,16 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import HelpIcon from "@material-ui/icons/Help";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import SettingsIcon from "@material-ui/icons/Settings";
 
 import { ReduxStateType } from "redux/root.reducer";
 import { setSessionType } from "redux/session/session.actions";
 import { selectSessionType } from "redux/session/session.selectors";
 import { setUser, setTooltipToggle } from "redux/user/user.actions";
-import { selectToken, selectTooltipToggle } from "redux/user/user.selectors";
+import {
+    selectToken,
+    selectTooltipToggle,
+    selectDateExpires,
+} from "redux/user/user.selectors";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import LoadingScreen from "components/atoms/loading-screen/loading-screen.component";
@@ -46,7 +46,7 @@ import Rank from "components/organisms/rank/rank.component";
 import StatsAndEnergies from "components/organisms/stats-and-energies/stats-and-energies.component";
 import Timer from "components/organisms/timer/timer.component";
 
-import { NAV_LINKS, NAV_ACTIONS } from "./constants";
+import { NAV_LINKS } from "./constants";
 import useAppStyles from "./styles";
 import { AppType } from "./types";
 
@@ -59,6 +59,7 @@ const SignInSignUpPage = lazy(
     () => import("pages/authentication/authentication.page"),
 );
 const ProfilePage = lazy(() => import("pages/profile/profile.page"));
+const ThemesPage = lazy(() => import("pages/themes/themes.page"));
 
 const App: FC<AppType> = ({
     token,
@@ -67,6 +68,7 @@ const App: FC<AppType> = ({
     tooltipToggle,
     setSessionType,
     sessionType,
+    dateExpires,
 }: AppType): ReactElement => {
     const classes = useAppStyles();
     const location = useLocation();
@@ -89,12 +91,14 @@ const App: FC<AppType> = ({
     };
 
     useEffect(() => {
-        if (!token) {
+        const expires = new Date(dateExpires).getTime();
+        if (expires < Date.now()) {
             setTokenExpired(true);
+            logout();
         } else {
             setTokenExpired(false);
         }
-    }, [token]);
+    }, [dateExpires]);
 
     return (
         <div className={classes.root}>
@@ -107,7 +111,10 @@ const App: FC<AppType> = ({
                 <Toolbar className={classes.toolbar}>
                     <div className={classes.left}>
                         {token ? (
-                            <IconButton onClick={handleToggleNavOpen}>
+                            <IconButton
+                                onClick={handleToggleNavOpen}
+                                aria-label="Toggle between full navigation an mini variant"
+                            >
                                 {navOpen ? (
                                     <ChevronLeftIcon />
                                 ) : (
@@ -127,17 +134,7 @@ const App: FC<AppType> = ({
                         </Link>
                     </div>
 
-                    <div className={classes.right}>
-                        <ToggleAbleTooltip target={"tooltipToggle"}>
-                            <IconButton onClick={toggleTooltips}>
-                                {tooltipToggle ? (
-                                    <HelpIcon />
-                                ) : (
-                                    <HelpOutlineIcon />
-                                )}
-                            </IconButton>
-                        </ToggleAbleTooltip>
-                    </div>
+                    <div className={classes.right}></div>
                 </Toolbar>
             </AppBar>
             {token ? (
@@ -157,7 +154,10 @@ const App: FC<AppType> = ({
                 >
                     <Toolbar />
                     <div className={classes.navigationLeft}>
-                        <List>
+                        <List
+                            component={"nav"}
+                            aria-label="Gamitude main features navigation"
+                        >
                             {NAV_LINKS.map(({ to, label, icon, tooltip }) => (
                                 <ListItem
                                     button
@@ -177,25 +177,44 @@ const App: FC<AppType> = ({
                                 </ListItem>
                             ))}
                         </List>
-                        <List>
-                            {NAV_ACTIONS.map(({ to, label, icon, tooltip }) => (
-                                <ListItem
-                                    button
-                                    key={to}
-                                    component={Link}
-                                    to={to}
-                                >
-                                    <ToggleAbleTooltip target={tooltip}>
-                                        <ListItemIcon>
+                        <List
+                            component={"nav"}
+                            aria-label="Gamitude side features navigation"
+                        >
+                            <ListItem button onClick={toggleTooltips}>
+                                <ToggleAbleTooltip target={"tooltipToggle"}>
+                                    <ListItemIcon>
+                                        {tooltipToggle ? (
                                             <CustomIcon
                                                 size="small"
-                                                variant={icon}
+                                                variant={"tooltip_checked"}
                                             />
-                                        </ListItemIcon>
-                                    </ToggleAbleTooltip>
-                                    <ListItemText primary={label} />
-                                </ListItem>
-                            ))}
+                                        ) : (
+                                            <CustomIcon
+                                                size="small"
+                                                variant={"tooltip_unchecked"}
+                                            />
+                                        )}
+                                    </ListItemIcon>
+                                </ToggleAbleTooltip>
+                                <ListItemText primary={"Toggle Tooltips"} />
+                            </ListItem>
+                            <ListItem
+                                button
+                                component={Link}
+                                to={"/signInSignUp"}
+                                onClick={logout}
+                            >
+                                <ToggleAbleTooltip target={"logout"}>
+                                    <ListItemIcon>
+                                        <CustomIcon
+                                            size="small"
+                                            variant={"logout"}
+                                        />
+                                    </ListItemIcon>
+                                </ToggleAbleTooltip>
+                                <ListItemText primary={"Logout"} />
+                            </ListItem>
                         </List>
                     </div>
                 </Drawer>
@@ -221,6 +240,7 @@ const App: FC<AppType> = ({
                             path="/signInSignUp"
                             component={SignInSignUpPage}
                         />
+                        <Route exact path="/themes" component={ThemesPage} />
                     </Switch>
                 </div>
             </Suspense>
@@ -261,6 +281,7 @@ const mapStateToProps = (state: ReduxStateType) => ({
     token: selectToken(state),
     tooltipToggle: selectTooltipToggle(state),
     sessionType: selectSessionType(state),
+    dateExpires: selectDateExpires(state),
 });
 const mapDispatchToProps = (dispatch: any) => ({
     setUser: (value: any) => dispatch(setUser(value)),

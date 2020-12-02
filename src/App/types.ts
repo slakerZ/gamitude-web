@@ -7,6 +7,7 @@ export interface AppType {
     setTooltipToggle: (props: SetTooltipToggleProps) => null;
     sessionType: ProjectSessionType;
     setSessionType: (props: any) => null;
+    dateExpires: any;
 }
 export interface LinkType {
     to: string;

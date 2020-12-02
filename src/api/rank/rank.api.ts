@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { API_ENDPOINT } from "api/constants";
 
-import { RankResponseBodyType, FullRankType } from "./types";
+import { RankResponseBodyType } from "./types";
 
 const ENDPOINT = `${API_ENDPOINT}/rank`;
 
@@ -10,7 +10,7 @@ export const getRanks = async (
     token: string,
     page: number,
     limit: number,
-    sortBy: Partial<FullRankType>,
+    sortBy: string,
 ): Promise<RankResponseBodyType> => {
     const params = `?page=${page}&limit=${limit}&sortBy=${sortBy}`;
     const url = `${ENDPOINT}/${params}`;

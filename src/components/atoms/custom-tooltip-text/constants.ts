@@ -1,4 +1,4 @@
-import { TooltipObjectType } from './types'
+import { TooltipObjectType } from "./types";
 
 // Stats and energies
 
@@ -108,43 +108,41 @@ const sessionTimer = {
         "Click on it to begin session it will notify you twice:",
         "When there's a minute left",
         "When the session was finished",
-        "Doesn't apply to stopwatch"
-    ]
-}
+        "Doesn't apply to stopwatch",
+    ],
+};
 
 const add5 = {
     title: "Add 5",
     bodyItems: [
         "Prolong your session by 5 minutes",
-        'Used when you want to "just finish this one quickly"'
-    ]
-}
+        'Used when you want to "just finish this one quickly"',
+    ],
+};
 
 const sessionTypeSwitch = {
     title: "Session Type Switch",
     bodyItems: [
         "Switch type of your session between energy and stat",
         "Stat session type increases your stats while energy sesion type replenishes energies",
-        "You can think of them like: Stat = actual work done Energy = activities done during breaks"
-    ]
-}
+        "You can think of them like: Stat = actual work done Energy = activities done during breaks",
+    ],
+};
 
 const method = {
-    title: 'Session Method',
+    title: "Session Method",
     bodyItems: [
         "This sets session time displayed on timer above",
-        "Infinity sign means that instead of countdown timer stopwatch will be used"
-    ]
-}
+        "Infinity sign means that instead of countdown timer stopwatch will be used",
+    ],
+};
 
 // Menu
 
 const logout = {
     title: "Logout",
-    bodyItems: [
-        "See you soon!"
-    ]
-}
+    bodyItems: ["See you soon!"],
+};
 
 const bulletJournal = {
     title: "Bullet Journal",
@@ -179,21 +177,24 @@ const projects = {
     ],
 };
 
+const themes = {
+    title: "Themes",
+    bodyItems: ["Buy new ranks and customize application appearance"],
+};
+
 // Activities
 
 const project = {
     title: "Project",
-    bodyItems: [
-        "Work on your project with the method that suits your best",
-    ],
+    bodyItems: ["Work on your project with the method that suits your best"],
 };
 
 const folder = {
-    title: 'Folder',
+    title: "Folder",
     bodyItems: [
-        "Organize your projects into folders to keep your fields of effort separated"
-    ]
-}
+        "Organize your projects into folders to keep your fields of effort separated",
+    ],
+};
 
 // Rank
 
@@ -230,14 +231,10 @@ const rankTier = {
 
 const tooltipNotFound = {
     title: "Not Found",
-    bodyItems: [
-        "Mapping funciton wasn't able to match string to an object"
-    ]
-}
+    bodyItems: ["Mapping funciton wasn't able to match string to an object"],
+};
 
-export const targetToTooltipObject = (
-    target: string,
-):TooltipObjectType => {
+export const targetToTooltipObject = (target: string): TooltipObjectType => {
     switch (target) {
         case "body":
             return body;
@@ -294,7 +291,9 @@ export const targetToTooltipObject = (
         case "sessionTimer":
             return sessionTimer;
         case "sessionTypeSwitch":
-            return sessionTypeSwitch
+            return sessionTypeSwitch;
+        case "themes":
+            return themes;
         default:
             return tooltipNotFound;
     }
