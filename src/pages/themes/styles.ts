@@ -9,15 +9,28 @@ const useThemesPageStyles = makeStyles((theme) => ({
             display: "none",
         },
     },
+    card: {
+        backgroundColor: theme.palette.primary.light,
+    },
     media: {
         height: 200,
     },
-    shopFilter: {
-        backgroundColor: theme.palette.primary.main,
+    shopFilters: {
+        backgroundColor: theme.palette.primary.dark,
+        display: "flex",
+        flexDirection: "column",
+        padding: theme.spacing(2),
+        "& > *": {
+            margin: theme.spacing(1),
+        },
+    },
+    shopFiltersBody: {
+        position: "sticky",
+        top: theme.spacing(3),
     },
     shopItems: {
-        padding: theme.spacing(2, 4, 2, 2),
-        backgroundColor: theme.palette.primary.light,
+        padding: theme.spacing(2),
+        backgroundColor: theme.palette.primary.main,
     },
     flexRow: {
         display: "flex",

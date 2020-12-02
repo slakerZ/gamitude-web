@@ -111,7 +111,10 @@ const App: FC<AppType> = ({
                 <Toolbar className={classes.toolbar}>
                     <div className={classes.left}>
                         {token ? (
-                            <IconButton onClick={handleToggleNavOpen}>
+                            <IconButton
+                                onClick={handleToggleNavOpen}
+                                aria-label="Toggle between full navigation an mini variant"
+                            >
                                 {navOpen ? (
                                     <ChevronLeftIcon />
                                 ) : (
