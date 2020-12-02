@@ -1,4 +1,4 @@
-import { PagesActionTypes } from "./bulletPages.types";
+import { PagesActionTypes } from "./pages.types";
 
 const INITIAL_STATE = {
     pages: [],
@@ -9,7 +9,7 @@ const pagesReducer = (state = INITIAL_STATE, action: any) => {
         case PagesActionTypes.SET_PAGES:
             return {
                 ...state,
-                journals: action.payload,
+                pages: action.payload,
             };
         case PagesActionTypes.ADD_PAGE:
             return {

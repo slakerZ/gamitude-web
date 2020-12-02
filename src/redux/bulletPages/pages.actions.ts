@@ -1,8 +1,8 @@
 import { PageType } from "api/bulletPages/types";
 
-import { PagesActionTypes } from "./bulletPages.types";
+import { PagesActionTypes } from "./pages.types";
 
-export const addPage = (value: JournalType) => ({
+export const addPage = (value: PageType) => ({
     type: PagesActionTypes.ADD_PAGE,
     payload: value,
 });

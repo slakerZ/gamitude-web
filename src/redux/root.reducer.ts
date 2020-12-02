@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
+import pagesReducer from "./bulletPages/pages.reducer";
 import energiesReducer from "./energies/energies.reducer";
 import foldersReducer from "./folders/folders.reducer";
 import journalsReducer from "./journals/journals.reducer";
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     session: sessionReducer,
     folders: foldersReducer,
     journals: journalsReducer,
+    pages: pagesReducer,
     timers: timersReducer,
     snackbar: snackbarReducer,
 });
