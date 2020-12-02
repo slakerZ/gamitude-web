@@ -23,6 +23,7 @@ const useThemesPageStyles = makeStyles((theme) => ({
         "& > *": {
             margin: theme.spacing(1),
         },
+        minHeight: "100%",
     },
     shopFiltersBody: {
         position: "sticky",
@@ -40,6 +41,19 @@ const useThemesPageStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
+    },
+    progress: {
+        color: theme.palette.common.white,
+    },
+    center: {
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    buyButton: {
+        color: theme.palette.common.white,
     },
 }));
 

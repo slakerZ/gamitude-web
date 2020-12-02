@@ -2,6 +2,7 @@ import React, { useReducer, useState } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn, useEffectOnce } from "react-use";
 
+import { CircularProgress } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -28,12 +29,12 @@ import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 
 import { TiersMapper, PricesMapper } from "./constants";
 import useThemesPageStyles from "./styles";
-import { ThemesPagePropTypes } from "./types";
+import { ThemesPagePropTypes, FilterType, ActionType } from "./types";
 
 const ThemesPage = ({ token }: ThemesPagePropTypes) => {
     const classes = useThemesPageStyles();
 
-    const checkedTiersReducer = (state: any, action: any) => {
+    const checkedTiersReducer = (state: FilterType, action: ActionType) => {
         switch (action.type) {
             case "s":
                 return { ...state, s: action.payload };
@@ -84,7 +85,6 @@ const ThemesPage = ({ token }: ThemesPagePropTypes) => {
     const [getRanksState, getRanks] = useAsyncFn(async () => {
         const response = await getRanksApi(token, 1, 8, "name");
         setShopItems(response.data);
-        console.log(response.data);
         return response;
     });
 
@@ -92,13 +92,14 @@ const ThemesPage = ({ token }: ThemesPagePropTypes) => {
         setItemsCategory(newValue);
     };
 
-    const handleChangeCheckedTiers = (e: any, newValue: any) => {
+    const handleChangeCheckedTiers = (e: any, newValue: boolean) => {
         dispatchFilter({ payload: newValue, type: e.target.value });
     };
 
-    const handleBuy = (id: any, name: any) => {
-        console.log(id);
-        console.log(name);
+    const handleBuy = (id: string, name: string) => {
+        // console.log(id);
+        // console.log(name);
+        return { id, name };
     };
 
     useEffectOnce(() => {
@@ -196,112 +197,125 @@ const ThemesPage = ({ token }: ThemesPagePropTypes) => {
             </Grid>
             <Grid item xs={9} className={classes.shopItems}>
                 <Grid container spacing={2}>
-                    {shopItems.map(
-                        (
-                            {
-                                imageUrl,
-                                name,
-                                tier,
-                                priceCreativity,
-                                priceEuro,
-                                priceStrength,
-                                priceFluency,
-                                priceIntelligence,
-                                id,
-                            }: FullRankType,
-                            index: number,
-                        ) => {
-                            return (
-                                <Grid key={index} item xs={3}>
-                                    <Card className={classes.card}>
-                                        <CardActionArea>
-                                            <CardMedia
-                                                className={classes.media}
-                                                image={imageUrl}
-                                                title={name}
-                                            />
-                                            <CardContent>
-                                                <div
-                                                    className={classes.flexRow}
-                                                >
-                                                    <Typography
-                                                        variant="h4"
-                                                        component="h4"
+                    {getRanksState.loading ? (
+                        <div className={classes.center}>
+                            <CircularProgress className={classes.progress} />
+                        </div>
+                    ) : (
+                        shopItems.map(
+                            (
+                                {
+                                    imageUrl,
+                                    name,
+                                    tier,
+                                    priceCreativity,
+                                    priceEuro,
+                                    priceStrength,
+                                    priceFluency,
+                                    priceIntelligence,
+                                    id,
+                                }: FullRankType,
+                                index: number,
+                            ) => {
+                                return (
+                                    <Grid key={index} item xs={3}>
+                                        <Card className={classes.card}>
+                                            <CardActionArea>
+                                                <CardMedia
+                                                    className={classes.media}
+                                                    image={imageUrl}
+                                                    title={name}
+                                                />
+                                                <CardContent>
+                                                    <div
+                                                        className={
+                                                            classes.flexRow
+                                                        }
                                                     >
-                                                        {name}
-                                                    </Typography>
-                                                    <CustomIcon
-                                                        variant={tier.toLowerCase()}
-                                                        size="xsmall"
-                                                    />
-                                                </div>
-                                                <div
+                                                        <Typography
+                                                            variant="h4"
+                                                            component="h4"
+                                                        >
+                                                            {name}
+                                                        </Typography>
+                                                        <CustomIcon
+                                                            variant={tier.toLowerCase()}
+                                                            size="xsmall"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        className={
+                                                            classes.flexColumn
+                                                        }
+                                                    >
+                                                        <CustomIconWithTypography
+                                                            iconVariant={
+                                                                "strength"
+                                                            }
+                                                            variant={"h4"}
+                                                            iconSize={"xsmall"}
+                                                        >
+                                                            {priceStrength.toString()}
+                                                        </CustomIconWithTypography>
+                                                        <CustomIconWithTypography
+                                                            iconVariant={
+                                                                "creativity"
+                                                            }
+                                                            variant={"h4"}
+                                                            iconSize={"xsmall"}
+                                                        >
+                                                            {priceCreativity.toString()}
+                                                        </CustomIconWithTypography>
+                                                        <CustomIconWithTypography
+                                                            iconVariant={
+                                                                "intelligence"
+                                                            }
+                                                            variant={"h4"}
+                                                            iconSize={"xsmall"}
+                                                        >
+                                                            {priceIntelligence.toString()}
+                                                        </CustomIconWithTypography>
+                                                        <CustomIconWithTypography
+                                                            iconVariant={
+                                                                "fluency"
+                                                            }
+                                                            variant={"h4"}
+                                                            iconSize={"xsmall"}
+                                                        >
+                                                            {priceFluency.toString()}
+                                                        </CustomIconWithTypography>
+                                                        <CustomIconWithTypography
+                                                            iconVariant={
+                                                                "money"
+                                                            }
+                                                            variant={"h4"}
+                                                        >
+                                                            {priceEuro.toString()}
+                                                        </CustomIconWithTypography>
+                                                    </div>
+                                                </CardContent>
+                                            </CardActionArea>
+                                            <CardActions>
+                                                <Button
+                                                    size="small"
+                                                    onClick={() =>
+                                                        handleBuy(id, name)
+                                                    }
+                                                    aria-label="Buy item"
+                                                    variant="outlined"
+                                                    color="secondary"
                                                     className={
-                                                        classes.flexColumn
+                                                        classes.buyButton
                                                     }
                                                 >
-                                                    <CustomIconWithTypography
-                                                        iconVariant={"strength"}
-                                                        variant={"h4"}
-                                                        iconSize={"xsmall"}
-                                                    >
-                                                        {priceStrength.toString()}
-                                                    </CustomIconWithTypography>
-                                                    <CustomIconWithTypography
-                                                        iconVariant={
-                                                            "creativity"
-                                                        }
-                                                        variant={"h4"}
-                                                        iconSize={"xsmall"}
-                                                    >
-                                                        {priceCreativity.toString()}
-                                                    </CustomIconWithTypography>
-                                                    <CustomIconWithTypography
-                                                        iconVariant={
-                                                            "intelligence"
-                                                        }
-                                                        variant={"h4"}
-                                                        iconSize={"xsmall"}
-                                                    >
-                                                        {priceIntelligence.toString()}
-                                                    </CustomIconWithTypography>
-                                                    <CustomIconWithTypography
-                                                        iconVariant={"fluency"}
-                                                        variant={"h4"}
-                                                        iconSize={"xsmall"}
-                                                    >
-                                                        {priceFluency.toString()}
-                                                    </CustomIconWithTypography>
-                                                    <CustomIconWithTypography
-                                                        iconVariant={"money"}
-                                                        variant={"h4"}
-                                                    >
-                                                        {priceEuro.toString()}
-                                                    </CustomIconWithTypography>
-                                                </div>
-                                            </CardContent>
-                                        </CardActionArea>
-                                        <CardActions>
-                                            <Button
-                                                size="small"
-                                                onClick={() =>
-                                                    handleBuy(id, name)
-                                                }
-                                                aria-label="Buy item"
-                                            >
-                                                {"Buy"}
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                aria-label="View item's page"
-                                            >
-                                                {"View offer"}
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            );
-                        },
+                                                    {"Buy"}
+                                                </Button>
+                                            </CardActions>
+                                        </Card>
+                                    </Grid>
+                                );
+                            },
+                        )
                     )}
                 </Grid>
             </Grid>

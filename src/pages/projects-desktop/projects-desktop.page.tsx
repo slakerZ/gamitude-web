@@ -130,7 +130,10 @@ const ProjectsDesktopPage = ({
                                 <Tab
                                     key={index}
                                     label={name}
-                                    {...a11yProps(index, "projects-in-folder")}
+                                    {...a11yProps(
+                                        index,
+                                        "folder-with-projects",
+                                    )}
                                     icon={
                                         <CustomIcon
                                             variant={icon}
@@ -174,7 +177,7 @@ const ProjectsDesktopPage = ({
                                 id={"projects-in-folder"}
                             >
                                 <RadioGroup
-                                    aria-label="selected_project"
+                                    aria-label={`selected_project_${index}`}
                                     name="selected_project"
                                     value={selectedProject}
                                     onChange={handleChangeSelectedProject}
@@ -194,7 +197,7 @@ const ProjectsDesktopPage = ({
                 <ToggleAbleTooltip target="project">
                     <Fab
                         color="secondary"
-                        aria-label="add"
+                        aria-label="Open add project dialog"
                         className={classes.add}
                         onClick={handleOpenNewProjectDialog}
                     >

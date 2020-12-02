@@ -22,6 +22,8 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        position: "sticky",
+        top: 0,
     },
     tabsPlaceholder: {
         width: "161px",

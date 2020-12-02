@@ -154,7 +154,10 @@ const App: FC<AppType> = ({
                 >
                     <Toolbar />
                     <div className={classes.navigationLeft}>
-                        <List>
+                        <List
+                            component={"nav"}
+                            aria-label="Gamitude main features navigation"
+                        >
                             {NAV_LINKS.map(({ to, label, icon, tooltip }) => (
                                 <ListItem
                                     button
@@ -174,7 +177,10 @@ const App: FC<AppType> = ({
                                 </ListItem>
                             ))}
                         </List>
-                        <List>
+                        <List
+                            component={"nav"}
+                            aria-label="Gamitude side features navigation"
+                        >
                             <ListItem button onClick={toggleTooltips}>
                                 <ToggleAbleTooltip target={"tooltipToggle"}>
                                     <ListItemIcon>
