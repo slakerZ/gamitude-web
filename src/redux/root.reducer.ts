@@ -1,15 +1,18 @@
 import { combineReducers } from "redux";
-// Reducers
-import energiesReducer from "./energies/energies.reducer";
 import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+import energiesReducer from "./energies/energies.reducer";
+import foldersReducer from "./folders/folders.reducer";
+import journalsReducer from "./journals/journals.reducer";
 import projectsReducer from "./projects/projects.reducer";
 import sessionReducer from "./session/session.reducer";
-import statsReducer from "./stats/stats.reducer";
-import storage from "redux-persist/lib/storage";
-import userReducer from "./user/user.reducer";
-import foldersReducer from "./folders/folders.reducer";
-import timersReducer from "./timers/timers.reducer";
 import snackbarReducer from "./snackbar/snackbar.reducer";
+import statsReducer from "./stats/stats.reducer";
+import timersReducer from "./timers/timers.reducer";
+import userReducer from "./user/user.reducer";
+
+// Reducers
 
 const persistConfig = {
     key: "root",
@@ -27,6 +30,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     session: sessionReducer,
     folders: foldersReducer,
+    journals: journalsReducer,
     timers: timersReducer,
     snackbar: snackbarReducer,
 });

@@ -1,14 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
-import CustomAlert from "components/atoms/custom-alert/custom-alert.component";
-import { CustomSnackbarPropTypes } from "./types";
+
 import Snackbar from "@material-ui/core/Snackbar";
+
+import { setOpen } from "redux/snackbar/snackbar.actions";
 import {
     selectMessage,
     selectSeverity,
     selectOpen,
 } from "redux/snackbar/snackbar.selectors";
-import { setOpen } from "redux/snackbar/snackbar.actions";
+
+import CustomAlert from "components/atoms/custom-alert/custom-alert.component";
+
+import { CustomSnackbarPropTypes } from "./types";
 
 const CustomSnackbar = ({
     open,

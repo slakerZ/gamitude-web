@@ -246,7 +246,6 @@ const App: FC<AppType> = ({
                                 setSessionType={setSessionType}
                             />
                         </ToggleAbleTooltip>
-                        <Timer />
                         <Methods />
                     </div>
                 </Drawer>
