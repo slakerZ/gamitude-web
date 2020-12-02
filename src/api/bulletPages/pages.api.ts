@@ -8,8 +8,9 @@ const ENDPOINT = `${API_ENDPOINT}/pages`;
 
 export const getPages = async (
     token: string,
+    journalId: string,
 ): Promise<PageResponseBodyType> => {
-    const url = `${ENDPOINT}`;
+    const url = `${ENDPOINT}/${journalId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

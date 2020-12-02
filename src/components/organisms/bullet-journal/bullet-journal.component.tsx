@@ -20,11 +20,14 @@ import AddIcon from "@material-ui/icons/Add";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Skeleton from "@material-ui/lab/Skeleton";
 
+import { setPages } from "redux/bulletPages/pages.actions";
+import { selectPages } from "redux/bulletPages/pages.selectors";
 import { setJournals } from "redux/journals/journals.actions";
 import { selectJournals } from "redux/journals/journals.selectors";
 import { selectToken } from "redux/user/user.selectors";
 
 import { getJournals, postJournal } from "api/bulletJournal/journals.api";
+import { getPages } from "api/bulletPages/pages.api";
 
 import NewJournalDialog from "components/atoms/custom-dialog/new-journal-dialog.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
@@ -84,19 +87,27 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-const Bullet = ({ token, setJournals, journals }: BulletPropTypes) => {
+const Bullet = ({
+    token,
+    setJournals,
+    journals,
+    pages,
+    setPages,
+}: BulletPropTypes) => {
     const classes = useStyles();
 
     const [isNewJournalDialogOpen, setIsNewJournalDialogOpen] = useState(false);
     const [pagesCurrJournalIndex, setPagesCurrJournalIndex] = useState(0);
-    /*
-    const [getPagesListState, getPagesList] = useAsyncFn(async () => {
-        const response = await getPages(token);
+    const [currJournalId, setCurrJournalId] = useState(
+        "5fc7cae25c75a42717d866e0",
+    );
+    const [getPagesListState, getPagesList] = useAsyncFn(async (journalId) => {
+        console.log(journalId);
+        const response = await getPages(token, journalId);
         const result = response.data;
         setPages(result);
         return result;
     });
-    */
 
     const [getJournalsListState, getJournalsList] = useAsyncFn(async () => {
         const response = await getJournals(token);
@@ -106,7 +117,7 @@ const Bullet = ({ token, setJournals, journals }: BulletPropTypes) => {
 
     useEffectOnce(() => {
         getJournalsList();
-        //getPagesList();
+        getPagesList(currJournalId);
     });
 
     const handleChangeCurrentJournal = (
@@ -116,7 +127,6 @@ const Bullet = ({ token, setJournals, journals }: BulletPropTypes) => {
         setPagesCurrJournalIndex(newValue);
     };
     /*
-
     const handleChangeSelectedPage = (
         event: React.ChangeEvent<any>,
         newValue: any,
@@ -128,6 +138,7 @@ const Bullet = ({ token, setJournals, journals }: BulletPropTypes) => {
         setIsNewPageFormOpen(true);
     };
 */
+
     const handleOpenNewJournalDialog = () => {
         setIsNewJournalDialogOpen(true);
     };
@@ -143,7 +154,7 @@ const Bullet = ({ token, setJournals, journals }: BulletPropTypes) => {
             ) : (
                 <div className={classes.tabsWrapper}>
                     <Tabs
-                        aria-label="Folders navigation"
+                        aria-label="Journals navigation"
                         orientation="vertical"
                         variant="scrollable"
                         value={pagesCurrJournalIndex}
@@ -189,10 +200,12 @@ const Bullet = ({ token, setJournals, journals }: BulletPropTypes) => {
 const mapStateToProps = (state: any) => ({
     token: selectToken(state),
     journals: selectJournals(state),
+    pages: selectPages(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setJournals: (value: any) => dispatch(setJournals(value)),
+    setPages: (value: any) => dispatch(setPages(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bullet);
