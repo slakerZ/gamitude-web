@@ -160,7 +160,7 @@ const Project = ({
                         onFocus={(event) => event.stopPropagation()}
                         control={<Radio />}
                         label={name}
-                        value={name}
+                        value={projects[index].id}
                     />
                 </ToggleAbleTooltip>
             </AccordionSummary>

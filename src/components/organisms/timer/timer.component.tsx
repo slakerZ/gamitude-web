@@ -22,10 +22,13 @@ import { selectToken } from "redux/user/user.selectors";
 
 import { postProjectLog } from "api/projectLogs/projectLogs.api";
 
+import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
+import { MINUTE_AS_MS, MS_ERROR_MARGIN, INTERVAL_FREQUENCY } from "./constants";
 import useTimerStyles from "./styles";
 import { TimerPropTypes } from "./types";
+import { leftPad, milisecondsToMinutes } from "./utils";
 
 const endSound = require("assets/sounds/congratulations.mp3");
 const minuteSound = require("assets/sounds/bell.mp3");
@@ -42,128 +45,134 @@ const Timer = ({
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
-    const minuteAsMiliseconds = 60000;
-    const milisecondsErrorMargin = 1000;
-    const intervalFrequency = 250;
-
+    // useState
     const [sessionTime, setSessionTime] = useState(
-        selectedTimer.workTime * minuteAsMiliseconds,
+        selectedTimer.workTime * MINUTE_AS_MS,
     );
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [endDateAsMs, setEndDateAsMs] = useState(0);
     const [currWorkTime, setCurrWorkTime] = useState(selectedTimer.workTime);
     const [currOverTime, setCurrOvertime] = useState(selectedTimer.overTime);
+    const [isConfirmGiveUpDialogOpen, setIsConfirmGiveUpDialogOpen] = useState(
+        false,
+    );
 
+    // useSound
     const [playMin, { isPlaying }] = useSound(minuteSound, {
         volume: 0.2,
         interrupt: true,
     });
-
     const [play] = useSound(endSound, {
         volume: 0.2,
         interrupt: true,
     });
 
-    const leftPad = (val: number) => (val < 10 ? `0${val}` : `${val}`);
-
-    const milisecondsToMinutes = (time: number) => {
-        const minutes = Math.floor(time / (1000 * 60));
-        const seconds = Math.floor((time % (1000 * 60)) / 1000);
-        return {
-            minutes: minutes,
-            seconds: seconds,
-        };
-    };
-
+    // handlers
     const handleOvertime = () => {
-        const overtime = currOverTime * minuteAsMiliseconds;
+        const overtime = currOverTime * MINUTE_AS_MS;
         setEndDateAsMs(endDateAsMs + overtime);
         setSessionTime(sessionTime + overtime);
         const movedEndDate = new Date(
-            endDate.getTime() + currOverTime * minuteAsMiliseconds,
+            endDate.getTime() + currOverTime * MINUTE_AS_MS,
         );
         setEndDate(movedEndDate);
     };
 
     const handleSession = () => {
-        const currEndDate = new Date();
-        const currEndDateAsMs = currEndDate.setMinutes(
-            currEndDate.getMinutes() + currWorkTime,
-        );
-        setEndDate(currEndDate);
-        setEndDateAsMs(currEndDateAsMs);
-        setSessionInProgress(!sessionInProgress);
-        setStartDate(new Date());
+        if (!sessionInProgress) {
+            // Take date now as ms and add work time
+            const currEndDate = new Date();
+            const currEndDateAsMs = currEndDate.setMinutes(
+                currEndDate.getMinutes() + currWorkTime,
+            );
+
+            setEndDate(currEndDate);
+            setEndDateAsMs(currEndDateAsMs);
+
+            setSessionInProgress(true);
+            setStartDate(new Date());
+        } else {
+            setIsConfirmGiveUpDialogOpen(true);
+        }
     };
 
+    const handleGiveUp = () => {
+        setSessionInProgress(false);
+        setIsConfirmGiveUpDialogOpen(false);
+    };
+
+    const handleCountdown = (interval: any) => {
+        const distance = endDateAsMs - Date.now();
+        // Is minute left?
+        if (
+            distance >= MINUTE_AS_MS &&
+            distance < MINUTE_AS_MS + MS_ERROR_MARGIN
+        ) {
+            if (!isPlaying) {
+                playMin();
+            }
+        }
+        // Session in progress?
+        if (distance > 0) {
+            setSessionTime(distance);
+        }
+        // Session ended successfully?
+        else {
+            // Reset work time
+            setSessionTime(currWorkTime * MINUTE_AS_MS);
+            clearInterval(interval);
+            setSessionInProgress(false);
+            //Play end sound
+            play();
+            // Api call
+            const requestBody = {
+                projectId: selectedProject.id,
+                projectTaskId: null,
+                log: "",
+                timeSpend:
+                    milisecondsToMinutes(
+                        endDate.getTime() - startDate.getTime(),
+                    ).minutes + 1,
+                dominantStat: selectedProject.dominantStat,
+                stats: selectedProject.stats,
+                projectType: selectedProject.projectType,
+            };
+            postProjectLog(token, requestBody).then(() => {
+                incrementSessionsComplete();
+            });
+        }
+    };
+
+    // useEffect
     useEffect(() => {
         const defaultTimer = timers.find(
             (timer: any) => timer.id === selectedProject.defaultTimerId,
         );
         if (defaultTimer) {
             setSelectedTimer(defaultTimer);
-            setSessionTime(defaultTimer.workTime * minuteAsMiliseconds);
+            setSessionTime(defaultTimer.workTime * MINUTE_AS_MS);
         }
     }, [selectedProject]);
 
     useEffect(() => {
         setCurrOvertime(selectedTimer.overTime);
         setCurrWorkTime(selectedTimer.workTime);
-        setSessionTime(selectedTimer.workTime * minuteAsMiliseconds);
+        setSessionTime(selectedTimer.workTime * MINUTE_AS_MS);
     }, [selectedTimer]);
 
     useEffect(() => {
         const interval = sessionInProgress
-            ? setInterval(() => {
-                  const distance = endDateAsMs - Date.now();
-                  // Is minute left?
-                  if (
-                      distance >= minuteAsMiliseconds &&
-                      distance < minuteAsMiliseconds + milisecondsErrorMargin
-                  ) {
-                      if (!isPlaying) {
-                          playMin();
-                      }
-                  }
-                  // Session in progress?
-                  if (distance > 0) {
-                      setSessionTime(distance);
-                  }
-                  // Session ended successfully?
-                  else {
-                      setSessionTime(currWorkTime * minuteAsMiliseconds);
-                      clearInterval(interval);
-                      setSessionInProgress(false);
-                      //Play end sound
-                      play();
-                      // Api call
-                      const requestBody = {
-                          projectId: selectedProject.id,
-                          projectTaskId: null,
-                          log: "",
-                          timeSpend:
-                              milisecondsToMinutes(
-                                  endDate.getTime() - startDate.getTime(),
-                              ).minutes + 1,
-                          dominantStat: selectedProject.dominantStat,
-                          stats: selectedProject.stats,
-                          projectType: selectedProject.projectType,
-                      };
-                      postProjectLog(token, requestBody).then(() => {
-                          incrementSessionsComplete();
-                      });
-                  }
-              }, intervalFrequency)
+            ? setInterval(handleCountdown, INTERVAL_FREQUENCY)
             : setInterval(() => null, 1);
         if (!sessionInProgress) {
             // Give up has been clicked
             const sessionContinues = sessionTime > 0;
             const methodSessionTimesDiffer =
-                currWorkTime * minuteAsMiliseconds !== sessionTime;
+                currWorkTime * MINUTE_AS_MS !== sessionTime;
             if (sessionContinues && methodSessionTimesDiffer) {
                 // ResetTimer
-                setSessionTime(currWorkTime * minuteAsMiliseconds);
+                setSessionTime(currWorkTime * MINUTE_AS_MS);
             }
             clearInterval(interval);
         }
@@ -174,6 +183,19 @@ const Timer = ({
 
     return (
         <div className={classes.root}>
+            <CustomDialog
+                open={isConfirmGiveUpDialogOpen}
+                setOpen={setIsConfirmGiveUpDialogOpen}
+                onSubmit={handleGiveUp}
+                title="WARNING"
+            >
+                <Typography variant="h6" component="h6">
+                    {"Current session progress will be lost."}
+                </Typography>
+                <Typography variant="body1" component="p">
+                    {"No stats will be added, no time will be logged."}
+                </Typography>
+            </CustomDialog>
             <Typography
                 variant="h6"
                 component="h6"

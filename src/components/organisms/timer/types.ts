@@ -8,3 +8,8 @@ export interface TimerPropTypes {
     token: any;
     incrementSessionsComplete: any;
 }
+
+export interface MsToMinutesType {
+    minutes: number;
+    seconds: number;
+}
