@@ -5,9 +5,8 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 
-import { CustomToggleButtonGroupPropTypes } from "./types";
-
 import useCustomToggleButtonGroupStyles from "./styles";
+import { CustomToggleButtonGroupPropTypes } from "./types";
 
 const CustomToggleButtonGroup = ({
     value,
