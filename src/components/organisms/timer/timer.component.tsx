@@ -11,8 +11,10 @@ import { selectSelectedProject } from "redux/projects/projects.selectors";
 import {
     setSessionInProgress,
     incrementSessionsComplete,
+    setSessionType,
 } from "redux/session/session.actions";
 import { selectSessionInProgress } from "redux/session/session.selectors";
+import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { setSelectedTimer } from "redux/timers/timers.actions";
 import {
     selectSelectedTimer,
@@ -42,6 +44,8 @@ const Timer = ({
     sessionInProgress,
     token,
     incrementSessionsComplete,
+    setSessionType,
+    setSnackbarState,
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
@@ -53,9 +57,13 @@ const Timer = ({
     const [endDate, setEndDate] = useState(new Date());
     const [endDateAsMs, setEndDateAsMs] = useState(0);
     const [currWorkTime, setCurrWorkTime] = useState(selectedTimer.workTime);
+    const [currBreakTime, setCurrBreakTime] = useState(selectedTimer.breakTime);
     const [currOverTime, setCurrOvertime] = useState(selectedTimer.overTime);
     const [isConfirmGiveUpDialogOpen, setIsConfirmGiveUpDialogOpen] = useState(
         false,
+    );
+    const [currSessionType, setCurrSessionType] = useState(
+        selectedProject.projectType,
     );
 
     // useSound
@@ -119,28 +127,75 @@ const Timer = ({
         }
         // Session ended successfully?
         else {
-            // Reset work time
-            setSessionTime(currWorkTime * MINUTE_AS_MS);
+            // Finished work session
+            if (currSessionType === "STAT") {
+                setSnackbarState({
+                    message:
+                        "Congratulations on finishing session! Click on timer to start a break.",
+                    severity: "info",
+                    open: true,
+                });
+                setCurrSessionType("ENERGY");
+                setSessionType("ENERGY");
+                // Set to break's time
+                setSessionTime(currBreakTime * MINUTE_AS_MS);
+                // Api call
+                const requestBody = {
+                    projectId: selectedProject.id,
+                    projectTaskId: null,
+                    log: "",
+                    timeSpend:
+                        milisecondsToMinutes(
+                            endDate.getTime() - startDate.getTime(),
+                        ).minutes + 1,
+                    dominantStat: selectedProject.dominantStat,
+                    stats: selectedProject.stats,
+                    projectType: selectedProject.projectType,
+                };
+                postProjectLog(token, requestBody).then(() => {
+                    incrementSessionsComplete();
+                });
+            }
+            // Finished earned break or energy project
+            else {
+                const isEnergyProject =
+                    selectedProject.projectType === "ENERGY";
+                setSnackbarState({
+                    message: isEnergyProject
+                        ? "Congratulations on finishing session!"
+                        : "Break finished, keep up the good work.",
+                    severity: "info",
+                    open: true,
+                });
+                // Stat project have STAT so toggle works
+                // Energy projects won't toggle
+                setCurrSessionType(selectedProject.projectType);
+                setSessionType(selectedProject.projectType);
+                // Reset work time
+                setSessionTime(currWorkTime * MINUTE_AS_MS);
+                if (isEnergyProject) {
+                    // Api call
+                    const requestBody = {
+                        projectId: selectedProject.id,
+                        projectTaskId: null,
+                        log: "",
+                        timeSpend:
+                            milisecondsToMinutes(
+                                endDate.getTime() - startDate.getTime(),
+                            ).minutes + 1,
+                        dominantStat: selectedProject.dominantStat,
+                        stats: selectedProject.stats,
+                        projectType: selectedProject.projectType,
+                    };
+                    postProjectLog(token, requestBody).then(() => {
+                        incrementSessionsComplete();
+                    });
+                }
+            }
+            // Common for both
+            play();
             clearInterval(interval);
             setSessionInProgress(false);
-            //Play end sound
-            play();
-            // Api call
-            const requestBody = {
-                projectId: selectedProject.id,
-                projectTaskId: null,
-                log: "",
-                timeSpend:
-                    milisecondsToMinutes(
-                        endDate.getTime() - startDate.getTime(),
-                    ).minutes + 1,
-                dominantStat: selectedProject.dominantStat,
-                stats: selectedProject.stats,
-                projectType: selectedProject.projectType,
-            };
-            postProjectLog(token, requestBody).then(() => {
-                incrementSessionsComplete();
-            });
         }
     };
 
@@ -152,6 +207,7 @@ const Timer = ({
         if (defaultTimer) {
             setSelectedTimer(defaultTimer);
             setSessionTime(defaultTimer.workTime * MINUTE_AS_MS);
+            setCurrSessionType(selectedProject.projectType);
         }
     }, [selectedProject]);
 
@@ -159,6 +215,7 @@ const Timer = ({
         setCurrOvertime(selectedTimer.overTime);
         setCurrWorkTime(selectedTimer.workTime);
         setSessionTime(selectedTimer.workTime * MINUTE_AS_MS);
+        setCurrBreakTime(selectedTimer.breakTime);
     }, [selectedTimer]);
 
     useEffect(() => {
@@ -288,6 +345,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     setSelectedTimer: (value: any) => dispatch(setSelectedTimer(value)),
     setSessionInProgress: (value: any) => dispatch(setSessionInProgress(value)),
     incrementSessionsComplete: () => dispatch(incrementSessionsComplete()),
+    setSessionType: (value: any) => dispatch(setSessionType(value)),
+    setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

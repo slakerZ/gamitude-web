@@ -7,6 +7,8 @@ export interface TimerPropTypes {
     sessionInProgress: any;
     token: any;
     incrementSessionsComplete: any;
+    setSessionType: any;
+    setSnackbarState: any;
 }
 
 export interface MsToMinutesType {
