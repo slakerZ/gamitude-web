@@ -37,3 +37,12 @@ export interface NewJournalDialogPropTypes {
     getJournalsList: any;
     setSnackbarState: any;
 }
+
+export interface NewPageDialogPropTypes {
+    token: string;
+    open: boolean;
+    setOpen: any;
+    getPagesList: any;
+    setSnackbarState: any;
+    journalId: string;
+}

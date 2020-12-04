@@ -8,6 +8,7 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Box from "@material-ui/core/Box";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Fab from "@material-ui/core/Fab";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import IconButton from "@material-ui/core/IconButton";
@@ -30,8 +31,10 @@ import { getJournals, postJournal } from "api/bulletJournal/journals.api";
 import { getPages } from "api/bulletPages/pages.api";
 
 import NewJournalDialog from "components/atoms/custom-dialog/new-journal-dialog.component";
+import NewPageDialog from "components/atoms/custom-dialog/new-page-dialog.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import FormikForm from "components/atoms/formik-form/formik-form.component";
+import { TabPanel } from "components/atoms/tab-panel/tab-panel.component";
 import ToggleableTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import { taskFields, taskInitialValues, TaskSchema } from "./task-schema";
@@ -97,7 +100,10 @@ const Bullet = ({
     const classes = useStyles();
 
     const [isNewJournalDialogOpen, setIsNewJournalDialogOpen] = useState(false);
+    const [isNewPageDialogOpen, setIsNewPageDialogOpen] = useState(false);
     const [pagesCurrJournalIndex, setPagesCurrJournalIndex] = useState(0);
+    const [tasksCurrPageIndex, setTasksCurrPageIndex] = useState(0);
+
     const [currJournalId, setCurrJournalId] = useState(
         "5fc7cae25c75a42717d866e0",
     );
@@ -126,18 +132,17 @@ const Bullet = ({
     ) => {
         setPagesCurrJournalIndex(newValue);
     };
-    /*
-    const handleChangeSelectedPage = (
+
+    const handleChangeCurrentPage = (
         event: React.ChangeEvent<any>,
         newValue: any,
     ) => {
         setTasksCurrPageIndex(newValue);
     };
-    
+
     const handleOpenNewPageDialog = () => {
-        setIsNewPageFormOpen(true);
+        setIsNewPageDialogOpen(true);
     };
-*/
 
     const handleOpenNewJournalDialog = () => {
         setIsNewJournalDialogOpen(true);
@@ -188,10 +193,71 @@ const Bullet = ({
                     </ToggleableTooltip>
                 </div>
             )}
+            {getPagesListState.loading ? (
+                <Skeleton
+                    animation="wave"
+                    variant="rect"
+                    className={classes.tabsPlaceholder}
+                />
+            ) : (
+                <div
+                    aria-label="Pages in current Journal"
+                    className={classes.tabsWrapper}
+                >
+                    <TabPanel
+                        value={pagesCurrJournalIndex}
+                        index={0}
+                        role={"journal"}
+                        id={"pages-in-journal"}
+                    >
+                        <div className={classes.tabsWrapper}>
+                            <Tabs
+                                aria-label="Page navigation"
+                                orientation="vertical"
+                                variant="scrollable"
+                                value={pagesCurrJournalIndex}
+                                onChange={handleChangeCurrentPage}
+                                className={classes.tabs}
+                            >
+                                {pages.map(({ name, icon }, index) => {
+                                    return (
+                                        <Tab
+                                            key={index}
+                                            label={name}
+                                            {...a11yProps(index)}
+                                            icon={
+                                                <CustomIcon
+                                                    variant={icon}
+                                                    size="small"
+                                                />
+                                            }
+                                        />
+                                    );
+                                })}
+                            </Tabs>
+                            <ToggleableTooltip target="page">
+                                <IconButton
+                                    aria-label="Add page"
+                                    color="primary"
+                                    onClick={handleOpenNewPageDialog}
+                                >
+                                    <AddIcon />
+                                </IconButton>
+                            </ToggleableTooltip>
+                        </div>
+                    </TabPanel>
+                </div>
+            )}
             <NewJournalDialog
                 open={isNewJournalDialogOpen}
                 setOpen={setIsNewJournalDialogOpen}
                 getJournalsList={getJournalsList}
+            />
+            <NewPageDialog
+                open={isNewPageDialogOpen}
+                setOpen={setIsNewPageDialogOpen}
+                getPagesList={getPagesList}
+                journalId={currJournalId}
             />
         </div>
     );
