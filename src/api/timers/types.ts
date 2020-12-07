@@ -1,13 +1,16 @@
-export interface TimerType {
-    label: string;
-    id: string;
-    userId: string;
-    name: string;
+interface CountDownInfo {
     workTime: number;
     breakTime: number;
     overTime: number;
     longerBreakTime?: number | null;
     breakInterval?: number | null;
+}
+export interface TimerType {
+    label: string;
+    id: string;
+    userId: string;
+    name: string;
+    countDownInfo: CountDownInfo;
 }
 
 export interface TimerRequestBodyType {

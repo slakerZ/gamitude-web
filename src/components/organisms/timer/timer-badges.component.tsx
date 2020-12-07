@@ -24,7 +24,7 @@ const LongBreakProgressBadge = ({
 }: BadgePropTypes) => {
     const classes = useTimerStyles();
 
-    return selectedTimer.longerBreakTime ? (
+    return selectedTimer.countDownInfo.longerBreakTime ? (
         <Badge
             aria-label="Progress towards long break"
             overlap="circle"
@@ -42,7 +42,7 @@ const LongBreakProgressBadge = ({
                         disabled={!selectedProject.id || !sessionInProgress}
                     >
                         <Typography variant="h4" component="h4">
-                            {selectedTimer.breakInterval}
+                            {selectedTimer.countDownInfo.breakInterval}
                         </Typography>
                     </Button>
                 </ToggleAbleTooltip>
@@ -81,7 +81,7 @@ const OvertimeBadge = ({
                         disabled={!selectedProject.id || !sessionInProgress}
                     >
                         <Typography variant="h4" component="h4">
-                            +{selectedTimer.overTime}
+                            +{selectedTimer.countDownInfo.overTime}
                         </Typography>
                     </Button>
                 </ToggleAbleTooltip>
@@ -119,7 +119,7 @@ const ShortBreakBadge = ({
                         disabled={!selectedProject.id || !sessionInProgress}
                     >
                         <Typography variant="h4" component="h4">
-                            {selectedTimer.breakTime}
+                            {selectedTimer.countDownInfo.breakTime}
                         </Typography>
                     </Button>
                 </ToggleAbleTooltip>
@@ -139,7 +139,7 @@ const LongBreakBadge = ({
 }: BadgePropTypes) => {
     const classes = useTimerStyles();
 
-    return selectedTimer.longerBreakTime ? (
+    return selectedTimer.countDownInfo.longerBreakTime ? (
         <Badge
             aria-label="Long break time display"
             overlap="circle"
@@ -157,7 +157,7 @@ const LongBreakBadge = ({
                         disabled={!selectedProject.id || !sessionInProgress}
                     >
                         <Typography variant="h4" component="h4">
-                            {selectedTimer.longerBreakTime}
+                            {selectedTimer.countDownInfo.longerBreakTime}
                         </Typography>
                     </Button>
                 </ToggleAbleTooltip>

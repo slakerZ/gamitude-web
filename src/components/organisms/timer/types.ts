@@ -3,7 +3,7 @@ import { TimerType } from "api/timers/types";
 
 export interface TimerPropTypes {
     selectedProject: any;
-    selectedTimer: any;
+    selectedTimer: TimerType;
     setSelectedTimer: any;
     timers: any;
     setSessionInProgress: any;

@@ -62,8 +62,8 @@ const Timer = ({
     // useState
     const [sessionTime, setSessionTime] = useState(
         isBreak
-            ? selectedTimer.breakTime * MINUTE_AS_MS
-            : selectedTimer.workTime * MINUTE_AS_MS,
+            ? selectedTimer.countDownInfo.breakTime * MINUTE_AS_MS
+            : selectedTimer.countDownInfo.workTime * MINUTE_AS_MS,
     );
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -101,7 +101,7 @@ const Timer = ({
             const sessionOrBreakTime = isBreak
                 ? handleShortOrLongBreak(selectedTimer, sessionsComplete) /
                   MINUTE_AS_MS
-                : selectedTimer.workTime;
+                : selectedTimer.countDownInfo.workTime;
             const currEndDateAsMs = currEndDate.setMinutes(
                 currEndDate.getMinutes() + sessionOrBreakTime,
             );
@@ -119,7 +119,7 @@ const Timer = ({
     const handleGiveUp = () => {
         setSessionInProgress(false);
         setIsConfirmGiveUpDialogOpen(false);
-        setSessionTime(selectedTimer.workTime * MINUTE_AS_MS);
+        setSessionTime(selectedTimer.countDownInfo.workTime * MINUTE_AS_MS);
     };
 
     const handleSkipBreak = () => {};
@@ -128,17 +128,26 @@ const Timer = ({
         selectedTimer: TimerType,
         sessionsComplete: number,
     ) => {
-        if (selectedTimer.longerBreakTime && selectedTimer.breakInterval) {
+        if (
+            selectedTimer.countDownInfo.longerBreakTime &&
+            selectedTimer.countDownInfo.breakInterval
+        ) {
             // Longer break?
-            if (selectedTimer.breakInterval % (sessionsComplete + 1) === 0) {
-                return selectedTimer.longerBreakTime * MINUTE_AS_MS;
+            if (
+                selectedTimer.countDownInfo.breakInterval %
+                    (sessionsComplete + 1) ===
+                0
+            ) {
+                return (
+                    selectedTimer.countDownInfo.longerBreakTime * MINUTE_AS_MS
+                );
             }
             // Shorter break?
             else {
-                return selectedTimer.breakTime * MINUTE_AS_MS;
+                return selectedTimer.countDownInfo.breakTime * MINUTE_AS_MS;
             }
         } else {
-            return selectedTimer.breakTime * MINUTE_AS_MS;
+            return selectedTimer.countDownInfo.breakTime * MINUTE_AS_MS;
         }
     };
 
@@ -181,7 +190,9 @@ const Timer = ({
                     projectType: "BREAK",
                 };
                 postProjectLog(token, requestBody);
-                setSessionTime(selectedTimer.workTime * MINUTE_AS_MS);
+                setSessionTime(
+                    selectedTimer.countDownInfo.workTime * MINUTE_AS_MS,
+                );
             }
             // Finished work session
             else {
@@ -234,7 +245,7 @@ const Timer = ({
     }, [selectedProject]);
 
     useEffect(() => {
-        setSessionTime(selectedTimer.workTime * MINUTE_AS_MS);
+        setSessionTime(selectedTimer.countDownInfo.workTime * MINUTE_AS_MS);
     }, [selectedTimer]);
 
     useEffect(() => {
