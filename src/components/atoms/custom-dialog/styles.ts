@@ -15,6 +15,9 @@ const useCustomDialogStyles = makeStyles((theme: Theme) => ({
         flexDirection: "column",
         justifyContent: "center",
     },
+    textDanger: {
+        color: theme.palette.error.main,
+    },
 }));
 
 export default useCustomDialogStyles;

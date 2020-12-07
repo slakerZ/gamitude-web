@@ -29,3 +29,9 @@ export interface NewTimerDialogPropTypes {
     getMethodsList: any;
     setSnackbarState: any;
 }
+
+export interface ConfirmationDialogType {
+    open: any;
+    setOpen: any;
+    onSubmit: any;
+}

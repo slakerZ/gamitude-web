@@ -30,7 +30,7 @@ import { selectToken } from "redux/user/user.selectors";
 import { postProjectLog } from "api/projectLogs/projectLogs.api";
 import { TimerType } from "api/timers/types";
 
-import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
+import GiveUpSessionDialog from "components/atoms/custom-dialog/give-up-session-dialog.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import { MINUTE_AS_MS, MS_ERROR_MARGIN, INTERVAL_FREQUENCY } from "./constants";
@@ -248,19 +248,11 @@ const Timer = ({
 
     return (
         <div className={classes.root}>
-            <CustomDialog
+            <GiveUpSessionDialog
                 open={isConfirmGiveUpDialogOpen}
                 setOpen={setIsConfirmGiveUpDialogOpen}
                 onSubmit={handleGiveUp}
-                title="WARNING"
-            >
-                <Typography variant="h6" component="h6">
-                    {"Current session progress will be lost."}
-                </Typography>
-                <Typography variant="body1" component="p">
-                    {"No stats will be added, no time will be logged."}
-                </Typography>
-            </CustomDialog>
+            />
             <Typography
                 variant="h6"
                 component="h6"

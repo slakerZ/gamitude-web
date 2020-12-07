@@ -26,7 +26,7 @@ import { selectToken } from "redux/user/user.selectors";
 
 import { deleteProjectById, putProjectById } from "api/projects/projects.api";
 
-import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
+import DeleteProjectDialog from "components/atoms/custom-dialog/delete-project-dialog.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
@@ -206,20 +206,11 @@ const Project = ({
                     </Typography>
                 </Button>
 
-                <CustomDialog
+                <DeleteProjectDialog
                     open={isDeleteWarningDialogOpen}
                     setOpen={setIsDeleteWarningDialogOpen}
-                    title={"Are you sure you want to delete this project?"}
                     onSubmit={handleDeletionConfirm}
-                >
-                    <Typography
-                        variant="h4"
-                        component="h4"
-                        className={classes.textDanger}
-                    >
-                        {" This action CANNOT be undone."}
-                    </Typography>
-                </CustomDialog>
+                />
             </AccordionDetails>
         </Accordion>
     );
