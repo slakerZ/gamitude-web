@@ -3,11 +3,11 @@ import useSound from "use-sound";
 import React, { ReactElement, Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import Badge from "@material-ui/core/Badge";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import { selectSelectedProject } from "redux/projects/projects.selectors";
+import { ReduxStateType } from "redux/root.reducer";
 import {
     setSessionInProgress,
     incrementSessionsComplete,
@@ -29,6 +29,7 @@ import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-to
 
 import { MINUTE_AS_MS, MS_ERROR_MARGIN, INTERVAL_FREQUENCY } from "./constants";
 import useTimerStyles from "./styles";
+import TimerBadges from "./timer-badges.component";
 import { TimerPropTypes } from "./types";
 import { leftPad, milisecondsToMinutes } from "./utils";
 
@@ -58,13 +59,13 @@ const Timer = ({
     const [endDateAsMs, setEndDateAsMs] = useState(0);
     const [currWorkTime, setCurrWorkTime] = useState(selectedTimer.workTime);
     const [currBreakTime, setCurrBreakTime] = useState(selectedTimer.breakTime);
-    const [currOverTime, setCurrOvertime] = useState(selectedTimer.overTime);
     const [isConfirmGiveUpDialogOpen, setIsConfirmGiveUpDialogOpen] = useState(
         false,
     );
     const [currSessionType, setCurrSessionType] = useState(
         selectedProject.projectType,
     );
+    const [isBreak, setIsBreak] = useState(false);
 
     // useSound
     const [playMin, { isPlaying }] = useSound(minuteSound, {
@@ -78,6 +79,7 @@ const Timer = ({
 
     // handlers
     const handleOvertime = () => {
+        const currOverTime = selectedProject.overTime;
         const overtime = currOverTime * MINUTE_AS_MS;
         setEndDateAsMs(endDateAsMs + overtime);
         setSessionTime(sessionTime + overtime);
@@ -212,7 +214,6 @@ const Timer = ({
     }, [selectedProject]);
 
     useEffect(() => {
-        setCurrOvertime(selectedTimer.overTime);
         setCurrWorkTime(selectedTimer.workTime);
         setSessionTime(selectedTimer.workTime * MINUTE_AS_MS);
         setCurrBreakTime(selectedTimer.breakTime);
@@ -262,28 +263,7 @@ const Timer = ({
                     ? selectedProject.name
                     : "Please select a project"}
             </Typography>
-            <Badge
-                overlap="circle"
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                }}
-                badgeContent={
-                    <ToggleAbleTooltip target="add5">
-                        <Button
-                            aria-label="Overtime button"
-                            variant="text"
-                            onClick={handleOvertime}
-                            className={classes.overTimeButton}
-                            disabled={!selectedProject.id || !sessionInProgress}
-                        >
-                            <Typography variant="h4" component="h4">
-                                +{currOverTime}
-                            </Typography>
-                        </Button>
-                    </ToggleAbleTooltip>
-                }
-            >
+            <TimerBadges handleOvertime={handleOvertime}>
                 <ToggleAbleTooltip target="sessionTimer">
                     <Button
                         aria-label="Timer Button"
@@ -328,12 +308,12 @@ const Timer = ({
                         </div>
                     </Button>
                 </ToggleAbleTooltip>
-            </Badge>
+            </TimerBadges>
         </div>
     );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: ReduxStateType) => ({
     selectedProject: selectSelectedProject(state),
     selectedTimer: selectSelectedTimer(state),
     timers: selectTimers(state),
