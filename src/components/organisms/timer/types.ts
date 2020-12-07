@@ -12,6 +12,7 @@ export interface TimerPropTypes {
     incrementSessionsComplete: any;
     setSessionType: any;
     setSnackbarState: any;
+    sessionsComplete: any;
 }
 
 export interface MsToMinutesType {
@@ -24,5 +25,14 @@ export interface BadgePropTypes {
     selectedTimer: TimerType;
     selectedProject: FullProjectType;
     sessionInProgress: boolean;
+    onClick: any;
+}
+
+export interface TimerBadgedPropTypes {
+    children: any;
+    selectedTimer: TimerType;
+    selectedProject: FullProjectType;
+    sessionInProgress: boolean;
     handleOvertime: any;
+    handleSkipBreak: any;
 }

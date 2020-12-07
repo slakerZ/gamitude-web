@@ -133,12 +133,16 @@ const longBreak = {
     bodyItems: [
         "Longer break timer that timer will set to if",
         "number of sessions complete satisfies break interval",
+        "Click on it to skip break",
     ],
 };
 
 const breakInterval = {
     title: "Break Interval",
-    bodyItems: ["Shows session complete needed for long break to trigger"],
+    bodyItems: [
+        "Shows session complete needed for long break to trigger",
+        "Click on it to skip break",
+    ],
 };
 
 const sessionTypeSwitch = {

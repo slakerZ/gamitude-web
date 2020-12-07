@@ -13,11 +13,11 @@ import { selectSelectedTimer } from "redux/timers/timers.selectors";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import useTimerStyles from "./styles";
-import { BadgePropTypes } from "./types";
+import { BadgePropTypes, TimerBadgedPropTypes } from "./types";
 
 const LongBreakProgressBadge = ({
     children,
-    handleOvertime,
+    onClick,
     selectedProject,
     sessionInProgress,
     selectedTimer,
@@ -26,7 +26,7 @@ const LongBreakProgressBadge = ({
 
     return selectedTimer.longerBreakTime ? (
         <Badge
-            aria-label=""
+            aria-label="Progress towards long break"
             overlap="circle"
             anchorOrigin={{
                 vertical: "bottom",
@@ -35,10 +35,10 @@ const LongBreakProgressBadge = ({
             badgeContent={
                 <ToggleAbleTooltip target="breakInterval">
                     <Button
-                        aria-label="Short long break display / skip break"
+                        aria-label="Skip break"
                         variant="text"
-                        onClick={handleOvertime}
-                        className={classes.overTimeButton}
+                        onClick={onClick}
+                        className={classes.badgeButton}
                         disabled={!selectedProject.id || !sessionInProgress}
                     >
                         <Typography variant="h4" component="h4">
@@ -57,7 +57,7 @@ const LongBreakProgressBadge = ({
 
 const OvertimeBadge = ({
     children,
-    handleOvertime,
+    onClick,
     selectedProject,
     sessionInProgress,
     selectedTimer,
@@ -76,8 +76,8 @@ const OvertimeBadge = ({
                     <Button
                         aria-label="Overtime button"
                         variant="text"
-                        onClick={handleOvertime}
-                        className={classes.overTimeButton}
+                        onClick={onClick}
+                        className={classes.badgeButton}
                         disabled={!selectedProject.id || !sessionInProgress}
                     >
                         <Typography variant="h4" component="h4">
@@ -94,7 +94,7 @@ const OvertimeBadge = ({
 
 const ShortBreakBadge = ({
     children,
-    handleOvertime,
+    onClick,
     selectedProject,
     sessionInProgress,
     selectedTimer,
@@ -103,7 +103,7 @@ const ShortBreakBadge = ({
 
     return (
         <Badge
-            aria-label="Break / Session time display"
+            aria-label="Short break time display"
             overlap="circle"
             anchorOrigin={{
                 vertical: "top",
@@ -112,10 +112,10 @@ const ShortBreakBadge = ({
             badgeContent={
                 <ToggleAbleTooltip target="shortBreak">
                     <Button
-                        aria-label="Short long break display / skip break"
+                        aria-label="Short break time display / skip break"
                         variant="text"
-                        onClick={handleOvertime}
-                        className={classes.overTimeButton}
+                        onClick={onClick}
+                        className={classes.badgeButton}
                         disabled={!selectedProject.id || !sessionInProgress}
                     >
                         <Typography variant="h4" component="h4">
@@ -132,7 +132,7 @@ const ShortBreakBadge = ({
 
 const LongBreakBadge = ({
     children,
-    handleOvertime,
+    onClick,
     selectedProject,
     sessionInProgress,
     selectedTimer,
@@ -141,7 +141,7 @@ const LongBreakBadge = ({
 
     return selectedTimer.longerBreakTime ? (
         <Badge
-            aria-label="Break / Session time display"
+            aria-label="Long break time display"
             overlap="circle"
             anchorOrigin={{
                 vertical: "top",
@@ -150,10 +150,10 @@ const LongBreakBadge = ({
             badgeContent={
                 <ToggleAbleTooltip target="longBreak">
                     <Button
-                        aria-label="Short long break display / skip break"
+                        aria-label="Skip break"
                         variant="text"
-                        onClick={handleOvertime}
-                        className={classes.overTimeButton}
+                        onClick={onClick}
+                        className={classes.badgeButton}
                         disabled={!selectedProject.id || !sessionInProgress}
                     >
                         <Typography variant="h4" component="h4">
@@ -176,28 +176,29 @@ const TimerBadges = ({
     selectedProject,
     sessionInProgress,
     handleOvertime,
-}: BadgePropTypes) => {
+    handleSkipBreak,
+}: TimerBadgedPropTypes) => {
     return (
         <LongBreakProgressBadge
-            handleOvertime={handleOvertime}
+            onClick={handleSkipBreak}
             selectedProject={selectedProject}
             sessionInProgress={sessionInProgress}
             selectedTimer={selectedTimer}
         >
             <LongBreakBadge
-                handleOvertime={handleOvertime}
+                onClick={handleSkipBreak}
                 selectedProject={selectedProject}
                 sessionInProgress={sessionInProgress}
                 selectedTimer={selectedTimer}
             >
                 <ShortBreakBadge
-                    handleOvertime={handleOvertime}
+                    onClick={handleSkipBreak}
                     selectedProject={selectedProject}
                     sessionInProgress={sessionInProgress}
                     selectedTimer={selectedTimer}
                 >
                     <OvertimeBadge
-                        handleOvertime={handleOvertime}
+                        onClick={handleOvertime}
                         selectedProject={selectedProject}
                         sessionInProgress={sessionInProgress}
                         selectedTimer={selectedTimer}

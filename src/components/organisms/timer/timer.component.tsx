@@ -13,7 +13,10 @@ import {
     incrementSessionsComplete,
     setSessionType,
 } from "redux/session/session.actions";
-import { selectSessionInProgress } from "redux/session/session.selectors";
+import {
+    selectSessionInProgress,
+    selectSessionsComplete,
+} from "redux/session/session.selectors";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { setSelectedTimer } from "redux/timers/timers.actions";
 import {
@@ -23,6 +26,7 @@ import {
 import { selectToken } from "redux/user/user.selectors";
 
 import { postProjectLog } from "api/projectLogs/projectLogs.api";
+import { TimerType } from "api/timers/types";
 
 import CustomDialog from "components/atoms/custom-dialog/custom-dialog.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
@@ -47,25 +51,23 @@ const Timer = ({
     incrementSessionsComplete,
     setSessionType,
     setSnackbarState,
+    sessionsComplete,
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
     // useState
+    const [isBreak, setIsBreak] = useState(false);
     const [sessionTime, setSessionTime] = useState(
-        selectedTimer.workTime * MINUTE_AS_MS,
+        isBreak
+            ? selectedTimer.breakTime * MINUTE_AS_MS
+            : selectedTimer.workTime * MINUTE_AS_MS,
     );
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [endDateAsMs, setEndDateAsMs] = useState(0);
-    const [currWorkTime, setCurrWorkTime] = useState(selectedTimer.workTime);
-    const [currBreakTime, setCurrBreakTime] = useState(selectedTimer.breakTime);
     const [isConfirmGiveUpDialogOpen, setIsConfirmGiveUpDialogOpen] = useState(
         false,
     );
-    const [currSessionType, setCurrSessionType] = useState(
-        selectedProject.projectType,
-    );
-    const [isBreak, setIsBreak] = useState(false);
 
     // useSound
     const [playMin, { isPlaying }] = useSound(minuteSound, {
@@ -93,8 +95,12 @@ const Timer = ({
         if (!sessionInProgress) {
             // Take date now as ms and add work time
             const currEndDate = new Date();
+            const sessionOrBreakTime = isBreak
+                ? handleShortOrLongBreak(selectedTimer, sessionsComplete) /
+                  MINUTE_AS_MS
+                : selectedTimer.workTime;
             const currEndDateAsMs = currEndDate.setMinutes(
-                currEndDate.getMinutes() + currWorkTime,
+                currEndDate.getMinutes() + sessionOrBreakTime,
             );
 
             setEndDate(currEndDate);
@@ -110,6 +116,27 @@ const Timer = ({
     const handleGiveUp = () => {
         setSessionInProgress(false);
         setIsConfirmGiveUpDialogOpen(false);
+        setSessionTime(selectedTimer.workTime * MINUTE_AS_MS);
+    };
+
+    const handleSkipBreak = () => {};
+
+    const handleShortOrLongBreak = (
+        selectedTimer: TimerType,
+        sessionsComplete: number,
+    ) => {
+        if (selectedTimer.longerBreakTime && selectedTimer.breakInterval) {
+            // Longer break?
+            if (selectedTimer.breakInterval % (sessionsComplete + 1) === 0) {
+                return selectedTimer.longerBreakTime * MINUTE_AS_MS;
+            }
+            // Shorter break?
+            else {
+                return selectedTimer.breakTime * MINUTE_AS_MS;
+            }
+        } else {
+            return selectedTimer.breakTime * MINUTE_AS_MS;
+        }
     };
 
     const handleCountdown = (interval: any) => {
@@ -129,18 +156,37 @@ const Timer = ({
         }
         // Session ended successfully?
         else {
+            // Finished break
+            if (isBreak) {
+                setSnackbarState({
+                    message: "Break finished, keep up the good work!",
+                    severity: "info",
+                    open: true,
+                });
+                // Api call
+                const requestBody = {
+                    projectId: selectedProject.id,
+                    projectTaskId: null,
+                    log: "",
+                    timeSpend:
+                        milisecondsToMinutes(
+                            endDate.getTime() - startDate.getTime(),
+                        ).minutes + 1,
+                    dominantStat: selectedProject.dominantStat,
+                    stats: selectedProject.stats,
+                    projectType: "BREAK",
+                };
+                postProjectLog(token, requestBody);
+                setSessionTime(selectedTimer.workTime * MINUTE_AS_MS);
+            }
             // Finished work session
-            if (currSessionType === "STAT") {
+            else {
                 setSnackbarState({
                     message:
                         "Congratulations on finishing session! Click on timer to start a break.",
                     severity: "info",
                     open: true,
                 });
-                setCurrSessionType("ENERGY");
-                setSessionType("ENERGY");
-                // Set to break's time
-                setSessionTime(currBreakTime * MINUTE_AS_MS);
                 // Api call
                 const requestBody = {
                     projectId: selectedProject.id,
@@ -157,44 +203,14 @@ const Timer = ({
                 postProjectLog(token, requestBody).then(() => {
                     incrementSessionsComplete();
                 });
+                // Set to break's time
+                const time = handleShortOrLongBreak(
+                    selectedTimer,
+                    sessionsComplete,
+                );
+                setSessionTime(time);
             }
-            // Finished earned break or energy project
-            else {
-                const isEnergyProject =
-                    selectedProject.projectType === "ENERGY";
-                setSnackbarState({
-                    message: isEnergyProject
-                        ? "Congratulations on finishing session!"
-                        : "Break finished, keep up the good work.",
-                    severity: "info",
-                    open: true,
-                });
-                // Stat project have STAT so toggle works
-                // Energy projects won't toggle
-                setCurrSessionType(selectedProject.projectType);
-                setSessionType(selectedProject.projectType);
-                // Reset work time
-                setSessionTime(currWorkTime * MINUTE_AS_MS);
-                if (isEnergyProject) {
-                    // Api call
-                    const requestBody = {
-                        projectId: selectedProject.id,
-                        projectTaskId: null,
-                        log: "",
-                        timeSpend:
-                            milisecondsToMinutes(
-                                endDate.getTime() - startDate.getTime(),
-                            ).minutes + 1,
-                        dominantStat: selectedProject.dominantStat,
-                        stats: selectedProject.stats,
-                        projectType: selectedProject.projectType,
-                    };
-                    postProjectLog(token, requestBody).then(() => {
-                        incrementSessionsComplete();
-                    });
-                }
-            }
-            // Common for both
+            setIsBreak(!isBreak);
             play();
             clearInterval(interval);
             setSessionInProgress(false);
@@ -209,31 +225,28 @@ const Timer = ({
         if (defaultTimer) {
             setSelectedTimer(defaultTimer);
             setSessionTime(defaultTimer.workTime * MINUTE_AS_MS);
-            setCurrSessionType(selectedProject.projectType);
         }
     }, [selectedProject]);
 
     useEffect(() => {
-        setCurrWorkTime(selectedTimer.workTime);
         setSessionTime(selectedTimer.workTime * MINUTE_AS_MS);
-        setCurrBreakTime(selectedTimer.breakTime);
     }, [selectedTimer]);
 
     useEffect(() => {
         const interval = sessionInProgress
             ? setInterval(handleCountdown, INTERVAL_FREQUENCY)
             : setInterval(() => null, 1);
-        if (!sessionInProgress) {
-            // Give up has been clicked
-            const sessionContinues = sessionTime > 0;
-            const methodSessionTimesDiffer =
-                currWorkTime * MINUTE_AS_MS !== sessionTime;
-            if (sessionContinues && methodSessionTimesDiffer) {
-                // ResetTimer
-                setSessionTime(currWorkTime * MINUTE_AS_MS);
-            }
-            clearInterval(interval);
-        }
+        // if (!sessionInProgress) {
+        //     // Give up has been clicked
+        //     const sessionContinues = sessionTime > 0;
+        //     const currWorkTime = selectedTimer.workTime * MINUTE_AS_MS;
+        //     const methodSessionTimesDiffer = currWorkTime !== sessionTime;
+        //     if (sessionContinues && methodSessionTimesDiffer) {
+        //         // ResetTimer
+        //         setSessionTime(currWorkTime);
+        //     }
+        //     clearInterval(interval);
+        // }
         return () => {
             clearInterval(interval);
         };
@@ -263,7 +276,10 @@ const Timer = ({
                     ? selectedProject.name
                     : "Please select a project"}
             </Typography>
-            <TimerBadges handleOvertime={handleOvertime}>
+            <TimerBadges
+                handleSkipBreak={handleSkipBreak}
+                handleOvertime={handleOvertime}
+            >
                 <ToggleAbleTooltip target="sessionTimer">
                     <Button
                         aria-label="Timer Button"
@@ -319,6 +335,7 @@ const mapStateToProps = (state: ReduxStateType) => ({
     timers: selectTimers(state),
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
+    sessionsComplete: selectSessionsComplete(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
