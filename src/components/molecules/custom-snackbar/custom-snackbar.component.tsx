@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 
 import Snackbar from "@material-ui/core/Snackbar";
 
+import { ReduxStateType } from "redux/root.reducer";
 import { setOpen } from "redux/snackbar/snackbar.actions";
 import {
     selectMessage,
     selectSeverity,
     selectOpen,
+    selectAutoHideDuration,
 } from "redux/snackbar/snackbar.selectors";
 
 import CustomAlert from "components/atoms/custom-alert/custom-alert.component";
@@ -19,6 +21,7 @@ const CustomSnackbar = ({
     setOpen,
     severity,
     message,
+    autoHideDuration,
 }: CustomSnackbarPropTypes) => {
     const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === "clickaway") {
@@ -28,7 +31,11 @@ const CustomSnackbar = ({
         setOpen(false);
     };
     return (
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar
+            open={open}
+            autoHideDuration={autoHideDuration}
+            onClose={handleClose}
+        >
             <CustomAlert onClose={handleClose} severity={severity}>
                 {message}
             </CustomAlert>
@@ -36,10 +43,11 @@ const CustomSnackbar = ({
     );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: ReduxStateType) => ({
     message: selectMessage(state),
     severity: selectSeverity(state),
     open: selectOpen(state),
+    autoHideDuration: selectAutoHideDuration(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

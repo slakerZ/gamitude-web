@@ -52,6 +52,7 @@ const NewProjectDialog = ({
             message: "Successfully created project",
             severity: "success",
             open: true,
+            autoHideDuration: 3000,
         });
 
         // Reset
@@ -78,6 +79,7 @@ const NewProjectDialog = ({
                 message: "Failed to create new project",
                 severity: "error",
                 open: true,
+                autoHideDuration: 3000,
             });
         }
     }, [createNewProjectState, setSnackbarState]);

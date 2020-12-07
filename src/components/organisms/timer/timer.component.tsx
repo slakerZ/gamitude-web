@@ -162,6 +162,7 @@ const Timer = ({
                     message: "Break finished, keep up the good work!",
                     severity: "info",
                     open: true,
+                    autoHideDuration: null,
                 });
                 // Api call
                 const requestBody = {
@@ -186,6 +187,7 @@ const Timer = ({
                         "Congratulations on finishing session! Click on timer to start a break.",
                     severity: "info",
                     open: true,
+                    autoHideDuration: null,
                 });
                 // Api call
                 const requestBody = {
@@ -236,17 +238,6 @@ const Timer = ({
         const interval = sessionInProgress
             ? setInterval(handleCountdown, INTERVAL_FREQUENCY)
             : setInterval(() => null, 1);
-        // if (!sessionInProgress) {
-        //     // Give up has been clicked
-        //     const sessionContinues = sessionTime > 0;
-        //     const currWorkTime = selectedTimer.workTime * MINUTE_AS_MS;
-        //     const methodSessionTimesDiffer = currWorkTime !== sessionTime;
-        //     if (sessionContinues && methodSessionTimesDiffer) {
-        //         // ResetTimer
-        //         setSessionTime(currWorkTime);
-        //     }
-        //     clearInterval(interval);
-        // }
         return () => {
             clearInterval(interval);
         };

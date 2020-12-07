@@ -114,6 +114,7 @@ const Project = ({
                 severity: "info",
                 message: "Cannot change selected project during session",
                 open: true,
+                autoHideDuration: 3000,
             });
         }
     };
@@ -124,6 +125,7 @@ const Project = ({
                 severity: "error",
                 message: "Failed to edit project",
                 open: true,
+                autoHideDuration: 3000,
             });
         }
     }, [editProjectState, setSnackbarState]);
@@ -134,6 +136,7 @@ const Project = ({
                 severity: "error",
                 message: "Failed to delete project",
                 open: true,
+                autoHideDuration: 3000,
             });
         }
     }, [deleteProjectState, setSnackbarState]);

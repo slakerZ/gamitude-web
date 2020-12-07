@@ -107,6 +107,7 @@ const NewTimerDialog = ({
                 message: "Failed to create new timer",
                 open: true,
                 severity: "error",
+                autoHideDuration: 3000,
             });
         }
     }, [postMethodState, setSnackbarState]);

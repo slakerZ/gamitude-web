@@ -62,6 +62,7 @@ const Methods = ({
                 severity: "info",
                 message: "Cannot change selected timer during session",
                 open: true,
+                autoHideDuration: 3000,
             });
         }
     };
@@ -87,6 +88,7 @@ const Methods = ({
                 severity: "error",
                 message: "Failed to get timers list",
                 open: true,
+                autoHideDuration: 3000,
             });
         }
     }, [getMethodsListState, setSnackbarState]);

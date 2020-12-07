@@ -61,6 +61,7 @@ const NewFolderDialog = ({
                 message: "Failed to create new folder",
                 severity: "error",
                 open: true,
+                autoHideDuration: 3000,
             });
         }
     }, [createNewFolderState, setSnackbarState]);
