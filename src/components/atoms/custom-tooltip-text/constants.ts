@@ -112,12 +112,33 @@ const sessionTimer = {
     ],
 };
 
-const add5 = {
-    title: "Add 5",
+const overtime = {
+    title: "Overtime",
     bodyItems: [
-        "Prolong your session by 5 minutes",
+        "Prolong your session by time displayed in minutes",
         'Used when you want to "just finish this one quickly"',
     ],
+};
+
+const shortBreak = {
+    title: "Short break",
+    bodyItems: [
+        "Timer will set it's time to this value on session end",
+        "Click on it to skip break",
+    ],
+};
+
+const longBreak = {
+    title: "Long break",
+    bodyItems: [
+        "Longer break timer that timer will set to if",
+        "number of sessions complete satisfies break interval",
+    ],
+};
+
+const breakInterval = {
+    title: "Break Interval",
+    bodyItems: ["Shows session complete needed for long break to trigger"],
 };
 
 const sessionTypeSwitch = {
@@ -284,8 +305,14 @@ export const targetToTooltipObject = (target: string): TooltipObjectType => {
             return project;
         case "folder":
             return folder;
-        case "add5":
-            return add5;
+        case "overtime":
+            return overtime;
+        case "shortBreak":
+            return shortBreak;
+        case "longBreak":
+            return longBreak;
+        case "breakInterval":
+            return breakInterval;
         case "method":
             return method;
         case "sessionTimer":

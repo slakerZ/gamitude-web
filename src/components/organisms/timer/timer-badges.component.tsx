@@ -33,7 +33,7 @@ const LongBreakProgressBadge = ({
                 horizontal: "left",
             }}
             badgeContent={
-                <ToggleAbleTooltip target="add5">
+                <ToggleAbleTooltip target="breakInterval">
                     <Button
                         aria-label="Short long break display / skip break"
                         variant="text"
@@ -72,7 +72,7 @@ const OvertimeBadge = ({
                 horizontal: "right",
             }}
             badgeContent={
-                <ToggleAbleTooltip target="add5">
+                <ToggleAbleTooltip target="overtime">
                     <Button
                         aria-label="Overtime button"
                         variant="text"
@@ -110,7 +110,7 @@ const ShortBreakBadge = ({
                 horizontal: "right",
             }}
             badgeContent={
-                <ToggleAbleTooltip target="add5">
+                <ToggleAbleTooltip target="shortBreak">
                     <Button
                         aria-label="Short long break display / skip break"
                         variant="text"
@@ -148,7 +148,7 @@ const LongBreakBadge = ({
                 horizontal: "left",
             }}
             badgeContent={
-                <ToggleAbleTooltip target="add5">
+                <ToggleAbleTooltip target="longBreak">
                     <Button
                         aria-label="Short long break display / skip break"
                         variant="text"
