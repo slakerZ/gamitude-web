@@ -7,4 +7,5 @@ export interface ProjectTilePropTypes {
     setSnackbarState: any;
     sessionType: any;
     sessionInProgress: any;
+    isBreak: boolean;
 }

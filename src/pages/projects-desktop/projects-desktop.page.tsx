@@ -15,7 +15,10 @@ import { setFolders } from "redux/folders/folders.actions";
 import { selectFolders } from "redux/folders/folders.selectors";
 import { setProjects } from "redux/projects/projects.actions";
 import { selectProjects } from "redux/projects/projects.selectors";
-import { selectSessionInProgress } from "redux/session/session.selectors";
+import {
+    selectIsBreak,
+    selectSessionInProgress,
+} from "redux/session/session.selectors";
 import { setUser } from "redux/user/user.actions";
 import { selectToken } from "redux/user/user.selectors";
 
@@ -44,6 +47,7 @@ const ProjectsDesktopPage = ({
     setFolders,
     setUser,
     sessionInProgress,
+    isBreak,
 }: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
 
@@ -83,7 +87,7 @@ const ProjectsDesktopPage = ({
         event: React.ChangeEvent<any>,
         newValue: any,
     ) => {
-        if (!sessionInProgress) {
+        if (!sessionInProgress && !isBreak) {
             setSelectedProject(newValue);
         }
     };
@@ -225,6 +229,7 @@ const mapStateToProps = (state: any) => ({
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
     folders: selectFolders(state),
+    isBreak: selectIsBreak(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

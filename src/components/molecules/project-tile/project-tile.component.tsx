@@ -17,6 +17,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { setSelectedProject } from "redux/projects/projects.actions";
 import { selectProjects } from "redux/projects/projects.selectors";
 import {
+    selectIsBreak,
     selectSessionInProgress,
     selectSessionType,
 } from "redux/session/session.selectors";
@@ -43,6 +44,7 @@ const Project = ({
     setSnackbarState,
     sessionType,
     sessionInProgress,
+    isBreak,
 }: ProjectTilePropTypes) => {
     const classes = useProjectStyles();
 
@@ -106,10 +108,19 @@ const Project = ({
     };
 
     const handleSelectionChanged = (event: any) => {
-        if (!sessionInProgress) {
-            event.stopPropagation();
+        event.stopPropagation();
+
+        if (!sessionInProgress && !isBreak) {
             setSelectedProject(projects[index]);
-        } else {
+        } else if (isBreak) {
+            setSnackbarState({
+                severity: "info",
+                message:
+                    "Cannot change selected project when there's break available, either complete is or skip it",
+                open: true,
+                autoHideDuration: 3000,
+            });
+        } else if (sessionInProgress) {
             setSnackbarState({
                 severity: "info",
                 message: "Cannot change selected project during session",
@@ -218,6 +229,7 @@ const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
     token: selectToken(state),
     sessionType: selectSessionType(state),
+    isBreak: selectIsBreak(state),
     sessionInProgress: selectSessionInProgress(state),
 });
 

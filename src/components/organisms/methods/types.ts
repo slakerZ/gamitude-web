@@ -8,4 +8,5 @@ export interface MethodsPropType {
     setTimers: any;
     setSnackbarState: any;
     sessionInProgress: any;
+    isBreak: boolean;
 }

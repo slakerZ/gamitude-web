@@ -12,10 +12,12 @@ import {
     setSessionInProgress,
     incrementSessionsComplete,
     setSessionType,
+    toggleIsBreak,
 } from "redux/session/session.actions";
 import {
     selectSessionInProgress,
     selectSessionsComplete,
+    selectIsBreak,
 } from "redux/session/session.selectors";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { setSelectedTimer } from "redux/timers/timers.actions";
@@ -52,11 +54,12 @@ const Timer = ({
     setSessionType,
     setSnackbarState,
     sessionsComplete,
+    isBreak,
+    toggleIsBreak,
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
     // useState
-    const [isBreak, setIsBreak] = useState(false);
     const [sessionTime, setSessionTime] = useState(
         isBreak
             ? selectedTimer.breakTime * MINUTE_AS_MS
@@ -212,7 +215,7 @@ const Timer = ({
                 );
                 setSessionTime(time);
             }
-            setIsBreak(!isBreak);
+            toggleIsBreak();
             play();
             clearInterval(interval);
             setSessionInProgress(false);
@@ -261,10 +264,13 @@ const Timer = ({
             <Typography
                 variant="h6"
                 component="h6"
-                aria-label="Selected project name or please select message"
+                gutterBottom
+                align="justify"
             >
-                {selectedProject.id
+                {selectedProject.id && !isBreak
                     ? selectedProject.name
+                    : isBreak
+                    ? `BRAKE after session of ${selectedProject.name}`
                     : "Please select a project"}
             </Typography>
             <TimerBadges
@@ -293,7 +299,6 @@ const Timer = ({
                                     )}
                                 </Typography>
                                 <Typography
-                                    aria-label="Colon Between mintues and seconds"
                                     display="inline"
                                     variant="h3"
                                     component="h3"
@@ -327,6 +332,7 @@ const mapStateToProps = (state: ReduxStateType) => ({
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
     sessionsComplete: selectSessionsComplete(state),
+    isBreak: selectIsBreak(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -335,6 +341,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     incrementSessionsComplete: () => dispatch(incrementSessionsComplete()),
     setSessionType: (value: any) => dispatch(setSessionType(value)),
     setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
+    toggleIsBreak: () => dispatch(toggleIsBreak()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

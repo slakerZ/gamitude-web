@@ -10,7 +10,10 @@ import TimerIcon from "@material-ui/icons/Timer";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 import { ReduxStateType } from "redux/root.reducer";
-import { selectSessionInProgress } from "redux/session/session.selectors";
+import {
+    selectIsBreak,
+    selectSessionInProgress,
+} from "redux/session/session.selectors";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { setSelectedTimer } from "redux/timers/timers.actions";
 import { setTimers } from "redux/timers/timers.actions";
@@ -35,6 +38,7 @@ const Methods = ({
     setTimers,
     setSnackbarState,
     sessionInProgress,
+    isBreak,
 }: MethodsPropType) => {
     const classes = useMethodsStyles();
     const defaultSelected =
@@ -54,10 +58,18 @@ const Methods = ({
     });
 
     const handleMethodChange = (e: any, newValue: any) => {
-        if (!sessionInProgress) {
+        if (!sessionInProgress && !isBreak) {
             setMethod(newValue);
             setSelectedTimer(methods[newValue]);
-        } else {
+        } else if (isBreak) {
+            setSnackbarState({
+                severity: "info",
+                message:
+                    "Cannot change selected timer when there's a break available, either complete it or skip it",
+                open: true,
+                autoHideDuration: 3000,
+            });
+        } else if (sessionInProgress) {
             setSnackbarState({
                 severity: "info",
                 message: "Cannot change selected timer during session",
@@ -149,6 +161,7 @@ const mapStateToProps = (state: ReduxStateType) => ({
     selectedMethod: selectSelectedTimer(state),
     token: selectToken(state),
     sessionInProgress: selectSessionInProgress(state),
+    isBreak: selectIsBreak(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

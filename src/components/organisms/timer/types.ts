@@ -13,6 +13,8 @@ export interface TimerPropTypes {
     setSessionType: any;
     setSnackbarState: any;
     sessionsComplete: any;
+    isBreak: boolean;
+    toggleIsBreak: any;
 }
 
 export interface MsToMinutesType {
