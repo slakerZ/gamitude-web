@@ -66,7 +66,7 @@ const OvertimeBadge = ({
 }: BadgePropTypes) => {
     const classes = useTimerStyles();
 
-    return (
+    return selectedTimer.timerType === TimerTypes.TIMER ? (
         <Badge
             overlap="circle"
             anchorOrigin={{
@@ -94,6 +94,8 @@ const OvertimeBadge = ({
         >
             {children}
         </Badge>
+    ) : (
+        <Fragment>{children}</Fragment>
     );
 };
 

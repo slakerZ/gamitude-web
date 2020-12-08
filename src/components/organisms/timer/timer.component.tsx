@@ -1,3 +1,4 @@
+import { TimerTypes } from "gamitude_constants";
 import useSound from "use-sound";
 
 import React, { ReactElement, Fragment, useEffect, useState } from "react";
@@ -280,7 +281,14 @@ const Timer = ({
                 handleSkipBreak={handleSkipBreak}
                 handleOvertime={handleOvertime}
             >
-                <ToggleAbleTooltip target="sessionTimer" placement="left">
+                <ToggleAbleTooltip
+                    target={
+                        selectedTimer.timerType === TimerTypes.TIMER
+                            ? "sessionCountdown"
+                            : "sessionStopwatch"
+                    }
+                    placement="left"
+                >
                     <Button
                         aria-label="Timer Button"
                         className={classes.timerButton}

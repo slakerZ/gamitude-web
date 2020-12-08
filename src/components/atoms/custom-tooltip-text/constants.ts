@@ -101,15 +101,19 @@ const selectDominantStats = {
 
 // Session
 
-const sessionTimer = {
-    title: "Session Timer",
+const sessionCountdown = {
+    title: "Countdown",
     bodyItems: [
-        "Flexible timer that will either act as a countdown timer or stopwatch",
-        "Click on it to begin session it will notify you twice:",
+        "Click on it to begin a session it will notify you twice:",
         "When there's a minute left",
         "When the session was finished",
-        "Doesn't apply to stopwatch",
+        "Click again to cancel session",
     ],
+};
+
+const sessionStopwatch = {
+    title: "Stopwatch",
+    bodyItems: ["Click on it to begin a session", "Click to finish session"],
 };
 
 const overtime = {
@@ -331,8 +335,10 @@ export const targetToTooltipObject = (target: string): TooltipObjectType => {
             return breakInterval;
         case "timers":
             return timers;
-        case "sessionTimer":
-            return sessionTimer;
+        case "sessionCountdown":
+            return sessionCountdown;
+        case "sessionStopwatch":
+            return sessionStopwatch;
         case "sessionTypeSwitch":
             return sessionTypeSwitch;
         case "themes":
