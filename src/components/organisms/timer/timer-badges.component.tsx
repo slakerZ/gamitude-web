@@ -24,7 +24,7 @@ const LongBreakProgressBadge = ({
 }: BadgePropTypes) => {
     const classes = useTimerStyles();
 
-    return selectedTimer.countDownInfo.longerBreakTime ? (
+    return selectedTimer && selectedTimer.countDownInfo.longerBreakTime ? (
         <Badge
             aria-label="Progress towards long break"
             overlap="circle"
@@ -81,7 +81,10 @@ const OvertimeBadge = ({
                         disabled={!selectedProject.id || !sessionInProgress}
                     >
                         <Typography variant="h4" component="h4">
-                            +{selectedTimer.countDownInfo.overTime}
+                            +
+                            {selectedTimer
+                                ? selectedTimer.countDownInfo.overTime
+                                : 0}
                         </Typography>
                     </Button>
                 </ToggleAbleTooltip>
@@ -119,7 +122,9 @@ const ShortBreakBadge = ({
                         disabled={!selectedProject.id || !sessionInProgress}
                     >
                         <Typography variant="h4" component="h4">
-                            {selectedTimer.countDownInfo.breakTime}
+                            {selectedTimer
+                                ? selectedTimer.countDownInfo.breakTime
+                                : 0}
                         </Typography>
                     </Button>
                 </ToggleAbleTooltip>
@@ -139,7 +144,7 @@ const LongBreakBadge = ({
 }: BadgePropTypes) => {
     const classes = useTimerStyles();
 
-    return selectedTimer.countDownInfo.longerBreakTime ? (
+    return selectedTimer && selectedTimer.countDownInfo.longerBreakTime ? (
         <Badge
             aria-label="Long break time display"
             overlap="circle"

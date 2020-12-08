@@ -60,11 +60,7 @@ const Timer = ({
     const classes = useTimerStyles();
 
     // useState
-    const [sessionTime, setSessionTime] = useState(
-        isBreak
-            ? selectedTimer.countDownInfo.breakTime * MINUTE_AS_MS
-            : selectedTimer.countDownInfo.workTime * MINUTE_AS_MS,
-    );
+    const [sessionTime, setSessionTime] = useState(0);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [endDateAsMs, setEndDateAsMs] = useState(0);
@@ -246,7 +242,10 @@ const Timer = ({
     }, [selectedProject]);
 
     useEffect(() => {
-        setSessionTime(selectedTimer.countDownInfo.workTime * MINUTE_AS_MS);
+        const currSessionTime = selectedTimer
+            ? selectedTimer.countDownInfo.workTime * MINUTE_AS_MS
+            : 0;
+        setSessionTime(currSessionTime);
     }, [selectedTimer]);
 
     useEffect(() => {
