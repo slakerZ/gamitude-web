@@ -1,7 +1,13 @@
 import { TimerTypes } from "gamitude_constants";
 import useSound from "use-sound";
 
-import React, { ReactElement, Fragment, useEffect, useState } from "react";
+import React, {
+    ReactElement,
+    Fragment,
+    useEffect,
+    useState,
+    useCallback,
+} from "react";
 import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
@@ -196,12 +202,12 @@ const Timer = ({
         }
     };
 
-    const handleStopwatch = () => {
+    const handleStopwatch = useCallback(() => {
         const distance = Date.now() - startDateAsMs;
         setSessionTime(distance);
-    };
+    }, [startDateAsMs]);
 
-    const handleCountdown = () => {
+    const handleCountdown = useCallback(() => {
         const distance = endDateAsMs - Date.now();
         // Is minute left?
         if (
@@ -280,7 +286,23 @@ const Timer = ({
             play();
             setSessionInProgress(false);
         }
-    };
+    }, [
+        endDateAsMs,
+        endDate,
+        incrementSessionsComplete,
+        isBreak,
+        isPlaying,
+        play,
+        playMin,
+        selectedProject,
+        selectedTimer,
+        sessionsComplete,
+        setSessionInProgress,
+        setSnackbarState,
+        startDate,
+        toggleIsBreak,
+        token,
+    ]);
 
     // useEffect
     useEffect(() => {
@@ -292,7 +314,7 @@ const Timer = ({
             setSelectedTimer(defaultTimer);
             setSessionTime(defaultTimer.countDownInfo.workTime * MINUTE_AS_MS);
         }
-    }, [selectedProject]);
+    }, [selectedProject, setSelectedTimer, timers, setSessionType]);
 
     useEffect(() => {
         const currSessionTime = selectedTimer
@@ -312,7 +334,13 @@ const Timer = ({
         return () => {
             clearInterval(interval);
         };
-    }, [sessionInProgress, sessionTime, selectedTimer]);
+    }, [
+        sessionInProgress,
+        sessionTime,
+        selectedTimer,
+        handleCountdown,
+        handleStopwatch,
+    ]);
 
     return (
         <div className={classes.root}>

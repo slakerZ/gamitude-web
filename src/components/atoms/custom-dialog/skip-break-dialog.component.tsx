@@ -13,6 +13,7 @@ const SkipBreakDialog = ({
     open,
     setOpen,
     onSubmit,
+    setSessionInProgress,
 }: ConfirmationDialogType): ReactElement => {
     const classes = useCustomDialogStyles();
 

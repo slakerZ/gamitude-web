@@ -7,6 +7,7 @@ import React, {
     ReactElement,
     useState,
     useEffect,
+    useCallback,
 } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Link, Redirect, useLocation } from "react-router-dom";
@@ -80,11 +81,11 @@ const App: FC<AppType> = ({
         setNavOpen(!navOpen);
     };
 
-    const logout = () => {
+    const logout = useCallback(() => {
         setUser({
             token: null,
         });
-    };
+    }, [setUser]);
 
     const toggleTooltips = () => {
         setTooltipToggle({ tooltipToggle: !tooltipToggle });
@@ -98,7 +99,7 @@ const App: FC<AppType> = ({
         } else {
             setTokenExpired(false);
         }
-    }, [dateExpires]);
+    }, [dateExpires, logout]);
 
     return (
         <div className={classes.root}>

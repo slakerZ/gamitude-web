@@ -109,7 +109,7 @@ const ProjectsDesktopPage = ({
                 });
             }
         }
-    }, [getFoldersListState, getProjectsListState]);
+    }, [getFoldersListState, getProjectsListState, setUser]);
 
     return (
         <div aria-label="Folders" className={classes.root}>

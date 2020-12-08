@@ -93,7 +93,7 @@ const Methods = ({
         if (methodIndex !== -1) {
             setTimerIndex(methodIndex);
         }
-    }, [selectedTimer]);
+    }, [selectedTimer, timers]);
 
     useEffect(() => {
         if (getTimersListState.error) {
