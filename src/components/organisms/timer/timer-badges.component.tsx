@@ -9,14 +9,17 @@ import Typography from "@material-ui/core/Typography";
 
 import { selectSelectedProject } from "redux/projects/projects.selectors";
 import { ReduxStateType } from "redux/root.reducer";
-import { selectSessionInProgress } from "redux/session/session.selectors";
+import {
+    selectIsBreak,
+    selectSessionInProgress,
+} from "redux/session/session.selectors";
 import { selectSelectedTimer } from "redux/timers/timers.selectors";
 
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import useTimerStyles from "./styles";
 import {
-    BadgePropTypes,
+    OvertimeBadgePropTypes,
     TimerBadgedPropTypes,
     DisplayBadgePropTypes,
 } from "./types";
@@ -64,10 +67,11 @@ const OvertimeBadge = ({
     selectedProject,
     sessionInProgress,
     selectedTimer,
-}: BadgePropTypes) => {
+    isBreak,
+}: OvertimeBadgePropTypes) => {
     const classes = useTimerStyles();
 
-    return selectedTimer.timerType === TimerTypes.TIMER ? (
+    return selectedTimer.timerType === TimerTypes.TIMER && !isBreak ? (
         <Badge
             overlap="circle"
             anchorOrigin={{
@@ -179,6 +183,7 @@ const TimerBadges = ({
     selectedProject,
     sessionInProgress,
     handleOvertime,
+    isBreak,
 }: TimerBadgedPropTypes) => {
     return (
         <LongBreakProgressBadge selectedTimer={selectedTimer}>
@@ -189,6 +194,7 @@ const TimerBadges = ({
                         selectedProject={selectedProject}
                         sessionInProgress={sessionInProgress}
                         selectedTimer={selectedTimer}
+                        isBreak={isBreak}
                     >
                         {children}
                     </OvertimeBadge>
@@ -202,6 +208,7 @@ const mapStateToProps = (state: ReduxStateType) => ({
     selectedProject: selectSelectedProject(state),
     sessionInProgress: selectSessionInProgress(state),
     selectedTimer: selectSelectedTimer(state),
+    isBreak: selectIsBreak(state),
 });
 
 export default connect(mapStateToProps)(TimerBadges);
