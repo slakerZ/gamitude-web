@@ -236,11 +236,12 @@ const Timer = ({
     // useEffect
     useEffect(() => {
         const defaultTimer = timers.find(
-            (timer: any) => timer.id === selectedProject.defaultTimerId,
+            (timer: TimerType) => timer.id === selectedProject.defaultTimerId,
         );
         if (defaultTimer) {
+            setSessionType(selectedProject.projectType);
             setSelectedTimer(defaultTimer);
-            setSessionTime(defaultTimer.workTime * MINUTE_AS_MS);
+            setSessionTime(defaultTimer.countDownInfo.workTime * MINUTE_AS_MS);
         }
     }, [selectedProject]);
 

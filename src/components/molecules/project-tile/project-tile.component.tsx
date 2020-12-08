@@ -157,9 +157,7 @@ const Project = ({
             expanded={expanded}
             onChange={() => setExpanded(!expanded)}
             square
-            className={clsx(classes.container, {
-                [classes.hide]: sessionType !== projectType,
-            })}
+            className={clsx(classes.container)}
         >
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
