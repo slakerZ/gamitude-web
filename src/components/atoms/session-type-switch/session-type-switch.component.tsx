@@ -1,3 +1,5 @@
+import { ProjectSessionTypes } from "gamitude_constants";
+
 import React, { ReactElement, Fragment } from "react";
 
 import Grid from "@material-ui/core/Grid";
@@ -16,9 +18,9 @@ const SessionTypeSwitch = ({
     const classes = useSessionManagerStyles();
 
     const handleChangeSessionType = () => {
-        sessionType === "STAT"
-            ? setSessionType("ENERGY")
-            : setSessionType("STAT");
+        sessionType === ProjectSessionTypes.STAT
+            ? setSessionType(ProjectSessionTypes.ENERGY)
+            : setSessionType(ProjectSessionTypes.STAT);
         if (setBoosted && setDominant) {
             setBoosted([]);
             setDominant("");

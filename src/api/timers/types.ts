@@ -1,3 +1,5 @@
+import { TimerVariantType } from "types";
+
 interface CountDownInfo {
     workTime: number;
     breakTime: number;
@@ -6,20 +8,19 @@ interface CountDownInfo {
     breakInterval?: number | null;
 }
 export interface TimerType {
-    label: string;
     id: string;
     userId: string;
     name: string;
+    label: string;
+    timerType: TimerVariantType;
     countDownInfo: CountDownInfo;
 }
 
 export interface TimerRequestBodyType {
-    workTime: number;
-    breakTime: number;
-    overTime: number;
     name: string;
-    longerBreakTime?: number | null;
-    breakInterval?: number | null;
+    label: string;
+    timerType: TimerVariantType;
+    countDownInfo: CountDownInfo;
 }
 
 export interface TimerResponseBodyType {

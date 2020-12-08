@@ -80,7 +80,7 @@ const Timer = ({
 
     // handlers
     const handleOvertime = () => {
-        const currOverTime = selectedProject.overTime;
+        const currOverTime = selectedTimer.countDownInfo.overTime;
         const overtime = currOverTime * MINUTE_AS_MS;
         setEndDateAsMs(endDateAsMs + overtime);
         setSessionTime(sessionTime + overtime);

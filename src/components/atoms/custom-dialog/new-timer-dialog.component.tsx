@@ -1,3 +1,6 @@
+import { TimerTypes } from "gamitude_constants";
+import { TimerVariantType } from "types";
+
 import React, { useState, useEffect, ReactElement } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
@@ -33,18 +36,20 @@ const NewTimerDialog = ({
     const [hasLongBreak, setHasLongBreak] = useState(false);
     const [longerBreakTime, setLongerBreakTime] = useState(0);
     const [breakInterval, setBreakInterval] = useState(0);
-    const [type, setType] = useState("TIMER");
+    const [type, setType] = useState<TimerVariantType>(TimerTypes.TIMER);
 
     const [postMethodState, postMethod] = useAsyncFn(async () => {
         const newTimer = {
-            label: label,
-            workTime: workTime,
-            breakTime: breakTime,
-            overTime: overTime,
             name: name,
-            longerBreakTime: longerBreakTime === 0 ? null : longerBreakTime,
-            breakInterval: breakInterval === 0 ? null : breakInterval,
+            label: label,
             timerType: type,
+            countDownInfo: {
+                workTime: workTime,
+                breakTime: breakTime,
+                overTime: overTime,
+                longerBreakTime: longerBreakTime === 0 ? null : longerBreakTime,
+                breakInterval: breakInterval === 0 ? null : breakInterval,
+            },
         };
         const response = await postTimer(token, newTimer);
         setOpen(false);
@@ -147,8 +152,12 @@ const NewTimerDialog = ({
                         onChange={handleChangeType}
                         variant={"outlined"}
                     >
-                        <MenuItem value={"TIMER"}>{"Timer"}</MenuItem>
-                        <MenuItem value={"STOPWATCH"}>{"Stopwatch"}</MenuItem>
+                        <MenuItem value={TimerTypes.TIMER}>
+                            {TimerTypes.TIMER}
+                        </MenuItem>
+                        <MenuItem value={TimerTypes.STOPWATCH}>
+                            {TimerTypes.STOPWATCH}
+                        </MenuItem>
                     </TextField>
                 </Grid>
                 <Grid item xs={12} sm={4}>

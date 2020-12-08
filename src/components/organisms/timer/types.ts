@@ -2,17 +2,17 @@ import { FullProjectType } from "api/projects/types";
 import { TimerType } from "api/timers/types";
 
 export interface TimerPropTypes {
-    selectedProject: any;
+    selectedProject: FullProjectType;
     selectedTimer: TimerType;
     setSelectedTimer: any;
-    timers: any;
+    timers: TimerType[];
     setSessionInProgress: any;
-    sessionInProgress: any;
-    token: any;
+    sessionInProgress: boolean;
+    token: string;
     incrementSessionsComplete: any;
     setSessionType: any;
     setSnackbarState: any;
-    sessionsComplete: any;
+    sessionsComplete: number;
     isBreak: boolean;
     toggleIsBreak: any;
 }

@@ -1,3 +1,5 @@
+import { TimerTypes } from "gamitude_constants";
+
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
@@ -104,7 +106,7 @@ const ShortBreakBadge = ({
 }: BadgePropTypes) => {
     const classes = useTimerStyles();
 
-    return (
+    return selectedTimer.timerType === TimerTypes.TIMER ? (
         <Badge
             aria-label="Short break time display"
             overlap="circle"
@@ -132,6 +134,8 @@ const ShortBreakBadge = ({
         >
             {children}
         </Badge>
+    ) : (
+        <Fragment>{children}</Fragment>
     );
 };
 
