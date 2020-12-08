@@ -42,10 +42,10 @@ import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-to
 
 import CustomSnackbar from "components/molecules/custom-snackbar/custom-snackbar.component";
 
-import Methods from "components/organisms/methods/methods.component";
 import Rank from "components/organisms/rank/rank.component";
 import StatsAndEnergies from "components/organisms/stats-and-energies/stats-and-energies.component";
 import Timer from "components/organisms/timer/timer.component";
+import TimerList from "components/organisms/timers-list/timers-list.component";
 
 import { NAV_LINKS } from "./constants";
 import useAppStyles from "./styles";
@@ -281,7 +281,7 @@ const App: FC<AppType> = ({
                             />
                         </ToggleAbleTooltip>
                         <Timer />
-                        <Methods />
+                        <TimerList />
                     </div>
                 </Drawer>
             ) : null}

@@ -42,14 +42,17 @@ const Methods = ({
     isBreak,
 }: TimersPropType) => {
     const classes = useMethodsStyles();
+
     const defaultSelected =
         timers.indexOf(selectedTimer) !== -1
             ? timers.indexOf(selectedTimer)
             : 0;
 
+    // useState
     const [timerIndex, setTimerIndex] = useState(defaultSelected);
-    const [open, setOpen] = useState(false);
+    const [isNewTimerDialogOpen, setIsNewTimerDialogOpen] = useState(false);
 
+    // useAsyncFn
     const [getTimersListState, getTimersList] = useAsyncFn(async () => {
         const response = await getTimers(token);
         const timers = response.data;
@@ -58,7 +61,9 @@ const Methods = ({
         return response;
     });
 
-    const handleMethodChange = (e: any, newValue: number) => {
+    // handlers
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const handleMethodChange = (e: React.ChangeEvent<{}>, newValue: number) => {
         if (!sessionInProgress && !isBreak) {
             setTimerIndex(newValue);
             setSelectedTimer(timers[newValue]);
@@ -80,13 +85,9 @@ const Methods = ({
         }
     };
 
-    const handleOpenDialog = (e: any) => {
-        setOpen(true);
+    const handleOpenDialog = () => {
+        setIsNewTimerDialogOpen(true);
     };
-
-    useEffectOnce(() => {
-        getTimersList();
-    });
 
     useEffect(() => {
         const methodIndex = timers.indexOf(selectedTimer);
@@ -105,6 +106,10 @@ const Methods = ({
             });
         }
     }, [getTimersListState, setSnackbarState]);
+
+    useEffectOnce(() => {
+        getTimersList();
+    });
 
     return (
         <div className={classes.root} aria-label="timers root">
@@ -149,8 +154,8 @@ const Methods = ({
                 </ToggleAbleTooltip>
             )}
             <NewTimerDialog
-                open={open}
-                setOpen={setOpen}
+                open={isNewTimerDialogOpen}
+                setOpen={setIsNewTimerDialogOpen}
                 getMethodsList={getTimersList}
             />
         </div>
