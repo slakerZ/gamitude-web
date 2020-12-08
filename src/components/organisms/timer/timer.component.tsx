@@ -32,6 +32,7 @@ import { postProjectLog } from "api/projectLogs/projectLogs.api";
 import { TimerType } from "api/timers/types";
 
 import GiveUpSessionDialog from "components/atoms/custom-dialog/give-up-session-dialog.component";
+import SkipBreakDialog from "components/atoms/custom-dialog/skip-break-dialog.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import { MINUTE_AS_MS, MS_ERROR_MARGIN, INTERVAL_FREQUENCY } from "./constants";
@@ -69,6 +70,7 @@ const Timer = ({
     const [isConfirmGiveUpDialogOpen, setIsConfirmGiveUpDialogOpen] = useState(
         false,
     );
+    const [isSkipBreakDialogOpen, setIsSkipBreakDialogOpen] = useState(false);
 
     // useSound
     const [playMin, { isPlaying }] = useSound(minuteSound, {
@@ -118,7 +120,11 @@ const Timer = ({
         } else {
             // Give up if countdown
             if (selectedTimer.timerType === TimerTypes.TIMER) {
-                setIsConfirmGiveUpDialogOpen(true);
+                if (isBreak) {
+                    setIsSkipBreakDialogOpen(true);
+                } else {
+                    setIsConfirmGiveUpDialogOpen(true);
+                }
             }
             // Manual finish if stopwatch
             else {
@@ -157,7 +163,11 @@ const Timer = ({
         setSessionTime(selectedTimer.countDownInfo.workTime * MINUTE_AS_MS);
     };
 
-    const handleSkipBreak = () => {};
+    const handleSkipBreak = () => {
+        setSessionInProgress(false);
+        setIsSkipBreakDialogOpen(false);
+        setSessionTime(selectedTimer.countDownInfo.workTime * MINUTE_AS_MS);
+    };
 
     const handleShortOrLongBreak = (
         selectedTimer: TimerType,
@@ -310,6 +320,11 @@ const Timer = ({
                 open={isConfirmGiveUpDialogOpen}
                 setOpen={setIsConfirmGiveUpDialogOpen}
                 onSubmit={handleGiveUp}
+            />
+            <SkipBreakDialog
+                open={isSkipBreakDialogOpen}
+                setOpen={setIsSkipBreakDialogOpen}
+                onSubmit={handleSkipBreak}
             />
             <Typography
                 variant="h6"

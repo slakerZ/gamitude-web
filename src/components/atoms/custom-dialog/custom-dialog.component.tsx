@@ -15,11 +15,15 @@ const CustomDialog = ({
     title,
     onSubmit,
     children,
+    handleCancel,
 }: CustomDialogPropType): ReactElement => {
     const classes = useCustomDialogStyles();
 
     const onCancel = () => {
         setOpen(false);
+        if (handleCancel) {
+            handleCancel();
+        }
     };
 
     return (

@@ -4,6 +4,7 @@ export interface CustomDialogPropType {
     title: string;
     onSubmit: any;
     children: any;
+    handleCancel?: any;
 }
 
 export interface NewFolderDialogPropTypes {
@@ -34,4 +35,5 @@ export interface ConfirmationDialogType {
     open: any;
     setOpen: any;
     onSubmit: any;
+    setSessionInProgress?: any;
 }

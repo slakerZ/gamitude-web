@@ -9,11 +9,10 @@ import CustomDialog from "./custom-dialog.component";
 import useCustomDialogStyles from "./styles";
 import { ConfirmationDialogType } from "./types";
 
-const GiveUpSessionDialog = ({
+const SkipBreakDialog = ({
     open,
     setOpen,
     onSubmit,
-    setSessionInProgress,
 }: ConfirmationDialogType): ReactElement => {
     const classes = useCustomDialogStyles();
 
@@ -25,7 +24,7 @@ const GiveUpSessionDialog = ({
         <CustomDialog
             open={open}
             setOpen={setOpen}
-            title={"Are you sure you want to give up?"}
+            title={"Are you sure you want to skip this break?"}
             onSubmit={onSubmit}
             handleCancel={handleCancel}
         >
@@ -34,7 +33,7 @@ const GiveUpSessionDialog = ({
                 component="h4"
                 className={classes.textDanger}
             >
-                {"Current session progress will be lost"}
+                {"This will negatively impact your further performance!"}
             </Typography>
         </CustomDialog>
     );
@@ -44,4 +43,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     setSessionInProgress: (value: any) => dispatch(setSessionInProgress(value)),
 });
 
-export default connect(null, mapDispatchToProps)(GiveUpSessionDialog);
+export default connect(null, mapDispatchToProps)(SkipBreakDialog);
