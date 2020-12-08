@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useEffectOnce, useAsyncFn } from "react-use";
 
@@ -22,34 +22,35 @@ import { selectSelectedTimer } from "redux/timers/timers.selectors";
 import { selectToken } from "redux/user/user.selectors";
 
 import { getTimers } from "api/timers/timers.api";
+import { TimerType } from "api/timers/types";
 
 import NewTimerDialog from "components/atoms/custom-dialog/new-timer-dialog.component";
 import { a11yProps } from "components/atoms/tab-panel/tab-panel.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import useMethodsStyles from "./styles";
-import { MethodsPropType } from "./types";
+import { TimersPropType } from "./types";
 
 const Methods = ({
-    methods,
+    timers,
     setSelectedTimer,
-    selectedMethod,
+    selectedTimer,
     token,
     setTimers,
     setSnackbarState,
     sessionInProgress,
     isBreak,
-}: MethodsPropType) => {
+}: TimersPropType) => {
     const classes = useMethodsStyles();
     const defaultSelected =
-        methods.indexOf(selectedMethod) !== -1
-            ? methods.indexOf(selectedMethod)
+        timers.indexOf(selectedTimer) !== -1
+            ? timers.indexOf(selectedTimer)
             : 0;
 
-    const [method, setMethod] = useState(defaultSelected);
+    const [timerIndex, setTimerIndex] = useState(defaultSelected);
     const [open, setOpen] = useState(false);
 
-    const [getMethodsListState, getMethodsList] = useAsyncFn(async () => {
+    const [getTimersListState, getTimersList] = useAsyncFn(async () => {
         const response = await getTimers(token);
         const timers = response.data;
         setTimers(timers);
@@ -57,10 +58,10 @@ const Methods = ({
         return response;
     });
 
-    const handleMethodChange = (e: any, newValue: any) => {
+    const handleMethodChange = (e: any, newValue: number) => {
         if (!sessionInProgress && !isBreak) {
-            setMethod(newValue);
-            setSelectedTimer(methods[newValue]);
+            setTimerIndex(newValue);
+            setSelectedTimer(timers[newValue]);
         } else if (isBreak) {
             setSnackbarState({
                 severity: "info",
@@ -84,18 +85,18 @@ const Methods = ({
     };
 
     useEffectOnce(() => {
-        getMethodsList();
+        getTimersList();
     });
 
     useEffect(() => {
-        const methodIndex = methods.indexOf(selectedMethod);
+        const methodIndex = timers.indexOf(selectedTimer);
         if (methodIndex !== -1) {
-            setMethod(methodIndex);
+            setTimerIndex(methodIndex);
         }
-    }, [selectedMethod]);
+    }, [selectedTimer]);
 
     useEffect(() => {
-        if (getMethodsListState.error) {
+        if (getTimersListState.error) {
             setSnackbarState({
                 severity: "error",
                 message: "Failed to get timers list",
@@ -103,69 +104,69 @@ const Methods = ({
                 autoHideDuration: 3000,
             });
         }
-    }, [getMethodsListState, setSnackbarState]);
+    }, [getTimersListState, setSnackbarState]);
 
     return (
-        <div className={classes.root} aria-label="methods root">
-            {getMethodsListState.loading ? (
+        <div className={classes.root} aria-label="timers root">
+            {getTimersListState.loading ? (
                 <Skeleton
                     variant="rect"
                     animation="wave"
                     className={classes.placeholder}
                 />
             ) : (
-                <Fragment>
-                    <Tabs
-                        aria-label="list of custom methods"
-                        value={method}
-                        onChange={handleMethodChange}
-                        variant="scrollable"
-                        scrollButtons="on"
-                        indicatorColor="primary"
-                        textColor="primary"
-                    >
-                        {methods.map(({ label }, index) => {
-                            return (
-                                <Tab
-                                    className={classes.tab}
-                                    key={index}
-                                    label={label}
-                                    {...a11yProps(index, "custom-method")}
-                                    icon={<TimerIcon />}
-                                />
-                            );
-                        })}
-                    </Tabs>
-                    <IconButton
-                        aria-label={"add new method"}
-                        className={classes.addMethod}
-                        onClick={handleOpenDialog}
-                    >
-                        <ToggleAbleTooltip target={"method"}>
+                <ToggleAbleTooltip target={"timers"} placement="top-start">
+                    <div className={classes.container}>
+                        <Tabs
+                            aria-label="list of custom timers"
+                            value={timerIndex}
+                            onChange={handleMethodChange}
+                            variant="scrollable"
+                            scrollButtons="on"
+                            indicatorColor="primary"
+                            textColor="primary"
+                        >
+                            {timers.map(({ label }, index) => {
+                                return (
+                                    <Tab
+                                        className={classes.tab}
+                                        key={index}
+                                        label={label}
+                                        {...a11yProps(index, "custom-timer")}
+                                        icon={<TimerIcon />}
+                                    />
+                                );
+                            })}
+                        </Tabs>
+                        <IconButton
+                            aria-label={"add new timer"}
+                            className={classes.addMethod}
+                            onClick={handleOpenDialog}
+                        >
                             <AddAlarm />
-                        </ToggleAbleTooltip>
-                    </IconButton>
-                </Fragment>
+                        </IconButton>
+                    </div>
+                </ToggleAbleTooltip>
             )}
             <NewTimerDialog
                 open={open}
                 setOpen={setOpen}
-                getMethodsList={getMethodsList}
+                getMethodsList={getTimersList}
             />
         </div>
     );
 };
 
 const mapStateToProps = (state: ReduxStateType) => ({
-    methods: selectTimers(state),
-    selectedMethod: selectSelectedTimer(state),
+    timers: selectTimers(state),
+    selectedTimer: selectSelectedTimer(state),
     token: selectToken(state),
     sessionInProgress: selectSessionInProgress(state),
     isBreak: selectIsBreak(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    setTimers: (value: any) => dispatch(setTimers(value)),
+    setTimers: (value: TimerType[]) => dispatch(setTimers(value)),
     setSelectedTimer: (value: number) => dispatch(setSelectedTimer(value)),
     setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
 });

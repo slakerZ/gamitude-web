@@ -280,7 +280,7 @@ const Timer = ({
                 handleSkipBreak={handleSkipBreak}
                 handleOvertime={handleOvertime}
             >
-                <ToggleAbleTooltip target="sessionTimer">
+                <ToggleAbleTooltip target="sessionTimer" placement="left">
                     <Button
                         aria-label="Timer Button"
                         className={classes.timerButton}

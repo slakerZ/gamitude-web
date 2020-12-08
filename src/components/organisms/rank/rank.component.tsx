@@ -49,7 +49,7 @@ const Rank = ({
 
     return (
         <div className={classes.root}>
-            <ToggleAbleTooltip target="rankName">
+            <ToggleAbleTooltip target="rankName" placement="left">
                 <Typography variant="h2" component="h2" align="center">
                     {rank.name}
                 </Typography>
@@ -62,7 +62,7 @@ const Rank = ({
                         horizontal: "right",
                     }}
                     badgeContent={
-                        <ToggleAbleTooltip target="rankTier">
+                        <ToggleAbleTooltip target="rankTier" placement="left">
                             <div className={classes.badgeWrapper}>
                                 {getCurrentRankState.loading ? (
                                     <CircularProgress />
@@ -78,7 +78,7 @@ const Rank = ({
                         </ToggleAbleTooltip>
                     }
                 >
-                    <ToggleAbleTooltip target="rankImage">
+                    <ToggleAbleTooltip target="rankImage" placement="left">
                         {getCurrentRankState.loading ? (
                             <Skeleton
                                 variant="rect"

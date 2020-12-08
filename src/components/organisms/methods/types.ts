@@ -1,12 +1,12 @@
 import { TimerType } from "api/timers/types";
 
-export interface MethodsPropType {
-    methods: TimerType[];
+export interface TimersPropType {
+    timers: TimerType[];
     setSelectedTimer: any;
-    selectedMethod: TimerType;
+    selectedTimer: TimerType;
     token: string;
     setTimers: any;
     setSnackbarState: any;
-    sessionInProgress: any;
+    sessionInProgress: boolean;
     isBreak: boolean;
 }

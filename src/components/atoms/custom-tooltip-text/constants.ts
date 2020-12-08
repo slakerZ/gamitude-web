@@ -154,11 +154,12 @@ const sessionTypeSwitch = {
     ],
 };
 
-const method = {
-    title: "Session Method",
+const timers = {
+    title: "Timers",
     bodyItems: [
         "This sets session time displayed on timer above",
-        "Infinity sign means that instead of countdown timer stopwatch will be used",
+        "Can be either countdown - fixed session time",
+        "Or stopwatch - count up from 0 and end session at will",
     ],
 };
 
@@ -214,10 +215,19 @@ const project = {
     bodyItems: ["Work on your project with the method that suits your best"],
 };
 
-const folder = {
-    title: "Folder",
+const folders = {
+    title: "Folders",
     bodyItems: [
         "Organize your projects into folders to keep your fields of effort separated",
+    ],
+};
+
+const addProject = {
+    title: "Add Project",
+    bodyItems: [
+        "Create new energy or stat project",
+        "Select up to 4 boosted stats and 1 that's boosted the most - dominant",
+        "Then assign in to a folder and choose default work method",
     ],
 };
 
@@ -307,8 +317,10 @@ export const targetToTooltipObject = (target: string): TooltipObjectType => {
             return logout;
         case "project":
             return project;
-        case "folder":
-            return folder;
+        case "addProject":
+            return addProject;
+        case "folders":
+            return folders;
         case "overtime":
             return overtime;
         case "shortBreak":
@@ -317,8 +329,8 @@ export const targetToTooltipObject = (target: string): TooltipObjectType => {
             return longBreak;
         case "breakInterval":
             return breakInterval;
-        case "method":
-            return method;
+        case "timers":
+            return timers;
         case "sessionTimer":
             return sessionTimer;
         case "sessionTypeSwitch":

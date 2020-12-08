@@ -1,9 +1,7 @@
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
 const useMethodsStyels = makeStyles((theme: Theme) => ({
-    root: {
-        display: "flex",
-    },
+    root: {},
     tab: {
         color: theme.palette.common.white,
         minWidth: theme.spacing(7),
@@ -18,6 +16,10 @@ const useMethodsStyels = makeStyles((theme: Theme) => ({
     placeholder: {
         width: 276,
         height: 50,
+    },
+    container: {
+        display: "flex",
+        justifyContent: "space-between",
     },
 }));
 

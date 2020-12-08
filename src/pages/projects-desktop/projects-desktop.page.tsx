@@ -120,35 +120,35 @@ const ProjectsDesktopPage = ({
                     className={classes.tabsPlaceholder}
                 />
             ) : (
-                <div className={classes.tabsWrapper}>
-                    <Tabs
-                        aria-label="Folders navigation"
-                        orientation="vertical"
-                        variant="scrollable"
-                        value={projectsCurrFolderIndex}
-                        onChange={handleChangeCurrentFolder}
-                        className={classes.tabs}
-                    >
-                        {folders.map(({ name, icon }, index) => {
-                            return (
-                                <Tab
-                                    key={index}
-                                    label={name}
-                                    {...a11yProps(
-                                        index,
-                                        "folder-with-projects",
-                                    )}
-                                    icon={
-                                        <CustomIcon
-                                            variant={icon}
-                                            size="small"
-                                        />
-                                    }
-                                />
-                            );
-                        })}
-                    </Tabs>
-                    <ToggleAbleTooltip target="folder">
+                <ToggleAbleTooltip target="folders" placement="right">
+                    <div className={classes.tabsWrapper}>
+                        <Tabs
+                            aria-label="Folders navigation"
+                            orientation="vertical"
+                            variant="scrollable"
+                            value={projectsCurrFolderIndex}
+                            onChange={handleChangeCurrentFolder}
+                            className={classes.tabs}
+                        >
+                            {folders.map(({ name, icon }, index) => {
+                                return (
+                                    <Tab
+                                        key={index}
+                                        label={name}
+                                        {...a11yProps(
+                                            index,
+                                            "folder-with-projects",
+                                        )}
+                                        icon={
+                                            <CustomIcon
+                                                variant={icon}
+                                                size="small"
+                                            />
+                                        }
+                                    />
+                                );
+                            })}
+                        </Tabs>
                         <IconButton
                             aria-label="Add folder"
                             color="primary"
@@ -156,8 +156,8 @@ const ProjectsDesktopPage = ({
                         >
                             <AddIcon />
                         </IconButton>
-                    </ToggleAbleTooltip>
-                </div>
+                    </div>
+                </ToggleAbleTooltip>
             )}
             {getProjectsListState.loading ? (
                 <div className={classes.center}>
@@ -198,7 +198,7 @@ const ProjectsDesktopPage = ({
             )}
 
             <div className={classes.fabWrapper} aria-label="Add Project">
-                <ToggleAbleTooltip target="project">
+                <ToggleAbleTooltip target="addProject" placement="top">
                     <Fab
                         color="secondary"
                         aria-label="Open add project dialog"
