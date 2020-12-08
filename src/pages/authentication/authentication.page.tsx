@@ -9,11 +9,7 @@ import Fade from "@material-ui/core/Fade";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 
-import {
-    editMessage,
-    editSeverity,
-    setOpen as setSnackbarOpen,
-} from "redux/snackbar/snackbar.actions";
+import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { setUser } from "redux/user/user.actions";
 
 import { postLogin } from "api/authorization/authorization.api";
@@ -39,9 +35,7 @@ import { AuthenticationType } from "./types";
 
 const AuthenticationPage = ({
     setUser,
-    editMessage,
-    editSeverity,
-    setSnackbarOpen,
+    setSnackbarState,
 }: AuthenticationType) => {
     const classes = useSignInUpStyles();
 
@@ -67,7 +61,6 @@ const AuthenticationPage = ({
     const handleSwitchSignUpIn = (event: MouseEvent) => {
         event.preventDefault();
         setIsSignUp(!isSignUp);
-        setSnackbarOpen(false);
     };
 
     useEffect(() => {
@@ -75,25 +68,35 @@ const AuthenticationPage = ({
             const msg = signUpState.error.message.includes("401")
                 ? "Username or Email already taken"
                 : "Failed to register";
-            editSeverity("error");
-            editMessage(msg);
-            setSnackbarOpen(true);
+            setSnackbarState({
+                message: msg,
+                severity: "error",
+                open: true,
+                autoHideDuration: 2000,
+            });
         } else if (signUpState.value) {
-            editSeverity("success");
-            editMessage("Successfully registered");
-            setSnackbarOpen(true);
+            setSnackbarState({
+                message: "Successfully registered",
+                severity: "success",
+                open: true,
+                autoHideDuration: 2000,
+            });
+
             setIsSignUp(false);
         }
-    }, [signUpState, editSeverity, editMessage, setSnackbarOpen]);
+    }, [signUpState, setSnackbarState]);
 
     useEffect(() => {
         if (signInState.error && !signInState.loading && !signInState.value) {
             const msg = "Failed to Log in";
-            editSeverity("error");
-            editMessage(msg);
-            setSnackbarOpen(true);
+            setSnackbarState({
+                message: msg,
+                severity: "error",
+                open: true,
+                autoHideDuration: 2000,
+            });
         }
-    }, [signInState, editSeverity, editMessage, setSnackbarOpen]);
+    }, [signInState, setSnackbarState]);
 
     return (
         <div className={classes.root}>
@@ -163,9 +166,7 @@ const AuthenticationPage = ({
 
 const mapDispatchToProps = (dispatch: any) => ({
     setUser: (user: any) => dispatch(setUser(user)),
-    editMessage: (value: any) => dispatch(editMessage(value)),
-    editSeverity: (value: any) => dispatch(editSeverity(value)),
-    setSnackbarOpen: (value: any) => dispatch(setSnackbarOpen(value)),
+    setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
 });
 
 export default connect(null, mapDispatchToProps)(AuthenticationPage);
