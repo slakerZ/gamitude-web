@@ -24,6 +24,7 @@ import { selectToken } from "redux/user/user.selectors";
 
 import { getFolders } from "api/folders/folders.api";
 import { getProjects } from "api/projects/projects.api";
+import { FullProjectType } from "api/projects/types";
 
 import NewFolderDialog from "components/atoms/custom-dialog/new-folder-dialog.component";
 import NewProjectDialog from "components/atoms/custom-dialog/new-project-dialog.component";
@@ -166,9 +167,10 @@ const ProjectsDesktopPage = ({
             ) : (
                 <div
                     aria-label="Projects in current Folder"
+                    role="menu"
                     className={classes.projectsWrapper}
                 >
-                    {projects.map((project: any, index: number) => {
+                    {projects.map((project: FullProjectType, index: number) => {
                         const { folderId } = project;
                         return (
                             <TabPanel
@@ -177,8 +179,8 @@ const ProjectsDesktopPage = ({
                                 index={folders.findIndex((folder) => {
                                     return folder.id === folderId;
                                 })}
-                                role={"folder"}
-                                id={"projects-in-folder"}
+                                role={"menuitem"}
+                                id={`project-${project.id}`}
                             >
                                 <RadioGroup
                                     aria-label={`selected_project_${index}`}

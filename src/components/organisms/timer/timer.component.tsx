@@ -356,7 +356,7 @@ const Timer = ({
             />
             <Typography
                 variant="h6"
-                component="h6"
+                component="h1"
                 gutterBottom
                 align="justify"
             >

@@ -90,9 +90,12 @@ const Rank = ({
                         ) : (
                             <Avatar
                                 className={classes.rank}
-                                alt="Your productivity Spirit Animal"
+                                alt="Current Rank"
                                 src={rank.imageUrl}
-                            />
+                                imgProps={{ width: 180, height: 180 }}
+                            >
+                                {"CR"}
+                            </Avatar>
                         )}
                     </ToggleAbleTooltip>
                 </Badge>
