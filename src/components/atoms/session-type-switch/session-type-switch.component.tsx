@@ -14,6 +14,7 @@ const SessionTypeSwitch = ({
     sessionType,
     setBoosted,
     setDominant,
+    disabled = false,
 }: SessionManagerPropType): ReactElement => {
     const classes = useSessionManagerStyles();
 
@@ -43,6 +44,7 @@ const SessionTypeSwitch = ({
                             checked={sessionType === "STAT"}
                             onChange={handleChangeSessionType}
                             name="energiesStats"
+                            disabled={disabled}
                         />
                     </Grid>
                     <Grid item>

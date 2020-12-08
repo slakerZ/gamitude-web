@@ -30,11 +30,15 @@ export interface BadgePropTypes {
     onClick: any;
 }
 
+export interface DisplayBadgePropTypes {
+    children: any;
+    selectedTimer: TimerType;
+}
+
 export interface TimerBadgedPropTypes {
     children: any;
     selectedTimer: TimerType;
     selectedProject: FullProjectType;
     sessionInProgress: boolean;
     handleOvertime: any;
-    handleSkipBreak: any;
 }

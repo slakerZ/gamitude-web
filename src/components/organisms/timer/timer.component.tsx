@@ -63,6 +63,7 @@ const Timer = ({
     // useState
     const [sessionTime, setSessionTime] = useState(0);
     const [startDate, setStartDate] = useState(new Date());
+    const [startDateAsMs, setStartDateAsMs] = useState(0);
     const [endDate, setEndDate] = useState(new Date());
     const [endDateAsMs, setEndDateAsMs] = useState(0);
     const [isConfirmGiveUpDialogOpen, setIsConfirmGiveUpDialogOpen] = useState(
@@ -93,12 +94,19 @@ const Timer = ({
 
     const handleSession = () => {
         if (!sessionInProgress) {
-            // Take date now as ms and add work time
+            // Start date
+            const currStartDate = new Date();
+            setStartDate(currStartDate);
+            setStartDateAsMs(currStartDate.getTime());
+
+            // End date
             const currEndDate = new Date();
+            // Set to work time or break time
             const sessionOrBreakTime = isBreak
                 ? handleShortOrLongBreak(selectedTimer, sessionsComplete) /
                   MINUTE_AS_MS
                 : selectedTimer.countDownInfo.workTime;
+            // Take date now as ms and add work time
             const currEndDateAsMs = currEndDate.setMinutes(
                 currEndDate.getMinutes() + sessionOrBreakTime,
             );
@@ -107,9 +115,39 @@ const Timer = ({
             setEndDateAsMs(currEndDateAsMs);
 
             setSessionInProgress(true);
-            setStartDate(new Date());
         } else {
-            setIsConfirmGiveUpDialogOpen(true);
+            // Give up if countdown
+            if (selectedTimer.timerType === TimerTypes.TIMER) {
+                setIsConfirmGiveUpDialogOpen(true);
+            }
+            // Manual finish if stopwatch
+            else {
+                setSnackbarState({
+                    message: "Session Finished",
+                    severity: "info",
+                    open: true,
+                    autoHideDuration: null,
+                });
+                setEndDate(new Date());
+                // Api call
+                const requestBody = {
+                    projectId: selectedProject.id,
+                    projectTaskId: null,
+                    log: "",
+                    timeSpend:
+                        milisecondsToMinutes(
+                            endDate.getTime() - startDate.getTime(),
+                        ).minutes + 1,
+                    dominantStat: selectedProject.dominantStat,
+                    stats: selectedProject.stats,
+                    projectType: selectedProject.projectType,
+                };
+                postProjectLog(token, requestBody).then(() => {
+                    incrementSessionsComplete();
+                });
+                setSessionTime(0);
+            }
+            setSessionInProgress(false);
         }
     };
 
@@ -148,7 +186,12 @@ const Timer = ({
         }
     };
 
-    const handleCountdown = (interval: any) => {
+    const handleStopwatch = () => {
+        const distance = Date.now() - startDateAsMs;
+        setSessionTime(distance);
+    };
+
+    const handleCountdown = () => {
         const distance = endDateAsMs - Date.now();
         // Is minute left?
         if (
@@ -225,7 +268,6 @@ const Timer = ({
             }
             toggleIsBreak();
             play();
-            clearInterval(interval);
             setSessionInProgress(false);
         }
     };
@@ -250,13 +292,17 @@ const Timer = ({
     }, [selectedTimer]);
 
     useEffect(() => {
+        const countdownOrStopwatch =
+            selectedTimer.timerType === TimerTypes.TIMER
+                ? handleCountdown
+                : handleStopwatch;
         const interval = sessionInProgress
-            ? setInterval(handleCountdown, INTERVAL_FREQUENCY)
+            ? setInterval(countdownOrStopwatch, INTERVAL_FREQUENCY)
             : setInterval(() => null, 1);
         return () => {
             clearInterval(interval);
         };
-    }, [sessionInProgress, sessionTime]);
+    }, [sessionInProgress, sessionTime, selectedTimer]);
 
     return (
         <div className={classes.root}>
@@ -277,10 +323,7 @@ const Timer = ({
                     ? `BRAKE after session of ${selectedProject.name}`
                     : "Please select a project"}
             </Typography>
-            <TimerBadges
-                handleSkipBreak={handleSkipBreak}
-                handleOvertime={handleOvertime}
-            >
+            <TimerBadges handleOvertime={handleOvertime}>
                 <ToggleAbleTooltip
                     target={
                         selectedTimer.timerType === TimerTypes.TIMER

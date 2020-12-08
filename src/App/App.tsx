@@ -276,6 +276,7 @@ const App: FC<AppType> = ({
                             <SessionTypeSwitch
                                 sessionType={sessionType}
                                 setSessionType={setSessionType}
+                                disabled={true}
                             />
                         </ToggleAbleTooltip>
                         <Timer />
