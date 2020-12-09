@@ -1,6 +1,6 @@
 import { CONTROL_PANEL_WIDTH } from "App/constants";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn, useEffectOnce, useSetState } from "react-use";
 
@@ -105,10 +105,9 @@ const Bullet = ({
     const [tasksCurrPageIndex, setTasksCurrPageIndex] = useState(0);
 
     const [currJournalId, setCurrJournalId] = useState(
-        "5fc7cae25c75a42717d866e0",
+        "5fd0c3c1887b73b7450fb768",
     );
     const [getPagesListState, getPagesList] = useAsyncFn(async (journalId) => {
-        console.log(journalId);
         const response = await getPages(token, journalId);
         const result = response.data;
         setPages(result);
@@ -123,14 +122,29 @@ const Bullet = ({
 
     useEffectOnce(() => {
         getJournalsList();
+        getCurrJournalId();
         getPagesList(currJournalId);
     });
+
+    const getCurrJournalId = () => {
+        journals.map(({ id }, index) => {
+            if (index === pagesCurrJournalIndex) {
+                setCurrJournalId(id);
+            }
+        });
+    };
+
+    useEffect(() => {
+        getPagesList(currJournalId);
+    }, [currJournalId]);
 
     const handleChangeCurrentJournal = (
         event: React.ChangeEvent<any>,
         newValue: number,
     ) => {
         setPagesCurrJournalIndex(newValue);
+        getCurrJournalId();
+        setTasksCurrPageIndex(0);
     };
 
     const handleChangeCurrentPage = (
@@ -206,7 +220,7 @@ const Bullet = ({
                 >
                     <TabPanel
                         value={pagesCurrJournalIndex}
-                        index={0}
+                        index={pagesCurrJournalIndex}
                         role={"journal"}
                         id={"pages-in-journal"}
                     >
@@ -215,7 +229,7 @@ const Bullet = ({
                                 aria-label="Page navigation"
                                 orientation="vertical"
                                 variant="scrollable"
-                                value={pagesCurrJournalIndex}
+                                value={tasksCurrPageIndex}
                                 onChange={handleChangeCurrentPage}
                                 className={classes.tabs}
                             >

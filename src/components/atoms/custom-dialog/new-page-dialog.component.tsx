@@ -9,7 +9,6 @@ import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectToken } from "redux/user/user.selectors";
 
-import { postJournal } from "api/bulletJournal/journals.api";
 import { postPage } from "api/bulletPages/pages.api";
 
 import { ICONS } from "components/atoms/custom-icon/constants";
@@ -47,10 +46,12 @@ const NewPageDialog = ({
             icon: pageIcon,
 
             description: "",
+
+            pageType: "NORMAL",
         };
         const result = await postPage(token, requestBody);
         setOpen(false);
-        getPagesList();
+        getPagesList(journalId);
         // Reset
         setPageName("");
         setPageIcon("");

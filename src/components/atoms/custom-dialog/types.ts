@@ -46,3 +46,12 @@ export interface NewPageDialogPropTypes {
     setSnackbarState: any;
     journalId: string;
 }
+
+export interface NewProjectTaskDialogPropTypes {
+    token: string;
+    open: boolean;
+    setOpen: any;
+    getProjectTasksList: any;
+    setSnackbarState: any;
+    journalId: string;
+}

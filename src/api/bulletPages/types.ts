@@ -6,6 +6,7 @@ export interface PageType {
     fromDay: number;
     toDay: number;
     icon: string;
+    pageType: string;
     dateCreated: string;
 }
 
@@ -20,4 +21,5 @@ export interface PageRequestBodyType {
     icon: string;
     fromDay: number;
     toDay: number;
+    pageType: string;
 }
