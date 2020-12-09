@@ -3,16 +3,12 @@ import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
 
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 
 import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectToken } from "redux/user/user.selectors";
 
-import { postProjectTask } from "api/bulletPages/pages.api";
-
-import { ICONS } from "components/atoms/custom-icon/constants";
-import CustomToggleButtonGroup from "components/atoms/custom-toggle-button-group/custom-toggle-button-group.component";
+import { postProjectTask } from "api/projectTasks/projectTasks.api";
 
 import CustomDialog from "./custom-dialog.component";
 import useCustomDialogStyles from "./styles";
@@ -22,7 +18,7 @@ const NewProjectTaskDialog = ({
     open,
     setOpen,
     token,
-    getProjectTaskList,
+    getProjectTasksList,
     setSnackbarState,
     journalId,
 }: NewProjectTaskDialogPropTypes): ReactElement => {
@@ -138,6 +134,7 @@ const NewProjectTaskDialog = ({
                         onChange={handleChangeTags}
                     />
                     <TextField
+                        type="date"
                         label={"Deadline"}
                         variant={"outlined"}
                         fullWidth
@@ -158,4 +155,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewPageDialog);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(NewProjectTaskDialog);

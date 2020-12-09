@@ -25,13 +25,16 @@ import { setPages } from "redux/bulletPages/pages.actions";
 import { selectPages } from "redux/bulletPages/pages.selectors";
 import { setJournals } from "redux/journals/journals.actions";
 import { selectJournals } from "redux/journals/journals.selectors";
+import { setProjectTasks } from "redux/projectTasks/projectTasks.actions";
 import { selectToken } from "redux/user/user.selectors";
 
 import { getJournals, postJournal } from "api/bulletJournal/journals.api";
 import { getPages } from "api/bulletPages/pages.api";
+import { getAllProjectTasks } from "api/projectTasks/projectTasks.api";
 
 import NewJournalDialog from "components/atoms/custom-dialog/new-journal-dialog.component";
 import NewPageDialog from "components/atoms/custom-dialog/new-page-dialog.component";
+import NewProjectTaskDialog from "components/atoms/custom-dialog/new-task-dialog.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import FormikForm from "components/atoms/formik-form/formik-form.component";
 import { TabPanel } from "components/atoms/tab-panel/tab-panel.component";
@@ -96,6 +99,7 @@ const Bullet = ({
     journals,
     pages,
     setPages,
+    setProjectTasks,
 }: BulletPropTypes) => {
     const classes = useStyles();
 
@@ -120,8 +124,17 @@ const Bullet = ({
         setJournals(result);
     });
 
+    const [getProjectTasksListState, getProjectTasksList] = useAsyncFn(
+        async () => {
+            const response = await getAllProjectTasks(token);
+            const result = response.data;
+            setProjectTasks(result);
+        },
+    );
+
     useEffectOnce(() => {
         getJournalsList();
+        getProjectTasksList();
         getCurrJournalId();
         getPagesList(currJournalId);
     });
@@ -273,6 +286,12 @@ const Bullet = ({
                 getPagesList={getPagesList}
                 journalId={currJournalId}
             />
+            <NewProjectTaskDialog
+                open={isNewJournalDialogOpen}
+                setOpen={setIsNewJournalDialogOpen}
+                getProjectTasksList={getProjectTasksList}
+                journalId={currJournalId}
+            />
         </div>
     );
 };
@@ -286,6 +305,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
     setJournals: (value: any) => dispatch(setJournals(value)),
     setPages: (value: any) => dispatch(setPages(value)),
+    setProjectTasks: (value: any) => dispatch(setProjectTasks(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bullet);

@@ -2,15 +2,17 @@ import axios from "axios";
 
 import { API_ENDPOINT } from "api/constants";
 
-import { PageResponseBodyType, PageRequestBodyType } from "./types";
+import {
+    ProjectTaskResponseBodyType,
+    ProjectTaskRequestBodyType,
+} from "./types";
 
-const ENDPOINT = `${API_ENDPOINT}/pages`;
+const ENDPOINT = `${API_ENDPOINT}/projecttasks`;
 
-export const getPages = async (
+export const getAllProjectTasks = async (
     token: string,
-    journalId: string,
-): Promise<PageResponseBodyType> => {
-    const url = `${ENDPOINT}/${journalId}`;
+): Promise<ProjectTaskResponseBodyType> => {
+    const url = `${ENDPOINT}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -22,10 +24,10 @@ export const getPages = async (
     return result;
 };
 
-export const postPage = async (
+export const postProjectTask = async (
     token: string,
-    requestBody: PageRequestBodyType,
-): Promise<PageResponseBodyType> => {
+    requestBody: ProjectTaskRequestBodyType,
+): Promise<ProjectTaskResponseBodyType> => {
     const url = `${ENDPOINT}`;
     const config = {
         headers: {
@@ -38,11 +40,12 @@ export const postPage = async (
     return result;
 };
 
-export const getPageById = async (
+export const getProjectTasksForPage = async (
     token: string,
+    journalId: string,
     pageId: string,
-): Promise<PageResponseBodyType> => {
-    const url = `${ENDPOINT}/${pageId}`;
+): Promise<ProjectTaskResponseBodyType> => {
+    const url = `${API_ENDPOINT}/journal/${journalId}/page/${pageId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -54,12 +57,12 @@ export const getPageById = async (
     return result;
 };
 
-export const putPageById = async (
+export const putProjectTaskById = async (
     token: string,
-    requestBody: PageRequestBodyType,
-    pageId: string,
-): Promise<PageResponseBodyType> => {
-    const url = `${ENDPOINT}/${pageId}`;
+    requestBody: ProjectTaskRequestBodyType,
+    projectTaskId: string,
+): Promise<ProjectTaskResponseBodyType> => {
+    const url = `${ENDPOINT}/${projectTaskId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -71,11 +74,11 @@ export const putPageById = async (
     return result;
 };
 
-export const deletePageById = async (
+export const deleteProjectTaskById = async (
     token: string,
-    pageId: string,
+    projectTaskId: string,
 ): Promise<null> => {
-    const url = `${ENDPOINT}/${pageId}`;
+    const url = `${ENDPOINT}/${projectTaskId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

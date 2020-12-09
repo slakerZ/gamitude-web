@@ -6,6 +6,7 @@ import pagesReducer from "./bulletPages/pages.reducer";
 import energiesReducer from "./energies/energies.reducer";
 import foldersReducer from "./folders/folders.reducer";
 import journalsReducer from "./journals/journals.reducer";
+import projectTasksReducer from "./projectTasks/projectTasks.reducer";
 import projectsReducer from "./projects/projects.reducer";
 import sessionReducer from "./session/session.reducer";
 import snackbarReducer from "./snackbar/snackbar.reducer";
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
     folders: foldersReducer,
     journals: journalsReducer,
     pages: pagesReducer,
+    projectTasks: projectTasksReducer,
     timers: timersReducer,
     snackbar: snackbarReducer,
 });
