@@ -33,6 +33,7 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
         backgroundColor: theme.palette.primary.dark,
         justifyContent: "center",
         borderRight: `1px solid ${theme.palette.divider}`,
+        color: theme.palette.primary.contrastText,
     },
     projectsWrapper: {
         width: "100%",

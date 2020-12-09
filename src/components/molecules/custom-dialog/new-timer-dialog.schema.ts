@@ -61,9 +61,9 @@ export const CountdownSimpleSchema = Yup.object().shape({
 export const CountdownSimpleInitialValues = {
     name: "",
     label: "",
-    workTime: 1,
-    breakTime: 1,
-    overTime: 1,
+    workTime: 0,
+    breakTime: 0,
+    overTime: 0,
 };
 
 export const CountdownSimpleFields: FieldType[] = [
@@ -137,11 +137,11 @@ export const CountdownComplexSchema = Yup.object().shape({
 export const CountdownComplexInitialValues = {
     name: "",
     label: "",
-    workTime: 1,
-    breakTime: 1,
-    overTime: 1,
-    longerBreakTime: 1,
-    breakInterval: 1,
+    workTime: 0,
+    breakTime: 0,
+    overTime: 0,
+    longerBreakTime: 0,
+    breakInterval: 0,
 };
 
 export const CountdownComplexFields: FieldType[] = [

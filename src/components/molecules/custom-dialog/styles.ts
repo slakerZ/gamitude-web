@@ -4,6 +4,10 @@ const useCustomDialogStyles = makeStyles((theme: Theme) => ({
     root: {},
     rootPaper: {
         backgroundColor: theme.palette.primary.main,
+        minWidth: "30vw",
+    },
+    fixedHeightPaper: {
+        minHeight: "73vh",
     },
     newFolderDialogBody: {
         "& > *": {
@@ -20,6 +24,19 @@ const useCustomDialogStyles = makeStyles((theme: Theme) => ({
     },
     actionsInContent: {
         padding: 0,
+    },
+    tabs: {
+        backgroundColor: theme.palette.primary.dark,
+        justifyContent: "center",
+        borderRight: `1px solid ${theme.palette.divider}`,
+        color: theme.palette.primary.contrastText,
+        height: "73vh",
+    },
+    newTimerDialogTitle: {
+        borderBottom: `1px solid ${theme.palette.divider}`,
+    },
+    newTimerDialogForms: {
+        padding: theme.spacing(3),
     },
 }));
 
