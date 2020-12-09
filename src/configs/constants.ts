@@ -1,4 +1,4 @@
-import { TimerVariants, ProjectVariants } from "types";
+import { TimerVariants, ProjectVariants } from "configs/types";
 
 export const STATS = ["STRENGTH", "CREATIVITY", "INTELLIGENCE", "FLUENCY"];
 

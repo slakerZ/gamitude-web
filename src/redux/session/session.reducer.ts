@@ -1,4 +1,4 @@
-import { ProjectSessionTypes } from "gamitude_constants";
+import { ProjectSessionTypes } from "configs/constants";
 
 import { SessionActionTypes, SessionReducerType } from "./session.types";
 

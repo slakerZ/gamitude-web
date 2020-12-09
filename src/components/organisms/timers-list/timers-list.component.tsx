@@ -24,9 +24,10 @@ import { selectToken } from "redux/user/user.selectors";
 import { getTimers } from "api/timers/timers.api";
 import { TimerType } from "api/timers/types";
 
-import NewTimerDialog from "components/atoms/custom-dialog/new-timer-dialog.component";
 import { a11yProps } from "components/atoms/tab-panel/tab-panel.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
+import NewTimerDialog from "components/molecules/custom-dialog/new-timer-dialog.component";
 
 import useMethodsStyles from "./styles";
 import { TimersPropType } from "./types";

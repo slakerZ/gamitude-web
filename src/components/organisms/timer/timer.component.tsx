@@ -1,4 +1,4 @@
-import { TimerTypes } from "gamitude_constants";
+import { TimerTypes } from "configs/constants";
 import useSound from "use-sound";
 
 import React, {
@@ -37,9 +37,10 @@ import { selectToken } from "redux/user/user.selectors";
 import { postProjectLog } from "api/projectLogs/projectLogs.api";
 import { TimerType } from "api/timers/types";
 
-import GiveUpSessionDialog from "components/atoms/custom-dialog/give-up-session-dialog.component";
-import SkipBreakDialog from "components/atoms/custom-dialog/skip-break-dialog.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
+import GiveUpSessionDialog from "components/molecules/custom-dialog/give-up-session-dialog.component";
+import SkipBreakDialog from "components/molecules/custom-dialog/skip-break-dialog.component";
 
 import { MINUTE_AS_MS, MS_ERROR_MARGIN, INTERVAL_FREQUENCY } from "./constants";
 import useTimerStyles from "./styles";

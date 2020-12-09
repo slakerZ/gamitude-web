@@ -1,4 +1,4 @@
-import { TimerVariantType } from "types";
+import { TimerVariantType } from "configs/types";
 
 interface CountDownInfo {
     workTime: number;

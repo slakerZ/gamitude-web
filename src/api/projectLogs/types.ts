@@ -1,5 +1,5 @@
-import { EnergyType } from "types";
-import { StatType } from "types";
+import { EnergyType } from "configs/types";
+import { StatType } from "configs/types";
 
 interface FullProjectLogType {
     id: string;

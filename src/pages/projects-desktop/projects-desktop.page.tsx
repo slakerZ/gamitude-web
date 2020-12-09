@@ -26,8 +26,6 @@ import { getFolders } from "api/folders/folders.api";
 import { getProjects } from "api/projects/projects.api";
 import { FullProjectType } from "api/projects/types";
 
-import NewFolderDialog from "components/atoms/custom-dialog/new-folder-dialog.component";
-import NewProjectDialog from "components/atoms/custom-dialog/new-project-dialog.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import {
     TabPanel,
@@ -35,6 +33,8 @@ import {
 } from "components/atoms/tab-panel/tab-panel.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
+import NewFolderDialog from "components/molecules/custom-dialog/new-folder-dialog.component";
+import NewProjectDialog from "components/molecules/custom-dialog/new-project-dialog.component";
 import ProjectTile from "components/molecules/project-tile/project-tile.component";
 
 import useProjectDesktopStyles from "./styles";

@@ -1,5 +1,5 @@
-import { EnergyType, StatType } from "types";
-import { ProjectSessionType } from "types";
+import { EnergyType, StatType } from "configs/types";
+import { ProjectSessionType } from "configs/types";
 
 import React, { useState, Fragment, useEffect, ReactElement } from "react";
 import { connect } from "react-redux";

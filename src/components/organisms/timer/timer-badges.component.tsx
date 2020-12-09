@@ -1,4 +1,4 @@
-import { TimerTypes } from "gamitude_constants";
+import { TimerTypes } from "configs/constants";
 
 import React, { Fragment } from "react";
 import { connect } from "react-redux";

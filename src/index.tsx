@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core";
 
 import App from "./App/App";
-import theme from "./customTheme";
+import theme from "./configs/customTheme";
 import "./index.css";
 import { store, persistor } from "./redux/store";
 import * as serviceWorker from "./serviceWorker";

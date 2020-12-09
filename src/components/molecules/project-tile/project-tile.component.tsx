@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ProjectSessionType } from "types";
+import { ProjectSessionType } from "configs/types";
 
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
@@ -26,11 +26,11 @@ import { selectToken } from "redux/user/user.selectors";
 
 import { deleteProjectById, putProjectById } from "api/projects/projects.api";
 
-import DeleteProjectDialog from "components/atoms/custom-dialog/delete-project-dialog.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import BoostedDominantBtnGroup from "components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
+import DeleteProjectDialog from "components/molecules/custom-dialog/delete-project-dialog.component";
 
 import useProjectStyles from "./styles";
 import { ProjectTilePropTypes } from "./types";

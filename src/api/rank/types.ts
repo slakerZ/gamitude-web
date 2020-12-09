@@ -1,4 +1,4 @@
-import { TierType, EnergyType, StatType } from "types";
+import { TierType, EnergyType, StatType } from "configs/types";
 
 export interface FullRankType {
     id: string;
