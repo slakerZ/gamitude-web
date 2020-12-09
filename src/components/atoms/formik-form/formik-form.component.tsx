@@ -49,6 +49,7 @@ const FormikForm: FC<FormikFormPropType> = ({
                                                 label={label}
                                                 name={name}
                                                 type={type}
+                                                id={`${name}-${index}`}
                                             />
                                         </Grid>
                                     );

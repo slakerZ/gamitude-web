@@ -249,6 +249,7 @@ const NewTimerDialog = ({
                                                                             type={
                                                                                 type
                                                                             }
+                                                                            id={`${name}-${index}`}
                                                                         />
                                                                     );
                                                                 },

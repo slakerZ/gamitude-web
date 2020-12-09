@@ -103,45 +103,47 @@ const App: FC<AppType> = ({
 
     return (
         <div className={classes.root}>
-            <AppBar
-                position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: navOpen,
-                })}
-            >
-                <Toolbar className={classes.toolbar}>
-                    <div className={classes.left}>
-                        {token ? (
-                            <IconButton
-                                onClick={handleToggleNavOpen}
-                                aria-label="Toggle between full navigation an mini variant"
+            {location.pathname !== "/" ? (
+                <AppBar
+                    position="fixed"
+                    className={clsx(classes.appBar, {
+                        [classes.appBarShift]: navOpen,
+                    })}
+                >
+                    <Toolbar className={classes.toolbar}>
+                        <div className={classes.left}>
+                            {token ? (
+                                <IconButton
+                                    onClick={handleToggleNavOpen}
+                                    aria-label="Toggle between full navigation an mini variant"
+                                >
+                                    {navOpen ? (
+                                        <ChevronLeftIcon />
+                                    ) : (
+                                        <ChevronRightIcon />
+                                    )}
+                                </IconButton>
+                            ) : null}
+                        </div>
+
+                        <div className={classes.center}>
+                            <ToggleAbleTooltip
+                                target={"home"}
+                                placement="bottom-end"
                             >
-                                {navOpen ? (
-                                    <ChevronLeftIcon />
-                                ) : (
-                                    <ChevronRightIcon />
-                                )}
-                            </IconButton>
-                        ) : null}
-                    </div>
+                                <Link to="/" className={classes.title}>
+                                    <Typography variant="h3" component="h3">
+                                        {"Gamitude"}
+                                    </Typography>
+                                </Link>
+                            </ToggleAbleTooltip>
+                        </div>
 
-                    <div className={classes.center}>
-                        <ToggleAbleTooltip
-                            target={"home"}
-                            placement="bottom-end"
-                        >
-                            <Link to="/" className={classes.title}>
-                                <Typography variant="h3" component="h3">
-                                    {"Gamitude"}
-                                </Typography>
-                            </Link>
-                        </ToggleAbleTooltip>
-                    </div>
-
-                    <div className={classes.right}></div>
-                </Toolbar>
-            </AppBar>
-            {token ? (
+                        <div className={classes.right}></div>
+                    </Toolbar>
+                </AppBar>
+            ) : null}
+            {token && location.pathname !== "/" ? (
                 <Drawer
                     aria-label="Gamitude left drawer navigation"
                     variant="permanent"
