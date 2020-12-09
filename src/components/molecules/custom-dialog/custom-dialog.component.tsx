@@ -5,6 +5,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
 
 import useCustomDialogStyles from "./styles";
 import { CustomDialogPropType } from "./types";
@@ -15,11 +16,15 @@ const CustomDialog = ({
     title,
     onSubmit,
     children,
+    handleCancel,
 }: CustomDialogPropType): ReactElement => {
     const classes = useCustomDialogStyles();
 
     const onCancel = () => {
         setOpen(false);
+        if (handleCancel) {
+            handleCancel();
+        }
     };
 
     return (
@@ -28,6 +33,7 @@ const CustomDialog = ({
             open={open}
             PaperProps={{ className: classes.rootPaper }}
             onClose={onCancel}
+            TransitionComponent={Slide}
         >
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>{children}</DialogContent>

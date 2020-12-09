@@ -1,4 +1,4 @@
-import { STATS, ENERGIES } from "gamitude_constants";
+import { STATS, ENERGIES } from "configs/constants";
 
 import React from "react";
 import { connect } from "react-redux";

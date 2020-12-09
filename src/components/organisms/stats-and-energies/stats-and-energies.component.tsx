@@ -75,28 +75,40 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
                                 </Button>
                             ) : (
                                 <Fragment>
-                                    <ToggleAbleTooltip target={"body"}>
+                                    <ToggleAbleTooltip
+                                        target={"body"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
                                             iconVariant={"body"}
                                         >
                                             {energies.body.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"emotions"}>
+                                    <ToggleAbleTooltip
+                                        target={"emotions"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
                                             iconVariant={"emotions"}
                                         >
                                             {energies.emotions.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"mind"}>
+                                    <ToggleAbleTooltip
+                                        target={"mind"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
                                             iconVariant={"mind"}
                                         >
                                             {energies.mind.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"soul"}>
+                                    <ToggleAbleTooltip
+                                        target={"soul"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
                                             iconVariant={"soul"}
                                         >
@@ -118,28 +130,40 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
                                 </Button>
                             ) : (
                                 <Fragment>
-                                    <ToggleAbleTooltip target={"strength"}>
+                                    <ToggleAbleTooltip
+                                        target={"strength"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
                                             iconVariant={"strength"}
                                         >
                                             {stats.strength.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"creativity"}>
+                                    <ToggleAbleTooltip
+                                        target={"creativity"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
                                             iconVariant={"creativity"}
                                         >
                                             {stats.creativity.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"intelligence"}>
+                                    <ToggleAbleTooltip
+                                        target={"intelligence"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
                                             iconVariant={"intelligence"}
                                         >
                                             {stats.intelligence.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"fluency"}>
+                                    <ToggleAbleTooltip
+                                        target={"fluency"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
                                             iconVariant={"fluency"}
                                         >

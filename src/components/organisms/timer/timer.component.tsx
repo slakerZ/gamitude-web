@@ -1,18 +1,32 @@
+import { TimerTypes } from "configs/constants";
 import useSound from "use-sound";
 
-import React, { ReactElement, Fragment, useEffect, useState } from "react";
+import React, {
+    ReactElement,
+    Fragment,
+    useEffect,
+    useState,
+    useCallback,
+} from "react";
 import { connect } from "react-redux";
 
-import Badge from "@material-ui/core/Badge";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import { selectSelectedProject } from "redux/projects/projects.selectors";
+import { ReduxStateType } from "redux/root.reducer";
 import {
     setSessionInProgress,
     incrementSessionsComplete,
+    setSessionType,
+    toggleIsBreak,
 } from "redux/session/session.actions";
-import { selectSessionInProgress } from "redux/session/session.selectors";
+import {
+    selectSessionInProgress,
+    selectSessionsComplete,
+    selectIsBreak,
+} from "redux/session/session.selectors";
+import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { setSelectedTimer } from "redux/timers/timers.actions";
 import {
     selectSelectedTimer,
@@ -21,11 +35,18 @@ import {
 import { selectToken } from "redux/user/user.selectors";
 
 import { postProjectLog } from "api/projectLogs/projectLogs.api";
+import { TimerType } from "api/timers/types";
 
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
+import GiveUpSessionDialog from "components/molecules/custom-dialog/give-up-session-dialog.component";
+import SkipBreakDialog from "components/molecules/custom-dialog/skip-break-dialog.component";
+
+import { MINUTE_AS_MS, MS_ERROR_MARGIN, INTERVAL_FREQUENCY } from "./constants";
 import useTimerStyles from "./styles";
+import TimerBadges from "./timer-badges.component";
 import { TimerPropTypes } from "./types";
+import { leftPad, milisecondsToMinutes } from "./utils";
 
 const endSound = require("assets/sounds/congratulations.mp3");
 const minuteSound = require("assets/sounds/bell.mp3");
@@ -39,173 +60,322 @@ const Timer = ({
     sessionInProgress,
     token,
     incrementSessionsComplete,
+    setSessionType,
+    setSnackbarState,
+    sessionsComplete,
+    isBreak,
+    toggleIsBreak,
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
-    const minuteAsMiliseconds = 60000;
-    const milisecondsErrorMargin = 1000;
-    const intervalFrequency = 250;
-
-    const [sessionTime, setSessionTime] = useState(
-        selectedTimer.workTime * minuteAsMiliseconds,
-    );
+    // useState
+    const [sessionTime, setSessionTime] = useState(0);
     const [startDate, setStartDate] = useState(new Date());
+    const [startDateAsMs, setStartDateAsMs] = useState(0);
     const [endDate, setEndDate] = useState(new Date());
     const [endDateAsMs, setEndDateAsMs] = useState(0);
-    const [currWorkTime, setCurrWorkTime] = useState(selectedTimer.workTime);
-    const [currOverTime, setCurrOvertime] = useState(selectedTimer.overTime);
+    const [isConfirmGiveUpDialogOpen, setIsConfirmGiveUpDialogOpen] = useState(
+        false,
+    );
+    const [isSkipBreakDialogOpen, setIsSkipBreakDialogOpen] = useState(false);
 
+    // useSound
     const [playMin, { isPlaying }] = useSound(minuteSound, {
         volume: 0.2,
         interrupt: true,
     });
-
     const [play] = useSound(endSound, {
         volume: 0.2,
         interrupt: true,
     });
 
-    const leftPad = (val: number) => (val < 10 ? `0${val}` : `${val}`);
-
-    const milisecondsToMinutes = (time: number) => {
-        const minutes = Math.floor(time / (1000 * 60));
-        const seconds = Math.floor((time % (1000 * 60)) / 1000);
-        return {
-            minutes: minutes,
-            seconds: seconds,
-        };
-    };
-
+    // handlers
     const handleOvertime = () => {
-        const overtime = currOverTime * minuteAsMiliseconds;
+        const currOverTime = selectedTimer.countDownInfo.overTime;
+        const overtime = currOverTime * MINUTE_AS_MS;
         setEndDateAsMs(endDateAsMs + overtime);
         setSessionTime(sessionTime + overtime);
         const movedEndDate = new Date(
-            endDate.getTime() + currOverTime * minuteAsMiliseconds,
+            endDate.getTime() + currOverTime * MINUTE_AS_MS,
         );
         setEndDate(movedEndDate);
     };
 
     const handleSession = () => {
-        const currEndDate = new Date();
-        const currEndDateAsMs = currEndDate.setMinutes(
-            currEndDate.getMinutes() + currWorkTime,
-        );
-        setEndDate(currEndDate);
-        setEndDateAsMs(currEndDateAsMs);
-        setSessionInProgress(!sessionInProgress);
-        setStartDate(new Date());
+        if (!sessionInProgress) {
+            // Start date
+            const currStartDate = new Date();
+            setStartDate(currStartDate);
+            setStartDateAsMs(currStartDate.getTime());
+
+            // End date
+            const currEndDate = new Date();
+            // Set to work time or break time
+            const sessionOrBreakTime = isBreak
+                ? handleShortOrLongBreak(selectedTimer, sessionsComplete) /
+                  MINUTE_AS_MS
+                : selectedTimer.countDownInfo.workTime;
+            // Take date now as ms and add work time
+            const currEndDateAsMs = currEndDate.setMinutes(
+                currEndDate.getMinutes() + sessionOrBreakTime,
+            );
+
+            setEndDate(currEndDate);
+            setEndDateAsMs(currEndDateAsMs);
+
+            setSessionInProgress(true);
+        } else {
+            // Give up if countdown
+            if (selectedTimer.timerType === TimerTypes.TIMER) {
+                if (isBreak) {
+                    setIsSkipBreakDialogOpen(true);
+                } else {
+                    setIsConfirmGiveUpDialogOpen(true);
+                }
+            }
+            // Manual finish if stopwatch
+            else {
+                setSnackbarState({
+                    message: "Session Finished",
+                    severity: "info",
+                    open: true,
+                    autoHideDuration: null,
+                });
+                setEndDate(new Date());
+                // Api call
+                const requestBody = {
+                    projectId: selectedProject.id,
+                    projectTaskId: null,
+                    log: "",
+                    timeSpend:
+                        milisecondsToMinutes(
+                            endDate.getTime() - startDate.getTime(),
+                        ).minutes + 1,
+                    dominantStat: selectedProject.dominantStat,
+                    stats: selectedProject.stats,
+                    projectType: selectedProject.projectType,
+                };
+                postProjectLog(token, requestBody).then(() => {
+                    incrementSessionsComplete();
+                });
+                setSessionTime(0);
+            }
+            setSessionInProgress(false);
+        }
     };
 
+    const handleGiveUp = () => {
+        setSessionInProgress(false);
+        setIsConfirmGiveUpDialogOpen(false);
+        setSessionTime(selectedTimer.countDownInfo.workTime * MINUTE_AS_MS);
+    };
+
+    const handleSkipBreak = () => {
+        setSessionInProgress(false);
+        setIsSkipBreakDialogOpen(false);
+        setSessionTime(selectedTimer.countDownInfo.workTime * MINUTE_AS_MS);
+    };
+
+    const handleShortOrLongBreak = (
+        selectedTimer: TimerType,
+        sessionsComplete: number,
+    ) => {
+        if (
+            selectedTimer.countDownInfo.longerBreakTime &&
+            selectedTimer.countDownInfo.breakInterval
+        ) {
+            // Longer break?
+            if (
+                selectedTimer.countDownInfo.breakInterval %
+                    (sessionsComplete + 1) ===
+                0
+            ) {
+                return (
+                    selectedTimer.countDownInfo.longerBreakTime * MINUTE_AS_MS
+                );
+            }
+            // Shorter break?
+            else {
+                return selectedTimer.countDownInfo.breakTime * MINUTE_AS_MS;
+            }
+        } else {
+            return selectedTimer.countDownInfo.breakTime * MINUTE_AS_MS;
+        }
+    };
+
+    const handleStopwatch = useCallback(() => {
+        const distance = Date.now() - startDateAsMs;
+        setSessionTime(distance);
+    }, [startDateAsMs]);
+
+    const handleCountdown = useCallback(() => {
+        const distance = endDateAsMs - Date.now();
+        // Is minute left?
+        if (
+            distance >= MINUTE_AS_MS &&
+            distance < MINUTE_AS_MS + MS_ERROR_MARGIN
+        ) {
+            if (!isPlaying) {
+                playMin();
+            }
+        }
+        // Session in progress?
+        if (distance > 0) {
+            setSessionTime(distance);
+        }
+        // Session ended successfully?
+        else {
+            // Finished break
+            if (isBreak) {
+                setSnackbarState({
+                    message: "Break finished, keep up the good work!",
+                    severity: "info",
+                    open: true,
+                    autoHideDuration: null,
+                });
+                // Api call
+                const requestBody = {
+                    projectId: selectedProject.id,
+                    projectTaskId: null,
+                    log: "",
+                    timeSpend:
+                        milisecondsToMinutes(
+                            endDate.getTime() - startDate.getTime(),
+                        ).minutes + 1,
+                    dominantStat: selectedProject.dominantStat,
+                    stats: selectedProject.stats,
+                    projectType: "BREAK",
+                };
+                postProjectLog(token, requestBody);
+                setSessionTime(
+                    selectedTimer.countDownInfo.workTime * MINUTE_AS_MS,
+                );
+            }
+            // Finished work session
+            else {
+                setSnackbarState({
+                    message:
+                        "Congratulations on finishing session! Click on timer to start a break.",
+                    severity: "info",
+                    open: true,
+                    autoHideDuration: null,
+                });
+                // Api call
+                const requestBody = {
+                    projectId: selectedProject.id,
+                    projectTaskId: null,
+                    log: "",
+                    timeSpend:
+                        milisecondsToMinutes(
+                            endDate.getTime() - startDate.getTime(),
+                        ).minutes + 1,
+                    dominantStat: selectedProject.dominantStat,
+                    stats: selectedProject.stats,
+                    projectType: selectedProject.projectType,
+                };
+                postProjectLog(token, requestBody).then(() => {
+                    incrementSessionsComplete();
+                });
+                // Set to break's time
+                const time = handleShortOrLongBreak(
+                    selectedTimer,
+                    sessionsComplete,
+                );
+                setSessionTime(time);
+            }
+            toggleIsBreak();
+            play();
+            setSessionInProgress(false);
+        }
+    }, [
+        endDateAsMs,
+        endDate,
+        incrementSessionsComplete,
+        isBreak,
+        isPlaying,
+        play,
+        playMin,
+        selectedProject,
+        selectedTimer,
+        sessionsComplete,
+        setSessionInProgress,
+        setSnackbarState,
+        startDate,
+        toggleIsBreak,
+        token,
+    ]);
+
+    // useEffect
     useEffect(() => {
         const defaultTimer = timers.find(
-            (timer: any) => timer.id === selectedProject.defaultTimerId,
+            (timer: TimerType) => timer.id === selectedProject.defaultTimerId,
         );
         if (defaultTimer) {
+            setSessionType(selectedProject.projectType);
             setSelectedTimer(defaultTimer);
-            setSessionTime(defaultTimer.workTime * minuteAsMiliseconds);
+            setSessionTime(defaultTimer.countDownInfo.workTime * MINUTE_AS_MS);
         }
-    }, [selectedProject]);
+    }, [selectedProject, setSelectedTimer, timers, setSessionType]);
 
     useEffect(() => {
-        setCurrOvertime(selectedTimer.overTime);
-        setCurrWorkTime(selectedTimer.workTime);
-        setSessionTime(selectedTimer.workTime * minuteAsMiliseconds);
+        const currSessionTime = selectedTimer
+            ? selectedTimer.countDownInfo.workTime * MINUTE_AS_MS
+            : 0;
+        setSessionTime(currSessionTime);
     }, [selectedTimer]);
 
     useEffect(() => {
+        const countdownOrStopwatch =
+            selectedTimer.timerType === TimerTypes.TIMER
+                ? handleCountdown
+                : handleStopwatch;
         const interval = sessionInProgress
-            ? setInterval(() => {
-                  const distance = endDateAsMs - Date.now();
-                  // Is minute left?
-                  if (
-                      distance >= minuteAsMiliseconds &&
-                      distance < minuteAsMiliseconds + milisecondsErrorMargin
-                  ) {
-                      if (!isPlaying) {
-                          playMin();
-                      }
-                  }
-                  // Session in progress?
-                  if (distance > 0) {
-                      setSessionTime(distance);
-                  }
-                  // Session ended successfully?
-                  else {
-                      setSessionTime(currWorkTime * minuteAsMiliseconds);
-                      clearInterval(interval);
-                      setSessionInProgress(false);
-                      //Play end sound
-                      play();
-                      // Api call
-                      const requestBody = {
-                          projectId: selectedProject.id,
-                          projectTaskId: null,
-                          log: "",
-                          timeSpend:
-                              milisecondsToMinutes(
-                                  endDate.getTime() - startDate.getTime(),
-                              ).minutes + 1,
-                          dominantStat: selectedProject.dominantStat,
-                          stats: selectedProject.stats,
-                          projectType: selectedProject.projectType,
-                      };
-                      postProjectLog(token, requestBody).then(() => {
-                          incrementSessionsComplete();
-                      });
-                  }
-              }, intervalFrequency)
+            ? setInterval(countdownOrStopwatch, INTERVAL_FREQUENCY)
             : setInterval(() => null, 1);
-        if (!sessionInProgress) {
-            // Give up has been clicked
-            const sessionContinues = sessionTime > 0;
-            const methodSessionTimesDiffer =
-                currWorkTime * minuteAsMiliseconds !== sessionTime;
-            if (sessionContinues && methodSessionTimesDiffer) {
-                // ResetTimer
-                setSessionTime(currWorkTime * minuteAsMiliseconds);
-            }
-            clearInterval(interval);
-        }
         return () => {
             clearInterval(interval);
         };
-    }, [sessionInProgress, sessionTime]);
+    }, [
+        sessionInProgress,
+        sessionTime,
+        selectedTimer,
+        handleCountdown,
+        handleStopwatch,
+    ]);
 
     return (
         <div className={classes.root}>
+            <GiveUpSessionDialog
+                open={isConfirmGiveUpDialogOpen}
+                setOpen={setIsConfirmGiveUpDialogOpen}
+                onSubmit={handleGiveUp}
+            />
+            <SkipBreakDialog
+                open={isSkipBreakDialogOpen}
+                setOpen={setIsSkipBreakDialogOpen}
+                onSubmit={handleSkipBreak}
+            />
             <Typography
                 variant="h6"
-                component="h6"
-                aria-label="Selected project name or please select message"
+                component="h1"
+                gutterBottom
+                align="justify"
             >
-                {selectedProject.id
+                {selectedProject.id && !isBreak
                     ? selectedProject.name
+                    : isBreak
+                    ? `BRAKE after session of ${selectedProject.name}`
                     : "Please select a project"}
             </Typography>
-            <Badge
-                overlap="circle"
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                }}
-                badgeContent={
-                    <ToggleAbleTooltip target="add5">
-                        <Button
-                            aria-label="Overtime button"
-                            variant="text"
-                            onClick={handleOvertime}
-                            className={classes.overTimeButton}
-                            disabled={!selectedProject.id || !sessionInProgress}
-                        >
-                            <Typography variant="h4" component="h4">
-                                +{currOverTime}
-                            </Typography>
-                        </Button>
-                    </ToggleAbleTooltip>
-                }
-            >
-                <ToggleAbleTooltip target="sessionTimer">
+            <TimerBadges handleOvertime={handleOvertime}>
+                <ToggleAbleTooltip
+                    target={
+                        selectedTimer.timerType === TimerTypes.TIMER
+                            ? "sessionCountdown"
+                            : "sessionStopwatch"
+                    }
+                    placement="left"
+                >
                     <Button
                         aria-label="Timer Button"
                         className={classes.timerButton}
@@ -227,7 +397,6 @@ const Timer = ({
                                     )}
                                 </Typography>
                                 <Typography
-                                    aria-label="Colon Between mintues and seconds"
                                     display="inline"
                                     variant="h3"
                                     component="h3"
@@ -249,23 +418,28 @@ const Timer = ({
                         </div>
                     </Button>
                 </ToggleAbleTooltip>
-            </Badge>
+            </TimerBadges>
         </div>
     );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: ReduxStateType) => ({
     selectedProject: selectSelectedProject(state),
     selectedTimer: selectSelectedTimer(state),
     timers: selectTimers(state),
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
+    sessionsComplete: selectSessionsComplete(state),
+    isBreak: selectIsBreak(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setSelectedTimer: (value: any) => dispatch(setSelectedTimer(value)),
     setSessionInProgress: (value: any) => dispatch(setSessionInProgress(value)),
     incrementSessionsComplete: () => dispatch(incrementSessionsComplete()),
+    setSessionType: (value: any) => dispatch(setSessionType(value)),
+    setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
+    toggleIsBreak: () => dispatch(toggleIsBreak()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

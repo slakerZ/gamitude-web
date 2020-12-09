@@ -1,5 +1,5 @@
-import { EnergyType, StatType } from "types";
-import { ProjectSessionType } from "types";
+import { EnergyType, StatType } from "configs/types";
+import { ProjectSessionType } from "configs/types";
 
 import React, { useState, Fragment, useEffect, ReactElement } from "react";
 import { connect } from "react-redux";
@@ -52,6 +52,7 @@ const NewProjectDialog = ({
             message: "Successfully created project",
             severity: "success",
             open: true,
+            autoHideDuration: 3000,
         });
 
         // Reset
@@ -78,6 +79,7 @@ const NewProjectDialog = ({
                 message: "Failed to create new project",
                 severity: "error",
                 open: true,
+                autoHideDuration: 3000,
             });
         }
     }, [createNewProjectState, setSnackbarState]);

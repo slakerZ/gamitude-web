@@ -6,19 +6,18 @@ import { ReactComponent as GuestIcon } from "assets/icons/navigation/guest.svg";
 import { ReactComponent as BulletJournalIcon } from "assets/icons/navigation/journal.svg";
 import { ReactComponent as Logout } from "assets/icons/navigation/logout.svg";
 import { ReactComponent as ProfileIcon } from "assets/icons/navigation/profile.svg";
-import { ReactComponent as ProjectNav } from "assets/icons/navigation/project.svg";
 import { ReactComponent as ProjectsIcon } from "assets/icons/navigation/projects.svg";
-import { ReactComponent as RankNav } from "assets/icons/navigation/rank.svg";
 import { ReactComponent as Settings } from "assets/icons/navigation/settings.svg";
 import { ReactComponent as Logo } from "assets/icons/navigation/sloth.svg";
-import { ReactComponent as StatsNav } from "assets/icons/navigation/stats.svg";
 import { ReactComponent as Themes } from "assets/icons/navigation/themes.svg";
 import { ReactComponent as TooltipChecked } from "assets/icons/navigation/tooltip_checked.svg";
 import { ReactComponent as TooltipUnChecked } from "assets/icons/navigation/tooltip_unchecked.svg";
 import { ReactComponent as NotFound } from "assets/icons/other/page-not-found.svg";
 import { ReactComponent as ActiveIcon } from "assets/icons/projects/active.svg";
+import { ReactComponent as Countdown } from "assets/icons/projects/countdown.svg";
 import { ReactComponent as DoneIcon } from "assets/icons/projects/done.svg";
 import { ReactComponent as PausedIcon } from "assets/icons/projects/onHold.svg";
+import { ReactComponent as Stopwatch } from "assets/icons/projects/stopwatch.svg";
 import { ReactComponent as ARank } from "assets/icons/rank-tiers/001-letter-a.svg";
 import { ReactComponent as BRank } from "assets/icons/rank-tiers/002-letter-b.svg";
 import { ReactComponent as CRank } from "assets/icons/rank-tiers/003-letter-c.svg";
@@ -89,12 +88,6 @@ const CustomIcon: FC<CustomIconType> = ({
                 return <PausedIcon className={mappedClasses} />;
             case "done":
                 return <DoneIcon className={mappedClasses} />;
-            case "ranknav":
-                return <RankNav className={mappedClasses} />;
-            case "statsnav":
-                return <StatsNav className={mappedClasses} />;
-            case "projectsnav":
-                return <ProjectNav className={mappedClasses} />;
             case "logout":
                 return <Logout className={mappedClasses} />;
             case "settings":
@@ -119,6 +112,10 @@ const CustomIcon: FC<CustomIconType> = ({
                 return <ARank className={mappedClasses} />;
             case "s":
                 return <SRank className={mappedClasses} />;
+            case "stopwatch":
+                return <Stopwatch className={mappedClasses} />;
+            case "countdown":
+                return <Countdown className={mappedClasses} />;
             default:
                 return <NotFound className={mappedClasses} />;
         }

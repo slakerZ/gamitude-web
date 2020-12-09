@@ -6,11 +6,13 @@ const INITIAL_STATE = {
         id: "",
         userId: "",
         name: "",
-        workTime: 0,
-        breakTime: 0,
-        longerBreakTime: 0,
-        breakInterval: 0,
-        overTime: 5,
+        countDownInfo: {
+            breakTime: 0,
+            longerBreakTime: 0,
+            breakInterval: 0,
+            overTime: 5,
+            workTime: 0,
+        },
     },
     timers: [],
 };

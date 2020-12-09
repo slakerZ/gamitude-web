@@ -7,6 +7,7 @@ import React, {
     ReactElement,
     useState,
     useEffect,
+    useCallback,
 } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Link, Redirect, useLocation } from "react-router-dom";
@@ -41,10 +42,10 @@ import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-to
 
 import CustomSnackbar from "components/molecules/custom-snackbar/custom-snackbar.component";
 
-import Methods from "components/organisms/methods/methods.component";
 import Rank from "components/organisms/rank/rank.component";
 import StatsAndEnergies from "components/organisms/stats-and-energies/stats-and-energies.component";
 import Timer from "components/organisms/timer/timer.component";
+import TimerList from "components/organisms/timers-list/timers-list.component";
 
 import { NAV_LINKS } from "./constants";
 import useAppStyles from "./styles";
@@ -80,11 +81,11 @@ const App: FC<AppType> = ({
         setNavOpen(!navOpen);
     };
 
-    const logout = () => {
+    const logout = useCallback(() => {
         setUser({
             token: null,
         });
-    };
+    }, [setUser]);
 
     const toggleTooltips = () => {
         setTooltipToggle({ tooltipToggle: !tooltipToggle });
@@ -98,7 +99,7 @@ const App: FC<AppType> = ({
         } else {
             setTokenExpired(false);
         }
-    }, [dateExpires]);
+    }, [dateExpires, logout]);
 
     return (
         <div className={classes.root}>
@@ -125,13 +126,16 @@ const App: FC<AppType> = ({
                     </div>
 
                     <div className={classes.center}>
-                        <Link to="/" className={classes.title}>
-                            <ToggleAbleTooltip target={"home"}>
+                        <ToggleAbleTooltip
+                            target={"home"}
+                            placement="bottom-end"
+                        >
+                            <Link to="/" className={classes.title}>
                                 <Typography variant="h3" component="h3">
                                     {"Gamitude"}
                                 </Typography>
-                            </ToggleAbleTooltip>
-                        </Link>
+                            </Link>
+                        </ToggleAbleTooltip>
                     </div>
 
                     <div className={classes.right}></div>
@@ -165,7 +169,10 @@ const App: FC<AppType> = ({
                                     component={Link}
                                     to={to}
                                 >
-                                    <ToggleAbleTooltip target={tooltip}>
+                                    <ToggleAbleTooltip
+                                        target={tooltip}
+                                        placement="right"
+                                    >
                                         <ListItemIcon>
                                             <CustomIcon
                                                 size="small"
@@ -182,7 +189,10 @@ const App: FC<AppType> = ({
                             aria-label="Gamitude side features navigation"
                         >
                             <ListItem button onClick={toggleTooltips}>
-                                <ToggleAbleTooltip target={"tooltipToggle"}>
+                                <ToggleAbleTooltip
+                                    target={"tooltipToggle"}
+                                    placement="right"
+                                >
                                     <ListItemIcon>
                                         {tooltipToggle ? (
                                             <CustomIcon
@@ -205,7 +215,10 @@ const App: FC<AppType> = ({
                                 to={"/signInSignUp"}
                                 onClick={logout}
                             >
-                                <ToggleAbleTooltip target={"logout"}>
+                                <ToggleAbleTooltip
+                                    target={"logout"}
+                                    placement="right"
+                                >
                                     <ListItemIcon>
                                         <CustomIcon
                                             size="small"
@@ -264,10 +277,11 @@ const App: FC<AppType> = ({
                             <SessionTypeSwitch
                                 sessionType={sessionType}
                                 setSessionType={setSessionType}
+                                disabled={true}
                             />
                         </ToggleAbleTooltip>
                         <Timer />
-                        <Methods />
+                        <TimerList />
                     </div>
                 </Drawer>
             ) : null}

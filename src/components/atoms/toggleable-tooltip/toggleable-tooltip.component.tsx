@@ -14,6 +14,7 @@ const ToggleAbleTooltip = ({
     children,
     target,
     tooltipToggle,
+    placement = "bottom",
 }: ToggleAbleTooltipPropType) => {
     return (
         <Tooltip
@@ -21,6 +22,7 @@ const ToggleAbleTooltip = ({
             disableFocusListener={!tooltipToggle && target !== "tooltipToggle"}
             disableHoverListener={!tooltipToggle && target !== "tooltipToggle"}
             disableTouchListener={!tooltipToggle && target !== "tooltipToggle"}
+            placement={placement}
         >
             <span>{children}</span>
         </Tooltip>

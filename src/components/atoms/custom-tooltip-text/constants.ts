@@ -101,22 +101,51 @@ const selectDominantStats = {
 
 // Session
 
-const sessionTimer = {
-    title: "Session Timer",
+const sessionCountdown = {
+    title: "Countdown",
     bodyItems: [
-        "Flexible timer that will either act as a countdown timer or stopwatch",
-        "Click on it to begin session it will notify you twice:",
+        "Click on it to begin a session it will notify you twice:",
         "When there's a minute left",
         "When the session was finished",
-        "Doesn't apply to stopwatch",
+        "Click again to cancel session",
     ],
 };
 
-const add5 = {
-    title: "Add 5",
+const sessionStopwatch = {
+    title: "Stopwatch",
+    bodyItems: ["Click on it to begin a session", "Click to finish session"],
+};
+
+const overtime = {
+    title: "Overtime",
     bodyItems: [
-        "Prolong your session by 5 minutes",
+        "Prolong your session by time displayed in minutes",
         'Used when you want to "just finish this one quickly"',
+    ],
+};
+
+const shortBreak = {
+    title: "Short break",
+    bodyItems: [
+        "Timer will set it's time to this value on session end",
+        "Click on it to skip break",
+    ],
+};
+
+const longBreak = {
+    title: "Long break",
+    bodyItems: [
+        "Longer break timer that timer will set to if",
+        "number of sessions complete satisfies break interval",
+        "Click on it to skip break",
+    ],
+};
+
+const breakInterval = {
+    title: "Break Interval",
+    bodyItems: [
+        "Shows session complete needed for long break to trigger",
+        "Click on it to skip break",
     ],
 };
 
@@ -129,11 +158,12 @@ const sessionTypeSwitch = {
     ],
 };
 
-const method = {
-    title: "Session Method",
+const timers = {
+    title: "Timers",
     bodyItems: [
         "This sets session time displayed on timer above",
-        "Infinity sign means that instead of countdown timer stopwatch will be used",
+        "Can be either countdown - fixed session time",
+        "Or stopwatch - count up from 0 and end session at will",
     ],
 };
 
@@ -189,10 +219,19 @@ const project = {
     bodyItems: ["Work on your project with the method that suits your best"],
 };
 
-const folder = {
-    title: "Folder",
+const folders = {
+    title: "Folders",
     bodyItems: [
         "Organize your projects into folders to keep your fields of effort separated",
+    ],
+};
+
+const addProject = {
+    title: "Add Project",
+    bodyItems: [
+        "Create new energy or stat project",
+        "Select up to 4 boosted stats and 1 that's boosted the most - dominant",
+        "Then assign in to a folder and choose default work method",
     ],
 };
 
@@ -282,14 +321,24 @@ export const targetToTooltipObject = (target: string): TooltipObjectType => {
             return logout;
         case "project":
             return project;
-        case "folder":
-            return folder;
-        case "add5":
-            return add5;
-        case "method":
-            return method;
-        case "sessionTimer":
-            return sessionTimer;
+        case "addProject":
+            return addProject;
+        case "folders":
+            return folders;
+        case "overtime":
+            return overtime;
+        case "shortBreak":
+            return shortBreak;
+        case "longBreak":
+            return longBreak;
+        case "breakInterval":
+            return breakInterval;
+        case "timers":
+            return timers;
+        case "sessionCountdown":
+            return sessionCountdown;
+        case "sessionStopwatch":
+            return sessionStopwatch;
         case "sessionTypeSwitch":
             return sessionTypeSwitch;
         case "themes":

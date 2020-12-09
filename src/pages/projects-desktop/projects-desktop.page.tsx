@@ -15,15 +15,17 @@ import { setFolders } from "redux/folders/folders.actions";
 import { selectFolders } from "redux/folders/folders.selectors";
 import { setProjects } from "redux/projects/projects.actions";
 import { selectProjects } from "redux/projects/projects.selectors";
-import { selectSessionInProgress } from "redux/session/session.selectors";
+import {
+    selectIsBreak,
+    selectSessionInProgress,
+} from "redux/session/session.selectors";
 import { setUser } from "redux/user/user.actions";
 import { selectToken } from "redux/user/user.selectors";
 
 import { getFolders } from "api/folders/folders.api";
 import { getProjects } from "api/projects/projects.api";
+import { FullProjectType } from "api/projects/types";
 
-import NewFolderDialog from "components/atoms/custom-dialog/new-folder-dialog.component";
-import NewProjectDialog from "components/atoms/custom-dialog/new-project-dialog.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import {
     TabPanel,
@@ -31,6 +33,8 @@ import {
 } from "components/atoms/tab-panel/tab-panel.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
+import NewFolderDialog from "components/molecules/custom-dialog/new-folder-dialog.component";
+import NewProjectDialog from "components/molecules/custom-dialog/new-project-dialog.component";
 import ProjectTile from "components/molecules/project-tile/project-tile.component";
 
 import useProjectDesktopStyles from "./styles";
@@ -44,6 +48,7 @@ const ProjectsDesktopPage = ({
     setFolders,
     setUser,
     sessionInProgress,
+    isBreak,
 }: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
 
@@ -83,7 +88,7 @@ const ProjectsDesktopPage = ({
         event: React.ChangeEvent<any>,
         newValue: any,
     ) => {
-        if (!sessionInProgress) {
+        if (!sessionInProgress && !isBreak) {
             setSelectedProject(newValue);
         }
     };
@@ -105,7 +110,7 @@ const ProjectsDesktopPage = ({
                 });
             }
         }
-    }, [getFoldersListState, getProjectsListState]);
+    }, [getFoldersListState, getProjectsListState, setUser]);
 
     return (
         <div aria-label="Folders" className={classes.root}>
@@ -116,35 +121,36 @@ const ProjectsDesktopPage = ({
                     className={classes.tabsPlaceholder}
                 />
             ) : (
-                <div className={classes.tabsWrapper}>
-                    <Tabs
-                        aria-label="Folders navigation"
-                        orientation="vertical"
-                        variant="scrollable"
-                        value={projectsCurrFolderIndex}
-                        onChange={handleChangeCurrentFolder}
-                        className={classes.tabs}
-                    >
-                        {folders.map(({ name, icon }, index) => {
-                            return (
-                                <Tab
-                                    key={index}
-                                    label={name}
-                                    {...a11yProps(
-                                        index,
-                                        "folder-with-projects",
-                                    )}
-                                    icon={
-                                        <CustomIcon
-                                            variant={icon}
-                                            size="small"
-                                        />
-                                    }
-                                />
-                            );
-                        })}
-                    </Tabs>
-                    <ToggleAbleTooltip target="folder">
+                <ToggleAbleTooltip target="folders" placement="right">
+                    <div className={classes.tabsWrapper}>
+                        <Tabs
+                            selectionFollowsFocus
+                            aria-label="Folders navigation"
+                            orientation="vertical"
+                            variant="scrollable"
+                            value={projectsCurrFolderIndex}
+                            onChange={handleChangeCurrentFolder}
+                            className={classes.tabs}
+                        >
+                            {folders.map(({ name, icon }, index) => {
+                                return (
+                                    <Tab
+                                        key={index}
+                                        label={name}
+                                        {...a11yProps(
+                                            index,
+                                            "folder-with-projects",
+                                        )}
+                                        icon={
+                                            <CustomIcon
+                                                variant={icon}
+                                                size="small"
+                                            />
+                                        }
+                                    />
+                                );
+                            })}
+                        </Tabs>
                         <IconButton
                             aria-label="Add folder"
                             color="primary"
@@ -152,8 +158,8 @@ const ProjectsDesktopPage = ({
                         >
                             <AddIcon />
                         </IconButton>
-                    </ToggleAbleTooltip>
-                </div>
+                    </div>
+                </ToggleAbleTooltip>
             )}
             {getProjectsListState.loading ? (
                 <div className={classes.center}>
@@ -162,9 +168,10 @@ const ProjectsDesktopPage = ({
             ) : (
                 <div
                     aria-label="Projects in current Folder"
+                    role="menu"
                     className={classes.projectsWrapper}
                 >
-                    {projects.map((project: any, index: number) => {
+                    {projects.map((project: FullProjectType, index: number) => {
                         const { folderId } = project;
                         return (
                             <TabPanel
@@ -173,8 +180,8 @@ const ProjectsDesktopPage = ({
                                 index={folders.findIndex((folder) => {
                                     return folder.id === folderId;
                                 })}
-                                role={"folder"}
-                                id={"projects-in-folder"}
+                                role={"menuitem"}
+                                id={`project-${project.id}`}
                             >
                                 <RadioGroup
                                     aria-label={`selected_project_${index}`}
@@ -194,7 +201,7 @@ const ProjectsDesktopPage = ({
             )}
 
             <div className={classes.fabWrapper} aria-label="Add Project">
-                <ToggleAbleTooltip target="project">
+                <ToggleAbleTooltip target="addProject" placement="top">
                     <Fab
                         color="secondary"
                         aria-label="Open add project dialog"
@@ -225,6 +232,7 @@ const mapStateToProps = (state: any) => ({
     sessionInProgress: selectSessionInProgress(state),
     token: selectToken(state),
     folders: selectFolders(state),
+    isBreak: selectIsBreak(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

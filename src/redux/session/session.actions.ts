@@ -10,11 +10,24 @@ export const setSessionsComplete = (value: any) => ({
     payload: value,
 });
 
-export const setSessionType = (value: any) => ({
+export const setSessionType = (value: string) => ({
     type: SessionActionTypes.SET_SESSION_TYPE,
     payload: value,
 });
 
+export const toggleSessionType = () => ({
+    type: SessionActionTypes.TOGGLE_SESSION_TYPE,
+});
+
 export const incrementSessionsComplete = () => ({
     type: SessionActionTypes.INCREMENT_SESSIONS_COMPLETE,
+});
+
+export const setIsBreak = (value: boolean) => ({
+    type: SessionActionTypes.SET_IS_BREAK,
+    payload: value,
+});
+
+export const toggleIsBreak = () => ({
+    type: SessionActionTypes.TOGGLE_IS_BREAK,
 });
