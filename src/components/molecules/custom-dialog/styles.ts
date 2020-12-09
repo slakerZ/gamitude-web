@@ -18,6 +18,9 @@ const useCustomDialogStyles = makeStyles((theme: Theme) => ({
     textDanger: {
         color: theme.palette.error.main,
     },
+    actionsInContent: {
+        padding: 0,
+    },
 }));
 
 export default useCustomDialogStyles;

@@ -73,7 +73,3 @@ export interface FormikInfoType {
     validationSchema: any;
     formFields: FieldType[];
 }
-
-export interface FormikInfoActionType {
-    type: NewTimerVariantTypes;
-}

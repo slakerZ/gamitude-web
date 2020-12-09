@@ -1,16 +1,11 @@
 import { TimerTypes } from "configs/constants";
 import { Form, Formik } from "formik";
 
-import React, {
-    useState,
-    useEffect,
-    ReactElement,
-    useReducer,
-    Fragment,
-} from "react";
+import React, { useState, useEffect, ReactElement, Fragment } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
 
+import { Slide } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -30,24 +25,12 @@ import { TabPanel } from "components/atoms/tab-panel/tab-panel.component";
 import FormikField from "../../atoms/formik-field/formik-field.component";
 import { FieldType } from "../../atoms/formik-form/types";
 import { NewTimerVariants } from "./constants";
-import {
-    StopwatchSchema,
-    StopwatchInitialValues,
-    StopwatchFields,
-    CountdownSimpleSchema,
-    CountdownSimpleInitialValues,
-    CountdownSimpleFields,
-    CountdownComplexSchema,
-    CountdownComplexInitialValues,
-    CountdownComplexFields,
-    NewTimerFormikInfo,
-} from "./new-timer-dialog.schema";
+import { NewTimerFormikInfo } from "./new-timer-dialog.schema";
 import useCustomDialogStyles from "./styles";
 import {
     NewTimerDialogPropTypes,
     NewTimerVariantTypes,
     FormikInfoType,
-    FormikInfoActionType,
 } from "./types";
 
 const NewTimerDialog = ({
@@ -58,48 +41,6 @@ const NewTimerDialog = ({
     setSnackbarState,
 }: NewTimerDialogPropTypes): ReactElement => {
     const classes = useCustomDialogStyles();
-
-    // useReducer
-    const formikInfoReducer = (
-        state: FormikInfoType,
-        action: FormikInfoActionType,
-    ) => {
-        switch (action.type) {
-            case NewTimerVariants.STOPWATCH:
-                return {
-                    ...state,
-                    name: NewTimerVariants.STOPWATCH,
-                    validationSchema: StopwatchSchema,
-                    initialValues: StopwatchInitialValues,
-                    formFields: StopwatchFields,
-                };
-            case NewTimerVariants.COUNTDOWN_STATIC:
-                return {
-                    ...state,
-                    name: NewTimerVariants.COUNTDOWN_STATIC,
-                    validationSchema: CountdownSimpleSchema,
-                    initialValues: CountdownSimpleInitialValues,
-                    formFields: CountdownSimpleFields,
-                };
-            case NewTimerVariants.COUNTDOWN_DYNAMIC:
-                return {
-                    ...state,
-                    name: NewTimerVariants.COUNTDOWN_DYNAMIC,
-                    validationSchema: CountdownComplexSchema,
-                    initialValues: CountdownComplexInitialValues,
-                    formFields: CountdownComplexFields,
-                };
-            default:
-                return state;
-        }
-    };
-
-    const [formikInfo, dispatchFormikInfo] = useReducer(formikInfoReducer, {
-        name: NewTimerVariants.COUNTDOWN_STATIC,
-        validationSchema: CountdownSimpleSchema,
-        initialValues: CountdownSimpleInitialValues,
-        formFields: CountdownSimpleFields,
-    });
 
     // useState
     const [currentVariant, setCurrentVariant] = useState(
@@ -164,7 +105,6 @@ const NewTimerDialog = ({
         newValue: NewTimerVariantTypes,
     ) => {
         setCurrentVariant(newValue);
-        dispatchFormikInfo({ type: newValue });
     };
 
     // useEffect
@@ -185,10 +125,12 @@ const NewTimerDialog = ({
             open={open}
             PaperProps={{ className: classes.rootPaper }}
             onClose={handleCancel}
+            TransitionComponent={Slide}
         >
             <DialogTitle>{"Create new timer"}</DialogTitle>
             <DialogContent>
                 <Tabs
+                    selectionFollowsFocus
                     value={currentVariant}
                     onChange={handleTimerVariantChange}
                     aria-label="available timer variants"
@@ -256,9 +198,13 @@ const NewTimerDialog = ({
                                                     )}
                                                 </Form>
 
-                                                <DialogActions>
+                                                <DialogActions
+                                                    className={
+                                                        classes.actionsInContent
+                                                    }
+                                                >
                                                     <Button
-                                                        variant={"outlined"}
+                                                        variant={"contained"}
                                                         onClick={submitForm}
                                                         disabled={
                                                             !dirty || !isValid
@@ -267,7 +213,7 @@ const NewTimerDialog = ({
                                                         {"SUBMIT"}
                                                     </Button>
                                                     <Button
-                                                        variant={"outlined"}
+                                                        variant={"contained"}
                                                         onClick={handleCancel}
                                                     >
                                                         {"CANCEL"}

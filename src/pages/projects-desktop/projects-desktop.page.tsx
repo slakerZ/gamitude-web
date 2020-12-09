@@ -124,6 +124,7 @@ const ProjectsDesktopPage = ({
                 <ToggleAbleTooltip target="folders" placement="right">
                     <div className={classes.tabsWrapper}>
                         <Tabs
+                            selectionFollowsFocus
                             aria-label="Folders navigation"
                             orientation="vertical"
                             variant="scrollable"

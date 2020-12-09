@@ -124,6 +124,7 @@ const Methods = ({
                 <ToggleAbleTooltip target={"timers"} placement="top-start">
                     <div className={classes.container}>
                         <Tabs
+                            selectionFollowsFocus
                             aria-label="list of custom timers"
                             value={timerIndex}
                             onChange={handleMethodChange}
