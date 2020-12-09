@@ -9,13 +9,5 @@ export interface BulletPropTypes {
     pages: PageType[];
     setPages: any;
     setProjectTasks: any;
-}
-
-export interface ProjectType {
-    id: number;
-    name: string;
-    primaryMethod: string;
-    projectFolder: number;
-    dominantStat: string;
-    stats: string[];
+    projectTasks: ProjectTaskType[];
 }

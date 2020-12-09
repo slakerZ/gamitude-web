@@ -26,7 +26,7 @@ const NewProjectTaskDialog = ({
 
     const [projectTaskName, setprojectTaskName] = useState("");
     const [note, setNote] = useState("");
-    const [projectId, setProjectId] = useState("");
+    const [projectId, setProjectId] = useState(null);
     const [tags, setTags] = useState("");
     const [deadline, setDeadline] = useState(new Date());
 
@@ -55,7 +55,7 @@ const NewProjectTaskDialog = ({
         // Reset
         setprojectTaskName("");
         setNote("");
-        setProjectId("");
+        setProjectId(null);
         setTags("");
         setDeadline(new Date());
 

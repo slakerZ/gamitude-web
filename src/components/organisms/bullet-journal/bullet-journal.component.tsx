@@ -26,6 +26,7 @@ import { selectPages } from "redux/bulletPages/pages.selectors";
 import { setJournals } from "redux/journals/journals.actions";
 import { selectJournals } from "redux/journals/journals.selectors";
 import { setProjectTasks } from "redux/projectTasks/projectTasks.actions";
+import { selectProjectTasks } from "redux/projectTasks/projectTasks.selectors";
 import { selectToken } from "redux/user/user.selectors";
 
 import { getJournals, postJournal } from "api/bulletJournal/journals.api";
@@ -62,6 +63,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         justifyContent: "center",
         borderRight: `1px solid ${theme.palette.divider}`,
         height: "100%",
+    },
+    task: {
+        backgroundColor: theme.palette.primary.dark,
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
@@ -100,11 +104,17 @@ const Bullet = ({
     pages,
     setPages,
     setProjectTasks,
+    projectTasks,
 }: BulletPropTypes) => {
     const classes = useStyles();
 
     const [isNewJournalDialogOpen, setIsNewJournalDialogOpen] = useState(false);
     const [isNewPageDialogOpen, setIsNewPageDialogOpen] = useState(false);
+    const [
+        isNewProjectTaskDialogOpen,
+        setIsNewProjectTaskDialogOpen,
+    ] = useState(false);
+
     const [pagesCurrJournalIndex, setPagesCurrJournalIndex] = useState(0);
     const [tasksCurrPageIndex, setTasksCurrPageIndex] = useState(0);
 
@@ -136,7 +146,6 @@ const Bullet = ({
         getJournalsList();
         getProjectTasksList();
         getCurrJournalId();
-        getPagesList(currJournalId);
     });
 
     const getCurrJournalId = () => {
@@ -173,6 +182,14 @@ const Bullet = ({
 
     const handleOpenNewJournalDialog = () => {
         setIsNewJournalDialogOpen(true);
+    };
+
+    const handleOpenNewProjectTaskDialog = () => {
+        setIsNewProjectTaskDialogOpen(true);
+    };
+
+    const handleSelectionChanged = () => {
+        console.log("good");
     };
 
     return (
@@ -275,6 +292,60 @@ const Bullet = ({
                     </TabPanel>
                 </div>
             )}
+            <TabPanel
+                value={tasksCurrPageIndex}
+                index={0}
+                role={"Tasks"}
+                id={"tasks"}
+            >
+                <div className={classes.task}>
+                    {projectTasks.map(({ name }, index) => {
+                        return (
+                            <Accordion key={index} className={classes.task}>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="Task"
+                                >
+                                    <CustomIcon
+                                        variant={"creativity"}
+                                        size="medium"
+                                    />
+                                    <FormControlLabel
+                                        aria-label="Select Task"
+                                        onClick={handleSelectionChanged}
+                                        onFocus={(event) =>
+                                            event.stopPropagation()
+                                        }
+                                        control={<Radio />}
+                                        label={name}
+                                    />
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <FormikForm
+                                        initialValues={taskInitialValues}
+                                        schema={TaskSchema}
+                                        fields={taskFields}
+                                        onSubmit={handleSelectionChanged}
+                                        state={"good"}
+                                    />
+                                </AccordionDetails>
+                            </Accordion>
+                        );
+                    })}
+                </div>
+            </TabPanel>
+            <div className={classes.fabWrapper} aria-label="Add Task">
+                <ToggleableTooltip target="Task">
+                    <Fab
+                        color="secondary"
+                        aria-label="add"
+                        className={classes.add}
+                        onClick={handleOpenNewProjectTaskDialog}
+                    >
+                        <AddIcon />
+                    </Fab>
+                </ToggleableTooltip>
+            </div>
             <NewJournalDialog
                 open={isNewJournalDialogOpen}
                 setOpen={setIsNewJournalDialogOpen}
@@ -287,8 +358,8 @@ const Bullet = ({
                 journalId={currJournalId}
             />
             <NewProjectTaskDialog
-                open={isNewJournalDialogOpen}
-                setOpen={setIsNewJournalDialogOpen}
+                open={isNewProjectTaskDialogOpen}
+                setOpen={setIsNewProjectTaskDialogOpen}
                 getProjectTasksList={getProjectTasksList}
                 journalId={currJournalId}
             />
@@ -300,6 +371,7 @@ const mapStateToProps = (state: any) => ({
     token: selectToken(state),
     journals: selectJournals(state),
     pages: selectPages(state),
+    projectTasks: selectProjectTasks(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
