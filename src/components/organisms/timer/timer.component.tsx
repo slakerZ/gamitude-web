@@ -8,6 +8,7 @@ import React, {
     useState,
     useCallback,
 } from "react";
+import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
@@ -338,7 +339,7 @@ const Timer = ({
 
     useEffect(() => {
         const countdownOrStopwatch =
-            selectedTimer.timerType === TimerTypes.TIMER
+            selectedTimer && selectedTimer.timerType === TimerTypes.TIMER
                 ? handleCountdown
                 : handleStopwatch;
         const interval = sessionInProgress
@@ -357,6 +358,19 @@ const Timer = ({
 
     return (
         <div className={classes.root}>
+            <Helmet>
+                {sessionInProgress ? (
+                    <title>
+                        {`${leftPad(
+                            milisecondsToMinutes(sessionTime).minutes,
+                        )}:${leftPad(
+                            milisecondsToMinutes(sessionTime).seconds,
+                        )}`}
+                    </title>
+                ) : (
+                    <title>{"Gamitude | Projects"}</title>
+                )}
+            </Helmet>
             <GiveUpSessionDialog
                 open={isConfirmGiveUpDialogOpen}
                 setOpen={setIsConfirmGiveUpDialogOpen}
@@ -382,6 +396,7 @@ const Timer = ({
             <TimerBadges handleOvertime={handleOvertime}>
                 <ToggleAbleTooltip
                     target={
+                        selectedTimer &&
                         selectedTimer.timerType === TimerTypes.TIMER
                             ? "sessionCountdown"
                             : "sessionStopwatch"
