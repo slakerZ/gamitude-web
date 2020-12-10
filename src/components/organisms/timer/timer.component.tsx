@@ -256,7 +256,9 @@ const Timer = ({
                     stats: selectedProject.stats,
                     projectType: "BREAK",
                 };
-                postProjectLog(token, requestBody);
+                postProjectLog(token, requestBody).then(() => {
+                    incrementSessionsComplete();
+                });
                 setSessionTime(
                     selectedTimer.countDownInfo.workTime * MINUTE_AS_MS,
                 );

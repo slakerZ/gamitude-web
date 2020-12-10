@@ -11,6 +11,7 @@ import React, {
 } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Link, Redirect, useLocation } from "react-router-dom";
+import { useUpdateEffect } from "react-use";
 
 import AppBar from "@material-ui/core/AppBar";
 import Divider from "@material-ui/core/Divider";
@@ -27,7 +28,11 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import { ReduxStateType } from "redux/root.reducer";
 import { setSessionType } from "redux/session/session.actions";
-import { selectSessionType } from "redux/session/session.selectors";
+import {
+    selectIsBreak,
+    selectSessionInProgress,
+    selectSessionType,
+} from "redux/session/session.selectors";
 import { setUser, setTooltipToggle } from "redux/user/user.actions";
 import {
     selectToken,
@@ -70,6 +75,8 @@ const App: FC<AppType> = ({
     setSessionType,
     sessionType,
     dateExpires,
+    sessionInProgress,
+    isBreak,
 }: AppType): ReactElement => {
     const classes = useAppStyles();
     const location = useLocation();
@@ -100,6 +107,14 @@ const App: FC<AppType> = ({
             setTokenExpired(false);
         }
     }, [dateExpires, logout]);
+
+    useUpdateEffect(() => {
+        if (isBreak || sessionInProgress) {
+            window.onbeforeunload = () => true;
+        } else {
+            window.onbeforeunload = null;
+        }
+    });
 
     return (
         <div className={classes.root}>
@@ -298,6 +313,8 @@ const mapStateToProps = (state: ReduxStateType) => ({
     tooltipToggle: selectTooltipToggle(state),
     sessionType: selectSessionType(state),
     dateExpires: selectDateExpires(state),
+    isBreak: selectIsBreak(state),
+    sessionInProgress: selectSessionInProgress(state),
 });
 const mapDispatchToProps = (dispatch: any) => ({
     setUser: (value: any) => dispatch(setUser(value)),

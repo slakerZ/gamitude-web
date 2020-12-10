@@ -20,15 +20,6 @@ const useCustomIconStyles = makeStyles((theme) => ({
         width: "6vh",
         height: "6vh",
     },
-    bar: {
-        width: "60px",
-        height: "60px",
-        float: "left",
-        padding: "7px",
-        "&::after": {
-            clear: "both",
-        },
-    },
     avatar: {
         width: "20vh",
         height: "20vh",

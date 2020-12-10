@@ -6,6 +6,8 @@ export interface AppType {
     sessionType: string;
     setSessionType: any;
     dateExpires: any;
+    isBreak: boolean;
+    sessionInProgress: boolean;
 }
 export interface LinkType {
     to: string;
