@@ -191,26 +191,23 @@ const Timer = ({
         selectedTimer: TimerType,
         sessionsComplete: number,
     ) => {
-        if (
-            selectedTimer.countDownInfo.longerBreakTime &&
-            selectedTimer.countDownInfo.breakInterval
-        ) {
+        const lBreak = selectedTimer.countDownInfo.longerBreakTime;
+        const sBreak = selectedTimer.countDownInfo.breakTime;
+        const inter = selectedTimer.countDownInfo.breakInterval;
+        // Timer has longer break?
+        if (inter && lBreak && sessionsComplete !== 0) {
             // Longer break?
-            if (
-                selectedTimer.countDownInfo.breakInterval %
-                    (sessionsComplete + 1) ===
-                0
-            ) {
-                return (
-                    selectedTimer.countDownInfo.longerBreakTime * MINUTE_AS_MS
-                );
+            if (sessionsComplete % inter === 0) {
+                return lBreak * MINUTE_AS_MS;
             }
             // Shorter break?
             else {
-                return selectedTimer.countDownInfo.breakTime * MINUTE_AS_MS;
+                return sBreak * MINUTE_AS_MS;
             }
-        } else {
-            return selectedTimer.countDownInfo.breakTime * MINUTE_AS_MS;
+        }
+        // If it doesn't set to short
+        else {
+            return sBreak * MINUTE_AS_MS;
         }
     };
 
