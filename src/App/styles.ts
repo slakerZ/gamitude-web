@@ -3,7 +3,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NAVIGATION_WIDTH, CONTROL_PANEL_WIDTH } from "./constants";
 
 const useAppStyles = makeStyles((theme: Theme) => ({
-    root: {
+    rootFlex: {
         backgroundColor: theme.palette.primary.light,
         width: "100vw",
         height: "100vh",
@@ -23,6 +23,10 @@ const useAppStyles = makeStyles((theme: Theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
+    },
+    appBarTransparent: {
+        backgroundColor: "transparent",
+        boxShadow: "none",
     },
     left: {},
     center: {
@@ -45,6 +49,14 @@ const useAppStyles = makeStyles((theme: Theme) => ({
     },
     navDrawerPaper: {
         backgroundColor: theme.palette.primary.main,
+    },
+    floatingDrawerPaper: {
+        backgroundColor: "transparent",
+        border: "none",
+        zIndex: 200,
+    },
+    transparentList: {
+        backgroundColor: "transparent",
     },
     navDrawerOpen: {
         width: `${NAVIGATION_WIDTH}vw`,

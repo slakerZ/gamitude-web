@@ -10,9 +10,17 @@ import React, {
     useCallback,
 } from "react";
 import { connect } from "react-redux";
-import { Route, Switch, Link, Redirect, useLocation } from "react-router-dom";
+import {
+    Route,
+    Switch,
+    Link,
+    Redirect,
+    useLocation,
+    useHistory,
+} from "react-router-dom";
 import { useUpdateEffect } from "react-use";
 
+import { Button } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -80,9 +88,13 @@ const App: FC<AppType> = ({
 }: AppType): ReactElement => {
     const classes = useAppStyles();
     const location = useLocation();
+    const router = useHistory();
+    const isHomePage = location.pathname === "/";
 
     const [navOpen, setNavOpen] = useState(false);
-    const [tokenExpired, setTokenExpired] = useState(false);
+    const [shouldRedirectToSignInUp, setShouldRedirectToSignInUp] = useState(
+        false,
+    );
 
     const handleToggleNavOpen = () => {
         setNavOpen(!navOpen);
@@ -98,13 +110,21 @@ const App: FC<AppType> = ({
         setTooltipToggle({ tooltipToggle: !tooltipToggle });
     };
 
+    const handleGetStarted = () => {
+        if (!token) {
+            setShouldRedirectToSignInUp(true);
+        } else {
+            router.push("/projects");
+        }
+    };
+
     useEffect(() => {
         const expires = new Date(dateExpires).getTime();
         if (expires < Date.now()) {
-            setTokenExpired(true);
+            setShouldRedirectToSignInUp(true);
             logout();
         } else {
-            setTokenExpired(false);
+            setShouldRedirectToSignInUp(false);
         }
     }, [dateExpires, logout]);
 
@@ -117,141 +137,158 @@ const App: FC<AppType> = ({
     });
 
     return (
-        <div className={classes.root}>
-            {location.pathname !== "/" ? (
-                <AppBar
-                    position="fixed"
-                    className={clsx(classes.appBar, {
-                        [classes.appBarShift]: navOpen,
-                    })}
-                >
-                    <Toolbar className={classes.toolbar}>
-                        <div className={classes.left}>
-                            {token ? (
-                                <IconButton
-                                    onClick={handleToggleNavOpen}
-                                    aria-label="Toggle between full navigation an mini variant"
-                                >
-                                    {navOpen ? (
-                                        <ChevronLeftIcon />
-                                    ) : (
-                                        <ChevronRightIcon />
-                                    )}
-                                </IconButton>
-                            ) : null}
-                        </div>
-
-                        <div className={classes.center}>
-                            <ToggleAbleTooltip
-                                target={"home"}
-                                placement="bottom-end"
+        <div className={clsx({ [classes.rootFlex]: !isHomePage })}>
+            <AppBar
+                position="fixed"
+                className={clsx({
+                    [classes.appBarShift]: navOpen && !isHomePage,
+                    [classes.appBarTransparent]: isHomePage,
+                    [classes.appBar]: !isHomePage,
+                })}
+            >
+                <Toolbar className={classes.toolbar}>
+                    <div className={classes.left}>
+                        {token ? (
+                            <IconButton
+                                onClick={handleToggleNavOpen}
+                                aria-label="Toggle between full navigation an mini variant"
                             >
-                                <Link to="/" className={classes.title}>
-                                    <Typography variant="h3" component="h3">
-                                        {"Gamitude"}
-                                    </Typography>
-                                </Link>
-                            </ToggleAbleTooltip>
-                        </div>
+                                {navOpen ? (
+                                    <ChevronLeftIcon />
+                                ) : (
+                                    <ChevronRightIcon />
+                                )}
+                            </IconButton>
+                        ) : null}
+                    </div>
 
-                        <div className={classes.right}></div>
-                    </Toolbar>
-                </AppBar>
-            ) : null}
-            {token && location.pathname !== "/" ? (
-                <Drawer
-                    aria-label="Gamitude left drawer navigation"
-                    variant="permanent"
-                    className={clsx(classes.navDrawer, {
+                    <div className={classes.center}>
+                        <ToggleAbleTooltip
+                            target={"home"}
+                            placement="bottom-end"
+                        >
+                            <Link to="/" className={classes.title}>
+                                <Typography variant="h3" component="h3">
+                                    {"Gamitude"}
+                                </Typography>
+                            </Link>
+                        </ToggleAbleTooltip>
+                    </div>
+
+                    <div className={classes.right}>
+                        {isHomePage && (
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleGetStarted}
+                            >
+                                {"Get Started!"}
+                            </Button>
+                        )}
+                    </div>
+                </Toolbar>
+            </AppBar>
+
+            <Drawer
+                aria-label="Gamitude left drawer navigation"
+                variant="permanent"
+                className={clsx(classes.navDrawer, {
+                    [classes.navDrawerOpen]: navOpen,
+                    [classes.navDrawerClose]: !navOpen,
+                })}
+                classes={{
+                    paper: clsx({
                         [classes.navDrawerOpen]: navOpen,
                         [classes.navDrawerClose]: !navOpen,
-                    })}
-                    classes={{
-                        paper: clsx(classes.navDrawerPaper, {
-                            [classes.navDrawerOpen]: navOpen,
-                            [classes.navDrawerClose]: !navOpen,
-                        }),
-                    }}
-                >
-                    <Toolbar />
-                    <div className={classes.navigationLeft}>
-                        <List
-                            component={"nav"}
-                            aria-label="Gamitude main features navigation"
-                        >
-                            {NAV_LINKS.map(({ to, label, icon, tooltip }) => (
-                                <ListItem
-                                    button
-                                    key={to}
-                                    component={Link}
-                                    to={to}
-                                >
-                                    <ToggleAbleTooltip
-                                        target={tooltip}
-                                        placement="right"
-                                    >
-                                        <ListItemIcon>
-                                            <CustomIcon
-                                                size="small"
-                                                variant={icon}
-                                            />
-                                        </ListItemIcon>
-                                    </ToggleAbleTooltip>
-                                    <ListItemText primary={label} />
-                                </ListItem>
-                            ))}
-                        </List>
-                        <List
-                            component={"nav"}
-                            aria-label="Gamitude side features navigation"
-                        >
-                            <ListItem button onClick={toggleTooltips}>
+                        [classes.navDrawerPaper]: !isHomePage,
+                        [classes.floatingDrawerPaper]: isHomePage,
+                    }),
+                }}
+            >
+                <Toolbar />
+                <div className={classes.navigationLeft}>
+                    <List
+                        component={"nav"}
+                        aria-label="Gamitude main features navigation"
+                        className={clsx({
+                            [classes.transparentList]: isHomePage,
+                        })}
+                    >
+                        {NAV_LINKS.map(({ to, label, icon, tooltip }) => (
+                            <ListItem button key={to} component={Link} to={to}>
                                 <ToggleAbleTooltip
-                                    target={"tooltipToggle"}
-                                    placement="right"
-                                >
-                                    <ListItemIcon>
-                                        {tooltipToggle ? (
-                                            <CustomIcon
-                                                size="small"
-                                                variant={"tooltip_checked"}
-                                            />
-                                        ) : (
-                                            <CustomIcon
-                                                size="small"
-                                                variant={"tooltip_unchecked"}
-                                            />
-                                        )}
-                                    </ListItemIcon>
-                                </ToggleAbleTooltip>
-                                <ListItemText primary={"Toggle Tooltips"} />
-                            </ListItem>
-                            <ListItem
-                                button
-                                component={Link}
-                                to={"/signInSignUp"}
-                                onClick={logout}
-                            >
-                                <ToggleAbleTooltip
-                                    target={"logout"}
+                                    target={tooltip}
                                     placement="right"
                                 >
                                     <ListItemIcon>
                                         <CustomIcon
                                             size="small"
-                                            variant={"logout"}
+                                            variant={icon}
                                         />
                                     </ListItemIcon>
                                 </ToggleAbleTooltip>
-                                <ListItemText primary={"Logout"} />
+                                <ListItemText primary={label} />
                             </ListItem>
-                        </List>
-                    </div>
-                </Drawer>
-            ) : null}
+                        ))}
+                    </List>
+                    <List
+                        component={"nav"}
+                        aria-label="Gamitude side features navigation"
+                        className={clsx({
+                            [classes.transparentList]: isHomePage,
+                        })}
+                    >
+                        <ListItem button onClick={toggleTooltips}>
+                            <ToggleAbleTooltip
+                                target={"tooltipToggle"}
+                                placement="right"
+                            >
+                                <ListItemIcon>
+                                    {tooltipToggle ? (
+                                        <CustomIcon
+                                            size="small"
+                                            variant={"tooltip_checked"}
+                                        />
+                                    ) : (
+                                        <CustomIcon
+                                            size="small"
+                                            variant={"tooltip_unchecked"}
+                                        />
+                                    )}
+                                </ListItemIcon>
+                            </ToggleAbleTooltip>
+                            <ListItemText primary={"Toggle Tooltips"} />
+                        </ListItem>
+                        <ListItem
+                            button
+                            component={Link}
+                            to={"/signInSignUp"}
+                            onClick={logout}
+                        >
+                            <ToggleAbleTooltip
+                                target={"logout"}
+                                placement="right"
+                            >
+                                <ListItemIcon>
+                                    <CustomIcon
+                                        size="small"
+                                        variant={"logout"}
+                                    />
+                                </ListItemIcon>
+                            </ToggleAbleTooltip>
+                            <ListItemText primary={"Logout"} />
+                        </ListItem>
+                    </List>
+                </div>
+            </Drawer>
             <Suspense fallback={<LoadingScreen />}>
-                <div className={classes.content} aria-label="Gamitude Content">
-                    <Toolbar />
+                <div
+                    className={clsx({
+                        [classes.content]: !isHomePage,
+                    })}
+                    aria-label="Gamitude Content"
+                >
+                    {!isHomePage && <Toolbar />}
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route
@@ -274,7 +311,7 @@ const App: FC<AppType> = ({
                     </Switch>
                 </div>
             </Suspense>
-            {token && location.pathname !== "/" ? (
+            {token && !isHomePage ? (
                 <Drawer
                     aria-label="Control Panel"
                     className={classes.controlPanelDrawer}
@@ -303,7 +340,7 @@ const App: FC<AppType> = ({
                 </Drawer>
             ) : null}
             <CustomSnackbar />
-            {tokenExpired ? <Redirect to="/signInSignUp" /> : null}
+            {shouldRedirectToSignInUp ? <Redirect to="/signInSignUp" /> : null}
         </div>
     );
 };
