@@ -135,29 +135,39 @@ const Timer = ({
             }
             // Manual finish if stopwatch
             else {
-                setSnackbarState({
-                    message: "Session Finished",
-                    severity: "info",
-                    open: true,
-                    autoHideDuration: null,
-                });
-                setEndDate(new Date());
-                // Api call
-                const requestBody = {
-                    projectId: selectedProject.id,
-                    projectTaskId: null,
-                    log: "",
-                    timeSpend:
-                        milisecondsToMinutes(
-                            endDate.getTime() - startDate.getTime(),
-                        ).minutes + 1,
-                    dominantStat: selectedProject.dominantStat,
-                    stats: selectedProject.stats,
-                    projectType: selectedProject.projectType,
-                };
-                postProjectLog(token, requestBody).then(() => {
-                    incrementSessionsComplete();
-                });
+                const minutesSpend = milisecondsToMinutes(
+                    Date.now() - startDateAsMs,
+                ).minutes;
+                if (minutesSpend) {
+                    setSnackbarState({
+                        message: "Session Finished",
+                        severity: "info",
+                        open: true,
+                        autoHideDuration: null,
+                    });
+                    // Api call
+                    const requestBody = {
+                        projectId: selectedProject.id,
+                        projectTaskId: null,
+                        log: "",
+                        timeSpend: minutesSpend + 1,
+                        dominantStat: selectedProject.dominantStat,
+                        stats: selectedProject.stats,
+                        projectType: selectedProject.projectType,
+                    };
+                    postProjectLog(token, requestBody).then(() => {
+                        incrementSessionsComplete();
+                    });
+                }
+                // Don't log anything below 1 minute
+                else {
+                    setSnackbarState({
+                        message: "Finished before 1 minute - no progress",
+                        severity: "info",
+                        open: true,
+                        autoHideDuration: null,
+                    });
+                }
                 setSessionTime(0);
             }
             setSessionInProgress(false);
@@ -233,15 +243,15 @@ const Timer = ({
                     open: true,
                     autoHideDuration: null,
                 });
+                const minutesSpend = milisecondsToMinutes(
+                    endDate.getTime() - startDate.getTime(),
+                ).minutes;
                 // Api call
                 const requestBody = {
                     projectId: selectedProject.id,
                     projectTaskId: null,
                     log: "",
-                    timeSpend:
-                        milisecondsToMinutes(
-                            endDate.getTime() - startDate.getTime(),
-                        ).minutes + 1,
+                    timeSpend: minutesSpend + 1,
                     dominantStat: selectedProject.dominantStat,
                     stats: selectedProject.stats,
                     projectType: "BREAK",
@@ -260,15 +270,15 @@ const Timer = ({
                     open: true,
                     autoHideDuration: null,
                 });
+                const minutesSpend = milisecondsToMinutes(
+                    endDate.getTime() - startDate.getTime(),
+                ).minutes;
                 // Api call
                 const requestBody = {
                     projectId: selectedProject.id,
                     projectTaskId: null,
                     log: "",
-                    timeSpend:
-                        milisecondsToMinutes(
-                            endDate.getTime() - startDate.getTime(),
-                        ).minutes + 1,
+                    timeSpend: minutesSpend + 1,
                     dominantStat: selectedProject.dominantStat,
                     stats: selectedProject.stats,
                     projectType: selectedProject.projectType,
