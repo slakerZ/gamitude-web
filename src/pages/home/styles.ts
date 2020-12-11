@@ -9,6 +9,13 @@ const useHomePageStyles = makeStyles((theme: Theme) => ({
         backgroundColor: "rgba(0,0,0, 0.6)",
         zIndex: 2000,
     },
+    pages: {
+        position: "fixed",
+        right: theme.spacing(2),
+        top: "50%",
+        backgroundColor: "rgba(0,0,0, 0.6)",
+        zIndex: 2002,
+    },
     video: {
         height: "100vh",
         width: "100vw",
@@ -50,7 +57,17 @@ const useHomePageStyles = makeStyles((theme: Theme) => ({
         opacity: 0.6,
         filter: "blur(10px)",
     },
+    paragraphs: {
+        maxWidth: "50vw",
+    },
     button: {},
+    backToTop: {
+        display: "flex",
+        position: "fixed",
+        bottom: theme.spacing(1),
+        justifyContent: "center",
+        width: "100%",
+    },
 }));
 
 export default useHomePageStyles;
