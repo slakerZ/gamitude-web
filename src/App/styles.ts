@@ -3,8 +3,10 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NAVIGATION_WIDTH, CONTROL_PANEL_WIDTH } from "./constants";
 
 const useAppStyles = makeStyles((theme: Theme) => ({
-    rootFlex: {
+    root: {
         backgroundColor: theme.palette.primary.light,
+    },
+    rootFlex: {
         width: "100vw",
         height: "100vh",
         display: "flex",
@@ -71,9 +73,9 @@ const useAppStyles = makeStyles((theme: Theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflowX: "hidden",
-        width: theme.spacing(7) + 1,
+        width: theme.spacing(6),
         [theme.breakpoints.up("sm")]: {
-            width: theme.spacing(9) + 1,
+            width: theme.spacing(9),
         },
     },
     toolbar: {
