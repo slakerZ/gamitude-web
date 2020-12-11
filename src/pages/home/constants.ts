@@ -5,7 +5,7 @@ export const OverviewText_1 = [
 
 export const OverviewText_2 = [
     `Maintenance of 4 types of energies is rewarded with stats that can then be spent on ranks`,
-    `You can learn more about what energies, stats and ranks are on the next banners`,
+    `You can learn more about what energies, stats and ranks are on the next banners - go there quickly using menu on the right side`,
 ];
 
 export const MenuItems = [
@@ -31,6 +31,6 @@ export const MenuItems = [
         label: "Creators",
     },
     {
-        label: "Icon credits",
+        label: "Attributions",
     },
 ];

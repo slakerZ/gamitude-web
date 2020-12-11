@@ -6,15 +6,20 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Step from "@material-ui/core/Step";
 import StepButton from "@material-ui/core/StepButton";
-import StepContent from "@material-ui/core/StepContent";
 import Stepper from "@material-ui/core/Stepper";
 import Typography from "@material-ui/core/Typography";
 
 import { OverviewText_1, OverviewText_2, MenuItems } from "./constants";
 import useHomePageStyles from "./styles";
 
-const time_passes = require("assets/videos/time_passes.mp4");
-const energy = require("assets/videos/energy.mp4");
+const overview = require("assets/videos/overview.mp4");
+const gamitudeEnergy = require("assets/videos/gamitude.mp4");
+const energies = require("assets/videos/energies.mp4");
+const stats = require("assets/videos/stats.mp4");
+const ranks = require("assets/videos/ranks.mp4");
+const bulletJournal = require("assets/videos/bulletJournal.mp4");
+const creators = require("assets/videos/creators.mp4");
+const credits = require("assets/videos/credits.mp4");
 
 const GetStartedButton = () => {
     const classes = useHomePageStyles();
@@ -73,10 +78,10 @@ const HomePage = (): ReactElement => {
                 <div
                     className={classes.banner}
                     aria-label="Slogan Banner"
-                    id="slogan"
+                    id="Start"
                 >
                     <video autoPlay loop muted className={classes.video}>
-                        <source src={energy} type="video/mp4" />
+                        <source src={gamitudeEnergy} type="video/mp4" />
                     </video>
                     <div className={classes.centered}>
                         <div className={classes.flexColumn}>
@@ -96,7 +101,7 @@ const HomePage = (): ReactElement => {
                 </div>
                 <div className={classes.banner} id="Overview">
                     <video autoPlay loop muted className={classes.video}>
-                        <source src={time_passes} type="video/mp4" />
+                        <source src={overview} type="video/mp4" />
                     </video>
                     <div className={classes.centered}>
                         <div className={classes.flexColumn}>
@@ -143,33 +148,297 @@ const HomePage = (): ReactElement => {
                         </div>
                     </div>
                 </div>
-                <div className={classes.banner}>
-                    <img
-                        className={classes.image}
-                        src="https://images.unsplash.com/photo-1428973085873-61a784626aad?ixlib=rb-1.2.1&auto=format&fit=crop&w=1355&q=80"
-                    />
+                <div className={classes.banner} id="Energies">
+                    <video autoPlay loop muted className={classes.video}>
+                        <source src={energies} type="video/mp4" />
+                    </video>
                     <div className={classes.centered}>
                         <div className={classes.flexColumn}>
                             <Typography component="h1" variant="h1">
-                                {"Gamitude"}
+                                {"Energies"}
                             </Typography>
-                            <Typography
-                                component="h2"
-                                variant="h4"
-                                className={classes.subTitle}
+                            <Grid
+                                spacing={4}
+                                container
+                                className={classes.paragraphs}
                             >
-                                {"Manage your Energy not your Time"}
+                                <Grid item xs={6}>
+                                    {OverviewText_1.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                                <Grid item xs={6}>
+                                    {OverviewText_2.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                            </Grid>
+                            <GetStartedButton />
+                        </div>
+                    </div>
+                </div>
+                <div className={classes.banner} id="Stats">
+                    <video autoPlay loop muted className={classes.video}>
+                        <source src={stats} type="video/mp4" />
+                    </video>
+                    <div className={classes.centered}>
+                        <div className={classes.flexColumn}>
+                            <Typography component="h1" variant="h1">
+                                {"Stats"}
                             </Typography>
-                            <Button
-                                component={Link}
-                                to="/signInSignUp"
-                                variant="outlined"
-                                color="secondary"
-                                size="large"
-                                className={classes.button}
+                            <Grid
+                                spacing={4}
+                                container
+                                className={classes.paragraphs}
                             >
-                                {"Get started!"}
-                            </Button>
+                                <Grid item xs={6}>
+                                    {OverviewText_1.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                                <Grid item xs={6}>
+                                    {OverviewText_2.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                            </Grid>
+                            <GetStartedButton />
+                        </div>
+                    </div>
+                </div>
+                <div className={classes.banner} id="Ranks">
+                    <video autoPlay loop muted className={classes.video}>
+                        <source src={ranks} type="video/mp4" />
+                    </video>
+                    <div className={classes.centered}>
+                        <div className={classes.flexColumn}>
+                            <Typography component="h1" variant="h1">
+                                {"Ranks"}
+                            </Typography>
+                            <Grid
+                                spacing={4}
+                                container
+                                className={classes.paragraphs}
+                            >
+                                <Grid item xs={6}>
+                                    {OverviewText_1.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                                <Grid item xs={6}>
+                                    {OverviewText_2.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                            </Grid>
+                            <GetStartedButton />
+                        </div>
+                    </div>
+                </div>
+                <div className={classes.banner} id="Bullet Journal">
+                    <video autoPlay loop muted className={classes.video}>
+                        <source src={bulletJournal} type="video/mp4" />
+                    </video>
+                    <div className={classes.centered}>
+                        <div className={classes.flexColumn}>
+                            <Typography component="h1" variant="h1">
+                                {"Bullet Journal"}
+                            </Typography>
+                            <Grid
+                                spacing={4}
+                                container
+                                className={classes.paragraphs}
+                            >
+                                <Grid item xs={6}>
+                                    {OverviewText_1.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                                <Grid item xs={6}>
+                                    {OverviewText_2.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                            </Grid>
+                            <GetStartedButton />
+                        </div>
+                    </div>
+                </div>
+                <div className={classes.banner} id="Creators">
+                    <video autoPlay loop muted className={classes.video}>
+                        <source src={creators} type="video/mp4" />
+                    </video>
+                    <div className={classes.centered}>
+                        <div className={classes.flexColumn}>
+                            <Typography component="h1" variant="h1">
+                                {"Creators"}
+                            </Typography>
+                            <Grid
+                                spacing={4}
+                                container
+                                className={classes.paragraphs}
+                            >
+                                <Grid item xs={6}>
+                                    {OverviewText_1.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                                <Grid item xs={6}>
+                                    {OverviewText_2.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                            </Grid>
+                            <GetStartedButton />
+                        </div>
+                    </div>
+                </div>
+                <div className={classes.banner} id="Attributions">
+                    <video autoPlay loop muted className={classes.video}>
+                        <source src={credits} type="video/mp4" />
+                    </video>
+                    <div className={classes.centered}>
+                        <div className={classes.flexColumn}>
+                            <Typography component="h1" variant="h1">
+                                {"Attributions"}
+                            </Typography>
+                            <Grid
+                                spacing={4}
+                                container
+                                className={classes.paragraphs}
+                            >
+                                <Grid item xs={6}>
+                                    {OverviewText_1.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                                <Grid item xs={6}>
+                                    {OverviewText_2.map((para, index) => {
+                                        return (
+                                            <Typography
+                                                key={index}
+                                                component="p"
+                                                variant="h6"
+                                                paragraph
+                                                align="center"
+                                            >
+                                                {para}
+                                            </Typography>
+                                        );
+                                    })}
+                                </Grid>
+                            </Grid>
+                            <GetStartedButton />
                         </div>
                     </div>
                 </div>
