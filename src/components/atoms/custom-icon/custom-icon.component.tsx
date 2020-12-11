@@ -46,7 +46,6 @@ const CustomIcon: FC<CustomIconType> = ({
     const getIcon = (variant: string, size: string) => {
         const variantLowered = variant ? variant.toLowerCase() : "";
         const mappedClasses = clsx(classes.white, {
-            [classes.bar]: size === "bar",
             [classes.xsmall]: size === "xsmall",
             [classes.small]: size === "small",
             [classes.medium]: size === "medium",

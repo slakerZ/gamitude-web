@@ -5,6 +5,8 @@ import { NAVIGATION_WIDTH, CONTROL_PANEL_WIDTH } from "./constants";
 const useAppStyles = makeStyles((theme: Theme) => ({
     root: {
         backgroundColor: theme.palette.primary.light,
+    },
+    rootFlex: {
         width: "100vw",
         height: "100vh",
         display: "flex",
@@ -23,6 +25,10 @@ const useAppStyles = makeStyles((theme: Theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
+    },
+    appBarTransparent: {
+        backgroundColor: "transparent",
+        boxShadow: "none",
     },
     left: {},
     center: {
@@ -46,6 +52,14 @@ const useAppStyles = makeStyles((theme: Theme) => ({
     navDrawerPaper: {
         backgroundColor: theme.palette.primary.main,
     },
+    floatingDrawerPaper: {
+        backgroundColor: "transparent",
+        border: "none",
+        zIndex: 200,
+    },
+    transparentList: {
+        backgroundColor: "transparent",
+    },
     navDrawerOpen: {
         width: `${NAVIGATION_WIDTH}vw`,
         transition: theme.transitions.create("width", {
@@ -59,9 +73,9 @@ const useAppStyles = makeStyles((theme: Theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflowX: "hidden",
-        width: theme.spacing(7) + 1,
+        width: theme.spacing(6),
         [theme.breakpoints.up("sm")]: {
-            width: theme.spacing(9) + 1,
+            width: theme.spacing(9),
         },
     },
     toolbar: {

@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
+
 import { SIGN_UP_IMAGE_URL, SIGN_IN_IMAGE_URL } from "./constants";
 
 const SignInSignUpStyles = makeStyles((theme) => ({
@@ -44,6 +45,7 @@ const SignInSignUpStyles = makeStyles((theme) => ({
     link: {
         margin: theme.spacing(1, 1),
         cursor: "pointer",
+        color: theme.palette.primary.contrastText,
     },
 }));
 

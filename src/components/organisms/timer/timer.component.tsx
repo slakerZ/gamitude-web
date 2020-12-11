@@ -8,6 +8,7 @@ import React, {
     useState,
     useCallback,
 } from "react";
+import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
@@ -135,29 +136,39 @@ const Timer = ({
             }
             // Manual finish if stopwatch
             else {
-                setSnackbarState({
-                    message: "Session Finished",
-                    severity: "info",
-                    open: true,
-                    autoHideDuration: null,
-                });
-                setEndDate(new Date());
-                // Api call
-                const requestBody = {
-                    projectId: selectedProject.id,
-                    projectTaskId: null,
-                    log: "",
-                    timeSpend:
-                        milisecondsToMinutes(
-                            endDate.getTime() - startDate.getTime(),
-                        ).minutes + 1,
-                    dominantStat: selectedProject.dominantStat,
-                    stats: selectedProject.stats,
-                    projectType: selectedProject.projectType,
-                };
-                postProjectLog(token, requestBody).then(() => {
-                    incrementSessionsComplete();
-                });
+                const minutesSpend = milisecondsToMinutes(
+                    Date.now() - startDateAsMs,
+                ).minutes;
+                if (minutesSpend) {
+                    setSnackbarState({
+                        message: "Session Finished",
+                        severity: "info",
+                        open: true,
+                        autoHideDuration: null,
+                    });
+                    // Api call
+                    const requestBody = {
+                        projectId: selectedProject.id,
+                        projectTaskId: null,
+                        log: "",
+                        timeSpend: minutesSpend + 1,
+                        dominantStat: selectedProject.dominantStat,
+                        stats: selectedProject.stats,
+                        projectType: selectedProject.projectType,
+                    };
+                    postProjectLog(token, requestBody).then(() => {
+                        incrementSessionsComplete();
+                    });
+                }
+                // Don't log anything below 1 minute
+                else {
+                    setSnackbarState({
+                        message: "Finished before 1 minute - no progress",
+                        severity: "info",
+                        open: true,
+                        autoHideDuration: null,
+                    });
+                }
                 setSessionTime(0);
             }
             setSessionInProgress(false);
@@ -180,26 +191,23 @@ const Timer = ({
         selectedTimer: TimerType,
         sessionsComplete: number,
     ) => {
-        if (
-            selectedTimer.countDownInfo.longerBreakTime &&
-            selectedTimer.countDownInfo.breakInterval
-        ) {
+        const lBreak = selectedTimer.countDownInfo.longerBreakTime;
+        const sBreak = selectedTimer.countDownInfo.breakTime;
+        const inter = selectedTimer.countDownInfo.breakInterval;
+        // Timer has longer break?
+        if (inter && lBreak && sessionsComplete !== 0) {
             // Longer break?
-            if (
-                selectedTimer.countDownInfo.breakInterval %
-                    (sessionsComplete + 1) ===
-                0
-            ) {
-                return (
-                    selectedTimer.countDownInfo.longerBreakTime * MINUTE_AS_MS
-                );
+            if (sessionsComplete % inter === 0) {
+                return lBreak * MINUTE_AS_MS;
             }
             // Shorter break?
             else {
-                return selectedTimer.countDownInfo.breakTime * MINUTE_AS_MS;
+                return sBreak * MINUTE_AS_MS;
             }
-        } else {
-            return selectedTimer.countDownInfo.breakTime * MINUTE_AS_MS;
+        }
+        // If it doesn't set to short
+        else {
+            return sBreak * MINUTE_AS_MS;
         }
     };
 
@@ -233,20 +241,22 @@ const Timer = ({
                     open: true,
                     autoHideDuration: null,
                 });
+                const minutesSpend = milisecondsToMinutes(
+                    endDate.getTime() - startDate.getTime(),
+                ).minutes;
                 // Api call
                 const requestBody = {
                     projectId: selectedProject.id,
                     projectTaskId: null,
                     log: "",
-                    timeSpend:
-                        milisecondsToMinutes(
-                            endDate.getTime() - startDate.getTime(),
-                        ).minutes + 1,
+                    timeSpend: minutesSpend + 1,
                     dominantStat: selectedProject.dominantStat,
                     stats: selectedProject.stats,
                     projectType: "BREAK",
                 };
-                postProjectLog(token, requestBody);
+                postProjectLog(token, requestBody).then(() => {
+                    incrementSessionsComplete();
+                });
                 setSessionTime(
                     selectedTimer.countDownInfo.workTime * MINUTE_AS_MS,
                 );
@@ -260,15 +270,15 @@ const Timer = ({
                     open: true,
                     autoHideDuration: null,
                 });
+                const minutesSpend = milisecondsToMinutes(
+                    endDate.getTime() - startDate.getTime(),
+                ).minutes;
                 // Api call
                 const requestBody = {
                     projectId: selectedProject.id,
                     projectTaskId: null,
                     log: "",
-                    timeSpend:
-                        milisecondsToMinutes(
-                            endDate.getTime() - startDate.getTime(),
-                        ).minutes + 1,
+                    timeSpend: minutesSpend + 1,
                     dominantStat: selectedProject.dominantStat,
                     stats: selectedProject.stats,
                     projectType: selectedProject.projectType,
@@ -326,7 +336,7 @@ const Timer = ({
 
     useEffect(() => {
         const countdownOrStopwatch =
-            selectedTimer.timerType === TimerTypes.TIMER
+            selectedTimer && selectedTimer.timerType === TimerTypes.TIMER
                 ? handleCountdown
                 : handleStopwatch;
         const interval = sessionInProgress
@@ -345,6 +355,19 @@ const Timer = ({
 
     return (
         <div className={classes.root}>
+            <Helmet>
+                {sessionInProgress ? (
+                    <title>
+                        {`${leftPad(
+                            milisecondsToMinutes(sessionTime).minutes,
+                        )}:${leftPad(
+                            milisecondsToMinutes(sessionTime).seconds,
+                        )}`}
+                    </title>
+                ) : (
+                    <title>{"Gamitude | Projects"}</title>
+                )}
+            </Helmet>
             <GiveUpSessionDialog
                 open={isConfirmGiveUpDialogOpen}
                 setOpen={setIsConfirmGiveUpDialogOpen}
@@ -370,6 +393,7 @@ const Timer = ({
             <TimerBadges handleOvertime={handleOvertime}>
                 <ToggleAbleTooltip
                     target={
+                        selectedTimer &&
                         selectedTimer.timerType === TimerTypes.TIMER
                             ? "sessionCountdown"
                             : "sessionStopwatch"

@@ -49,6 +49,7 @@ const FormikForm: FC<FormikFormPropType> = ({
                                                 label={label}
                                                 name={name}
                                                 type={type}
+                                                id={`${name}-${index}`}
                                             />
                                         </Grid>
                                     );
@@ -58,7 +59,8 @@ const FormikForm: FC<FormikFormPropType> = ({
                         <Button
                             disabled={!isValid || !dirty || state.loading}
                             type="submit"
-                            variant="outlined"
+                            variant="contained"
+                            color="secondary"
                             className={classes.submit}
                         >
                             {state.error ? (

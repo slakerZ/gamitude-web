@@ -58,6 +58,7 @@ const FormikDialog = ({
                                                     label={label}
                                                     name={name}
                                                     type={type}
+                                                    id={`${name}-${index}`}
                                                 />
                                             );
                                         },

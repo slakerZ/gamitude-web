@@ -71,7 +71,9 @@ const OvertimeBadge = ({
 }: OvertimeBadgePropTypes) => {
     const classes = useTimerStyles();
 
-    return selectedTimer.timerType === TimerTypes.TIMER && !isBreak ? (
+    return selectedTimer &&
+        selectedTimer.timerType === TimerTypes.TIMER &&
+        !isBreak ? (
         <Badge
             overlap="circle"
             anchorOrigin={{
@@ -110,7 +112,7 @@ const ShortBreakBadge = ({
 }: DisplayBadgePropTypes) => {
     const classes = useTimerStyles();
 
-    return selectedTimer.timerType === TimerTypes.TIMER ? (
+    return selectedTimer && selectedTimer.timerType === TimerTypes.TIMER ? (
         <Badge
             aria-label="Short break time display"
             overlap="circle"

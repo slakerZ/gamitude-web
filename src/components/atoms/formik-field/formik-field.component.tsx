@@ -12,6 +12,7 @@ const FormikField = ({
     label,
     name,
     type,
+    id,
 }: FormikFieldPropType): ReactElement => {
     const classes = useFormikFieldStyles();
 
@@ -33,6 +34,7 @@ const FormikField = ({
                 name={name}
                 type={type}
                 variant="outlined"
+                id={id}
             />
         </div>
     );
