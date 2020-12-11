@@ -172,7 +172,7 @@ const App: FC<AppType> = ({
                 </AppBar>
             )}
 
-            {!isAuth && (
+            {!isAuth && token && (
                 <Drawer
                     aria-label="Gamitude left drawer navigation"
                     variant="permanent"

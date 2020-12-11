@@ -6,8 +6,13 @@ const useHomePageStyles = makeStyles((theme: Theme) => ({
         position: "fixed",
         top: theme.spacing(2),
         right: theme.spacing(2),
-        backgroundColor: "rgba(0,0,0, 0.4)",
+        backgroundColor: "rgba(0,0,0, 0.6)",
         zIndex: 2000,
+    },
+    video: {
+        height: "100vh",
+        width: "100vw",
+        position: "absolute",
     },
     banner: {
         height: "100vh",
@@ -29,7 +34,7 @@ const useHomePageStyles = makeStyles((theme: Theme) => ({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "rgba(0,0,0, 0.4)",
+        backgroundColor: "rgba(0,0,0, 0.6)",
         border: "1px solid black",
         padding: theme.spacing(3, 14),
         "& > *": {
