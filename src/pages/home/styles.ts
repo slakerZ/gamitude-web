@@ -20,6 +20,7 @@ const useHomePageStyles = makeStyles((theme: Theme) => ({
         height: "100vh",
         width: "100vw",
         position: "absolute",
+        filter: "blur(10px)",
     },
     banner: {
         height: "100vh",
