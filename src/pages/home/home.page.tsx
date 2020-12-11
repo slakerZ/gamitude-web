@@ -12,12 +12,32 @@ import Typography from "@material-ui/core/Typography";
 
 import useHomePageStyles from "./styles";
 
+const GetStartedButton = () => {
+    const classes = useHomePageStyles();
+
+    return (
+        <Button
+            component={Link}
+            to="/signInSignUp"
+            variant="outlined"
+            color="secondary"
+            size="large"
+            className={classes.button}
+        >
+            {"Get started!"}
+        </Button>
+    );
+};
+
 const HomePage = (): ReactElement => {
     const classes = useHomePageStyles();
 
     return (
         <ParallaxProvider>
-            <ScrollableContainer animationTime={2000}>
+            <div className={classes.fab}>
+                <GetStartedButton />
+            </div>
+            <ScrollableContainer animationTime={1000}>
                 <Parallax className={classes.banner}>
                     <img
                         className={classes.image}
@@ -35,16 +55,7 @@ const HomePage = (): ReactElement => {
                             >
                                 {"Manage your Energy not your Time"}
                             </Typography>
-                            <Button
-                                component={Link}
-                                to="/signInSignUp"
-                                variant="outlined"
-                                color="secondary"
-                                size="large"
-                                className={classes.button}
-                            >
-                                {"Get started!"}
-                            </Button>
+                            <GetStartedButton />
                         </div>
                     </div>
                 </Parallax>

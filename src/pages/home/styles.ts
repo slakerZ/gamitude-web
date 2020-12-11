@@ -2,9 +2,15 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 
 const useHomePageStyles = makeStyles((theme: Theme) => ({
     root: {},
+    fab: {
+        position: "fixed",
+        top: theme.spacing(2),
+        right: theme.spacing(2),
+    },
     banner: {
         height: "100vh",
         width: "100vw",
+        position: "relative",
     },
     subTitle: {
         textDecoration: "underline",

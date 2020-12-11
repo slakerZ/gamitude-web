@@ -17,6 +17,7 @@ import {
     Redirect,
     useLocation,
     useHistory,
+    Prompt,
 } from "react-router-dom";
 import { useUpdateEffect } from "react-use";
 
@@ -88,6 +89,7 @@ const App: FC<AppType> = ({
 }: AppType): ReactElement => {
     const classes = useAppStyles();
     const location = useLocation();
+    const history = useHistory();
     const isHomePage = location.pathname === "/";
     const isAuth = location.pathname === "/signInSignUp";
 
@@ -162,7 +164,12 @@ const App: FC<AppType> = ({
                                 target={"home"}
                                 placement="bottom-end"
                             >
-                                <Link to="/" className={classes.title}>
+                                <Link
+                                    to={
+                                        isBreak || sessionInProgress ? "#" : "/"
+                                    }
+                                    className={classes.title}
+                                >
                                     <Typography variant="h3" component="h3">
                                         {"Gamitude"}
                                     </Typography>
@@ -170,18 +177,7 @@ const App: FC<AppType> = ({
                             </ToggleAbleTooltip>
                         </div>
 
-                        <div className={classes.right}>
-                            {isHomePage && (
-                                <Button
-                                    component={Link}
-                                    variant="contained"
-                                    color="primary"
-                                    to={token ? "/projects" : "/signInSignUp"}
-                                >
-                                    {"Get Started!"}
-                                </Button>
-                            )}
-                        </div>
+                        <div className={classes.right}></div>
                     </Toolbar>
                 </AppBar>
             )}
@@ -268,6 +264,7 @@ const App: FC<AppType> = ({
                                     component={Link}
                                     to={"/signInSignUp"}
                                     onClick={logout}
+                                    disabled={sessionInProgress || isBreak}
                                 >
                                     <ToggleAbleTooltip
                                         target={"logout"}
