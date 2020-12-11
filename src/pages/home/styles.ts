@@ -6,6 +6,8 @@ const useHomePageStyles = makeStyles((theme: Theme) => ({
         position: "fixed",
         top: theme.spacing(2),
         right: theme.spacing(2),
+        backgroundColor: "rgba(0,0,0, 0.4)",
+        zIndex: 2000,
     },
     banner: {
         height: "100vh",

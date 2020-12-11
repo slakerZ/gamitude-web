@@ -10,19 +10,10 @@ import React, {
     useCallback,
 } from "react";
 import { connect } from "react-redux";
-import {
-    Route,
-    Switch,
-    Link,
-    Redirect,
-    useLocation,
-    useHistory,
-    Prompt,
-} from "react-router-dom";
+import { Route, Switch, Link, Redirect, useLocation } from "react-router-dom";
 import { useUpdateEffect } from "react-use";
 
 import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
@@ -89,7 +80,6 @@ const App: FC<AppType> = ({
 }: AppType): ReactElement => {
     const classes = useAppStyles();
     const location = useLocation();
-    const history = useHistory();
     const isHomePage = location.pathname === "/";
     const isAuth = location.pathname === "/signInSignUp";
 
