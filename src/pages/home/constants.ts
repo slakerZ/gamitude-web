@@ -233,6 +233,16 @@ export const ATTRIBUTIONS_FLATICON = [
 export const ATTRIBUTIONS_PIXABAY = [
     {
         ref:
+            "https://pixabay.com/photos/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=731238",
+        name: "Free-Photos",
+    },
+    {
+        ref:
+            "https://pixabay.com/pl/users/dannymoore1973-1813225/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1114272",
+        name: "dannymoore1973",
+    },
+    {
+        ref:
             "https://pixabay.com/pl/users/jeremiah7-388072/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=18246",
         name: "Johnson Cherian",
     },

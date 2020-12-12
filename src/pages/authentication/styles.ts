@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-import { SIGN_UP_IMAGE_URL, SIGN_IN_IMAGE_URL } from "./constants";
+const SIGN_UP_IMAGE = require("assets/images/register.jpg");
+const SIGN_IN_IMAGE_URL = require("assets/images/login.jpg");
 
 const SignInSignUpStyles = makeStyles((theme) => ({
     root: {
@@ -27,7 +28,7 @@ const SignInSignUpStyles = makeStyles((theme) => ({
         backgroundPosition: "center",
     },
     signUpImage: {
-        backgroundImage: `url(${SIGN_UP_IMAGE_URL})`,
+        backgroundImage: `url(${SIGN_UP_IMAGE})`,
     },
     signInImage: {
         backgroundImage: `url(${SIGN_IN_IMAGE_URL})`,
