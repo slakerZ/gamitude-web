@@ -12,7 +12,7 @@ const useHomePageStyles = makeStyles((theme: Theme) => ({
     pages: {
         position: "fixed",
         right: theme.spacing(2),
-        top: "50%",
+        bottom: theme.spacing(2),
         backgroundColor: "rgba(0,0,0, 0.6)",
         zIndex: 2002,
     },
@@ -68,6 +68,22 @@ const useHomePageStyles = makeStyles((theme: Theme) => ({
         bottom: theme.spacing(1),
         justifyContent: "center",
         width: "100%",
+    },
+    creatorPhoto: {
+        height: "20vh",
+        borderRadius: "100%",
+    },
+    creatorRoot: {
+        backgroundColor: "transparent",
+        boxShadow: "none",
+    },
+    creatorContent: {
+        backgroundColor: "transparent",
+    },
+    creatorLinks: {},
+    creatorActionsArea: {},
+    attrList: {
+        backgroundColor: "transparent",
     },
 }));
 
