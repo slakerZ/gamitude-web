@@ -248,18 +248,8 @@ export const ATTRIBUTIONS_PIXABAY = [
     },
     {
         ref:
-            "https://pixabay.com/pl/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=18246",
-        name: "Pixabay",
-    },
-    {
-        ref:
             "https://pixabay.com/pl/users/blende12-201217/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4328243",
         name: "Gerhard G.",
-    },
-    {
-        ref:
-            "https://pixabay.com/pl/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4328243",
-        name: "Pixabay",
     },
     {
         ref:
@@ -268,18 +258,43 @@ export const ATTRIBUTIONS_PIXABAY = [
     },
     {
         ref:
-            "https://pixabay.com/pl/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=428032",
-        name: "Pixabay",
-    },
-    {
-        ref:
             "https://pixabay.com/pl/users/luciejr-1927666/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1153456",
         name: "Lucie J.",
     },
     {
         ref:
-            "https://pixabay.com/pl/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1153456",
-        name: "Pixabay",
+            "https://pixabay.com/pl/users/myagi-280090/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2759724",
+        name: "Michael Mosimann",
+    },
+];
+
+export const ATTRIBUTIONS_PEXELS = [
+    {
+        ref: "https://www.pexels.com/@pressmaster",
+        name: "Press Master",
+    },
+    {
+        ref: "https://www.pexels.com/@enginakyurt",
+        name: "Engin Akyurt",
+    },
+    {
+        ref: "https://www.pexels.com/@gamol-755060",
+        name: "GamOl",
+    },
+    {
+        ref: "https://www.pexels.com/@arvind-balagopal-497414",
+        name: "Arvind Balagopal",
+    },
+    {
+        ref: "https://www.pexels.com/@freecreativestuff",
+        name: "Free Creative Stuff",
+    },
+];
+
+export const ATTRIBUTIONS_MIXKIT = [
+    {
+        ref: "https://mixkit.co/@marcolopez/",
+        name: "Marco Lopez",
     },
 ];
 

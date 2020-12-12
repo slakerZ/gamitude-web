@@ -1,4 +1,5 @@
-import React, { useReducer, useState } from "react";
+import React, { Fragment, useReducer, useState } from "react";
+import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { useAsyncFn, useEffectOnce } from "react-use";
 
@@ -107,219 +108,246 @@ const ThemesPage = ({ token }: ThemesPagePropTypes) => {
     });
 
     return (
-        <Grid container className={classes.root} aria-label="Shop with themes">
+        <Fragment>
+            <Helmet>
+                <title>{"Gamitude | Themes"}</title>
+            </Helmet>
             <Grid
-                item
-                xs={3}
-                className={classes.shopFilters}
-                aria-label="Items filterer"
+                container
+                className={classes.root}
+                aria-label="Shop with themes"
             >
-                <div className={classes.shopFiltersBody}>
-                    <FormControl component="fieldset">
-                        <FormLabel component="legend">
-                            {"Selected Category"}
-                        </FormLabel>
-                        <RadioGroup
-                            aria-label="items-category"
-                            name="items-category"
-                            value={itemsCategory}
-                            onChange={handleCategoryChange}
-                        >
-                            <FormControlLabel
-                                value="ranks"
-                                control={<Radio />}
-                                label="Ranks"
-                            />
-                            <FormControlLabel
-                                value="timer_themes"
-                                control={<Radio />}
-                                label="Timer Themes"
-                            />
-                        </RadioGroup>
-                    </FormControl>
-                    <div aria-label="Tier filter">
-                        <Typography variant="h4" component="h4">
-                            {"Tiers"}
-                        </Typography>
-                        <div aria-label="Tiers">
-                            {TiersMapper(filters).map(
-                                ({ checked, name, value, label }, index) => {
-                                    return (
-                                        <FormControlLabel
-                                            key={index}
-                                            control={
-                                                <Checkbox
-                                                    checked={checked}
-                                                    onChange={
-                                                        handleChangeCheckedTiers
-                                                    }
-                                                    name={name}
-                                                    color="primary"
-                                                    value={value}
-                                                />
-                                            }
-                                            label={label}
-                                        />
-                                    );
-                                },
-                            )}
+                <Grid
+                    item
+                    xs={3}
+                    className={classes.shopFilters}
+                    aria-label="Items filterer"
+                >
+                    <div className={classes.shopFiltersBody}>
+                        <FormControl component="fieldset">
+                            <FormLabel component="legend">
+                                {"Selected Category"}
+                            </FormLabel>
+                            <RadioGroup
+                                aria-label="items-category"
+                                name="items-category"
+                                value={itemsCategory}
+                                onChange={handleCategoryChange}
+                            >
+                                <FormControlLabel
+                                    value="ranks"
+                                    control={<Radio />}
+                                    label="Ranks"
+                                />
+                                <FormControlLabel
+                                    value="timer_themes"
+                                    control={<Radio />}
+                                    label="Timer Themes"
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                        <div aria-label="Tier filter">
+                            <Typography variant="h4" component="h4">
+                                {"Tiers"}
+                            </Typography>
+                            <div aria-label="Tiers">
+                                {TiersMapper(filters).map(
+                                    (
+                                        { checked, name, value, label },
+                                        index,
+                                    ) => {
+                                        return (
+                                            <FormControlLabel
+                                                key={index}
+                                                control={
+                                                    <Checkbox
+                                                        checked={checked}
+                                                        onChange={
+                                                            handleChangeCheckedTiers
+                                                        }
+                                                        name={name}
+                                                        color="primary"
+                                                        value={value}
+                                                    />
+                                                }
+                                                label={label}
+                                            />
+                                        );
+                                    },
+                                )}
+                            </div>
+                        </div>
+                        <div aria-label="Price filter">
+                            <Typography variant="h4" component="h4">
+                                {"Price"}
+                            </Typography>
+                            <div aria-label="Prices">
+                                {PricesMapper(filters).map(
+                                    (
+                                        { checked, name, value, label },
+                                        index,
+                                    ) => {
+                                        return (
+                                            <FormControlLabel
+                                                key={index}
+                                                control={
+                                                    <Checkbox
+                                                        checked={checked}
+                                                        onChange={
+                                                            handleChangeCheckedTiers
+                                                        }
+                                                        name={name}
+                                                        color="primary"
+                                                        value={value}
+                                                    />
+                                                }
+                                                label={label}
+                                            />
+                                        );
+                                    },
+                                )}
+                            </div>
                         </div>
                     </div>
-                    <div aria-label="Price filter">
-                        <Typography variant="h4" component="h4">
-                            {"Price"}
-                        </Typography>
-                        <div aria-label="Prices">
-                            {PricesMapper(filters).map(
-                                ({ checked, name, value, label }, index) => {
+                </Grid>
+                <Grid item xs={9} className={classes.shopItems}>
+                    <Grid container spacing={2}>
+                        {getRanksState.loading ? (
+                            <div className={classes.center}>
+                                <CircularProgress
+                                    className={classes.progress}
+                                />
+                            </div>
+                        ) : (
+                            shopItems.map(
+                                (
+                                    {
+                                        imageUrl,
+                                        name,
+                                        tier,
+                                        priceCreativity,
+                                        priceEuro,
+                                        priceStrength,
+                                        priceFluency,
+                                        priceIntelligence,
+                                        id,
+                                    }: FullRankType,
+                                    index: number,
+                                ) => {
                                     return (
-                                        <FormControlLabel
-                                            key={index}
-                                            control={
-                                                <Checkbox
-                                                    checked={checked}
-                                                    onChange={
-                                                        handleChangeCheckedTiers
-                                                    }
-                                                    name={name}
-                                                    color="primary"
-                                                    value={value}
-                                                />
-                                            }
-                                            label={label}
-                                        />
+                                        <Grid key={index} item xs={3}>
+                                            <Card className={classes.card}>
+                                                <CardActionArea>
+                                                    <CardMedia
+                                                        className={
+                                                            classes.media
+                                                        }
+                                                        image={imageUrl}
+                                                        title={name}
+                                                    />
+                                                    <CardContent>
+                                                        <div
+                                                            className={
+                                                                classes.flexRow
+                                                            }
+                                                        >
+                                                            <Typography
+                                                                variant="h4"
+                                                                component="h4"
+                                                            >
+                                                                {name}
+                                                            </Typography>
+                                                            <CustomIcon
+                                                                variant={tier.toLowerCase()}
+                                                                size="xsmall"
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            className={
+                                                                classes.flexColumn
+                                                            }
+                                                        >
+                                                            <CustomIconWithTypography
+                                                                iconVariant={
+                                                                    "strength"
+                                                                }
+                                                                variant={"h4"}
+                                                                iconSize={
+                                                                    "xsmall"
+                                                                }
+                                                            >
+                                                                {priceStrength.toString()}
+                                                            </CustomIconWithTypography>
+                                                            <CustomIconWithTypography
+                                                                iconVariant={
+                                                                    "creativity"
+                                                                }
+                                                                variant={"h4"}
+                                                                iconSize={
+                                                                    "xsmall"
+                                                                }
+                                                            >
+                                                                {priceCreativity.toString()}
+                                                            </CustomIconWithTypography>
+                                                            <CustomIconWithTypography
+                                                                iconVariant={
+                                                                    "intelligence"
+                                                                }
+                                                                variant={"h4"}
+                                                                iconSize={
+                                                                    "xsmall"
+                                                                }
+                                                            >
+                                                                {priceIntelligence.toString()}
+                                                            </CustomIconWithTypography>
+                                                            <CustomIconWithTypography
+                                                                iconVariant={
+                                                                    "fluency"
+                                                                }
+                                                                variant={"h4"}
+                                                                iconSize={
+                                                                    "xsmall"
+                                                                }
+                                                            >
+                                                                {priceFluency.toString()}
+                                                            </CustomIconWithTypography>
+                                                            <CustomIconWithTypography
+                                                                iconVariant={
+                                                                    "money"
+                                                                }
+                                                                variant={"h4"}
+                                                            >
+                                                                {priceEuro.toString()}
+                                                            </CustomIconWithTypography>
+                                                        </div>
+                                                    </CardContent>
+                                                </CardActionArea>
+                                                <CardActions>
+                                                    <Button
+                                                        size="small"
+                                                        onClick={() =>
+                                                            handleBuy(id, name)
+                                                        }
+                                                        aria-label="Buy item"
+                                                        variant="outlined"
+                                                        color="secondary"
+                                                        className={
+                                                            classes.buyButton
+                                                        }
+                                                    >
+                                                        {"Buy"}
+                                                    </Button>
+                                                </CardActions>
+                                            </Card>
+                                        </Grid>
                                     );
                                 },
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </Grid>
-            <Grid item xs={9} className={classes.shopItems}>
-                <Grid container spacing={2}>
-                    {getRanksState.loading ? (
-                        <div className={classes.center}>
-                            <CircularProgress className={classes.progress} />
-                        </div>
-                    ) : (
-                        shopItems.map(
-                            (
-                                {
-                                    imageUrl,
-                                    name,
-                                    tier,
-                                    priceCreativity,
-                                    priceEuro,
-                                    priceStrength,
-                                    priceFluency,
-                                    priceIntelligence,
-                                    id,
-                                }: FullRankType,
-                                index: number,
-                            ) => {
-                                return (
-                                    <Grid key={index} item xs={3}>
-                                        <Card className={classes.card}>
-                                            <CardActionArea>
-                                                <CardMedia
-                                                    className={classes.media}
-                                                    image={imageUrl}
-                                                    title={name}
-                                                />
-                                                <CardContent>
-                                                    <div
-                                                        className={
-                                                            classes.flexRow
-                                                        }
-                                                    >
-                                                        <Typography
-                                                            variant="h4"
-                                                            component="h4"
-                                                        >
-                                                            {name}
-                                                        </Typography>
-                                                        <CustomIcon
-                                                            variant={tier.toLowerCase()}
-                                                            size="xsmall"
-                                                        />
-                                                    </div>
-                                                    <div
-                                                        className={
-                                                            classes.flexColumn
-                                                        }
-                                                    >
-                                                        <CustomIconWithTypography
-                                                            iconVariant={
-                                                                "strength"
-                                                            }
-                                                            variant={"h4"}
-                                                            iconSize={"xsmall"}
-                                                        >
-                                                            {priceStrength.toString()}
-                                                        </CustomIconWithTypography>
-                                                        <CustomIconWithTypography
-                                                            iconVariant={
-                                                                "creativity"
-                                                            }
-                                                            variant={"h4"}
-                                                            iconSize={"xsmall"}
-                                                        >
-                                                            {priceCreativity.toString()}
-                                                        </CustomIconWithTypography>
-                                                        <CustomIconWithTypography
-                                                            iconVariant={
-                                                                "intelligence"
-                                                            }
-                                                            variant={"h4"}
-                                                            iconSize={"xsmall"}
-                                                        >
-                                                            {priceIntelligence.toString()}
-                                                        </CustomIconWithTypography>
-                                                        <CustomIconWithTypography
-                                                            iconVariant={
-                                                                "fluency"
-                                                            }
-                                                            variant={"h4"}
-                                                            iconSize={"xsmall"}
-                                                        >
-                                                            {priceFluency.toString()}
-                                                        </CustomIconWithTypography>
-                                                        <CustomIconWithTypography
-                                                            iconVariant={
-                                                                "money"
-                                                            }
-                                                            variant={"h4"}
-                                                        >
-                                                            {priceEuro.toString()}
-                                                        </CustomIconWithTypography>
-                                                    </div>
-                                                </CardContent>
-                                            </CardActionArea>
-                                            <CardActions>
-                                                <Button
-                                                    size="small"
-                                                    onClick={() =>
-                                                        handleBuy(id, name)
-                                                    }
-                                                    aria-label="Buy item"
-                                                    variant="outlined"
-                                                    color="secondary"
-                                                    className={
-                                                        classes.buyButton
-                                                    }
-                                                >
-                                                    {"Buy"}
-                                                </Button>
-                                            </CardActions>
-                                        </Card>
-                                    </Grid>
-                                );
-                            },
-                        )
-                    )}
+                            )
+                        )}
+                    </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+        </Fragment>
     );
 };
 

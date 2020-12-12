@@ -1,4 +1,5 @@
 import React, { Fragment, ReactElement, useState } from "react";
+import { Helmet } from "react-helmet";
 import ReactPageScroller from "react-page-scroller";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -34,6 +35,8 @@ import {
     CREATORS,
     ATTRIBUTIONS_PIXABAY,
     ATTRIBUTIONS_FLATICON,
+    ATTRIBUTIONS_PEXELS,
+    ATTRIBUTIONS_MIXKIT,
 } from "./constants";
 import useHomePageStyles from "./styles";
 import {
@@ -44,7 +47,7 @@ import {
 } from "./types";
 
 const overview = require("assets/videos/overview.mp4");
-const start = require("assets/videos/gamitude.mp4");
+const start = require("assets/videos/start.mp4");
 const energies = require("assets/videos/energies.mp4");
 const stats = require("assets/videos/stats.mp4");
 const bulletJournal = require("assets/videos/bulletJournal.mp4");
@@ -204,6 +207,9 @@ const HomePage = ({ token }: HomePagePropTypes): ReactElement => {
 
     return (
         <Fragment>
+            <Helmet>
+                <title>{"Gamitude - Manage your Energy not your Time"}</title>
+            </Helmet>
             <div className={classes.fab}>
                 <GetStartedButton token={token} />
             </div>
@@ -299,7 +305,7 @@ const HomePage = ({ token }: HomePagePropTypes): ReactElement => {
                                 }
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={3}>
                             <a
                                 href="https://pixabay.com/"
                                 target="_blank"
@@ -311,7 +317,7 @@ const HomePage = ({ token }: HomePagePropTypes): ReactElement => {
                             </a>
                             <AttributionsList items={ATTRIBUTIONS_PIXABAY} />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={3}>
                             <a
                                 href="https://www.flaticon.com/"
                                 target="_blank"
@@ -323,6 +329,32 @@ const HomePage = ({ token }: HomePagePropTypes): ReactElement => {
                             </a>
 
                             <AttributionsList items={ATTRIBUTIONS_FLATICON} />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <a
+                                href="https://www.pexels.com/"
+                                target="_blank"
+                                rel={"noopener noreferrer"}
+                            >
+                                <Typography variant="h3" component="h3">
+                                    {"Pexels"}
+                                </Typography>
+                            </a>
+
+                            <AttributionsList items={ATTRIBUTIONS_PEXELS} />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <a
+                                href="https://mixkit.co/"
+                                target="_blank"
+                                rel={"noopener noreferrer"}
+                            >
+                                <Typography variant="h3" component="h3">
+                                    {"Mixkit"}
+                                </Typography>
+                            </a>
+
+                            <AttributionsList items={ATTRIBUTIONS_MIXKIT} />
                         </Grid>
                     </Grid>
                 </Slide>
