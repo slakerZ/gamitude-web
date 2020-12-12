@@ -1,5 +1,6 @@
 import React, { Fragment, ReactElement, useState } from "react";
 import ReactPageScroller from "react-page-scroller";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
@@ -9,8 +10,12 @@ import StepButton from "@material-ui/core/StepButton";
 import Stepper from "@material-ui/core/Stepper";
 import Typography from "@material-ui/core/Typography";
 
+import { ReduxStateType } from "redux/root.reducer";
+import { selectToken } from "redux/user/user.selectors";
+
 import { OverviewText_1, OverviewText_2, MenuItems } from "./constants";
 import useHomePageStyles from "./styles";
+import { HomePagePropTypes } from "./types";
 
 const overview = require("assets/videos/overview.mp4");
 const gamitudeEnergy = require("assets/videos/gamitude.mp4");
@@ -21,13 +26,13 @@ const bulletJournal = require("assets/videos/bulletJournal.mp4");
 const creators = require("assets/videos/creators.mp4");
 const credits = require("assets/videos/credits.mp4");
 
-const GetStartedButton = () => {
+const GetStartedButton = ({ token }: HomePagePropTypes) => {
     const classes = useHomePageStyles();
 
     return (
         <Button
             component={Link}
-            to="/signInSignUp"
+            to={token ? "/projects" : "/signInSignUp"}
             variant="outlined"
             color="secondary"
             size="large"
@@ -38,7 +43,7 @@ const GetStartedButton = () => {
     );
 };
 
-const HomePage = (): ReactElement => {
+const HomePage = ({ token }: HomePagePropTypes): ReactElement => {
     const classes = useHomePageStyles();
 
     const [page, setPage] = useState(0);
@@ -50,7 +55,7 @@ const HomePage = (): ReactElement => {
     return (
         <Fragment>
             <div className={classes.fab}>
-                <GetStartedButton />
+                <GetStartedButton token={token} />
             </div>
             <Stepper
                 nonLinear
@@ -95,7 +100,7 @@ const HomePage = (): ReactElement => {
                             >
                                 {"Manage your Energy not your Time"}
                             </Typography>
-                            <GetStartedButton />
+                            <GetStartedButton token={token} />
                         </div>
                     </div>
                 </div>
@@ -144,7 +149,7 @@ const HomePage = (): ReactElement => {
                                     })}
                                 </Grid>
                             </Grid>
-                            <GetStartedButton />
+                            <GetStartedButton token={token} />
                         </div>
                     </div>
                 </div>
@@ -193,7 +198,7 @@ const HomePage = (): ReactElement => {
                                     })}
                                 </Grid>
                             </Grid>
-                            <GetStartedButton />
+                            <GetStartedButton token={token} />
                         </div>
                     </div>
                 </div>
@@ -242,7 +247,7 @@ const HomePage = (): ReactElement => {
                                     })}
                                 </Grid>
                             </Grid>
-                            <GetStartedButton />
+                            <GetStartedButton token={token} />
                         </div>
                     </div>
                 </div>
@@ -291,7 +296,7 @@ const HomePage = (): ReactElement => {
                                     })}
                                 </Grid>
                             </Grid>
-                            <GetStartedButton />
+                            <GetStartedButton token={token} />
                         </div>
                     </div>
                 </div>
@@ -340,7 +345,7 @@ const HomePage = (): ReactElement => {
                                     })}
                                 </Grid>
                             </Grid>
-                            <GetStartedButton />
+                            <GetStartedButton token={token} />
                         </div>
                     </div>
                 </div>
@@ -389,7 +394,7 @@ const HomePage = (): ReactElement => {
                                     })}
                                 </Grid>
                             </Grid>
-                            <GetStartedButton />
+                            <GetStartedButton token={token} />
                         </div>
                     </div>
                 </div>
@@ -438,7 +443,7 @@ const HomePage = (): ReactElement => {
                                     })}
                                 </Grid>
                             </Grid>
-                            <GetStartedButton />
+                            <GetStartedButton token={token} />
                         </div>
                     </div>
                 </div>
@@ -447,4 +452,8 @@ const HomePage = (): ReactElement => {
     );
 };
 
-export default HomePage;
+const mapStateToProps = (state: ReduxStateType) => ({
+    token: selectToken(state),
+});
+
+export default connect(mapStateToProps)(HomePage);
