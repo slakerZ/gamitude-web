@@ -8,14 +8,29 @@
             "type": "image/x-icon"
         },
         {
-            "src": "logo150.png",
-            "type": "image/png",
-            "sizes": "150x150"
+            "src": "favicon-16x16.png",
+            "sizes": "16x16",
+            "type": "image/x-icon"
         },
         {
-            "src": "logo310.png",
+            "src": "favicon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "logo80.png",
             "type": "image/png",
-            "sizes": "310x310"
+            "sizes": "80x80"
+        },
+        {
+            "src": "logo192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "logo512.png",
+            "type": "image/png",
+            "sizes": "512x512"
         }
     ],
     "start_url": ".",
