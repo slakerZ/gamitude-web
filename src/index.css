@@ -36,3 +36,6 @@ code {
 video {
     object-fit: cover;
 }
+a {
+    text-decoration: none;
+}
