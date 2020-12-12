@@ -13,7 +13,7 @@ const useLoadingScreenStyles = makeStyles((theme: Theme) => {
             top: 0,
             left: 0,
             zIndex: 2,
-            position: "relative",
+            position: "fixed",
         },
         progress: {
             color: theme.palette.common.white,
