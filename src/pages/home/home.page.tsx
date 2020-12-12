@@ -300,15 +300,27 @@ const HomePage = ({ token }: HomePagePropTypes): ReactElement => {
                             </Typography>
                         </Grid>
                         <Grid item xs={6}>
-                            <Typography variant="h3" component="h3">
-                                {"Pixabay"}
-                            </Typography>
+                            <a
+                                href="https://pixabay.com/"
+                                target="_blank"
+                                rel={"noopener noreferrer"}
+                            >
+                                <Typography variant="h3" component="h3">
+                                    {"Pixabay"}
+                                </Typography>
+                            </a>
                             <AttributionsList items={ATTRIBUTIONS_PIXABAY} />
                         </Grid>
                         <Grid item xs={6}>
-                            <Typography variant="h3" component="h3">
-                                {"Flaticon"}
-                            </Typography>
+                            <a
+                                href="https://www.flaticon.com/"
+                                target="_blank"
+                                rel={"noopener noreferrer"}
+                            >
+                                <Typography variant="h3" component="h3">
+                                    {"Flaticon"}
+                                </Typography>
+                            </a>
 
                             <AttributionsList items={ATTRIBUTIONS_FLATICON} />
                         </Grid>
