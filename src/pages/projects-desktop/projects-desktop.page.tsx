@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense, Fragment } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn, useEffectOnce } from "react-use";
 
@@ -33,12 +33,23 @@ import {
 } from "components/atoms/tab-panel/tab-panel.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
-import NewFolderDialog from "components/molecules/custom-dialog/new-folder-dialog.component";
-import NewProjectDialog from "components/molecules/custom-dialog/new-project-dialog.component";
 import ProjectTile from "components/molecules/project-tile/project-tile.component";
 
 import useProjectDesktopStyles from "./styles";
 import { ProjectsPropTypes } from "./types";
+
+const NewFolderDialog = lazy(
+    () =>
+        import(
+            "components/molecules/custom-dialog/new-folder-dialog.component"
+        ),
+);
+const NewProjectDialog = lazy(
+    () =>
+        import(
+            "components/molecules/custom-dialog/new-project-dialog.component"
+        ),
+);
 
 const ProjectsDesktopPage = ({
     projects,
@@ -213,16 +224,18 @@ const ProjectsDesktopPage = ({
                 </ToggleAbleTooltip>
             </div>
 
-            <NewFolderDialog
-                open={isNewFolderDialogOpen}
-                setOpen={setIsNewFolderDialogOpen}
-                getFoldersList={getFoldersList}
-            />
-            <NewProjectDialog
-                open={isNewProjectFormOpen}
-                setOpen={setIsNewProjectFormOpen}
-                getProjectsList={getProjectsList}
-            />
+            <Suspense fallback={<Fragment />}>
+                <NewFolderDialog
+                    open={isNewFolderDialogOpen}
+                    setOpen={setIsNewFolderDialogOpen}
+                    getFoldersList={getFoldersList}
+                />
+                <NewProjectDialog
+                    open={isNewProjectFormOpen}
+                    setOpen={setIsNewProjectFormOpen}
+                    getProjectsList={getProjectsList}
+                />
+            </Suspense>
         </div>
     );
 };

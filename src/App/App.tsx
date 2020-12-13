@@ -25,6 +25,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 import { ReduxStateType } from "redux/root.reducer";
 import { setSessionType } from "redux/session/session.actions";
@@ -47,15 +48,22 @@ import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-to
 
 import CustomSnackbar from "components/molecules/custom-snackbar/custom-snackbar.component";
 
-import Rank from "components/organisms/rank/rank.component";
-import StatsAndEnergies from "components/organisms/stats-and-energies/stats-and-energies.component";
-import Timer from "components/organisms/timer/timer.component";
-import TimerList from "components/organisms/timers-list/timers-list.component";
-
 import { NAV_LINKS } from "./constants";
 import useAppStyles from "./styles";
 import { AppType } from "./types";
 
+const StatsAndEnergies = lazy(
+    () =>
+        import(
+            "components/organisms/stats-and-energies/stats-and-energies.component"
+        ),
+);
+
+const TimerList = lazy(
+    () => import("components/organisms/timers-list/timers-list.component"),
+);
+const Rank = lazy(() => import("components/organisms/rank/rank.component"));
+const Timer = lazy(() => import("components/organisms/timer/timer.component"));
 const HomePage = lazy(() => import("pages/home/home.page"));
 const ProjectsPage = lazy(() => import("pages/projects/projects.page"));
 const BulletJournalPage = lazy(
@@ -316,9 +324,28 @@ const App: FC<AppType> = ({
                 >
                     <div className={classes.controlPanelBody}>
                         <Toolbar />
-                        <Rank />
+                        <Suspense
+                            fallback={
+                                <Skeleton
+                                    className={classes.timerPlaceholder}
+                                    animation="wave"
+                                />
+                            }
+                        >
+                            <Rank />
+                        </Suspense>
                         <Divider />
-                        <StatsAndEnergies />
+                        <Suspense
+                            fallback={
+                                <Skeleton
+                                    className={classes.timerPlaceholder}
+                                    animation="wave"
+                                />
+                            }
+                        >
+                            <StatsAndEnergies />
+                        </Suspense>
+
                         <Divider />
                         <ToggleAbleTooltip target="sessionTypeSwitch">
                             <SessionTypeSwitch
@@ -327,8 +354,26 @@ const App: FC<AppType> = ({
                                 disabled={true}
                             />
                         </ToggleAbleTooltip>
-                        <Timer />
-                        <TimerList />
+                        <Suspense
+                            fallback={
+                                <Skeleton
+                                    className={classes.timerPlaceholder}
+                                    animation="wave"
+                                />
+                            }
+                        >
+                            <Timer />
+                        </Suspense>
+                        <Suspense
+                            fallback={
+                                <Skeleton
+                                    className={classes.timerPlaceholder}
+                                    animation="wave"
+                                />
+                            }
+                        >
+                            <TimerList />
+                        </Suspense>
                     </div>
                 </Drawer>
             ) : null}

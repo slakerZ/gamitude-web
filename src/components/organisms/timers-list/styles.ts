@@ -14,7 +14,7 @@ const useMethodsStyels = makeStyles((theme: Theme) => ({
         paddingLeft: 0,
     },
     placeholder: {
-        width: 276,
+        width: "100%",
         height: 50,
     },
     container: {
