@@ -40,12 +40,12 @@ import { TimerType } from "api/timers/types";
 
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
+import TimerBadges from "components/molecules/custom-badge/timer-badges.component";
 import GiveUpSessionDialog from "components/molecules/custom-dialog/give-up-session-dialog.component";
 import SkipBreakDialog from "components/molecules/custom-dialog/skip-break-dialog.component";
 
 import { MINUTE_AS_MS, MS_ERROR_MARGIN, INTERVAL_FREQUENCY } from "./constants";
 import useTimerStyles from "./styles";
-import TimerBadges from "./timer-badges.component";
 import { TimerPropTypes } from "./types";
 import { leftPad, milisecondsToMinutes } from "./utils";
 

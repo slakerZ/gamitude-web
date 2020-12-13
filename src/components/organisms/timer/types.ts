@@ -21,26 +21,3 @@ export interface MsToMinutesType {
     minutes: number;
     seconds: number;
 }
-
-export interface OvertimeBadgePropTypes {
-    children: any;
-    selectedTimer: TimerType;
-    selectedProject: FullProjectType;
-    sessionInProgress: boolean;
-    onClick: any;
-    isBreak: boolean;
-}
-
-export interface DisplayBadgePropTypes {
-    children: any;
-    selectedTimer: TimerType;
-}
-
-export interface TimerBadgedPropTypes {
-    children: any;
-    selectedTimer: TimerType;
-    selectedProject: FullProjectType;
-    sessionInProgress: boolean;
-    handleOvertime: any;
-    isBreak: boolean;
-}
