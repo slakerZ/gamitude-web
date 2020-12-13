@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import { useUpdateEffect, useAsyncFn, useEffectOnce } from "react-use";
 
 import Avatar from "@material-ui/core/Avatar";
-import Badge from "@material-ui/core/Badge";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 
@@ -16,6 +14,8 @@ import { getUsersCurrentRank } from "api/rank/rank.api";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
+import RankTierBadge from "components/molecules/custom-badge/rank-tier-badge.component";
 
 import useRankStyles from "./styles";
 
@@ -55,28 +55,9 @@ const Rank = ({
                 </Typography>
             </ToggleAbleTooltip>
             <div className={classes.avatarWrapper}>
-                <Badge
-                    overlap="circle"
-                    anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "right",
-                    }}
-                    badgeContent={
-                        <ToggleAbleTooltip target="rankTier" placement="left">
-                            <div className={classes.badgeWrapper}>
-                                {getCurrentRankState.loading ? (
-                                    <CircularProgress />
-                                ) : getCurrentRankState.error ? (
-                                    <CustomIcon size="small" variant="error" />
-                                ) : (
-                                    <CustomIcon
-                                        variant={rank.tier.toLowerCase()}
-                                        size="small"
-                                    />
-                                )}
-                            </div>
-                        </ToggleAbleTooltip>
-                    }
+                <RankTierBadge
+                    rank={rank}
+                    getCurrentRankState={getCurrentRankState}
                 >
                     <ToggleAbleTooltip target="rankImage" placement="left">
                         {getCurrentRankState.loading ? (
@@ -98,7 +79,7 @@ const Rank = ({
                             </Avatar>
                         )}
                     </ToggleAbleTooltip>
-                </Badge>
+                </RankTierBadge>
             </div>
         </div>
     );

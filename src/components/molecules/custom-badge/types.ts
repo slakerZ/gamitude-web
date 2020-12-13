@@ -21,3 +21,15 @@ export interface TimerBadgedPropTypes {
     children: ReactNode;
     handleOvertime: () => void;
 }
+
+interface RankType {
+    name: string;
+    tier: string;
+    imageUrl: string;
+}
+
+export interface RankTierBadgePropTypes {
+    children: ReactNode;
+    rank: RankType;
+    getCurrentRankState: any;
+}
