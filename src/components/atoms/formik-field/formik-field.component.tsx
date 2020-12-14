@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import PersonIcon from "@material-ui/icons/Person";
+import TimerIcon from "@material-ui/icons/Timer";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 
@@ -37,6 +38,8 @@ const FormikField = ({
                 return <LockIcon />;
             case "email":
                 return <EmailIcon />;
+            case "number":
+                return <TimerIcon />;
             default:
                 return <PersonIcon />;
         }
@@ -52,7 +55,7 @@ const FormikField = ({
 
     return (
         <div className={classes.root}>
-            {type === "text" || type === "email" ? (
+            {type === "text" || type === "email" || type === "number" ? (
                 <Field
                     required={required}
                     autoComplete={`new-${label}`}
