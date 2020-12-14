@@ -1,4 +1,4 @@
-import React, { Fragment, useReducer, useState } from "react";
+import React, { Fragment, useEffect, useReducer, useState } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { useAsyncFn, useEffectOnce } from "react-use";
@@ -20,10 +20,12 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import Typography from "@material-ui/core/Typography";
 
 import { ReduxStateType } from "redux/root.reducer";
+import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectToken } from "redux/user/user.selectors";
 
 import { getRanks as getRanksApi } from "api/rank/rank.api";
 import { FullRankType } from "api/rank/types";
+import { getUserMoney } from "api/users/users.api";
 
 import CustomIconWithTypography from "components/atoms/custom-icon-with-typography/custom-icon-with-typography.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
@@ -32,9 +34,23 @@ import { TiersMapper, PricesMapper } from "./constants";
 import useThemesPageStyles from "./styles";
 import { ThemesPagePropTypes, FilterType, ActionType } from "./types";
 
-const ThemesPage = ({ token }: ThemesPagePropTypes) => {
+const ThemesPage = ({ token, setSnackbarState }: ThemesPagePropTypes) => {
     const classes = useThemesPageStyles();
 
+    // useAsyncFn
+    const [getRanksState, getRanks] = useAsyncFn(async () => {
+        const response = await getRanksApi(token, 1, 8, "name");
+        setShopItems(response.data);
+        return response;
+    });
+
+    const [getMoneyState, getMoney] = useAsyncFn(async () => {
+        const response = await getUserMoney(token);
+        setMoney(response.data);
+        return response.data;
+    });
+
+    // useReducer
     const checkedTiersReducer = (state: FilterType, action: ActionType) => {
         switch (action.type) {
             case "s":
@@ -66,8 +82,6 @@ const ThemesPage = ({ token }: ThemesPagePropTypes) => {
         }
     };
 
-    const [itemsCategory, setItemsCategory] = useState("ranks");
-    const [shopItems, setShopItems] = useState<any>([]);
     const [filters, dispatchFilter] = useReducer(checkedTiersReducer, {
         s: true,
         a: true,
@@ -83,12 +97,12 @@ const ThemesPage = ({ token }: ThemesPagePropTypes) => {
         cash: true,
     });
 
-    const [getRanksState, getRanks] = useAsyncFn(async () => {
-        const response = await getRanksApi(token, 1, 8, "name");
-        setShopItems(response.data);
-        return response;
-    });
+    // useState
+    const [money, setMoney] = useState(0);
+    const [itemsCategory, setItemsCategory] = useState("ranks");
+    const [shopItems, setShopItems] = useState<any>([]);
 
+    // handlers
     const handleCategoryChange = (e: any, newValue: string) => {
         setItemsCategory(newValue);
     };
@@ -103,9 +117,33 @@ const ThemesPage = ({ token }: ThemesPagePropTypes) => {
         return { id, name };
     };
 
+    // useEffect
     useEffectOnce(() => {
         getRanks();
+        getMoney();
     });
+
+    useEffect(() => {
+        if (getMoneyState.error) {
+            setSnackbarState({
+                autoHideDuration: 3000,
+                message: "Failed to get your account balance",
+                open: true,
+                severity: "error",
+            });
+        }
+    }, [getMoneyState, setSnackbarState]);
+
+    useEffect(() => {
+        if (getRanksState.error) {
+            setSnackbarState({
+                autoHideDuration: 3000,
+                message: "Failed to get ranks",
+                open: true,
+                severity: "error",
+            });
+        }
+    }, [getRanksState, setSnackbarState]);
 
     return (
         <Fragment>
@@ -124,6 +162,15 @@ const ThemesPage = ({ token }: ThemesPagePropTypes) => {
                     aria-label="Items filterer"
                 >
                     <div className={classes.shopFiltersBody}>
+                        <div>
+                            <CustomIconWithTypography
+                                iconVariant={"money"}
+                                variant={"h4"}
+                                iconSize={"small"}
+                            >
+                                {money.toString()}
+                            </CustomIconWithTypography>
+                        </div>
                         <FormControl component="fieldset">
                             <FormLabel component="legend">
                                 {"Selected Category"}
@@ -355,4 +402,8 @@ const mapStateToProps = (state: ReduxStateType) => ({
     token: selectToken(state),
 });
 
-export default connect(mapStateToProps)(ThemesPage);
+const mapDispatchToProps = (dispatch: any) => ({
+    setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThemesPage);

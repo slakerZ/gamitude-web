@@ -97,3 +97,16 @@ export const changeUserPassword = async (
     const result = await response.data;
     return result;
 };
+
+export const getUserMoney = async (token: string): Promise<any> => {
+    const url = `${ENDPOINT}/money`;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    const response = await axios.get(url, config);
+    const result = await response.data;
+    return result;
+};

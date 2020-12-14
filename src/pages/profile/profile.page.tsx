@@ -67,7 +67,7 @@ const ProfilePage = ({
     const [changePasswordState, changePassword] = useAsyncFn(
         async (values, { resetForm }) => {
             const requestBody = { id: userId, ...values };
-            const response = await changeUserPassword(token, requestBody);
+            const result = await changeUserPassword(token, requestBody);
             setSnackbarState({
                 autoHideDuration: 3000,
                 message: "Successfully changed password",
@@ -75,25 +75,25 @@ const ProfilePage = ({
                 severity: "success",
             });
             resetForm();
-            return response.data;
+            return result;
         },
         [token, userId],
     );
 
     const [getUserState, getUser] = useAsyncFn(async () => {
-        const response = await getUserById(userId, token);
+        const result = await getUserById(userId, token);
         const initVals = {
-            email: response.data.email,
-            userName: response.data.userName,
+            email: result.data.email,
+            userName: result.data.userName,
         };
         setEditDetailsInitialValues(initVals);
-        return response.data;
+        return result;
     }, [userId, token]);
 
     const [editUserDetailsState, editUserDetails] = useAsyncFn(
         async (values, { resetForm }) => {
             const requestBody = { id: userId, ...values };
-            const response = await putUsers(token, requestBody);
+            const result = await putUsers(token, requestBody);
             setSnackbarState({
                 autoHideDuration: 3000,
                 message: "Successfully changed user details",
@@ -101,17 +101,17 @@ const ProfilePage = ({
                 severity: "success",
             });
             resetForm();
-            return response.data;
+            return result;
         },
         [userId],
     );
 
     const [deleteAccountState, deleteAccount] = useAsyncFn(async () => {
-        const response = await deleteUserById(userId, token);
+        const result = await deleteUserById(userId, token);
         setIsDeleteAccountDialogOpen(false);
         history.push("/");
         setUser({ token: null });
-        return response;
+        return result;
     }, [userId, token]);
 
     // useState
@@ -145,7 +145,7 @@ const ProfilePage = ({
     }, [changePasswordState, setSnackbarState]);
 
     useEffect(() => {
-        if (changePasswordState.error) {
+        if (deleteAccountState.error) {
             setSnackbarState({
                 autoHideDuration: 3000,
                 message: "Failed to delete account",
@@ -156,7 +156,7 @@ const ProfilePage = ({
     }, [deleteAccountState, setSnackbarState]);
 
     useEffect(() => {
-        if (changePasswordState.error) {
+        if (getUserState.error) {
             setSnackbarState({
                 autoHideDuration: 3000,
                 message: "Failed to get your details",
