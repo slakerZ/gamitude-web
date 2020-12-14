@@ -15,4 +15,5 @@ export interface FormikFormPropType {
     fields: FieldType[];
     state: any;
     title?: string;
+    enableReinitialize?: boolean;
 }

@@ -228,6 +228,10 @@ export const ATTRIBUTIONS_FLATICON = [
         ref: "https://www.flaticon.com/authors/smashicons",
         name: "Smashicons",
     },
+    {
+        ref: "https://www.flaticon.com/authors/itim2101",
+        name: "itim2101",
+    },
 ];
 
 export const ATTRIBUTIONS_PIXABAY = [
