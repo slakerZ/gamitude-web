@@ -1,9 +1,17 @@
-import React from "react";
+import React, { ReactElement, Fragment } from "react";
+import { Helmet } from "react-helmet";
 
-import LoadingScreen from "components/atoms/loading-screen/loading-screen.component";
+import ComingSoon from "components/atoms/coming-soon/coming-soon.component";
 
-const BulletJournalPage = () => {
-    return <LoadingScreen />;
+const BulletJournalPage = (): ReactElement => {
+    return (
+        <Fragment>
+            <ComingSoon />
+            <Helmet>
+                <title>{"Gamitude | Bullet Journal"}</title>
+            </Helmet>
+        </Fragment>
+    );
 };
 
 export default BulletJournalPage;

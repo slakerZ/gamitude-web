@@ -107,6 +107,14 @@ const useAppStyles = makeStyles((theme: Theme) => ({
         flexDirection: "column",
         justifyContent: "space-between",
     },
+    timerPlaceholder: {
+        height: 240,
+        width: "100%",
+    },
+    timerListPlaceholder: {
+        height: 80,
+        width: "100%",
+    },
 }));
 
 export default useAppStyles;

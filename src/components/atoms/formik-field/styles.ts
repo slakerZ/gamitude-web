@@ -8,6 +8,9 @@ const useFormikFieldStyles = makeStyles((theme) => ({
         position: "fixed",
         color: "red",
     },
+    endAdornment: {
+        cursor: "pointer",
+    },
 }));
 
 export default useFormikFieldStyles;

@@ -1,6 +1,7 @@
 import clsx from "clsx";
 
 import React, { useState, MouseEvent, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { useAsyncFn } from "react-use";
@@ -100,6 +101,9 @@ const AuthenticationPage = ({
 
     return (
         <div className={classes.root}>
+            <Helmet>
+                <title>{"Gamitude | Authentication"}</title>
+            </Helmet>
             <Fade in={isSignUp} timeout={FADE_TIMEOUT}>
                 <div
                     className={clsx(classes.signUp, {

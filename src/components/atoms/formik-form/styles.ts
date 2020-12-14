@@ -8,7 +8,6 @@ const useFormikFormStyles = makeStyles((theme: Theme) => ({
     },
     form: {
         width: "100%", // Fix IE 11 issue.
-        margin: theme.spacing(0, 10),
         display: "flex",
         flexDirection: "column",
     },

@@ -2,6 +2,8 @@ import { ReactComponent as Body } from "assets/icons/energies/body.svg";
 import { ReactComponent as Emotions } from "assets/icons/energies/emotions.svg";
 import { ReactComponent as Mind } from "assets/icons/energies/mind.svg";
 import { ReactComponent as Soul } from "assets/icons/energies/soul.svg";
+import { ReactComponent as Lock } from "assets/icons/lock.svg";
+import { ReactComponent as Logs } from "assets/icons/log.svg";
 import { ReactComponent as GuestIcon } from "assets/icons/navigation/guest.svg";
 import { ReactComponent as BulletJournalIcon } from "assets/icons/navigation/journal.svg";
 import { ReactComponent as Logout } from "assets/icons/navigation/logout.svg";
@@ -118,6 +120,10 @@ const CustomIcon: FC<CustomIconType> = ({
                 return <Countdown className={mappedClasses} />;
             case "github":
                 return <GitHub className={mappedClasses} />;
+            case "logs":
+                return <Logs className={mappedClasses} />;
+            case "lock":
+                return <Lock className={mappedClasses} />;
             default:
                 return <NotFound className={mappedClasses} />;
         }

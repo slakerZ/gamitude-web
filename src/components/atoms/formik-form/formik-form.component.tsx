@@ -19,6 +19,7 @@ const FormikForm: FC<FormikFormPropType> = ({
     onSubmit,
     fields,
     state,
+    enableReinitialize = false,
 }: FormikFormPropType) => {
     const classes = useFormikFormStyles();
 
@@ -27,8 +28,9 @@ const FormikForm: FC<FormikFormPropType> = ({
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={schema}
+            enableReinitialize={enableReinitialize}
         >
-            {({ dirty, isValid }) => {
+            {({ dirty, isValid, submitForm }) => {
                 return (
                     <Form autoComplete="off" className={classes.form}>
                         {title ? (
@@ -58,10 +60,10 @@ const FormikForm: FC<FormikFormPropType> = ({
                         </Grid>
                         <Button
                             disabled={!isValid || !dirty || state.loading}
-                            type="submit"
                             variant="contained"
                             color="secondary"
                             className={classes.submit}
+                            onClick={submitForm}
                         >
                             {state.error ? (
                                 "RETRY"

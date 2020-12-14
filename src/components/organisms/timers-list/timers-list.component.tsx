@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, lazy, Suspense, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useEffectOnce, useAsyncFn } from "react-use";
 
@@ -27,10 +27,13 @@ import { TimerType } from "api/timers/types";
 import { a11yProps } from "components/atoms/tab-panel/tab-panel.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
-import NewTimerDialog from "components/molecules/custom-dialog/new-timer-dialog.component";
-
 import useMethodsStyles from "./styles";
 import { TimersPropType } from "./types";
+
+const NewTimerDialog = lazy(
+    () =>
+        import("components/molecules/custom-dialog/new-timer-dialog.component"),
+);
 
 const Methods = ({
     timers,
@@ -155,11 +158,13 @@ const Methods = ({
                     </div>
                 </ToggleAbleTooltip>
             )}
-            <NewTimerDialog
-                open={isNewTimerDialogOpen}
-                setOpen={setIsNewTimerDialogOpen}
-                getMethodsList={getTimersList}
-            />
+            <Suspense fallback={<Fragment />}>
+                <NewTimerDialog
+                    open={isNewTimerDialogOpen}
+                    setOpen={setIsNewTimerDialogOpen}
+                    getMethodsList={getTimersList}
+                />
+            </Suspense>
         </div>
     );
 };

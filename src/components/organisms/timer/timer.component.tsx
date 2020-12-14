@@ -7,6 +7,8 @@ import React, {
     useEffect,
     useState,
     useCallback,
+    lazy,
+    Suspense,
 } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
@@ -40,14 +42,25 @@ import { TimerType } from "api/timers/types";
 
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
-import GiveUpSessionDialog from "components/molecules/custom-dialog/give-up-session-dialog.component";
-import SkipBreakDialog from "components/molecules/custom-dialog/skip-break-dialog.component";
+import TimerBadges from "components/molecules/custom-badge/timer-badges.component";
 
 import { MINUTE_AS_MS, MS_ERROR_MARGIN, INTERVAL_FREQUENCY } from "./constants";
 import useTimerStyles from "./styles";
-import TimerBadges from "./timer-badges.component";
 import { TimerPropTypes } from "./types";
 import { leftPad, milisecondsToMinutes } from "./utils";
+
+const SkipBreakDialog = lazy(
+    () =>
+        import(
+            "components/molecules/custom-dialog/skip-break-dialog.component"
+        ),
+);
+const GiveUpSessionDialog = lazy(
+    () =>
+        import(
+            "components/molecules/custom-dialog/give-up-session-dialog.component"
+        ),
+);
 
 const endSound = require("assets/sounds/congratulations.mp3");
 const minuteSound = require("assets/sounds/bell.mp3");
@@ -368,16 +381,18 @@ const Timer = ({
                     <title>{"Gamitude | Projects"}</title>
                 )}
             </Helmet>
-            <GiveUpSessionDialog
-                open={isConfirmGiveUpDialogOpen}
-                setOpen={setIsConfirmGiveUpDialogOpen}
-                onSubmit={handleGiveUp}
-            />
-            <SkipBreakDialog
-                open={isSkipBreakDialogOpen}
-                setOpen={setIsSkipBreakDialogOpen}
-                onSubmit={handleSkipBreak}
-            />
+            <Suspense fallback={<Fragment />}>
+                <GiveUpSessionDialog
+                    open={isConfirmGiveUpDialogOpen}
+                    setOpen={setIsConfirmGiveUpDialogOpen}
+                    onSubmit={handleGiveUp}
+                />
+                <SkipBreakDialog
+                    open={isSkipBreakDialogOpen}
+                    setOpen={setIsSkipBreakDialogOpen}
+                    onSubmit={handleSkipBreak}
+                />
+            </Suspense>
             <Typography
                 variant="h6"
                 component="h1"

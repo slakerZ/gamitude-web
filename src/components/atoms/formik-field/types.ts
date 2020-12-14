@@ -4,4 +4,8 @@ export interface FormikFieldPropType {
     name: string;
     type: string;
     id: string;
+    startAdornment?: boolean;
+    endAdornment?: boolean;
+    startIcon?: string;
+    endIcon?: string;
 }

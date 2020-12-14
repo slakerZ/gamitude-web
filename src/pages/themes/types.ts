@@ -1,5 +1,6 @@
 export interface ThemesPagePropTypes {
     token: string;
+    setSnackbarState: any;
 }
 export interface FilterType {
     s: boolean;

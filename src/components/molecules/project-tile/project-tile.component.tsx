@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { ProjectSessionType } from "configs/types";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense, Fragment } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
 
@@ -30,12 +30,18 @@ import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import BoostedDominantBtnGroup from "components/molecules/boosted-dominant-btn-group/boosted-dominant-btn-group.component";
-import DeleteProjectDialog from "components/molecules/custom-dialog/delete-project-dialog.component";
 
 import useProjectStyles from "./styles";
 import { ProjectTilePropTypes } from "./types";
 
-const Project = ({
+const DeleteProjectDialog = lazy(
+    () =>
+        import(
+            "components/molecules/custom-dialog/delete-project-dialog.component"
+        ),
+);
+
+const ProjectTile = ({
     index,
     projects,
     token,
@@ -204,11 +210,13 @@ const Project = ({
                     </Typography>
                 </Button>
 
-                <DeleteProjectDialog
-                    open={isDeleteWarningDialogOpen}
-                    setOpen={setIsDeleteWarningDialogOpen}
-                    onSubmit={handleDeletionConfirm}
-                />
+                <Suspense fallback={<Fragment />}>
+                    <DeleteProjectDialog
+                        open={isDeleteWarningDialogOpen}
+                        setOpen={setIsDeleteWarningDialogOpen}
+                        onSubmit={handleDeletionConfirm}
+                    />
+                </Suspense>
             </AccordionDetails>
         </Accordion>
     );
@@ -227,4 +235,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectTile);

@@ -1,4 +1,7 @@
+import clsx from "clsx";
+
 import React, { ReactElement } from "react";
+import { useLocation } from "react-router";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
@@ -7,9 +10,15 @@ import useLoadingScreenStyles from "./styles";
 
 const LoadingScreen = (): ReactElement => {
     const classes = useLoadingScreenStyles();
+    const location = useLocation();
 
     return (
-        <div className={classes.container}>
+        <div
+            className={clsx(classes.container, {
+                [classes.relative]: location.pathname !== "/",
+                [classes.fixed]: location.pathname === "/",
+            })}
+        >
             <Typography variant="h1" component="h1">
                 Gamitude
             </Typography>
