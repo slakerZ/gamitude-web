@@ -1,16 +1,16 @@
 import { Formik, Form } from "formik";
+
 import React, { FC } from "react";
 
 import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
 import FormikField from "components/atoms/formik-field/formik-field.component";
 
-import { FormikFormPropType } from "./types";
-
 import useFormikFormStyles from "./styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { FormikFormPropType } from "./types";
 
 const FormikForm: FC<FormikFormPropType> = ({
     title,

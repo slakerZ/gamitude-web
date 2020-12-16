@@ -8,6 +8,7 @@ import {
 } from "./types";
 
 const ENDPOINT = `${API_ENDPOINT}/projecttasks`;
+const ENDPOINT_2 = "http://localhost:5000";
 
 export const getAllProjectTasks = async (
     token: string,
@@ -45,7 +46,7 @@ export const getProjectTasksForPage = async (
     journalId: string,
     pageId: string,
 ): Promise<ProjectTaskResponseBodyType> => {
-    const url = `${API_ENDPOINT}/journal/${journalId}/page/${pageId}`;
+    const url = `${ENDPOINT_2}/journal/${journalId}/page/${pageId}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

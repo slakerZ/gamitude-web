@@ -21,6 +21,7 @@ const NewProjectTaskDialog = ({
     getProjectTasksList,
     setSnackbarState,
     journalId,
+    pageId,
 }: NewProjectTaskDialogPropTypes): ReactElement => {
     const classes = useCustomDialogStyles();
 
@@ -51,7 +52,7 @@ const NewProjectTaskDialog = ({
         };
         const result = await postProjectTask(token, requestBody);
         setOpen(false);
-        getProjectTasksList(journalId);
+        getProjectTasksList(journalId, pageId);
         // Reset
         setprojectTaskName("");
         setNote("");

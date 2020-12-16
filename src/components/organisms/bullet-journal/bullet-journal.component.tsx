@@ -197,7 +197,6 @@ const Bullet = ({
         setTasksCurrPageIndex(newValue);
         getCurrPageId();
         getCurrJournalId();
-        console.log(currJournalId, currPageId, tasksCurrPageIndex);
     };
 
     const handleOpenNewPageDialog = () => {

@@ -54,4 +54,5 @@ export interface NewProjectTaskDialogPropTypes {
     getProjectTasksList: any;
     setSnackbarState: any;
     journalId: string;
+    pageId: string;
 }
