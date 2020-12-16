@@ -31,7 +31,10 @@ import { selectToken } from "redux/user/user.selectors";
 
 import { getJournals, postJournal } from "api/bulletJournal/journals.api";
 import { getPages } from "api/bulletPages/pages.api";
-import { getAllProjectTasks } from "api/projectTasks/projectTasks.api";
+import {
+    getAllProjectTasks,
+    getProjectTasksForPage,
+} from "api/projectTasks/projectTasks.api";
 
 import NewJournalDialog from "components/atoms/custom-dialog/new-journal-dialog.component";
 import NewPageDialog from "components/atoms/custom-dialog/new-page-dialog.component";
@@ -121,6 +124,9 @@ const Bullet = ({
     const [currJournalId, setCurrJournalId] = useState(
         "5fd0c3c1887b73b7450fb768",
     );
+
+    const [currPageId, setCurrPageId] = useState("5fd0c3c1887b73b7450fb76c");
+
     const [getPagesListState, getPagesList] = useAsyncFn(async (journalId) => {
         const response = await getPages(token, journalId);
         const result = response.data;
@@ -135,8 +141,12 @@ const Bullet = ({
     });
 
     const [getProjectTasksListState, getProjectTasksList] = useAsyncFn(
-        async () => {
-            const response = await getAllProjectTasks(token);
+        async (journalId, pageId) => {
+            const response = await getProjectTasksForPage(
+                token,
+                journalId,
+                pageId,
+            );
             const result = response.data;
             setProjectTasks(result);
         },
@@ -144,8 +154,10 @@ const Bullet = ({
 
     useEffectOnce(() => {
         getJournalsList();
-        getProjectTasksList();
         getCurrJournalId();
+        getPagesList(currJournalId);
+        getCurrPageId();
+        getProjectTasksList(currJournalId, currPageId);
     });
 
     const getCurrJournalId = () => {
@@ -156,24 +168,36 @@ const Bullet = ({
         });
     };
 
+    const getCurrPageId = () => {
+        pages.map(({ id }, index) => {
+            if (index === tasksCurrPageIndex) {
+                setCurrPageId(id);
+            }
+        });
+    };
+
     useEffect(() => {
         getPagesList(currJournalId);
-    }, [currJournalId]);
+        getProjectTasksList(currJournalId, currPageId);
+    }, [currJournalId, currPageId]);
 
     const handleChangeCurrentJournal = (
         event: React.ChangeEvent<any>,
         newValue: number,
     ) => {
         setPagesCurrJournalIndex(newValue);
-        getCurrJournalId();
         setTasksCurrPageIndex(0);
+        getCurrJournalId();
     };
 
     const handleChangeCurrentPage = (
         event: React.ChangeEvent<any>,
-        newValue: any,
+        newValue: number,
     ) => {
         setTasksCurrPageIndex(newValue);
+        getCurrPageId();
+        getCurrJournalId();
+        console.log(currJournalId, currPageId, tasksCurrPageIndex);
     };
 
     const handleOpenNewPageDialog = () => {
@@ -210,7 +234,7 @@ const Bullet = ({
                         onChange={handleChangeCurrentJournal}
                         className={classes.tabs}
                     >
-                        {journals.map(({ name, icon }, index) => {
+                        {journals.map(({ id, name, icon }, index) => {
                             return (
                                 <Tab
                                     key={index}
@@ -294,7 +318,7 @@ const Bullet = ({
             )}
             <TabPanel
                 value={tasksCurrPageIndex}
-                index={0}
+                index={tasksCurrPageIndex}
                 role={"Tasks"}
                 id={"tasks"}
             >
@@ -362,6 +386,7 @@ const Bullet = ({
                 setOpen={setIsNewProjectTaskDialogOpen}
                 getProjectTasksList={getProjectTasksList}
                 journalId={currJournalId}
+                pageId={currPageId}
             />
         </div>
     );
