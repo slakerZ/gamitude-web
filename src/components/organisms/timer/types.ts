@@ -15,6 +15,7 @@ export interface TimerPropTypes {
     sessionsComplete: number;
     isBreak: boolean;
     toggleIsBreak: any;
+    setIsBreak: any;
 }
 
 export interface MsToMinutesType {

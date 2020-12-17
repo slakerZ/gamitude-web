@@ -23,6 +23,7 @@ import {
     incrementSessionsComplete,
     setSessionType,
     toggleIsBreak,
+    setIsBreak,
 } from "redux/session/session.actions";
 import {
     selectSessionInProgress,
@@ -79,6 +80,7 @@ const Timer = ({
     sessionsComplete,
     isBreak,
     toggleIsBreak,
+    setIsBreak,
 }: TimerPropTypes): ReactElement => {
     const classes = useTimerStyles();
 
@@ -195,6 +197,7 @@ const Timer = ({
     };
 
     const handleSkipBreak = () => {
+        setIsBreak(false);
         setSessionInProgress(false);
         setIsSkipBreakDialogOpen(false);
         setSessionTime(selectedTimer.countDownInfo.workTime * MINUTE_AS_MS);
@@ -479,6 +482,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     setSessionType: (value: any) => dispatch(setSessionType(value)),
     setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
     toggleIsBreak: () => dispatch(toggleIsBreak()),
+    setIsBreak: (value: any) => dispatch(setIsBreak(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

@@ -30,7 +30,7 @@ const FormikForm: FC<FormikFormPropType> = ({
             validationSchema={schema}
             enableReinitialize={enableReinitialize}
         >
-            {({ dirty, isValid, submitForm }) => {
+            {({ dirty, isValid }) => {
                 return (
                     <Form autoComplete="off" className={classes.form}>
                         {title ? (
@@ -63,7 +63,7 @@ const FormikForm: FC<FormikFormPropType> = ({
                             variant="contained"
                             color="secondary"
                             className={classes.submit}
-                            onClick={submitForm}
+                            type="submit"
                         >
                             {state.error ? (
                                 "RETRY"
