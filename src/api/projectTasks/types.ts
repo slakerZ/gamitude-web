@@ -3,8 +3,8 @@ export interface ProjectTaskType {
     userId: string;
     name: string;
     journalId: string;
-    deadline: Date;
-    tags: any;
+    deadline: string;
+    tags: string[];
     dateCreated: string;
 }
 
@@ -16,8 +16,8 @@ export interface ProjectTaskResponseBodyType {
 export interface ProjectTaskRequestBodyType {
     journalId: string;
     name: string;
-    deadline: Date;
-    tags: any;
+    deadline: string;
+    tags: string[];
     description: string;
     note: string;
 }

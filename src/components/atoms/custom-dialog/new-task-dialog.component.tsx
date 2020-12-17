@@ -27,9 +27,9 @@ const NewProjectTaskDialog = ({
 
     const [projectTaskName, setprojectTaskName] = useState("");
     const [note, setNote] = useState("");
-    const [projectId, setProjectId] = useState(null);
+    const [projectId, setProjectId] = useState("");
     const [tags, setTags] = useState("");
-    const [deadline, setDeadline] = useState(new Date());
+    const [deadline, setDeadline] = useState("");
 
     const [
         createNewProjectTaskState,
@@ -38,7 +38,7 @@ const NewProjectTaskDialog = ({
         const requestBody = {
             journalId: journalId,
 
-            projectId: projectId,
+            projectId: projectId === "" ? null : projectId,
 
             name: projectTaskName,
 
@@ -56,9 +56,9 @@ const NewProjectTaskDialog = ({
         // Reset
         setprojectTaskName("");
         setNote("");
-        setProjectId(null);
+        setProjectId("");
         setTags("");
-        setDeadline(new Date());
+        setDeadline("");
 
         return result;
     }, [projectTaskName, projectId, note, tags, deadline]);
@@ -85,7 +85,7 @@ const NewProjectTaskDialog = ({
     useEffect(() => {
         if (createNewProjectTaskState.error) {
             setSnackbarState({
-                message: "Failed to create new journal",
+                message: "Failed to create new task",
                 severity: "error",
                 open: true,
             });
