@@ -13,11 +13,14 @@ import { setJournals } from "redux/journals/journals.actions";
 import { selectJournals } from "redux/journals/journals.selectors";
 import { setProjectTasks } from "redux/projectTasks/projectTasks.actions";
 import { selectProjectTasks } from "redux/projectTasks/projectTasks.selectors";
+import { setProjects } from "redux/projects/projects.actions";
+import { selectProjects } from "redux/projects/projects.selectors";
 import { selectToken } from "redux/user/user.selectors";
 
 import { getJournals } from "api/bulletJournal/journals.api";
 import { getPages } from "api/bulletPages/pages.api";
 import { getProjectTasksForPage } from "api/projectTasks/projectTasks.api";
+import { getProjects } from "api/projects/projects.api";
 
 import NewJournalDialog from "components/atoms/custom-dialog/new-journal-dialog.component";
 import NewPageDialog from "components/atoms/custom-dialog/new-page-dialog.component";
@@ -40,6 +43,8 @@ const BulletJournalPage = ({
     setJournals,
     setPages,
     setProjectTasks,
+    setProjects,
+    projects,
 }: BulletProps) => {
     const classes = useBulletJournalStyles();
 
@@ -69,6 +74,13 @@ const BulletJournalPage = ({
         return result;
     });
 
+    const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
+        const response = await getProjects(token);
+        const result = response.data;
+        setProjects(result);
+        return result;
+    });
+
     const [getProjectTasksListState, getProjectTasksList] = useAsyncFn(
         async (journalId, pageId) => {
             const response = await getProjectTasksForPage(
@@ -82,6 +94,7 @@ const BulletJournalPage = ({
     );
 
     useEffectOnce(() => {
+        getProjectsList();
         getCurrJournalId();
         getJournalsList();
         getPagesList(currJournalId);
@@ -229,12 +242,14 @@ const mapStateToProps = (state: any) => ({
     journals: selectJournals(state),
     pages: selectPages(state),
     projectTasks: selectProjectTasks(state),
+    projects: selectProjects(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setJournals: (value: any) => dispatch(setJournals(value)),
     setPages: (value: any) => dispatch(setPages(value)),
     setProjectTasks: (value: any) => dispatch(setProjectTasks(value)),
+    setProject: (value: any) => dispatch(setProjects(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BulletJournalPage);

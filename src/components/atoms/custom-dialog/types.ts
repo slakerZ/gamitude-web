@@ -1,3 +1,5 @@
+import { ProjectType } from "pages/projects-desktop/types";
+
 export interface CustomDialogPropType {
     open: boolean;
     setOpen: any;
@@ -36,6 +38,7 @@ export interface NewJournalDialogPropTypes {
     setOpen: any;
     getJournalsList: any;
     setSnackbarState: any;
+    projects: ProjectType[];
 }
 
 export interface NewPageDialogPropTypes {
@@ -55,4 +58,5 @@ export interface NewProjectTaskDialogPropTypes {
     setSnackbarState: any;
     journalId: string;
     pageId: string;
+    projects: ProjectType[];
 }

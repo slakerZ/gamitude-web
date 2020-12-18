@@ -52,7 +52,10 @@ const TaskTile = ({
                 journalId: currJournalId,
                 description: "",
                 name: taskName,
-                projectId: taskAssociatedProject,
+                projectId:
+                    taskAssociatedProject === null
+                        ? null
+                        : taskAssociatedProject,
                 note: taskNote,
                 tags: taskTags.split(", "),
                 deadline: new Date(taskDue).toISOString(),
@@ -149,16 +152,13 @@ const TaskTile = ({
                         fullWidth
                     />
                     <TextField
-                        id="date"
-                        label="DUE TIME"
                         type="date"
+                        label={"Deadline"}
+                        variant={"outlined"}
+                        color={"secondary"}
+                        fullWidth
                         value={taskDue}
-                        color="secondary"
-                        variant="outlined"
                         onChange={handleTaskDueChange}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
                     />
                     <TextField
                         aria-label="Select Associated Project"

@@ -2,9 +2,11 @@ import React, { useState, Fragment, useEffect, ReactElement } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
 
+import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
+import { selectProjects } from "redux/projects/projects.selectors";
 import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectToken } from "redux/user/user.selectors";
@@ -22,6 +24,7 @@ const NewJournalDialog = ({
     open,
     setOpen,
     token,
+    projects,
     getJournalsList,
     setSnackbarState,
 }: NewJournalDialogPropTypes): ReactElement => {
@@ -29,6 +32,8 @@ const NewJournalDialog = ({
 
     const [journalName, setJournalName] = useState("");
     const [journalIcon, setJournalIcon] = useState("");
+    const [taskAssociatedProject, setTaskAssociatedProject] = useState("");
+
     const [createNewJournalState, createNewJournal] = useAsyncFn(async () => {
         const requestBody = {
             projectId: null,
@@ -55,6 +60,10 @@ const NewJournalDialog = ({
 
     const handleChangeJournalName = (e: any) => {
         setJournalName(e.target.value);
+    };
+
+    const handleTaskAssociatedProjectChange = (e: any) => {
+        setTaskAssociatedProject(e.target.value);
     };
 
     useEffect(() => {
@@ -88,6 +97,24 @@ const NewJournalDialog = ({
                         onChange={handleChangeJournalName}
                     />
 
+                    <TextField
+                        aria-label="Select Associated Project"
+                        label="ASSOCIATED PROJECT"
+                        select
+                        variant="outlined"
+                        value={taskAssociatedProject}
+                        onChange={handleTaskAssociatedProjectChange}
+                        fullWidth
+                    >
+                        {projects.map(({ name, id }, index) => {
+                            return (
+                                <MenuItem key={index} value={id}>
+                                    {name}
+                                </MenuItem>
+                            );
+                        })}
+                    </TextField>
+
                     <Typography
                         variant={"h4"}
                         component={"h4"}
@@ -110,6 +137,7 @@ const NewJournalDialog = ({
 
 const mapStateToProps = (state: ReduxStateType) => ({
     token: selectToken(state),
+    projects: selectProjects(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

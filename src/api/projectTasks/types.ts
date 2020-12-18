@@ -16,7 +16,7 @@ export interface ProjectTaskResponseBodyType {
 export interface ProjectTaskRequestBodyType {
     journalId: string;
     name: string;
-    deadline: string;
+    deadline: string | null;
     tags: string[];
     description: string;
     note: string;

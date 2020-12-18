@@ -2,13 +2,17 @@ import React, { useState, Fragment, useEffect, ReactElement } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
 
+import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 
+import { selectProjects } from "redux/projects/projects.selectors";
 import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectToken } from "redux/user/user.selectors";
 
 import { postProjectTask } from "api/projectTasks/projectTasks.api";
+
+import { ProjectType } from "pages/projects-desktop/types";
 
 import CustomDialog from "./custom-dialog.component";
 import useCustomDialogStyles from "./styles";
@@ -22,6 +26,7 @@ const NewProjectTaskDialog = ({
     setSnackbarState,
     journalId,
     pageId,
+    projects,
 }: NewProjectTaskDialogPropTypes): ReactElement => {
     const classes = useCustomDialogStyles();
 
@@ -30,6 +35,7 @@ const NewProjectTaskDialog = ({
     const [projectId, setProjectId] = useState("");
     const [tags, setTags] = useState("");
     const [deadline, setDeadline] = useState("");
+    const [taskAssociatedProject, setTaskAssociatedProject] = useState("");
 
     const [
         createNewProjectTaskState,
@@ -48,7 +54,7 @@ const NewProjectTaskDialog = ({
 
             tags: tags.split(", "),
 
-            deadline: deadline,
+            deadline: deadline === "" ? null : deadline,
         };
         const result = await postProjectTask(token, requestBody);
         setOpen(false);
@@ -80,6 +86,10 @@ const NewProjectTaskDialog = ({
     };
     const handleChangeDeadline = (e: any) => {
         setDeadline(e.target.value);
+    };
+
+    const handleTaskAssociatedProjectChange = (e: any) => {
+        setTaskAssociatedProject(e.target.value);
     };
 
     useEffect(() => {
@@ -121,12 +131,22 @@ const NewProjectTaskDialog = ({
                         onChange={handleChangeNote}
                     />
                     <TextField
-                        label={"Associated Project"}
-                        variant={"outlined"}
+                        aria-label="Select Associated Project"
+                        label="ASSOCIATED PROJECT"
+                        select
+                        variant="outlined"
+                        value={taskAssociatedProject}
+                        onChange={handleTaskAssociatedProjectChange}
                         fullWidth
-                        value={projectId}
-                        onChange={handleChangeProjectId}
-                    />
+                    >
+                        {projects.map((project: ProjectType, index: number) => {
+                            return (
+                                <MenuItem key={index} value={project.id}>
+                                    {project.name}
+                                </MenuItem>
+                            );
+                        })}
+                    </TextField>
                     <TextField
                         label={"Tags"}
                         variant={"outlined"}
@@ -150,6 +170,7 @@ const NewProjectTaskDialog = ({
 
 const mapStateToProps = (state: ReduxStateType) => ({
     token: selectToken(state),
+    projects: selectProjects(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
