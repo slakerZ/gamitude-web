@@ -11,7 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
-import { verifyOwnEmail } from "api/users/users.api";
+import { postVerifyOwnEmail } from "api/users/users.api";
 
 import useSignInUpStyles from "./styles";
 import { EmailVerifyUrlParams } from "./types";
@@ -21,7 +21,7 @@ const EmailVerfiedPage = (): ReactElement => {
     const classes = useSignInUpStyles();
 
     const [verifyEmailState, verifyEmail] = useAsyncFn(async () => {
-        const result = await verifyOwnEmail(name, token);
+        const result = await postVerifyOwnEmail(name, token);
         return result;
     }, [name, token]);
 

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import React, { useState, MouseEvent, useEffect } from "react";
+import React, { useState, MouseEvent, useEffect, Fragment } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -17,9 +17,11 @@ import { setUser } from "redux/user/user.actions";
 import { postLogin } from "api/authorization/authorization.api";
 import { LoginRequestBodyType } from "api/authorization/types";
 import { RegisterRequestBodyType } from "api/users/types";
-import { postRegister } from "api/users/users.api";
+import { postRegister, postResendEmailVerification } from "api/users/users.api";
 
 import FormikForm from "components/atoms/formik-form/formik-form.component";
+
+import CustomDialog from "components/molecules/custom-dialog/custom-dialog.component";
 
 import { FADE_TIMEOUT } from "./constants";
 import {
@@ -42,6 +44,9 @@ const AuthenticationPage = ({
     const classes = useSignInUpStyles();
 
     const [isSignUp, setIsSignUp] = useState(true);
+    const [isResendEmailDialogOpen, setIsResendEmailDialogOpen] = useState(
+        false,
+    );
 
     const [signUpState, signUp] = useAsyncFn(
         async (postRegisterRequestBody: RegisterRequestBodyType) => {
@@ -59,6 +64,10 @@ const AuthenticationPage = ({
         },
         [postLogin],
     );
+
+    const [resendEmailState, resendEmail] = useAsyncFn(async (values) => {
+        postResendEmailVerification(values.login);
+    });
 
     const handleSwitchSignUpIn = (event: MouseEvent) => {
         event.preventDefault();
@@ -110,79 +119,93 @@ const AuthenticationPage = ({
     }, [signInState, setSnackbarState]);
 
     return (
-        <div className={classes.root}>
+        <Fragment>
             <Helmet>
                 <title>{"Gamitude | Authentication"}</title>
             </Helmet>
-            <Fade in={isSignUp} timeout={FADE_TIMEOUT}>
-                <div
-                    className={clsx(classes.signUp, {
-                        [classes.none]: !isSignUp,
-                    })}
-                >
-                    <div className={classes.formWrapper}>
-                        <FormikForm
-                            initialValues={signUpInitialValues}
-                            schema={SignUpSchema}
-                            onSubmit={signUp}
-                            fields={signUpFields}
-                            title={"Sign Up"}
-                            state={signUpState}
-                        />
-                        <Typography
-                            className={classes.link}
-                            variant="h6"
-                            component={Link}
-                            onClick={handleSwitchSignUpIn}
-                        >
-                            {"Already have an account?"}
-                        </Typography>
-                    </div>
-                    <div className={clsx(classes.image, classes.signUpImage)} />
-                </div>
-            </Fade>
-            <Fade in={!isSignUp} timeout={FADE_TIMEOUT}>
-                <div
-                    className={clsx(classes.signIn, {
-                        [classes.none]: isSignUp,
-                    })}
-                >
-                    <div className={clsx(classes.image, classes.signInImage)} />
-                    <div className={classes.formWrapper}>
-                        <FormikForm
-                            initialValues={signInInitialValues}
-                            schema={SignInSchema}
-                            onSubmit={signIn}
-                            fields={signInFields}
-                            state={signInState}
-                            title={"Sign In"}
-                        />
-                        <Button
-                            color="secondary"
-                            variant="contained"
-                            onClick={handleResendEmail}
-                        >
-                            <Typography variant="h5" component="h5">
-                                {"Resend Email"}
+            <CustomDialog
+                open={isResendEmailDialogOpen}
+                setOpen={setIsResendEmailDialogOpen}
+                title={"Resend Email"}
+                onSubmit={resendEmail}
+            >
+                <div />
+            </CustomDialog>
+            <div className={classes.root}>
+                <Fade in={isSignUp} timeout={FADE_TIMEOUT}>
+                    <div
+                        className={clsx(classes.signUp, {
+                            [classes.none]: !isSignUp,
+                        })}
+                    >
+                        <div className={classes.formWrapper}>
+                            <FormikForm
+                                initialValues={signUpInitialValues}
+                                schema={SignUpSchema}
+                                onSubmit={signUp}
+                                fields={signUpFields}
+                                title={"Sign Up"}
+                                state={signUpState}
+                            />
+                            <Typography
+                                className={classes.link}
+                                variant="h6"
+                                component={Link}
+                                onClick={handleSwitchSignUpIn}
+                            >
+                                {"Already have an account?"}
                             </Typography>
-                        </Button>{" "}
-                        {signInState.value &&
-                        !signInState.loading &&
-                        !signInState.error ? (
-                            <Redirect to="/projects" />
-                        ) : null}
-                        <Typography
-                            className={classes.link}
-                            variant="h6"
-                            component={Link}
-                            onClick={handleSwitchSignUpIn}
-                        >
-                            {"Don't have an account?"}
-                        </Typography>
+                        </div>
+                        <div
+                            className={clsx(classes.image, classes.signUpImage)}
+                        />
                     </div>
-                </div>
-            </Fade>
-        </div>
+                </Fade>
+                <Fade in={!isSignUp} timeout={FADE_TIMEOUT}>
+                    <div
+                        className={clsx(classes.signIn, {
+                            [classes.none]: isSignUp,
+                        })}
+                    >
+                        <div
+                            className={clsx(classes.image, classes.signInImage)}
+                        />
+                        <div className={classes.formWrapper}>
+                            <FormikForm
+                                initialValues={signInInitialValues}
+                                schema={SignInSchema}
+                                onSubmit={signIn}
+                                fields={signInFields}
+                                state={signInState}
+                                title={"Sign In"}
+                            />
+                            <Button
+                                color="secondary"
+                                variant="contained"
+                                onClick={handleResendEmail}
+                            >
+                                <Typography variant="h5" component="h5">
+                                    {"Resend Email"}
+                                </Typography>
+                            </Button>{" "}
+                            {signInState.value &&
+                            !signInState.loading &&
+                            !signInState.error ? (
+                                <Redirect to="/projects" />
+                            ) : null}
+                            <Typography
+                                className={classes.link}
+                                variant="h6"
+                                component={Link}
+                                onClick={handleSwitchSignUpIn}
+                            >
+                                {"Don't have an account?"}
+                            </Typography>
+                        </div>
+                    </div>
+                </Fade>
+            </div>
+        </Fragment>
     );
 };
 

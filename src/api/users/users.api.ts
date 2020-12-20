@@ -81,18 +81,42 @@ export const getOwnMoney = async (
     return result;
 };
 
-export const verifyOwnEmail = async (
+export const postVerifyOwnEmail = async (
     login: string,
     verifyToken: string,
 ): Promise<any> => {
-    const url = `${ENDPOINT}/verifyemail/${login}/${verifyToken}`;
+    const url = `${ENDPOINT}/verifyemail`;
+    const requestBody = { login: login, token: verifyToken };
+
+    const response = await axios.post(url, requestBody);
+    const result = await response.data;
+    return result;
+};
+
+export const postVerifyChangedEmail = async (
+    login: string,
+    verifyToken: string,
+    email: string,
+): Promise<any> => {
+    const url = `${ENDPOINT}/verifyemailnew`;
+    const requestBody = { login: login, token: verifyToken, email: email };
+
+    const response = await axios.post(url, requestBody);
+    const result = await response.data;
+    return result;
+};
+
+export const postResendEmailVerification = async (
+    login: string,
+): Promise<any> => {
+    const url = `${ENDPOINT}/verifyemail/resend/${login}`;
 
     const response = await axios.post(url);
     const result = await response.data;
     return result;
 };
 
-export const changeOwnPassword = async (
+export const putChangeOwnPassword = async (
     token: string,
     passwordChangeData: PasswordChangeRequestBodyType,
 ): Promise<OwnDetailsResponseBodyType> => {

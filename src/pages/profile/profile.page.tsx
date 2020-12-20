@@ -20,7 +20,7 @@ import { setUser } from "redux/user/user.actions";
 import { selectToken, selectUserId } from "redux/user/user.selectors";
 
 import {
-    changeOwnPassword,
+    putChangeOwnPassword,
     getOwnDetails,
     putOwnDetails,
     deleteOwnAccount,
@@ -68,7 +68,7 @@ const ProfilePage = ({
     const [changePasswordState, changePassword] = useAsyncFn(
         async (values, { resetForm }) => {
             const requestBody = { ...values };
-            const result = await changeOwnPassword(token, requestBody);
+            const result = await putChangeOwnPassword(token, requestBody);
             setSnackbarState({
                 autoHideDuration: 3000,
                 message: "Successfully changed password",
