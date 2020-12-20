@@ -64,13 +64,30 @@ const FormikForm: FC<FormikFormPropType> = ({
                             color="secondary"
                             className={classes.submit}
                             type="submit"
+                            size="large"
                         >
                             {state.error ? (
-                                "RETRY"
+                                <Typography
+                                    variant="h5"
+                                    component="h5"
+                                    color={isValid ? "primary" : "secondary"}
+                                >
+                                    {"RETRY"}
+                                </Typography>
                             ) : state.loading ? (
                                 <CircularProgress />
                             ) : title ? (
-                                title
+                                <Typography
+                                    variant="h5"
+                                    component="h5"
+                                    color={
+                                        isValid && dirty
+                                            ? "primary"
+                                            : "secondary"
+                                    }
+                                >
+                                    {title}
+                                </Typography>
                             ) : (
                                 "SUBMIT"
                             )}

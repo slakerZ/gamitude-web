@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { useAsyncFn } from "react-use";
 
+import Button from "@material-ui/core/Button";
 import Fade from "@material-ui/core/Fade";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
@@ -64,6 +65,10 @@ const AuthenticationPage = ({
         setIsSignUp(!isSignUp);
     };
 
+    const handleResendEmail = () => {
+        console.log("handle me");
+    };
+
     useEffect(() => {
         if (signUpState.error && !signUpState.loading && !signUpState.value) {
             const msg = signUpState.error.message.includes("401")
@@ -90,7 +95,11 @@ const AuthenticationPage = ({
 
     useEffect(() => {
         if (signInState.error && !signInState.loading && !signInState.value) {
-            const msg = "Failed to Log in";
+            const err: any = { ...signInState.error };
+            const status = err.response.status;
+
+            const msg =
+                status === 403 ? "Verify your email first" : "Failed to Log in";
             setSnackbarState({
                 message: msg,
                 severity: "error",
@@ -148,7 +157,15 @@ const AuthenticationPage = ({
                             state={signInState}
                             title={"Sign In"}
                         />
-
+                        <Button
+                            color="secondary"
+                            variant="contained"
+                            onClick={handleResendEmail}
+                        >
+                            <Typography variant="h5" component="h5">
+                                {"Resend Email"}
+                            </Typography>
+                        </Button>{" "}
                         {signInState.value &&
                         !signInState.loading &&
                         !signInState.error ? (
@@ -161,14 +178,6 @@ const AuthenticationPage = ({
                             onClick={handleSwitchSignUpIn}
                         >
                             {"Don't have an account?"}
-                        </Typography>
-                        <Typography
-                            className={classes.link}
-                            variant="h6"
-                            component={Link}
-                            onClick={handleSwitchSignUpIn}
-                        >
-                            {"Resend activation email"}
                         </Typography>
                     </div>
                 </div>

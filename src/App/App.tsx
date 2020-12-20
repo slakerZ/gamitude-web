@@ -385,7 +385,7 @@ const App: FC<AppType> = ({
                 </Drawer>
             ) : null}
             <CustomSnackbar />
-            {/* {shouldRedirectToSignInUp ? <Redirect to="/signInSignUp" /> : null} */}
+            {shouldRedirectToSignInUp ? <Redirect to="/signInSignUp" /> : null}
         </div>
     );
 };

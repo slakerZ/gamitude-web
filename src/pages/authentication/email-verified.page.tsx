@@ -5,14 +5,11 @@ import React, { Fragment, ReactElement, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAsyncFn, useEffectOnce } from "react-use";
 
-import {
-    Box,
-    Button,
-    CircularProgress,
-    Grid,
-    Toolbar,
-    Typography,
-} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 
 import { verifyOwnEmail } from "api/users/users.api";
 
