@@ -48,6 +48,8 @@ import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-to
 
 import CustomSnackbar from "components/molecules/custom-snackbar/custom-snackbar.component";
 
+import EmailVerfiedPage from "pages/authentication/email-verified.page";
+
 import { NAV_LINKS } from "./constants";
 import useAppStyles from "./styles";
 import { AppType } from "./types";
@@ -294,6 +296,11 @@ const App: FC<AppType> = ({
                         <Route exact path="/" component={HomePage} />
                         <Route
                             exact
+                            path="/verifyEmail/:name/:token"
+                            component={EmailVerfiedPage}
+                        />
+                        <Route
+                            exact
                             path="/projects"
                             component={ProjectsPage}
                         />
@@ -378,7 +385,7 @@ const App: FC<AppType> = ({
                 </Drawer>
             ) : null}
             <CustomSnackbar />
-            {shouldRedirectToSignInUp ? <Redirect to="/signInSignUp" /> : null}
+            {/* {shouldRedirectToSignInUp ? <Redirect to="/signInSignUp" /> : null} */}
         </div>
     );
 };

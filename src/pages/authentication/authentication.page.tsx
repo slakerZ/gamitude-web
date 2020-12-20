@@ -77,10 +77,11 @@ const AuthenticationPage = ({
             });
         } else if (signUpState.value) {
             setSnackbarState({
-                message: "Successfully registered",
-                severity: "success",
+                message:
+                    "Successfully registered - check your email to confirm account",
+                severity: "info",
                 open: true,
-                autoHideDuration: 2000,
+                autoHideDuration: null,
             });
 
             setIsSignUp(false);
@@ -160,6 +161,14 @@ const AuthenticationPage = ({
                             onClick={handleSwitchSignUpIn}
                         >
                             {"Don't have an account?"}
+                        </Typography>
+                        <Typography
+                            className={classes.link}
+                            variant="h6"
+                            component={Link}
+                            onClick={handleSwitchSignUpIn}
+                        >
+                            {"Resend activation email"}
                         </Typography>
                     </div>
                 </div>

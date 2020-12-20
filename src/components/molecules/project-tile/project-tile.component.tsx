@@ -122,7 +122,7 @@ const ProjectTile = ({
             setSnackbarState({
                 severity: "info",
                 message:
-                    "Cannot change selected project when there's break available, either complete is or skip it",
+                    "Cannot change selected project when there's break available, either complete it or skip it",
                 open: true,
                 autoHideDuration: 3000,
             });

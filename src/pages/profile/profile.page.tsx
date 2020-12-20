@@ -176,7 +176,7 @@ const ProfilePage = ({
                 severity: "error",
             });
         }
-    }, [editUserDetailsState]);
+    }, [editUserDetailsState, setSnackbarState]);
 
     useEffectOnce(() => {
         getUser();
