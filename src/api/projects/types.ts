@@ -1,7 +1,7 @@
 import { EnergyType } from "configs/types";
 import { StatType } from "configs/types";
 
-export interface FullProjectType {
+export interface ProjectType {
     id: string;
     name: string;
     folderId: string;
@@ -30,6 +30,6 @@ export interface ProjectRequestBodyType {
 }
 
 export interface ProjectResponseBodyType {
-    data: FullProjectType[] | FullProjectType;
+    data: ProjectType[] | ProjectType;
     success: boolean;
 }

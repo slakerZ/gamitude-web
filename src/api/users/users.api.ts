@@ -2,18 +2,20 @@ import axios from "axios";
 
 import { API_ENDPOINT } from "api/constants";
 
-import { RegisterRequestBodyType, RegisterResponseBodyType } from "./types";
+import {
+    RegisterRequestBodyType,
+    OwnDetailsResponseBodyType,
+    UserType,
+    OwnMoneyResponseBodyType,
+    PasswordChangeRequestBodyType,
+} from "./types";
 
 const ENDPOINT = `${API_ENDPOINT}/users`;
 
-export const getUsers = async (
+export const getOwnDetails = async (
     token: string,
-    offset: number,
-    limit: number,
-): Promise<any> => {
-    const query = `?offset=${offset}&limit=${limit}`;
-
-    const url = `${ENDPOINT}/${query}`;
+): Promise<OwnDetailsResponseBodyType> => {
+    const url = `${ENDPOINT}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -27,17 +29,18 @@ export const getUsers = async (
 
 export const postRegister = async (
     requestBody: RegisterRequestBodyType,
-): Promise<RegisterResponseBodyType> => {
+): Promise<OwnDetailsResponseBodyType> => {
     const url = `${ENDPOINT}`;
+
     const response = await axios.post(url, requestBody);
     const result = await response.data;
     return result;
 };
 
-export const putUsers = async (
+export const putOwnDetails = async (
     token: string,
-    newUserInfo: any,
-): Promise<any> => {
+    newUserInfo: Partial<UserType>,
+): Promise<OwnDetailsResponseBodyType> => {
     const url = `${ENDPOINT}`;
     const config = {
         headers: {
@@ -50,27 +53,8 @@ export const putUsers = async (
     return result;
 };
 
-export const getUserById = async (
-    userId: string,
-    token: string,
-): Promise<any> => {
-    const url = `${ENDPOINT}/${userId}`;
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
-
-    const response = await axios.get(url, config);
-    const result = await response.data;
-    return result;
-};
-
-export const deleteUserById = async (
-    userId: string,
-    token: string,
-): Promise<any> => {
-    const url = `${ENDPOINT}/${userId}`;
+export const deleteOwnAccount = async (token: string): Promise<void> => {
+    const url = `${ENDPOINT}`;
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -82,23 +66,9 @@ export const deleteUserById = async (
     return result;
 };
 
-export const changeUserPassword = async (
+export const getOwnMoney = async (
     token: string,
-    passwordChangeData: any,
-): Promise<any> => {
-    const url = `${ENDPOINT}/password`;
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
-
-    const response = await axios.put(url, passwordChangeData, config);
-    const result = await response.data;
-    return result;
-};
-
-export const getUserMoney = async (token: string): Promise<any> => {
+): Promise<OwnMoneyResponseBodyType> => {
     const url = `${ENDPOINT}/money`;
     const config = {
         headers: {
@@ -107,6 +77,33 @@ export const getUserMoney = async (token: string): Promise<any> => {
     };
 
     const response = await axios.get(url, config);
+    const result = await response.data;
+    return result;
+};
+
+export const verifyOwnEmail = async (
+    login: string,
+    verifyToken: string,
+): Promise<any> => {
+    const url = `${ENDPOINT}/verifyemail/${login}/${verifyToken}`;
+
+    const response = await axios.post(url);
+    const result = await response.data;
+    return result;
+};
+
+export const changeOwnPassword = async (
+    token: string,
+    passwordChangeData: PasswordChangeRequestBodyType,
+): Promise<OwnDetailsResponseBodyType> => {
+    const url = `${ENDPOINT}/password`;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    const response = await axios.put(url, passwordChangeData, config);
     const result = await response.data;
     return result;
 };

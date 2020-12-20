@@ -20,12 +20,13 @@ import { setUser } from "redux/user/user.actions";
 import { selectToken, selectUserId } from "redux/user/user.selectors";
 
 import {
-    changeUserPassword,
-    getUserById,
-    putUsers,
-    deleteUserById,
+    changeOwnPassword,
+    getOwnDetails,
+    putOwnDetails,
+    deleteOwnAccount,
 } from "api/users/users.api";
 
+import ComingSoon from "components/atoms/coming-soon/coming-soon.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import FormikForm from "components/atoms/formik-form/formik-form.component";
 import {
@@ -66,8 +67,8 @@ const ProfilePage = ({
     // useAsyncFn
     const [changePasswordState, changePassword] = useAsyncFn(
         async (values, { resetForm }) => {
-            const requestBody = { id: userId, ...values };
-            const result = await changeUserPassword(token, requestBody);
+            const requestBody = { ...values };
+            const result = await changeOwnPassword(token, requestBody);
             setSnackbarState({
                 autoHideDuration: 3000,
                 message: "Successfully changed password",
@@ -81,7 +82,7 @@ const ProfilePage = ({
     );
 
     const [getUserState, getUser] = useAsyncFn(async () => {
-        const result = await getUserById(userId, token);
+        const result = await getOwnDetails(token);
         const initVals = {
             email: result.data.email,
             userName: result.data.userName,
@@ -92,8 +93,8 @@ const ProfilePage = ({
 
     const [editUserDetailsState, editUserDetails] = useAsyncFn(
         async (values, { resetForm }) => {
-            const requestBody = { id: userId, ...values };
-            const result = await putUsers(token, requestBody);
+            const requestBody = { ...values };
+            const result = await putOwnDetails(token, requestBody);
             setSnackbarState({
                 autoHideDuration: 3000,
                 message: "Successfully changed user details",
@@ -103,11 +104,11 @@ const ProfilePage = ({
             resetForm();
             return result;
         },
-        [userId],
+        [userId, token],
     );
 
     const [deleteAccountState, deleteAccount] = useAsyncFn(async () => {
-        const result = await deleteUserById(userId, token);
+        const result = await deleteOwnAccount(token);
         setIsDeleteAccountDialogOpen(false);
         history.push("/");
         setUser({ token: null });
@@ -165,6 +166,17 @@ const ProfilePage = ({
             });
         }
     }, [getUserState, setSnackbarState]);
+
+    useEffect(() => {
+        if (editUserDetailsState.error) {
+            setSnackbarState({
+                autoHideDuration: 3000,
+                message: "Failed to edit account details",
+                open: true,
+                severity: "error",
+            });
+        }
+    }, [editUserDetailsState]);
 
     useEffectOnce(() => {
         getUser();
@@ -232,22 +244,28 @@ const ProfilePage = ({
                         role={"form"}
                         id={`change-account-details`}
                     >
-                        <FormikForm
-                            enableReinitialize={true}
-                            title={"Edit account details"}
-                            initialValues={editDetailsInitialValues}
-                            schema={EditDetailsSchema}
-                            fields={EditDetailsFields}
-                            onSubmit={editUserDetails}
-                            state={editUserDetailsState}
-                        />
-                        <Button
-                            onClick={handleDeleteAccount}
-                            variant="contained"
-                            className={classes.dngButton}
-                        >
-                            {"DELETE ACCOUNT"}
-                        </Button>
+                        {false ? (
+                            <Fragment>
+                                <FormikForm
+                                    enableReinitialize={true}
+                                    title={"Edit account details"}
+                                    initialValues={editDetailsInitialValues}
+                                    schema={EditDetailsSchema}
+                                    fields={EditDetailsFields}
+                                    onSubmit={editUserDetails}
+                                    state={editUserDetailsState}
+                                />
+                                <Button
+                                    onClick={handleDeleteAccount}
+                                    variant="contained"
+                                    className={classes.dngButton}
+                                >
+                                    {"DELETE ACCOUNT"}
+                                </Button>
+                            </Fragment>
+                        ) : (
+                            <ComingSoon />
+                        )}
                     </TabPanel>
                 </div>
             </div>
