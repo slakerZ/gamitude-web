@@ -38,11 +38,8 @@ import ProjectTile from "components/molecules/project-tile/project-tile.componen
 import useProjectDesktopStyles from "./styles";
 import { ProjectsPropTypes } from "./types";
 
-const NewFolderDialog = lazy(
-    () =>
-        import(
-            "components/molecules/custom-dialog/new-folder-dialog.component"
-        ),
+const FolderSettingsDialog = lazy(
+    () => import("components/molecules/custom-dialog/folder-settings-dialog"),
 );
 const NewProjectDialog = lazy(
     () =>
@@ -167,7 +164,7 @@ const ProjectsDesktopPage = ({
                             color="primary"
                             onClick={handleOpenNewFolderDialog}
                         >
-                            <AddIcon />
+                            <CustomIcon variant="settings" size="small" />
                         </IconButton>
                     </div>
                 </ToggleAbleTooltip>
@@ -225,7 +222,7 @@ const ProjectsDesktopPage = ({
             </div>
 
             <Suspense fallback={<Fragment />}>
-                <NewFolderDialog
+                <FolderSettingsDialog
                     open={isNewFolderDialogOpen}
                     setOpen={setIsNewFolderDialogOpen}
                     getFoldersList={getFoldersList}

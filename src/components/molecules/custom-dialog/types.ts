@@ -9,12 +9,14 @@ export interface CustomDialogPropType {
     handleCancel?: any;
 }
 
-export interface NewFolderDialogPropTypes {
+export interface FolderSettingsPropTypes {
     token: string;
     open: boolean;
     setOpen: any;
     getFoldersList: any;
     setSnackbarState: any;
+    setFolders: any;
+    folders: any;
 }
 
 export interface NewProjectDialogPropTypes {
