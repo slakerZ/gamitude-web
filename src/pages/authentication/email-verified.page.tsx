@@ -1,7 +1,7 @@
 import { ReactComponent as FailedEmail } from "assets/icons/failedEmail.svg";
 import { ReactComponent as EmailVerifyIcon } from "assets/icons/verifyEmail.svg";
 
-import React, { Fragment, ReactElement, useEffect } from "react";
+import React, { Fragment, ReactElement } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAsyncFn, useEffectOnce } from "react-use";
 

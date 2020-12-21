@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { useAsyncFn } from "react-use";
 
-import Button from "@material-ui/core/Button";
 import Fade from "@material-ui/core/Fade";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
@@ -21,7 +20,6 @@ import { postRegister, postResendEmailVerification } from "api/users/users.api";
 
 import FormikForm from "components/atoms/formik-form/formik-form.component";
 
-import CustomDialog from "components/molecules/custom-dialog/custom-dialog.component";
 import FormikDialog from "components/molecules/custom-dialog/formik-dialog.component";
 
 import { FADE_TIMEOUT } from "./constants";
@@ -120,9 +118,19 @@ const AuthenticationPage = ({
         if (signInState.error && !signInState.loading && !signInState.value) {
             const err: any = { ...signInState.error };
             const status = err.response.status;
+            const message = err.response.data.message;
 
-            const msg =
-                status === 403 ? "Verify your email first" : "Failed to Log in";
+            let msg = "";
+            if (status === 403) {
+                msg = "Verify your email first";
+            } else if (message === "passwordWrongErrorMessage") {
+                msg = "Wrong password";
+            } else if (message === "noUserWithThatLogin") {
+                msg = "Account does not exist";
+            } else {
+                msg = "Failed to log in";
+            }
+
             setSnackbarState({
                 message: msg,
                 severity: "error",
