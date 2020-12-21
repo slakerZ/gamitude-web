@@ -53,7 +53,6 @@ export interface FormikDialogPropTypes {
     validationSchema: any;
     onSubmit: any;
     formFields: FieldType[];
-    children: any;
 }
 
 export type NewTimerVariantTypes =

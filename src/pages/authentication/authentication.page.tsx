@@ -22,8 +22,14 @@ import { postRegister, postResendEmailVerification } from "api/users/users.api";
 import FormikForm from "components/atoms/formik-form/formik-form.component";
 
 import CustomDialog from "components/molecules/custom-dialog/custom-dialog.component";
+import FormikDialog from "components/molecules/custom-dialog/formik-dialog.component";
 
 import { FADE_TIMEOUT } from "./constants";
+import {
+    ResendEmailFields,
+    ResendEmailInitialValues,
+    ResendEmailSchema,
+} from "./resend-email.schema";
 import {
     SignInSchema,
     signInInitialValues,
@@ -66,7 +72,15 @@ const AuthenticationPage = ({
     );
 
     const [resendEmailState, resendEmail] = useAsyncFn(async (values) => {
-        postResendEmailVerification(values.login);
+        const response = await postResendEmailVerification(values.login);
+        setSnackbarState({
+            message: "Resended email",
+            severity: "info",
+            open: true,
+            autoHideDuration: 3000,
+        });
+        setIsResendEmailDialogOpen(false);
+        return response;
     });
 
     const handleSwitchSignUpIn = (event: MouseEvent) => {
@@ -75,7 +89,7 @@ const AuthenticationPage = ({
     };
 
     const handleResendEmail = () => {
-        console.log("handle me");
+        setIsResendEmailDialogOpen(true);
     };
 
     useEffect(() => {
@@ -118,19 +132,44 @@ const AuthenticationPage = ({
         }
     }, [signInState, setSnackbarState]);
 
+    useEffect(() => {
+        if (resendEmailState.error) {
+            const err: any = { ...resendEmailState.error };
+            const status = err.response.status;
+
+            const snackbarMessage =
+                status === 401
+                    ? {
+                          message: "Email already verified",
+                          severity: "error",
+                          open: true,
+                          autoHideDuration: 3000,
+                      }
+                    : {
+                          message: "Failed to resend email",
+                          severity: "error",
+                          open: true,
+                          autoHideDuration: 3000,
+                      };
+
+            setSnackbarState(snackbarMessage);
+        }
+    }, [resendEmailState, setSnackbarState]);
+
     return (
         <Fragment>
             <Helmet>
                 <title>{"Gamitude | Authentication"}</title>
             </Helmet>
-            <CustomDialog
+            <FormikDialog
                 open={isResendEmailDialogOpen}
                 setOpen={setIsResendEmailDialogOpen}
                 title={"Resend Email"}
                 onSubmit={resendEmail}
-            >
-                <div />
-            </CustomDialog>
+                initialValues={ResendEmailInitialValues}
+                validationSchema={ResendEmailSchema}
+                formFields={ResendEmailFields}
+            />
             <div className={classes.root}>
                 <Fade in={isSignUp} timeout={FADE_TIMEOUT}>
                     <div
@@ -179,15 +218,7 @@ const AuthenticationPage = ({
                                 state={signInState}
                                 title={"Sign In"}
                             />
-                            <Button
-                                color="secondary"
-                                variant="contained"
-                                onClick={handleResendEmail}
-                            >
-                                <Typography variant="h5" component="h5">
-                                    {"Resend Email"}
-                                </Typography>
-                            </Button>{" "}
+
                             {signInState.value &&
                             !signInState.loading &&
                             !signInState.error ? (
@@ -200,6 +231,14 @@ const AuthenticationPage = ({
                                 onClick={handleSwitchSignUpIn}
                             >
                                 {"Don't have an account?"}
+                            </Typography>
+                            <Typography
+                                className={classes.link}
+                                variant="h6"
+                                component={Link}
+                                onClick={handleResendEmail}
+                            >
+                                {"Verify email didn't come?"}
                             </Typography>
                         </div>
                     </div>

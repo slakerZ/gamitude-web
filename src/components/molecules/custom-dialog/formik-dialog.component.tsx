@@ -21,7 +21,6 @@ const FormikDialog = ({
     initialValues,
     validationSchema,
     formFields,
-    children,
 }: FormikDialogPropTypes): ReactElement => {
     const classes = useCustomDialogStyles();
 
@@ -68,6 +67,7 @@ const FormikDialog = ({
                             <DialogActions>
                                 <Button
                                     variant={"contained"}
+                                    type="submit"
                                     onClick={submitForm}
                                     disabled={!dirty || !isValid}
                                 >

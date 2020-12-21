@@ -29,10 +29,6 @@ const EmailVerfiedPage = (): ReactElement => {
         verifyEmail();
     });
 
-    useEffect(() => {
-        console.log(verifyEmailState);
-    }, [verifyEmailState]);
-
     return (
         <Fragment>
             <Toolbar />
