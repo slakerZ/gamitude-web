@@ -23,3 +23,7 @@ export interface PasswordChangeRequestBodyType {
     oldPassword: string;
     newPassword: string;
 }
+
+export interface EmailChangeRequestBodyType {
+    newEmail: string;
+}

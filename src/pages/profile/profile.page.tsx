@@ -22,11 +22,10 @@ import { selectToken, selectUserId } from "redux/user/user.selectors";
 import {
     putChangeOwnPassword,
     getOwnDetails,
-    putOwnDetails,
+    putChangeOwnEmail,
     deleteOwnAccount,
 } from "api/users/users.api";
 
-import ComingSoon from "components/atoms/coming-soon/coming-soon.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import FormikForm from "components/atoms/formik-form/formik-form.component";
 import {
@@ -35,16 +34,16 @@ import {
 } from "components/atoms/tab-panel/tab-panel.component";
 
 import {
+    ChangeEmailSchema,
+    ChangeEmailFields,
+    ChangeEmailInitialValues,
+} from "./change-email.schema";
+import {
     ChangePasswordSchema,
     ChangePasswordInitialValues,
     ChangePasswordFields,
 } from "./change-password.schema";
 import { PROFILE_TABS } from "./constants";
-import {
-    EditDetailsSchema,
-    EditDetailsFields,
-    EditDetailsInitialValues,
-} from "./edit-details.schema";
 import useProfilePageStyles from "./styles";
 import { ProfilePagePropTypes } from "./types";
 
@@ -84,22 +83,21 @@ const ProfilePage = ({
     const [getUserState, getUser] = useAsyncFn(async () => {
         const result = await getOwnDetails(token);
         const initVals = {
-            email: result.data.email,
-            userName: result.data.userName,
+            newEmail: result.data.email,
         };
-        setEditDetailsInitialValues(initVals);
+        setEditEmailInitialValues(initVals);
         return result;
     }, [userId, token]);
 
-    const [editUserDetailsState, editUserDetails] = useAsyncFn(
+    const [editUserEmailState, editUserEmail] = useAsyncFn(
         async (values, { resetForm }) => {
             const requestBody = { ...values };
-            const result = await putOwnDetails(token, requestBody);
+            const result = await putChangeOwnEmail(token, requestBody);
             setSnackbarState({
-                autoHideDuration: 3000,
-                message: "Successfully changed user details",
+                autoHideDuration: null,
+                message: "Check your new email to confirm it",
                 open: true,
-                severity: "success",
+                severity: "info",
             });
             resetForm();
             return result;
@@ -117,8 +115,8 @@ const ProfilePage = ({
 
     // useState
     const [currTab, setCurrTab] = useState(0);
-    const [editDetailsInitialValues, setEditDetailsInitialValues] = useState(
-        EditDetailsInitialValues,
+    const [editEmailInitialValues, setEditEmailInitialValues] = useState(
+        ChangeEmailInitialValues,
     );
     const [isDeleteAccountDialogOpen, setIsDeleteAccountDialogOpen] = useState(
         false,
@@ -168,15 +166,15 @@ const ProfilePage = ({
     }, [getUserState, setSnackbarState]);
 
     useEffect(() => {
-        if (editUserDetailsState.error) {
+        if (editUserEmailState.error) {
             setSnackbarState({
                 autoHideDuration: 3000,
-                message: "Failed to edit account details",
+                message: "Failed to change email",
                 open: true,
                 severity: "error",
             });
         }
-    }, [editUserDetailsState, setSnackbarState]);
+    }, [editUserEmailState, setSnackbarState]);
 
     useEffectOnce(() => {
         getUser();
@@ -244,28 +242,33 @@ const ProfilePage = ({
                         role={"form"}
                         id={`change-account-details`}
                     >
-                        {false ? (
-                            <Fragment>
-                                <FormikForm
-                                    enableReinitialize={true}
-                                    title={"Edit account details"}
-                                    initialValues={editDetailsInitialValues}
-                                    schema={EditDetailsSchema}
-                                    fields={EditDetailsFields}
-                                    onSubmit={editUserDetails}
-                                    state={editUserDetailsState}
-                                />
-                                <Button
-                                    onClick={handleDeleteAccount}
-                                    variant="contained"
-                                    className={classes.dngButton}
-                                >
-                                    {"DELETE ACCOUNT"}
-                                </Button>
-                            </Fragment>
-                        ) : (
-                            <ComingSoon />
-                        )}
+                        <Fragment>
+                            <FormikForm
+                                enableReinitialize={true}
+                                title={"Change email"}
+                                initialValues={editEmailInitialValues}
+                                schema={ChangeEmailSchema}
+                                fields={ChangeEmailFields}
+                                onSubmit={editUserEmail}
+                                state={editUserEmailState}
+                            />
+                        </Fragment>
+                    </TabPanel>
+                    <TabPanel
+                        value={currTab}
+                        index={2}
+                        role={"form"}
+                        id={`danger-zone`}
+                    >
+                        <Fragment>
+                            <Button
+                                onClick={handleDeleteAccount}
+                                variant="contained"
+                                className={classes.dngButton}
+                            >
+                                {"DELETE ACCOUNT"}
+                            </Button>
+                        </Fragment>
                     </TabPanel>
                 </div>
             </div>

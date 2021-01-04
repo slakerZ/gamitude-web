@@ -92,6 +92,7 @@ const App: FC<AppType> = ({
     const location = useLocation();
     const isHomePage = location.pathname === "/";
     const isAuth = location.pathname === "/signInSignUp";
+    const isVerifyEmail = location.pathname.split("/").includes("verifyEmail");
 
     const [navOpen, setNavOpen] = useState(false);
     const [shouldRedirectToSignInUp, setShouldRedirectToSignInUp] = useState(
@@ -117,10 +118,12 @@ const App: FC<AppType> = ({
         if (expires < Date.now()) {
             setShouldRedirectToSignInUp(true);
             logout();
+        } else if (!token && !isAuth && !isHomePage && !isVerifyEmail) {
+            setShouldRedirectToSignInUp(true);
         } else {
             setShouldRedirectToSignInUp(false);
         }
-    }, [dateExpires, logout]);
+    }, [dateExpires, logout, isAuth, isHomePage, token, isVerifyEmail]);
 
     useUpdateEffect(() => {
         if (isBreak || sessionInProgress) {
@@ -296,7 +299,7 @@ const App: FC<AppType> = ({
                         <Route exact path="/" component={HomePage} />
                         <Route
                             exact
-                            path="/verifyEmail/:name/:token"
+                            path="/verifyEmail/:name/:token/newEmail/:newEmail"
                             component={EmailVerfiedPage}
                         />
                         <Route

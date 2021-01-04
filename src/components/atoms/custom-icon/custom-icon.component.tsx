@@ -1,3 +1,4 @@
+import { ReactComponent as Caution } from "assets/icons/caution.svg";
 import { ReactComponent as Body } from "assets/icons/energies/body.svg";
 import { ReactComponent as Emotions } from "assets/icons/energies/emotions.svg";
 import { ReactComponent as Mind } from "assets/icons/energies/mind.svg";
@@ -124,6 +125,8 @@ const CustomIcon: FC<CustomIconType> = ({
                 return <Logs className={mappedClasses} />;
             case "lock":
                 return <Lock className={mappedClasses} />;
+            case "caution":
+                return <Caution className={mappedClasses} />;
             default:
                 return <NotFound className={mappedClasses} />;
         }

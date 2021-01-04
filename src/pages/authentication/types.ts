@@ -6,4 +6,5 @@ export interface AuthenticationType {
 export interface EmailVerifyUrlParams {
     name: string;
     token: string;
+    newEmail: string;
 }
