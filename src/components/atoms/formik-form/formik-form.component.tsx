@@ -29,6 +29,8 @@ const FormikForm: FC<FormikFormPropType> = ({
             onSubmit={onSubmit}
             validationSchema={schema}
             enableReinitialize={enableReinitialize}
+            validateOnBlur={true}
+            validateOnChange={false}
         >
             {({ dirty, isValid }) => {
                 return (
