@@ -1,3 +1,5 @@
+import { FolderType } from "api/folders/types";
+
 import { FieldType } from "components/atoms/formik-form/types";
 
 export interface CustomDialogPropType {
@@ -16,7 +18,7 @@ export interface FolderSettingsPropTypes {
     getFoldersList: any;
     setSnackbarState: any;
     setFolders: any;
-    folders: any;
+    folders: FolderType[];
 }
 
 export interface NewProjectDialogPropTypes {
