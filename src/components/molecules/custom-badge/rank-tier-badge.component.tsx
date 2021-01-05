@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 
 import Badge from "@material-ui/core/Badge";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import IconButton from "@material-ui/core/IconButton";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
@@ -32,10 +33,12 @@ const RankTierBadge = ({
                         ) : error ? (
                             <CustomIcon size="small" variant="error" />
                         ) : (
-                            <CustomIcon
-                                variant={rank.tier.toLowerCase()}
-                                size="small"
-                            />
+                            <IconButton disabled>
+                                <CustomIcon
+                                    variant={rank.tier.toLowerCase()}
+                                    size="small"
+                                />
+                            </IconButton>
                         )}
                     </div>
                 </ToggleAbleTooltip>

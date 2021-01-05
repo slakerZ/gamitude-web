@@ -12,9 +12,13 @@ const useCustomBadgeStyles = makeStyles((theme) => ({
     },
     badgeWrapper: {
         backgroundColor: theme.palette.secondary.dark,
-        padding: theme.spacing(1.5),
         border: `2px ${theme.palette.primary.light} outset`,
         borderRadius: "100%",
+    },
+    ranksWrapper: {
+        display: "flex",
+        width: "100%",
+        flexWrap: "wrap",
     },
 }));
 

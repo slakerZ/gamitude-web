@@ -55,6 +55,10 @@ const useThemesPageStyles = makeStyles((theme) => ({
     buyButton: {
         color: theme.palette.common.white,
     },
+    pagination: {
+        padding: theme.spacing(2),
+        backgroundColor: theme.palette.primary.main,
+    },
 }));
 
 export default useThemesPageStyles;

@@ -1,4 +1,5 @@
 export const UserActionTypes = {
     SET_USER: "SET_USER",
     SET_TOOLTIP_TOGGLE: "SET_TOOLTIP_TOGGLE",
+    ADD_BOUGHT_RANK: "ADD_BOUGHT_RANK",
 };

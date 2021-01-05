@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { API_ENDPOINT } from "api/constants";
 
-import { RankResponseBodyType } from "./types";
+import { RankResponseBodyType, CurrencyTypes } from "./types";
 
 const ENDPOINT = `${API_ENDPOINT}/rank`;
 
@@ -51,6 +51,43 @@ export const getUsersCurrentRank = async (
     };
 
     const response = await axios.get(url, config);
+    const result = await response.data;
+    return result;
+};
+
+export const postRankPurchase = async (
+    token: string,
+    id: string,
+    currency: CurrencyTypes,
+): Promise<any> => {
+    const url = `${ENDPOINT}/purchase`;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const requestBody = {
+        id: id,
+        currency: currency,
+    };
+
+    const response = await axios.post(url, requestBody, config);
+    const result = await response.data;
+    return result;
+};
+
+export const postRankSelection = async (
+    token: string,
+    rankId: string,
+): Promise<any> => {
+    const url = `${ENDPOINT}/select/${rankId}`;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    const response = await axios.post(url, {}, config);
     const result = await response.data;
     return result;
 };

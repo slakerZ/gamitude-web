@@ -3,6 +3,7 @@ import { UserActionTypes } from "./user.types";
 const INITIAL_STATE = {
     token: null,
     tooltipToggle: true,
+    boughtRanks: [],
 };
 
 const userReducer = (state = INITIAL_STATE, action: any) => {
@@ -16,6 +17,11 @@ const userReducer = (state = INITIAL_STATE, action: any) => {
             return {
                 ...state,
                 ...action.payload,
+            };
+        case UserActionTypes.ADD_BOUGHT_RANK:
+            return {
+                ...state,
+                boughtRanks: [...state.boughtRanks, action.payload],
             };
         default:
             return state;
