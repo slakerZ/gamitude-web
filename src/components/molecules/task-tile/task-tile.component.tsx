@@ -11,6 +11,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Radio from "@material-ui/core/Radio";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import { grey } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import { setProjects } from "redux/projects/projects.actions";
@@ -53,12 +54,15 @@ const TaskTile = ({
                 description: "",
                 name: taskName,
                 projectId:
-                    taskAssociatedProject === null
-                        ? null
+                    taskAssociatedProject === ""
+                        ? projectTask.projectId
                         : taskAssociatedProject,
                 note: taskNote,
                 tags: taskTags.split(", "),
-                deadline: new Date(taskDue).toISOString(),
+                deadline:
+                    taskDue === ""
+                        ? projectTask.deadline
+                        : new Date(taskDue).toISOString(),
             };
             const response = await putProjectTaskById(token, requestBody, id);
             getProjectTasksList(currJournalId, currPageId);
@@ -126,8 +130,14 @@ const TaskTile = ({
                         onFocus={(event) => event.stopPropagation()}
                         control={<Radio />}
                         label={projectTask.name}
-                        value={projectTask.name}
+                        value={projectTask.id}
                     />
+                    <Typography
+                        style={{ paddingTop: 8.5, color: "grey" }}
+                        align={"center"}
+                    >
+                        {projectTask.note}
+                    </Typography>
                 </AccordionSummary>
                 <AccordionDetails className={classes.details}>
                     <TextField

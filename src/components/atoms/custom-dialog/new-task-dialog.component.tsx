@@ -32,7 +32,6 @@ const NewProjectTaskDialog = ({
 
     const [projectTaskName, setprojectTaskName] = useState("");
     const [note, setNote] = useState("");
-    const [projectId, setProjectId] = useState("");
     const [tags, setTags] = useState("");
     const [deadline, setDeadline] = useState("");
     const [taskAssociatedProject, setTaskAssociatedProject] = useState("");
@@ -44,7 +43,8 @@ const NewProjectTaskDialog = ({
         const requestBody = {
             journalId: journalId,
 
-            projectId: projectId === "" ? null : projectId,
+            projectId:
+                taskAssociatedProject === "" ? null : taskAssociatedProject,
 
             name: projectTaskName,
 
@@ -62,12 +62,12 @@ const NewProjectTaskDialog = ({
         // Reset
         setprojectTaskName("");
         setNote("");
-        setProjectId("");
+        setTaskAssociatedProject("");
         setTags("");
         setDeadline("");
 
         return result;
-    }, [projectTaskName, projectId, note, tags, deadline]);
+    }, [projectTaskName, taskAssociatedProject, note, tags, deadline]);
 
     const handleProjectTaskNameChange = (e: any) => {
         setprojectTaskName(e.target.value);
@@ -75,10 +75,6 @@ const NewProjectTaskDialog = ({
 
     const handleChangeNote = (e: any) => {
         setNote(e.target.value);
-    };
-
-    const handleChangeProjectId = (e: any) => {
-        setProjectId(e.target.value);
     };
 
     const handleChangeTags = (e: any) => {

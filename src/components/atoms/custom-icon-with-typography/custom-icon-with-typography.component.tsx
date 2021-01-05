@@ -4,9 +4,8 @@ import Typography from "@material-ui/core/Typography";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 
-import { CustomIconWithTypographyType } from "./types";
-
 import useCustomIconWithTypographyStyles from "./styles";
+import { CustomIconWithTypographyType } from "./types";
 
 const CustomIconWithTypography: FC<CustomIconWithTypographyType> = ({
     variant,

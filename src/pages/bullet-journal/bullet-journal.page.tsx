@@ -104,6 +104,9 @@ const BulletJournalPage = ({
 
     useEffect(() => {
         getPagesList(currJournalId);
+    }, [currJournalId]);
+
+    useEffect(() => {
         getProjectTasksList(currJournalId, currPageId);
     }, [currJournalId, currPageId]);
 
@@ -118,7 +121,7 @@ const BulletJournalPage = ({
     const getCurrPageId = () => {
         pages.map(({ id }, index) => {
             if (index === tasksCurrPageIndex) {
-                setCurrPageId((prevId) => {
+                setCurrPageId(() => {
                     return id;
                 });
             }

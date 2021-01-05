@@ -3,9 +3,11 @@ export interface ProjectTaskType {
     userId: string;
     name: string;
     journalId: string;
-    deadline: string;
+    deadline: string | null;
     tags: string[];
     dateCreated: string;
+    note: string;
+    projectId: string | null;
 }
 
 export interface ProjectTaskResponseBodyType {
@@ -20,4 +22,5 @@ export interface ProjectTaskRequestBodyType {
     tags: string[];
     description: string;
     note: string;
+    projectId: string | null;
 }
