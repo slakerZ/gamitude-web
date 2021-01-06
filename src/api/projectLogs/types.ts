@@ -1,7 +1,7 @@
 import { EnergyType } from "configs/types";
 import { StatType } from "configs/types";
 
-interface FullProjectLogType {
+interface ProjectLogType {
     id: string;
     projectId: string;
     projectTaskId: string;
@@ -25,6 +25,6 @@ export interface ProjectLogRequestBodyType {
 }
 
 export interface ProjectLogResponseBodyType {
-    data: FullProjectLogType[] | FullProjectLogType;
+    data: ProjectLogType[] | ProjectLogType;
     success: boolean;
 }

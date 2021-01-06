@@ -5,6 +5,11 @@ import {
 } from "configs/constants";
 import * as Yup from "yup";
 
+import {
+    getCheckIfLoginExists,
+    getCheckIfEmailExists,
+} from "api/users/users.api";
+
 import { FieldType } from "components/atoms/formik-form/types";
 
 export const passValidation = Yup.string()
@@ -17,10 +22,34 @@ export const passValidation = Yup.string()
 export const SignUpSchema = Yup.object().shape({
     username: Yup.string()
         .min(2, "Too Short")
+        .test(
+            "loginAvailable",
+            "This username is already taken",
+            async (value: any) => {
+                if (value) {
+                    const response = await getCheckIfLoginExists(value);
+                    return !response.data;
+                } else {
+                    return false;
+                }
+            },
+        )
         .required("This field is required"),
     email: Yup.string()
         .lowercase()
         .email("Must be a valid email")
+        .test(
+            "emailUnavailable",
+            "This email is already taken",
+            async (value: any) => {
+                if (value) {
+                    const response = await getCheckIfEmailExists(value);
+                    return !response.data;
+                } else {
+                    return false;
+                }
+            },
+        )
         .required("This field is required"),
     password: passValidation,
     passwordConfirm: Yup.string()

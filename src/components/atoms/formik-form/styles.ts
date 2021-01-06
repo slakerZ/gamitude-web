@@ -13,6 +13,7 @@ const useFormikFormStyles = makeStyles((theme: Theme) => ({
     },
     submit: {
         margin: theme.spacing(2, 0),
+        alignSelf: "center",
     },
 }));
 

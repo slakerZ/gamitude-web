@@ -1,6 +1,6 @@
 import { TierType, EnergyType, StatType } from "configs/types";
 
-export interface FullRankType {
+export interface RankType {
     id: string;
     name: string;
     style: "DEFAULT";
@@ -15,6 +15,6 @@ export interface FullRankType {
 }
 
 export interface RankResponseBodyType {
-    data: FullRankType;
+    data: RankType;
     success: boolean;
 }

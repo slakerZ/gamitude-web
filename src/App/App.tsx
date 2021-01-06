@@ -48,6 +48,8 @@ import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-to
 
 import CustomSnackbar from "components/molecules/custom-snackbar/custom-snackbar.component";
 
+import EmailVerfiedPage from "pages/authentication/email-verified.page";
+
 import { NAV_LINKS } from "./constants";
 import useAppStyles from "./styles";
 import { AppType } from "./types";
@@ -90,6 +92,7 @@ const App: FC<AppType> = ({
     const location = useLocation();
     const isHomePage = location.pathname === "/";
     const isAuth = location.pathname === "/signInSignUp";
+    const isVerifyEmail = location.pathname.split("/").includes("verifyEmail");
 
     const [navOpen, setNavOpen] = useState(false);
     const [shouldRedirectToSignInUp, setShouldRedirectToSignInUp] = useState(
@@ -115,10 +118,12 @@ const App: FC<AppType> = ({
         if (expires < Date.now()) {
             setShouldRedirectToSignInUp(true);
             logout();
+        } else if (!token && !isAuth && !isHomePage && !isVerifyEmail) {
+            setShouldRedirectToSignInUp(true);
         } else {
             setShouldRedirectToSignInUp(false);
         }
-    }, [dateExpires, logout]);
+    }, [dateExpires, logout, isAuth, isHomePage, token, isVerifyEmail]);
 
     useUpdateEffect(() => {
         if (isBreak || sessionInProgress) {
@@ -292,6 +297,11 @@ const App: FC<AppType> = ({
                     {!isHomePage && <Toolbar />}
                     <Switch>
                         <Route exact path="/" component={HomePage} />
+                        <Route
+                            exact
+                            path="/verifyEmail/:name/:token/newEmail/:newEmail"
+                            component={EmailVerfiedPage}
+                        />
                         <Route
                             exact
                             path="/projects"

@@ -48,6 +48,15 @@ const SignInSignUpStyles = makeStyles((theme) => ({
         cursor: "pointer",
         color: theme.palette.primary.contrastText,
     },
+    center: {
+        display: "flex",
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        padding: theme.spacing(4),
+    },
 }));
 
 export default SignInSignUpStyles;
