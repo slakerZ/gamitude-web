@@ -103,8 +103,16 @@ const BulletJournalPage = ({
     });
 
     useEffect(() => {
+        getCurrJournalId();
+    }, [pagesCurrJournalIndex]);
+
+    useEffect(() => {
         getPagesList(currJournalId);
     }, [currJournalId]);
+
+    useEffect(() => {
+        getCurrPageId();
+    }, [tasksCurrPageIndex]);
 
     useEffect(() => {
         getProjectTasksList(currJournalId, currPageId);
@@ -134,7 +142,6 @@ const BulletJournalPage = ({
     ) => {
         setPagesCurrJournalIndex(newValue);
         setTasksCurrPageIndex(0);
-        getCurrJournalId();
     };
 
     const handleChangeCurrentPage = (
@@ -142,8 +149,6 @@ const BulletJournalPage = ({
         newValue: number,
     ) => {
         setTasksCurrPageIndex(newValue);
-        getCurrPageId();
-        getCurrJournalId();
     };
 
     const handleOpenNewPageDialog = () => {
