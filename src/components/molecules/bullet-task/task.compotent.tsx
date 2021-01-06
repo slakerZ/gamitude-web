@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
 
 import Fab from "@material-ui/core/Fab";
+import RadioGroup from "@material-ui/core/RadioGroup";
 import AddIcon from "@material-ui/icons/Add";
 
 import { setProjectTasks } from "redux/projectTasks/projectTasks.actions";
@@ -31,12 +32,23 @@ const BulletTask = ({
     handleOpenNewProjectTaskDialog,
 }: ProjectTaskPropTypes) => {
     const classes = useProjectTaskStyles();
+
+    const [selectedTask, setSelectedTask] = useState("");
+
     const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
         const response = await getProjects(token);
         const result = response.data;
         setProjects(result);
         return result;
     });
+
+    const handleChangeSelectedProject = (
+        event: React.ChangeEvent<any>,
+        newValue: any,
+    ) => {
+        setSelectedTask(newValue);
+    };
+
     return (
         <div>
             <TabPanel
@@ -46,13 +58,20 @@ const BulletTask = ({
                 id={"tasks"}
             >
                 <div className={classes.task}>
-                    <TaskTile
-                        projectTask={projectTask}
-                        getProjectsList={getProjectsList}
-                        getProjectTasksList={getProjectTasksList}
-                        currJournalId={currJournalId}
-                        currPageId={currPageId}
-                    />
+                    <RadioGroup
+                        aria-label="selected_task"
+                        name="selected_task"
+                        value={selectedTask}
+                        onChange={handleChangeSelectedProject}
+                    >
+                        <TaskTile
+                            projectTask={projectTask}
+                            getProjectsList={getProjectsList}
+                            getProjectTasksList={getProjectTasksList}
+                            currJournalId={currJournalId}
+                            currPageId={currPageId}
+                        />
+                    </RadioGroup>
                 </div>
             </TabPanel>
         </div>

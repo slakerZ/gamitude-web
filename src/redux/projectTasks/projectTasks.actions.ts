@@ -11,3 +11,8 @@ export const setProjectTasks = (value: any) => ({
     type: ProjectTasksActionTypes.SET_PROJECT_TASKS,
     payload: value,
 });
+
+export const setSelectedTask = (value: any) => ({
+    type: ProjectTasksActionTypes.SET_SELECTED_TASK,
+    payload: value,
+});

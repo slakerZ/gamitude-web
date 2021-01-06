@@ -10,4 +10,5 @@ export interface ProjectTaskTilePropTypes {
     currPageId: string;
     projectTask: ProjectTaskType;
     getProjectsList: any;
+    setSelectedTask: any;
 }

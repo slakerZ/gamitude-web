@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import { grey } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
+import { setSelectedTask } from "redux/projectTasks/projectTasks.actions";
 import { setProjects } from "redux/projects/projects.actions";
 import { selectProjects } from "redux/projects/projects.selectors";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
@@ -37,6 +38,7 @@ const TaskTile = ({
     currPageId,
     projectTask,
     getProjectsList,
+    setSelectedTask,
 }: ProjectTaskTilePropTypes) => {
     const classes = useProjectTaskStyles();
 
@@ -45,7 +47,9 @@ const TaskTile = ({
     const [taskTags, setTaskTags] = useState("");
     const [taskDue, setTaskDue] = useState("");
     const [taskAssociatedProject, setTaskAssociatedProject] = useState("");
-    const [selectedTask, setSelectedTask] = useState("");
+    const [selectedValue, setSelectedValue] = useState(
+        "5ff43e02e012188cb031aa9c",
+    );
 
     const [editProjectTaskState, editProjectTask] = useAsyncFn(
         async (id) => {
@@ -109,11 +113,9 @@ const TaskTile = ({
         setTaskDue(event.target.value);
     };
 
-    const handleChangeSelectedTask = (
-        event: React.ChangeEvent<any>,
-        newValue: any,
-    ) => {
-        setSelectedTask(newValue);
+    const handleSelectionChanged = (event: any) => {
+        event.stopPropagation();
+        setSelectedTask(projectTask);
     };
 
     return (
@@ -126,11 +128,11 @@ const TaskTile = ({
                     <CustomIcon variant={"creativity"} size="medium" />
                     <FormControlLabel
                         aria-label="Select Task"
-                        onClick={() => handleChangeSelectedTask}
+                        onClick={handleSelectionChanged}
                         onFocus={(event) => event.stopPropagation()}
                         control={<Radio />}
                         label={projectTask.name}
-                        value={projectTask.id}
+                        value={projectTask.name}
                     />
                     <Typography
                         style={{ paddingTop: 8.5, color: "grey" }}
@@ -214,4 +216,8 @@ const mapStateToProps = (state: any) => ({
     projects: selectProjects(state),
 });
 
-export default connect(mapStateToProps)(TaskTile);
+const mapDispatchToProps = (dispatch: any) => ({
+    setSelectedTask: (value: any) => dispatch(setSelectedTask(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskTile);

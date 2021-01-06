@@ -97,9 +97,9 @@ const BulletJournalPage = ({
         getProjectsList();
         getCurrJournalId();
         getJournalsList();
-        getPagesList(currJournalId);
-        getCurrPageId();
-        getProjectTasksList(currJournalId, currPageId);
+        //getPagesList(currJournalId);
+        //getCurrPageId();
+        //getProjectTasksList(currJournalId, currPageId);
     });
 
     useEffect(() => {
@@ -190,7 +190,7 @@ const BulletJournalPage = ({
                 />
             )}
             <div className={classes.restWrapper}>
-                {projectTasks.map((projectTask) => {
+                {projectTasks.map((projectTask, index) => {
                     return (
                         <BulletTask
                             key={projectTask.id}
