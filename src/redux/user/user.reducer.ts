@@ -1,9 +1,11 @@
 import { UserActionTypes } from "./user.types";
 
 const INITIAL_STATE = {
+    date_expires: "",
     token: null,
     tooltipToggle: true,
-    boughtRanks: [],
+    user: null,
+    userId: "",
 };
 
 const userReducer = (state = INITIAL_STATE, action: any) => {
@@ -18,10 +20,10 @@ const userReducer = (state = INITIAL_STATE, action: any) => {
                 ...state,
                 ...action.payload,
             };
-        case UserActionTypes.ADD_BOUGHT_RANK:
+        case UserActionTypes.SET_USER_FLAG:
             return {
                 ...state,
-                boughtRanks: [...state.boughtRanks, action.payload],
+                user: action.payload,
             };
         default:
             return state;

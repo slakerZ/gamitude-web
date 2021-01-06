@@ -80,14 +80,17 @@ export const postRankSelection = async (
     token: string,
     rankId: string,
 ): Promise<any> => {
-    const url = `${ENDPOINT}/select/${rankId}`;
+    const url = `${ENDPOINT}/select`;
+    const requestBody = {
+        id: rankId,
+    };
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     };
 
-    const response = await axios.post(url, {}, config);
+    const response = await axios.post(url, requestBody, config);
     const result = await response.data;
     return result;
 };

@@ -22,8 +22,8 @@ import Pagination from "@material-ui/lab/Pagination";
 
 import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
-import { addBoughtRank } from "redux/user/user.actions";
-import { selectToken } from "redux/user/user.selectors";
+import { setUserFlag } from "redux/user/user.actions";
+import { selectToken, selectUser } from "redux/user/user.selectors";
 
 import { getRanks as getRanksApi, postRankPurchase } from "api/rank/rank.api";
 import { FullRankType } from "api/rank/types";
@@ -39,7 +39,8 @@ import { ThemesPagePropTypes, FilterType, ActionType } from "./types";
 const ThemesPage = ({
     token,
     setSnackbarState,
-    addBoughtRank,
+    setUser,
+    user,
 }: ThemesPagePropTypes) => {
     const classes = useThemesPageStyles();
 
@@ -65,14 +66,13 @@ const ThemesPage = ({
     const [buyRankState, buyRank] = useAsyncFn(async (rankId: string) => {
         const response = await postRankPurchase(token, rankId, "STATS");
         const result = await response.data;
-
         setSnackbarState({
             autoHideDuration: 3000,
             message: "Successfully bought rank",
             open: true,
             severity: "success",
         });
-        addBoughtRank(result);
+        setUser(!user);
 
         return result;
     });
@@ -443,11 +443,12 @@ const ThemesPage = ({
 
 const mapStateToProps = (state: ReduxStateType) => ({
     token: selectToken(state),
+    user: selectUser(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
-    addBoughtRank: (value: any) => dispatch(addBoughtRank(value)),
+    setUser: (value: any) => dispatch(setUserFlag(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemesPage);

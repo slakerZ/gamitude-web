@@ -19,5 +19,5 @@ export interface StatsAndEnergiesType {
     setStats: (newStats: Stats) => void;
     token: string;
     sessionsComplete: number;
-    boughtRanks: any;
+    user: boolean | null;
 }

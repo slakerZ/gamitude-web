@@ -10,7 +10,7 @@ export const setTooltipToggle = (value: any) => ({
     payload: value,
 });
 
-export const addBoughtRank = (value: any) => ({
-    type: UserActionTypes.ADD_BOUGHT_RANK,
+export const setUserFlag = (value: any) => ({
+    type: UserActionTypes.SET_USER_FLAG,
     payload: value,
 });

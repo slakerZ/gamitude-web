@@ -38,10 +38,7 @@ const ChangeRankBadge = ({ children, token, setRank }: any) => {
     const [changeRankState, changeRank] = useAsyncFn(async () => {
         const rankId = selectedRank ? selectedRank : "";
         const result = await postRankSelection(token, rankId);
-        //WARN: returns null for now
-        console.log(result);
-        console.log(result.data);
-        // setRank(result.data)
+        setRank(result.data);
         setIsRankChangeDialogOpen(false);
         return result;
     }, [selectedRank]);
