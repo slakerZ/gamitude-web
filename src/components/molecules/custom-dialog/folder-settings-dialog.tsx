@@ -2,7 +2,7 @@ import React, { useState, Fragment, useEffect, ReactElement } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
 
-import { Button } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
@@ -179,20 +179,19 @@ const FolderSettingsDialog = ({
                 <Tabs
                     value={settingsTab}
                     onChange={handleSettingsTabChange}
-                    indicatorColor="secondary"
-                    textColor="secondary"
                     variant="fullWidth"
                     aria-label="Folder settings tabs"
+                    className={classes.navTabs}
                 >
                     <Tab
                         label={"Create new folder"}
                         value={"newFolder"}
-                        {...a11yProps(0, "newFolder")}
+                        // {...a11yProps(0, "newFolder")}
                     />
                     <Tab
                         label={"Edit folders"}
                         value={"editFolders"}
-                        {...a11yProps(0, "editFolders")}
+                        // {...a11yProps(0, "editFolders")}
                         disabled={folders.length <= 0}
                     />
                 </Tabs>
@@ -236,10 +235,7 @@ const FolderSettingsDialog = ({
                     id="editFolders"
                     role="directory"
                 >
-                    <div
-                        aria-label="Create New Folder Dialog's Body"
-                        className={classes.newFolderDialogBody}
-                    >
+                    <div>
                         <Grid container>
                             <Grid item xs={4}>
                                 <Tabs
@@ -249,7 +245,7 @@ const FolderSettingsDialog = ({
                                     variant="scrollable"
                                     value={currFolderId}
                                     onChange={handleChangeCurrentFolder}
-                                    className={classes.tabs}
+                                    className={classes.editTimerTabs}
                                 >
                                     {folders.map(
                                         ({ name, icon, id }, index) => {
@@ -273,10 +269,24 @@ const FolderSettingsDialog = ({
                                         },
                                     )}
                                 </Tabs>
+                                <div className={classes.delButtonWrapper}>
+                                    <Button
+                                        onClick={deleteFolder}
+                                        className={classes.delButton}
+                                    >
+                                        <Typography
+                                            variant={"h5"}
+                                            component={"h5"}
+                                            className={classes.delButtonTypo}
+                                        >
+                                            {"Delete Folder"}
+                                        </Typography>
+                                    </Button>
+                                </div>
                             </Grid>
                             <Grid item xs={8}>
                                 {currFolderId ? (
-                                    <Fragment>
+                                    <Box p={2}>
                                         <TextField
                                             label={"Name"}
                                             variant={"outlined"}
@@ -301,18 +311,7 @@ const FolderSettingsDialog = ({
                                             items={ICONS}
                                             exclusive={true}
                                         />
-
-                                        <Typography
-                                            variant={"h4"}
-                                            component={"h4"}
-                                            align={"center"}
-                                        >
-                                            {"Danger Zone"}
-                                        </Typography>
-                                        <Button onClick={deleteFolder}>
-                                            {"Delete Folder"}
-                                        </Button>
-                                    </Fragment>
+                                    </Box>
                                 ) : (
                                     <Fragment>
                                         <Typography

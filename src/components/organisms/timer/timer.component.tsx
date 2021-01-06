@@ -1,4 +1,4 @@
-import { TimerTypes } from "configs/constants";
+import { ProjectSessionTypes, TimerTypes } from "configs/constants";
 import useSound from "use-sound";
 
 import React, {
@@ -167,9 +167,7 @@ const Timer = ({
                         projectTaskId: null,
                         log: "",
                         timeSpend: minutesSpend + 1,
-                        dominantStat: selectedProject.dominantStat,
-                        stats: selectedProject.stats,
-                        projectType: selectedProject.projectType,
+                        type: selectedProject.projectType,
                     };
                     postProjectLog(token, requestBody).then(() => {
                         incrementSessionsComplete();
@@ -266,9 +264,7 @@ const Timer = ({
                     projectTaskId: null,
                     log: "",
                     timeSpend: minutesSpend + 1,
-                    dominantStat: selectedProject.dominantStat,
-                    stats: selectedProject.stats,
-                    projectType: "BREAK",
+                    type: ProjectSessionTypes.BREAK,
                 };
                 postProjectLog(token, requestBody).then(() => {
                     incrementSessionsComplete();
@@ -295,9 +291,7 @@ const Timer = ({
                     projectTaskId: null,
                     log: "",
                     timeSpend: minutesSpend + 1,
-                    dominantStat: selectedProject.dominantStat,
-                    stats: selectedProject.stats,
-                    projectType: selectedProject.projectType,
+                    type: selectedProject.projectType,
                 };
                 postProjectLog(token, requestBody).then(() => {
                     incrementSessionsComplete();

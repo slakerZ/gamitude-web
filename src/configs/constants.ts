@@ -7,6 +7,7 @@ export const ENERGIES = ["BODY", "EMOTIONS", "MIND", "SOUL"];
 export const ProjectSessionTypes: ProjectVariants = {
     STAT: "STAT",
     ENERGY: "ENERGY",
+    BREAK: "BREAK",
 };
 
 export const TimerTypes: TimerVariants = {

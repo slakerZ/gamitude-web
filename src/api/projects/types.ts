@@ -1,4 +1,4 @@
-import { EnergyType } from "configs/types";
+import { EnergyType, ProjectSessionType } from "configs/types";
 import { StatType } from "configs/types";
 
 export interface ProjectType {
@@ -6,7 +6,7 @@ export interface ProjectType {
     name: string;
     folderId: string;
     defaultTimerId: string;
-    projectType: string;
+    projectType: ProjectSessionType;
     dominantStat: StatType | EnergyType;
     stats: StatType[] | EnergyType[];
     totalTimeSpend: number;

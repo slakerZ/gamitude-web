@@ -4,7 +4,7 @@ export type EnergyType = "BODY" | "EMOTIONS" | "MIND" | "SOUL";
 
 export type StatType = "STRENGTH" | "CREATIVITY" | "INTELLIGENCE" | "FLUENCY";
 
-export type ProjectSessionType = "STAT" | "ENERGY";
+export type ProjectSessionType = "STAT" | "ENERGY" | "BREAK";
 
 export type TimerVariantType = "STOPWATCH" | "TIMER";
 
@@ -16,4 +16,5 @@ export interface TimerVariants {
 export interface ProjectVariants {
     ENERGY: ProjectSessionType;
     STAT: ProjectSessionType;
+    BREAK: ProjectSessionType;
 }
