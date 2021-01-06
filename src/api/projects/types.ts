@@ -10,7 +10,7 @@ export interface ProjectType {
     dominantStat: StatType | EnergyType;
     stats: StatType[] | EnergyType[];
     totalTimeSpend: number;
-    totalTimeSpendBreak: number;
+    timeSpendBreak: number;
     daysPerWeek: number;
     hoursPerDay: number;
     dayInterval: number;

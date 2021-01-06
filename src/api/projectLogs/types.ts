@@ -4,7 +4,6 @@ import { ProjectType } from "pages/projects-desktop/types";
 
 interface ProjectInLogType extends ProjectType {
     userId: string;
-    timeSpendBreak: number;
 }
 
 interface ProjectLogType {
