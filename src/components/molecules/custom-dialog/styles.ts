@@ -30,7 +30,7 @@ const useCustomDialogStyles = makeStyles((theme: Theme) => ({
         justifyContent: "center",
         borderRight: `1px solid ${theme.palette.divider}`,
         color: theme.palette.primary.contrastText,
-        height: "73vh",
+        minHeight: "70vh",
     },
     navTabs: {
         color: theme.palette.primary.contrastText,
@@ -41,6 +41,22 @@ const useCustomDialogStyles = makeStyles((theme: Theme) => ({
     },
     newTimerDialogForms: {
         padding: theme.spacing(3),
+    },
+    editedTimerSelectContainer: {
+        backgroundColor: theme.palette.primary.dark,
+        padding: theme.spacing(1),
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+    },
+    editedTimerSelect: {
+        margin: theme.spacing(1),
+        color: theme.palette.secondary.main,
+        textAlign: "center",
+        "& .MuiSelect-icon": {
+            color: theme.palette.secondary.main,
+        },
     },
 }));
 

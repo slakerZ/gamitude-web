@@ -42,7 +42,7 @@ const FormikForm: FC<FormikFormPropType> = ({
                                 {title}
                             </Typography>
                         ) : null}
-                        <Grid container spacing={2}>
+                        <Grid container spacing={1}>
                             {fields.map(
                                 ({ label, name, type, sm, xs }, index) => {
                                     return (

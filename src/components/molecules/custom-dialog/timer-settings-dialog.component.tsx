@@ -2,40 +2,60 @@ import clsx from "clsx";
 import { TimerTypes } from "configs/constants";
 import { Form, Formik } from "formik";
 
-import React, { useState, useEffect, ReactElement, Fragment } from "react";
+import React, {
+    useState,
+    useEffect,
+    ReactElement,
+    Fragment,
+    useReducer,
+} from "react";
 import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
 
-import { Grid, Slide } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Grid from "@material-ui/core/Grid";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import Slide from "@material-ui/core/Slide";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
+import Typography from "@material-ui/core/Typography";
 
 import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
+import { selectTimers } from "redux/timers/timers.selectors";
 import { selectToken } from "redux/user/user.selectors";
 
-import { postTimer } from "api/timers/timers.api";
+import { postTimer, putTimerById } from "api/timers/timers.api";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import FormikField from "components/atoms/formik-field/formik-field.component";
+import FormikForm from "components/atoms/formik-form/formik-form.component";
 import { FieldType } from "components/atoms/formik-form/types";
 import {
     TabPanel,
     a11yProps,
 } from "components/atoms/tab-panel/tab-panel.component";
 
-import { NewTimerVariants, TimerSettingsNavTabs } from "./constants";
-import useCustomDialogStyles from "./styles";
-import { NewTimerFormikInfo } from "./timer-settings-dialog.schema";
 import {
-    TimerSettingsDialogPropTypes,
-    NewTimerVariantTypes,
-    FormikInfoType,
-} from "./types";
+    NewTimerVariants,
+    TimerSettingsNavTabs,
+    CHANGE_INIT_VALUES,
+} from "./constants";
+import useCustomDialogStyles from "./styles";
+import {
+    CountdownComplexFields,
+    CountdownComplexSchema,
+    CountdownSimpleFields,
+    CountdownSimpleSchema,
+    NewTimerFormikInfo,
+    StopwatchFields,
+    StopwatchSchema,
+} from "./timer-settings-dialog.schema";
+import { TimerSettingsDialogPropTypes, FormikInfoType } from "./types";
 
 const TimerSettingsDialog = ({
     open,
@@ -43,15 +63,22 @@ const TimerSettingsDialog = ({
     getMethodsList,
     token,
     setSnackbarState,
+    timers,
 }: TimerSettingsDialogPropTypes): ReactElement => {
     const classes = useCustomDialogStyles();
 
     // useState
     const [currentVariant, setCurrentVariant] = useState(
-        NewTimerVariants.COUNTDOWN_STATIC,
+        NewTimerVariants.SIMPLE_COUNTDOWN,
     );
     const [currentNavTab, setCurrentNavTab] = useState(
         TimerSettingsNavTabs.NEW_TIMER,
+    );
+    const [currentEditedTimerId, setCurrentEditedTimerId] = useState(
+        timers[0] ? timers[0].id : "",
+    );
+    const [editedTimerVariant, setEditedTimerVariant] = useState(
+        NewTimerVariants.SIMPLE_COUNTDOWN,
     );
 
     // useAsyncFn
@@ -64,7 +91,7 @@ const TimerSettingsDialog = ({
                           timerType: TimerTypes.STOPWATCH,
                           countDownInfo: null,
                       }
-                    : currentVariant === NewTimerVariants.COUNTDOWN_STATIC
+                    : currentVariant === NewTimerVariants.SIMPLE_COUNTDOWN
                     ? {
                           name: values.name,
                           label: values.label,
@@ -77,7 +104,7 @@ const TimerSettingsDialog = ({
                               breakInterval: null,
                           },
                       }
-                    : currentVariant === NewTimerVariants.COUNTDOWN_DYNAMIC
+                    : currentVariant === NewTimerVariants.COMPLEX_COUNTDOWN
                     ? {
                           name: values.name,
                           label: values.label,
@@ -101,6 +128,135 @@ const TimerSettingsDialog = ({
         [currentVariant],
     );
 
+    const [editTimerState, editTimer] = useAsyncFn(
+        async (values, { resetForm }) => {
+            const requestBody =
+                currentVariant === NewTimerVariants.STOPWATCH
+                    ? {
+                          ...values,
+                          timerType: TimerTypes.STOPWATCH,
+                          countDownInfo: null,
+                      }
+                    : currentVariant === NewTimerVariants.SIMPLE_COUNTDOWN
+                    ? {
+                          name: values.name,
+                          label: values.label,
+                          timerType: TimerTypes.TIMER,
+                          countDownInfo: {
+                              workTime: values.workTime,
+                              breakTime: values.breakTime,
+                              overTime: values.overTime,
+                              longerBreakTime: null,
+                              breakInterval: null,
+                          },
+                      }
+                    : currentVariant === NewTimerVariants.COMPLEX_COUNTDOWN
+                    ? {
+                          name: values.name,
+                          label: values.label,
+                          timerType: TimerTypes.TIMER,
+                          countDownInfo: {
+                              workTime: values.workTime,
+                              breakTime: values.breakTime,
+                              overTime: values.overTime,
+                              longerBreakTime: values.longerBreakTime,
+                              breakInterval: values.breakInterval,
+                          },
+                      }
+                    : { ...values };
+            const response = await putTimerById(
+                token,
+                currentEditedTimerId,
+                requestBody,
+            );
+            setOpen(false);
+            resetForm();
+            getMethodsList();
+            return response;
+        },
+        [currentVariant],
+    );
+
+    //useReducer
+    const currentFormikInfoReducer = (state: any, action: any) => {
+        switch (action.type) {
+            case NewTimerVariants.STOPWATCH:
+                return {
+                    ...state,
+                    validationSchema: StopwatchSchema,
+                    fields: StopwatchFields,
+                };
+            case NewTimerVariants.SIMPLE_COUNTDOWN:
+                return {
+                    ...state,
+                    validationSchema: CountdownSimpleSchema,
+                    fields: CountdownSimpleFields,
+                };
+            case NewTimerVariants.COMPLEX_COUNTDOWN:
+                return {
+                    ...state,
+                    validationSchema: CountdownComplexSchema,
+                    fields: CountdownComplexFields,
+                };
+            case CHANGE_INIT_VALUES:
+                return {
+                    ...state,
+                    initialValues: action.payload,
+                };
+            default:
+                return state;
+        }
+    };
+
+    const [currentFormikInfo, dispatchCurrentFormikInfo] = useReducer(
+        currentFormikInfoReducer,
+        {
+            validationSchema: timers[0]
+                ? timers[0].timerType === "STOPWATCH"
+                    ? StopwatchSchema
+                    : timers[0].countDownInfo.breakInterval
+                    ? CountdownComplexSchema
+                    : CountdownSimpleSchema
+                : CountdownSimpleSchema,
+            initialValues: timers[0]
+                ? {
+                      name: timers[0].name,
+                      label: timers[0].label,
+                      workTime: timers[0].countDownInfo.workTime
+                          ? timers[0].countDownInfo.workTime
+                          : 0,
+                      breakTime: timers[0].countDownInfo.breakTime
+                          ? timers[0].countDownInfo.breakTime
+                          : 0,
+                      overTime: timers[0].countDownInfo.overTime
+                          ? timers[0].countDownInfo.overTime
+                          : 0,
+                      longerBreakTime: timers[0].countDownInfo.longerBreakTime
+                          ? timers[0].countDownInfo.longerBreakTime
+                          : 0,
+                      breakInterval: timers[0].countDownInfo.breakInterval
+                          ? timers[0].countDownInfo.breakInterval
+                          : 0,
+                  }
+                : {
+                      name: "",
+                      label: "",
+                      workTime: 0,
+                      breakTime: 0,
+                      overTime: 0,
+                      longerBreakTime: 0,
+                      breakInterval: 0,
+                  },
+            fields: timers[0]
+                ? timers[0].timerType === "STOPWATCH"
+                    ? StopwatchFields
+                    : timers[0].countDownInfo.breakInterval
+                    ? CountdownComplexFields
+                    : CountdownSimpleFields
+                : CountdownSimpleFields,
+        },
+    );
+
     // handlers
     const handleCancel = () => {
         setOpen(false);
@@ -110,11 +266,63 @@ const TimerSettingsDialog = ({
         setCurrentNavTab(newTab);
     };
 
-    const handleTimerVariantChange = (
-        e: any,
-        newValue: NewTimerVariantTypes,
-    ) => {
+    const handleChangeEditedTimer = (e: any, newTimer: string) => {
+        setCurrentEditedTimerId(newTimer);
+        const foundTimer = timers.find((timer) => timer.id === newTimer);
+        let foundVariant = NewTimerVariants.SIMPLE_COUNTDOWN;
+        if (foundTimer) {
+            if (foundTimer.timerType === "STOPWATCH") {
+                foundVariant = NewTimerVariants.STOPWATCH;
+            } else if (!foundTimer.countDownInfo.breakInterval) {
+                foundVariant = NewTimerVariants.SIMPLE_COUNTDOWN;
+            } else {
+                foundVariant = NewTimerVariants.COMPLEX_COUNTDOWN;
+            }
+        }
+        setCurrentVariant(foundVariant);
+        setEditedTimerVariant(foundVariant);
+        dispatchCurrentFormikInfo({ type: foundVariant });
+        dispatchCurrentFormikInfo({
+            type: CHANGE_INIT_VALUES,
+            payload: {
+                name: foundTimer ? foundTimer.name : "",
+                label: foundTimer ? foundTimer.label : "",
+                workTime:
+                    foundTimer && foundTimer.countDownInfo
+                        ? foundTimer.countDownInfo.workTime
+                        : 0,
+                breakTime:
+                    foundTimer && foundTimer.countDownInfo
+                        ? foundTimer.countDownInfo.breakTime
+                        : 0,
+                overTime:
+                    foundTimer && foundTimer.countDownInfo
+                        ? foundTimer.countDownInfo.overTime
+                        : 0,
+                longerBreakTime:
+                    foundTimer && foundTimer.countDownInfo
+                        ? foundTimer.countDownInfo.longerBreakTime
+                        : 0,
+                breakInterval:
+                    foundTimer && foundTimer.countDownInfo
+                        ? foundTimer.countDownInfo.breakInterval
+                        : 0,
+            },
+        });
+    };
+
+    const handleTimerVariantChange = (e: any, newValue: any) => {
         setCurrentVariant(newValue);
+    };
+
+    const handleSelectedVariantChange = (
+        event: React.ChangeEvent<{ value: unknown }>,
+    ) => {
+        setCurrentVariant(event.target.value as string);
+        setEditedTimerVariant(event.target.value as string);
+        dispatchCurrentFormikInfo({
+            type: event.target.value as string,
+        });
     };
 
     // useEffect
@@ -128,6 +336,17 @@ const TimerSettingsDialog = ({
             });
         }
     }, [postNewTimerState, setSnackbarState]);
+
+    useEffect(() => {
+        if (editTimerState.error) {
+            setSnackbarState({
+                message: "Failed to edit timer",
+                open: true,
+                severity: "error",
+                autoHideDuration: 3000,
+            });
+        }
+    }, [editTimerState]);
 
     return (
         <Dialog
@@ -176,7 +395,7 @@ const TimerSettingsDialog = ({
                         >
                             <Tab
                                 label={"Simple Countdown"}
-                                value={NewTimerVariants.COUNTDOWN_STATIC}
+                                value={NewTimerVariants.SIMPLE_COUNTDOWN}
                                 wrapped
                                 icon={
                                     <CustomIcon
@@ -185,7 +404,7 @@ const TimerSettingsDialog = ({
                                     />
                                 }
                                 {...a11yProps(
-                                    NewTimerVariants.COUNTDOWN_STATIC,
+                                    NewTimerVariants.SIMPLE_COUNTDOWN,
                                     "folder-with-projects",
                                 )}
                             />
@@ -206,7 +425,7 @@ const TimerSettingsDialog = ({
                             />
                             <Tab
                                 label={"Complex Countdown"}
-                                value={NewTimerVariants.COUNTDOWN_DYNAMIC}
+                                value={NewTimerVariants.COMPLEX_COUNTDOWN}
                                 wrapped
                                 icon={
                                     <CustomIcon
@@ -215,7 +434,7 @@ const TimerSettingsDialog = ({
                                     />
                                 }
                                 {...a11yProps(
-                                    NewTimerVariants.COUNTDOWN_DYNAMIC,
+                                    NewTimerVariants.COMPLEX_COUNTDOWN,
                                     "folder-with-projects",
                                 )}
                             />
@@ -328,12 +547,68 @@ const TimerSettingsDialog = ({
                     </Grid>
                 </Grid>
             </TabPanel>
+            <TabPanel
+                value={currentNavTab}
+                index={TimerSettingsNavTabs.EDIT_TIMERS}
+                id={"newTimer"}
+                role={"directory"}
+            >
+                <Grid container>
+                    <Grid item xs={4}>
+                        <div className={classes.editedTimerSelectContainer}>
+                            <Select
+                                value={editedTimerVariant}
+                                onChange={handleSelectedVariantChange}
+                                className={classes.editedTimerSelect}
+                            >
+                                {Object.keys(NewTimerVariants).map(
+                                    (key, index) => {
+                                        return (
+                                            <MenuItem key={index} value={key}>
+                                                {key}
+                                            </MenuItem>
+                                        );
+                                    },
+                                )}
+                            </Select>
+                            <Typography variant="h6" component={"h6"}>
+                                {"Select Timer to edit"}
+                            </Typography>
+                        </div>
+
+                        <Tabs
+                            value={currentEditedTimerId}
+                            onChange={handleChangeEditedTimer}
+                            orientation="vertical"
+                            variant={"scrollable"}
+                            className={classes.tabs}
+                        >
+                            {timers.map(({ id, name }) => {
+                                return <Tab key={id} label={name} value={id} />;
+                            })}
+                        </Tabs>
+                    </Grid>
+                    <Grid item xs={8}>
+                        <div className={classes.newTimerDialogForms}>
+                            <FormikForm
+                                initialValues={currentFormikInfo.initialValues}
+                                schema={currentFormikInfo.validationSchema}
+                                fields={currentFormikInfo.fields}
+                                onSubmit={editTimer}
+                                state={editTimerState}
+                                enableReinitialize={true}
+                            />
+                        </div>
+                    </Grid>
+                </Grid>
+            </TabPanel>
         </Dialog>
     );
 };
 
 const mapStateToProps = (state: ReduxStateType) => ({
     token: selectToken(state),
+    timers: selectTimers(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
