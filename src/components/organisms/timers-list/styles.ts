@@ -11,7 +11,12 @@ const useMethodsStyels = makeStyles((theme: Theme) => ({
         },
     },
     addMethod: {
-        paddingLeft: 0,
+        backgroundColor: theme.palette.primary.dark,
+        width: "50px",
+        height: "50px",
+        "&:hover": {
+            backgroundColor: theme.palette.primary.light,
+        },
     },
     placeholder: {
         width: "100%",
@@ -19,7 +24,8 @@ const useMethodsStyels = makeStyles((theme: Theme) => ({
     },
     container: {
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
+        alignItems: "center",
     },
 }));
 

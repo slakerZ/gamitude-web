@@ -32,6 +32,10 @@ const useCustomDialogStyles = makeStyles((theme: Theme) => ({
         color: theme.palette.primary.contrastText,
         height: "73vh",
     },
+    navTabs: {
+        color: theme.palette.primary.contrastText,
+        backgroundColor: theme.palette.primary.dark,
+    },
     newTimerDialogTitle: {
         borderBottom: `1px solid ${theme.palette.divider}`,
     },

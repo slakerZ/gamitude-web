@@ -29,7 +29,7 @@ export interface NewProjectDialogPropTypes {
     setSnackbarState: any;
 }
 
-export interface NewTimerDialogPropTypes {
+export interface TimerSettingsDialogPropTypes {
     open: any;
     setOpen: any;
     token: any;
