@@ -56,13 +56,13 @@ const TaskTile = ({
             const requestBody = {
                 journalId: currJournalId,
                 description: "",
-                name: taskName,
+                name: taskName === "" ? projectTask.name : taskName,
                 projectId:
                     taskAssociatedProject === ""
                         ? projectTask.projectId
                         : taskAssociatedProject,
-                note: taskNote,
-                tags: taskTags.split(", "),
+                note: taskNote === "" ? projectTask.note : taskNote,
+                tags: taskTags === "" ? projectTask.tags : taskTags.split(", "),
                 deadline:
                     taskDue === ""
                         ? projectTask.deadline

@@ -55,8 +55,8 @@ const BulletJournalPage = ({
         setIsNewProjectTaskDialogOpen,
     ] = useState(false);
 
-    const [pagesCurrJournalIndex, setPagesCurrJournalIndex] = useState(0);
-    const [tasksCurrPageIndex, setTasksCurrPageIndex] = useState(0);
+    const [pagesCurrJournalIndex, setPagesCurrJournalIndex] = useState(-1);
+    const [tasksCurrPageIndex, setTasksCurrPageIndex] = useState(-1);
 
     const [currJournalId, setCurrJournalId] = useState("");
     const [currPageId, setCurrPageId] = useState("");
@@ -186,42 +186,46 @@ const BulletJournalPage = ({
                     variant="rect"
                     className={classes.tabsPlaceholder}
                 />
-            ) : (
+            ) : pagesCurrJournalIndex !== -1 ? (
                 <Page
                     pagesCurrJournalIndex={pagesCurrJournalIndex}
                     tasksCurrPageIndex={tasksCurrPageIndex}
                     handleChangeCurrentPage={handleChangeCurrentPage}
                     handleOpenNewPageDialog={handleOpenNewPageDialog}
                 />
-            )}
+            ) : null}
             <div className={classes.restWrapper}>
-                {projectTasks.map((projectTask, index) => {
-                    return (
-                        <BulletTask
-                            key={projectTask.id}
-                            projectTask={projectTask}
-                            currJournalId={currJournalId}
-                            currPageId={currPageId}
-                            tasksCurrPageIndex={tasksCurrPageIndex}
-                            getProjectTasksList={getProjectTasksList}
-                            handleOpenNewProjectTaskDialog={
-                                handleOpenNewProjectTaskDialog
-                            }
-                        />
-                    );
-                })}
-                <div className={classes.fabWrapper} aria-label="Add Task">
-                    <ToggleableTooltip target="Task">
-                        <Fab
-                            color="secondary"
-                            aria-label="add"
-                            className={classes.add}
-                            onClick={handleOpenNewProjectTaskDialog}
-                        >
-                            <AddIcon />
-                        </Fab>
-                    </ToggleableTooltip>
-                </div>
+                {tasksCurrPageIndex !== -1
+                    ? projectTasks.map((projectTask, index) => {
+                          return (
+                              <BulletTask
+                                  key={projectTask.id}
+                                  projectTask={projectTask}
+                                  currJournalId={currJournalId}
+                                  currPageId={currPageId}
+                                  tasksCurrPageIndex={tasksCurrPageIndex}
+                                  getProjectTasksList={getProjectTasksList}
+                                  handleOpenNewProjectTaskDialog={
+                                      handleOpenNewProjectTaskDialog
+                                  }
+                              />
+                          );
+                      })
+                    : null}
+                {pagesCurrJournalIndex !== -1 ? (
+                    <div className={classes.fabWrapper} aria-label="Add Task">
+                        <ToggleableTooltip target="Task">
+                            <Fab
+                                color="secondary"
+                                aria-label="add"
+                                className={classes.add}
+                                onClick={handleOpenNewProjectTaskDialog}
+                            >
+                                <AddIcon />
+                            </Fab>
+                        </ToggleableTooltip>
+                    </div>
+                ) : null}
             </div>
             <NewJournalDialog
                 open={isNewJournalDialogOpen}
