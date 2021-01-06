@@ -288,23 +288,23 @@ const TimerSettingsDialog = ({
                 name: foundTimer ? foundTimer.name : "",
                 label: foundTimer ? foundTimer.label : "",
                 workTime:
-                    foundTimer && foundTimer.countDownInfo
+                    foundTimer && foundTimer.countDownInfo.workTime
                         ? foundTimer.countDownInfo.workTime
                         : 0,
                 breakTime:
-                    foundTimer && foundTimer.countDownInfo
+                    foundTimer && foundTimer.countDownInfo.breakTime
                         ? foundTimer.countDownInfo.breakTime
                         : 0,
                 overTime:
-                    foundTimer && foundTimer.countDownInfo
+                    foundTimer && foundTimer.countDownInfo.overTime
                         ? foundTimer.countDownInfo.overTime
                         : 0,
                 longerBreakTime:
-                    foundTimer && foundTimer.countDownInfo
+                    foundTimer && foundTimer.countDownInfo.longerBreakTime
                         ? foundTimer.countDownInfo.longerBreakTime
                         : 0,
                 breakInterval:
-                    foundTimer && foundTimer.countDownInfo
+                    foundTimer && foundTimer.countDownInfo.breakInterval
                         ? foundTimer.countDownInfo.breakInterval
                         : 0,
             },
@@ -346,7 +346,7 @@ const TimerSettingsDialog = ({
                 autoHideDuration: 3000,
             });
         }
-    }, [editTimerState]);
+    }, [editTimerState, setSnackbarState]);
 
     return (
         <Dialog
