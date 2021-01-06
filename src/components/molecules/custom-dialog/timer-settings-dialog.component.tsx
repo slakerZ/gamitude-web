@@ -29,7 +29,11 @@ import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectTimers } from "redux/timers/timers.selectors";
 import { selectToken } from "redux/user/user.selectors";
 
-import { postTimer, putTimerById } from "api/timers/timers.api";
+import {
+    deleteTimerById,
+    postTimer,
+    putTimerById,
+} from "api/timers/timers.api";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import FormikField from "components/atoms/formik-field/formik-field.component";
@@ -60,7 +64,7 @@ import { TimerSettingsDialogPropTypes, FormikInfoType } from "./types";
 const TimerSettingsDialog = ({
     open,
     setOpen,
-    getMethodsList,
+    getTimersList,
     token,
     setSnackbarState,
     timers,
@@ -75,7 +79,7 @@ const TimerSettingsDialog = ({
         TimerSettingsNavTabs.NEW_TIMER,
     );
     const [currentEditedTimerId, setCurrentEditedTimerId] = useState(
-        timers[0] ? timers[0].id : "",
+        timers[0] ? timers[0].id : false,
     );
     const [editedTimerVariant, setEditedTimerVariant] = useState(
         NewTimerVariants.SIMPLE_COUNTDOWN,
@@ -122,7 +126,7 @@ const TimerSettingsDialog = ({
             const response = await postTimer(token, requestBody);
             setOpen(false);
             resetForm();
-            getMethodsList();
+            getTimersList();
             return response;
         },
         [currentVariant],
@@ -166,16 +170,32 @@ const TimerSettingsDialog = ({
                     : { ...values };
             const response = await putTimerById(
                 token,
-                currentEditedTimerId,
+                currentEditedTimerId as string,
                 requestBody,
             );
             setOpen(false);
             resetForm();
-            getMethodsList();
+            getTimersList();
             return response;
         },
         [currentVariant],
     );
+
+    const [deleteTimerState, deleteTimer] = useAsyncFn(async () => {
+        setCurrentEditedTimerId(false);
+        const response = await deleteTimerById(
+            token,
+            currentEditedTimerId as string,
+        );
+        setSnackbarState({
+            message: "Successfully deleted timer",
+            open: true,
+            severity: "success",
+            autoHideDuration: 3000,
+        });
+        getTimersList();
+        return response;
+    });
 
     //useReducer
     const currentFormikInfoReducer = (state: any, action: any) => {
@@ -348,6 +368,23 @@ const TimerSettingsDialog = ({
         }
     }, [editTimerState, setSnackbarState]);
 
+    useEffect(() => {
+        if (deleteTimerState.error) {
+            setSnackbarState({
+                message: "Failed to delete timer",
+                open: true,
+                severity: "error",
+                autoHideDuration: 3000,
+            });
+        }
+    }, [deleteTimerState, setSnackbarState]);
+
+    useEffect(() => {
+        if (timers.length === 0) {
+            setCurrentNavTab(TimerSettingsNavTabs.NEW_TIMER);
+            setCurrentEditedTimerId(false);
+        }
+    }, [timers]);
     return (
         <Dialog
             className={classes.root}
@@ -374,6 +411,7 @@ const TimerSettingsDialog = ({
                 <Tab
                     label={"Edit timers"}
                     value={TimerSettingsNavTabs.EDIT_TIMERS}
+                    disabled={timers.length <= 0}
                 />
             </Tabs>
             <TabPanel
@@ -550,7 +588,7 @@ const TimerSettingsDialog = ({
             <TabPanel
                 value={currentNavTab}
                 index={TimerSettingsNavTabs.EDIT_TIMERS}
-                id={"newTimer"}
+                id={"editTimers"}
                 role={"directory"}
             >
                 <Grid container>
@@ -587,19 +625,44 @@ const TimerSettingsDialog = ({
                                 return <Tab key={id} label={name} value={id} />;
                             })}
                         </Tabs>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <div className={classes.newTimerDialogForms}>
-                            <FormikForm
-                                initialValues={currentFormikInfo.initialValues}
-                                schema={currentFormikInfo.validationSchema}
-                                fields={currentFormikInfo.fields}
-                                onSubmit={editTimer}
-                                state={editTimerState}
-                                enableReinitialize={true}
-                            />
+
+                        <div className={classes.delButtonWrapper}>
+                            <Button
+                                onClick={deleteTimer}
+                                className={classes.delButton}
+                            >
+                                <Typography
+                                    variant={"h5"}
+                                    component={"h5"}
+                                    className={classes.delButtonTypo}
+                                >
+                                    {"Delete Timer"}
+                                </Typography>
+                            </Button>
                         </div>
                     </Grid>
+                    {currentEditedTimerId ? (
+                        <Grid item xs={8}>
+                            <div className={classes.newTimerDialogForms}>
+                                <FormikForm
+                                    initialValues={
+                                        currentFormikInfo.initialValues
+                                    }
+                                    schema={currentFormikInfo.validationSchema}
+                                    fields={currentFormikInfo.fields}
+                                    onSubmit={editTimer}
+                                    state={editTimerState}
+                                    enableReinitialize={true}
+                                />
+                            </div>
+                        </Grid>
+                    ) : (
+                        <Grid item xs={8}>
+                            <Typography variant={"h2"} component={"h2"}>
+                                {"Please select timer to edit"}
+                            </Typography>
+                        </Grid>
+                    )}
                 </Grid>
             </TabPanel>
         </Dialog>

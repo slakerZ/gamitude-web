@@ -34,7 +34,7 @@ export interface TimerSettingsDialogPropTypes {
     open: any;
     setOpen: any;
     token: any;
-    getMethodsList: any;
+    getTimersList: any;
     setSnackbarState: any;
     timers: TimerType[];
 }

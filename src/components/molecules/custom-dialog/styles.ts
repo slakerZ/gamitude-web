@@ -30,7 +30,7 @@ const useCustomDialogStyles = makeStyles((theme: Theme) => ({
         justifyContent: "center",
         borderRight: `1px solid ${theme.palette.divider}`,
         color: theme.palette.primary.contrastText,
-        minHeight: "70vh",
+        minHeight: "65vh",
     },
     navTabs: {
         color: theme.palette.primary.contrastText,
@@ -57,6 +57,18 @@ const useCustomDialogStyles = makeStyles((theme: Theme) => ({
         "& .MuiSelect-icon": {
             color: theme.palette.secondary.main,
         },
+    },
+    delButtonWrapper: {
+        display: "flex",
+        justifyContent: "center",
+        backgroundColor: theme.palette.primary.dark,
+    },
+    delButton: {
+        backgroundColor: theme.palette.error.main,
+        margin: theme.spacing(1),
+    },
+    delButtonTypo: {
+        color: theme.palette.primary.dark,
     },
 }));
 

@@ -166,7 +166,7 @@ const Methods = ({
                 <TimerSettingsDialog
                     open={isTimerSettingsDialogOpen}
                     setOpen={setIsTimerSettingsDialogOpen}
-                    getMethodsList={getTimersList}
+                    getTimersList={getTimersList}
                 />
             </Suspense>
         </div>
