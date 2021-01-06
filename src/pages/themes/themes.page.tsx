@@ -26,8 +26,8 @@ import { setUserFlag } from "redux/user/user.actions";
 import { selectToken, selectUser } from "redux/user/user.selectors";
 
 import { getRanks as getRanksApi, postRankPurchase } from "api/rank/rank.api";
-import { FullRankType } from "api/rank/types";
-import { getUserMoney } from "api/users/users.api";
+import { RankType } from "api/rank/types";
+import { getOwnMoney } from "api/users/users.api";
 
 import CustomIconWithTypography from "components/atoms/custom-icon-with-typography/custom-icon-with-typography.component";
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
@@ -58,7 +58,7 @@ const ThemesPage = ({
     });
 
     const [getMoneyState, getMoney] = useAsyncFn(async () => {
-        const response = await getUserMoney(token);
+        const response = await getOwnMoney(token);
         setMoney(response.data);
         return response.data;
     });
@@ -222,11 +222,6 @@ const ThemesPage = ({
                                     control={<Radio />}
                                     label="Ranks"
                                 />
-                                <FormControlLabel
-                                    value="timer_themes"
-                                    control={<Radio />}
-                                    label="Timer Themes"
-                                />
                             </RadioGroup>
                         </FormControl>
                         <div aria-label="Tier filter">
@@ -321,7 +316,7 @@ const ThemesPage = ({
                                         priceFluency,
                                         priceIntelligence,
                                         id,
-                                    }: FullRankType,
+                                    }: RankType,
                                     index: number,
                                 ) => {
                                     return (

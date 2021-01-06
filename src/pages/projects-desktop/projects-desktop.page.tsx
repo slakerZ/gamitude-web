@@ -24,7 +24,7 @@ import { selectToken } from "redux/user/user.selectors";
 
 import { getFolders } from "api/folders/folders.api";
 import { getProjects } from "api/projects/projects.api";
-import { FullProjectType } from "api/projects/types";
+import { ProjectType } from "api/projects/types";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import {
@@ -179,7 +179,7 @@ const ProjectsDesktopPage = ({
                     role="menu"
                     className={classes.projectsWrapper}
                 >
-                    {projects.map((project: FullProjectType, index: number) => {
+                    {projects.map((project: ProjectType, index: number) => {
                         const { folderId } = project;
                         return (
                             <TabPanel

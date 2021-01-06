@@ -4,7 +4,11 @@ export const PROFILE_TABS = [
         icon: "lock",
     },
     {
-        label: "Profile Details",
+        label: "Change Email",
         icon: "profile",
+    },
+    {
+        label: "Danger Zone",
+        icon: "caution",
     },
 ];

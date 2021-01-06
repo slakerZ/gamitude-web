@@ -1,8 +1,8 @@
-import { FullProjectType } from "api/projects/types";
+import { ProjectType } from "api/projects/types";
 import { TimerType } from "api/timers/types";
 
 export interface TimerPropTypes {
-    selectedProject: FullProjectType;
+    selectedProject: ProjectType;
     selectedTimer: TimerType;
     setSelectedTimer: any;
     timers: TimerType[];

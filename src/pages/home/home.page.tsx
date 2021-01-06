@@ -36,7 +36,7 @@ import {
     ATTRIBUTIONS_PIXABAY,
     ATTRIBUTIONS_FLATICON,
     ATTRIBUTIONS_PEXELS,
-    ATTRIBUTIONS_MIXKIT,
+    ATTIBUTIONS_OTHER,
 } from "./constants";
 import useHomePageStyles from "./styles";
 import {
@@ -353,8 +353,17 @@ const HomePage = ({ token }: HomePagePropTypes): ReactElement => {
                                     {"Mixkit"}
                                 </Typography>
                             </a>
+                            <a
+                                href="https://iconscout.com/icons/verified-mail"
+                                target="_blank"
+                                rel={"noopener noreferrer"}
+                            >
+                                <Typography variant="h3" component="h3">
+                                    {"Iconscout"}
+                                </Typography>
+                            </a>
 
-                            <AttributionsList items={ATTRIBUTIONS_MIXKIT} />
+                            <AttributionsList items={ATTIBUTIONS_OTHER} />
                         </Grid>
                     </Grid>
                 </Slide>

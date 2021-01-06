@@ -295,10 +295,14 @@ export const ATTRIBUTIONS_PEXELS = [
     },
 ];
 
-export const ATTRIBUTIONS_MIXKIT = [
+export const ATTIBUTIONS_OTHER = [
     {
         ref: "https://mixkit.co/@marcolopez/",
         name: "Marco Lopez",
+    },
+    {
+        ref: "https://iconscout.com/contributors/mcgandhi61",
+        name: "Mohit Gandhi",
     },
 ];
 

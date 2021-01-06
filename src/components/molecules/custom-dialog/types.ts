@@ -59,7 +59,6 @@ export interface FormikDialogPropTypes {
     validationSchema: any;
     onSubmit: any;
     formFields: FieldType[];
-    children: any;
 }
 export interface FormikInfoType {
     name: any;
