@@ -1,3 +1,6 @@
+import { FolderType } from "api/folders/types";
+import { TimerType } from "api/timers/types";
+
 import { FieldType } from "components/atoms/formik-form/types";
 
 export interface CustomDialogPropType {
@@ -9,12 +12,14 @@ export interface CustomDialogPropType {
     handleCancel?: any;
 }
 
-export interface NewFolderDialogPropTypes {
+export interface FolderSettingsPropTypes {
     token: string;
     open: boolean;
     setOpen: any;
     getFoldersList: any;
     setSnackbarState: any;
+    setFolders: any;
+    folders: FolderType[];
 }
 
 export interface NewProjectDialogPropTypes {
@@ -25,12 +30,13 @@ export interface NewProjectDialogPropTypes {
     setSnackbarState: any;
 }
 
-export interface NewTimerDialogPropTypes {
+export interface TimerSettingsDialogPropTypes {
     open: any;
     setOpen: any;
     token: any;
-    getMethodsList: any;
+    getTimersList: any;
     setSnackbarState: any;
+    timers: TimerType[];
 }
 
 export interface ConfirmationDialogType {
@@ -54,20 +60,8 @@ export interface FormikDialogPropTypes {
     onSubmit: any;
     formFields: FieldType[];
 }
-
-export type NewTimerVariantTypes =
-    | "STOPWATCH"
-    | "COUNTDOWN_STATIC"
-    | "COUNTDOWN_DYNAMIC";
-
-export interface NewTimerVariantObject {
-    STOPWATCH: NewTimerVariantTypes;
-    COUNTDOWN_STATIC: NewTimerVariantTypes;
-    COUNTDOWN_DYNAMIC: NewTimerVariantTypes;
-}
-
 export interface FormikInfoType {
-    name: NewTimerVariantTypes;
+    name: any;
     initialValues: any;
     validationSchema: any;
     formFields: FieldType[];

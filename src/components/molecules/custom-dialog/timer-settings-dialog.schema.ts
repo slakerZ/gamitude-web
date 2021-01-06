@@ -115,23 +115,23 @@ export const CountdownComplexSchema = Yup.object().shape({
     workTime: Yup.number()
         .integer("Only integers allowed")
         .positive("Must be greater than 0")
-        .required("Session time is required"),
+        .required("Work time is required"),
     breakTime: Yup.number()
         .integer("Only integers allowed")
         .positive("Must be greater than 0")
-        .required("Session time is required"),
+        .required("Break time is required"),
     overTime: Yup.number()
         .integer("Only integers allowed")
         .positive("Must be greater than 0")
-        .required("Session time is required"),
+        .required("Overtime is required"),
     longerBreakTime: Yup.number()
         .integer("Only integers allowed")
         .positive("Must be greater than 0")
-        .required("Session time is required"),
+        .required("Longer break time is required"),
     breakInterval: Yup.number()
         .integer("Only integers allowed")
         .positive("Must be greater than 0")
-        .required("Session time is required"),
+        .required("Break interval is required"),
 });
 
 export const CountdownComplexInitialValues = {
@@ -198,13 +198,13 @@ export const CountdownComplexFields: FieldType[] = [
 
 export const NewTimerFormikInfo: FormikInfoType[] = [
     {
-        name: NewTimerVariants.COUNTDOWN_STATIC,
+        name: NewTimerVariants.SIMPLE_COUNTDOWN,
         validationSchema: CountdownSimpleSchema,
         initialValues: CountdownSimpleInitialValues,
         formFields: CountdownSimpleFields,
     },
     {
-        name: NewTimerVariants.COUNTDOWN_DYNAMIC,
+        name: NewTimerVariants.COMPLEX_COUNTDOWN,
         validationSchema: CountdownComplexSchema,
         initialValues: CountdownComplexInitialValues,
         formFields: CountdownComplexFields,

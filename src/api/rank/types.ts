@@ -18,3 +18,5 @@ export interface RankResponseBodyType {
     data: RankType;
     success: boolean;
 }
+
+export type CurrencyTypes = "REAL" | "STATS";

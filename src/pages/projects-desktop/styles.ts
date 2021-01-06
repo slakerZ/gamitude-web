@@ -24,6 +24,7 @@ const useProjectsDesktopStyles = makeStyles((theme: Theme) => ({
         alignItems: "center",
         position: "sticky",
         top: 0,
+        maxHeight: "877px",
     },
     tabsPlaceholder: {
         width: "161px",

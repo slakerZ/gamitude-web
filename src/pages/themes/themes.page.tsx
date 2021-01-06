@@ -18,12 +18,14 @@ import Grid from "@material-ui/core/Grid";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Typography from "@material-ui/core/Typography";
+import Pagination from "@material-ui/lab/Pagination";
 
 import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
-import { selectToken } from "redux/user/user.selectors";
+import { setUserFlag } from "redux/user/user.actions";
+import { selectToken, selectUser } from "redux/user/user.selectors";
 
-import { getRanks as getRanksApi } from "api/rank/rank.api";
+import { getRanks as getRanksApi, postRankPurchase } from "api/rank/rank.api";
 import { RankType } from "api/rank/types";
 import { getOwnMoney } from "api/users/users.api";
 
@@ -34,12 +36,23 @@ import { TiersMapper, PricesMapper } from "./constants";
 import useThemesPageStyles from "./styles";
 import { ThemesPagePropTypes, FilterType, ActionType } from "./types";
 
-const ThemesPage = ({ token, setSnackbarState }: ThemesPagePropTypes) => {
+const ThemesPage = ({
+    token,
+    setSnackbarState,
+    setUser,
+    user,
+}: ThemesPagePropTypes) => {
     const classes = useThemesPageStyles();
 
+    // useState
+    const [money, setMoney] = useState(0);
+    const [itemsCategory, setItemsCategory] = useState("ranks");
+    const [shopItems, setShopItems] = useState<any>([]);
+    const [shopPage, setShopPage] = useState(1);
+
     // useAsyncFn
-    const [getRanksState, getRanks] = useAsyncFn(async () => {
-        const response = await getRanksApi(token, 1, 8, "name");
+    const [getRanksState, getRanks] = useAsyncFn(async (pageNum: number) => {
+        const response = await getRanksApi(token, pageNum, 8, "name");
         setShopItems(response.data);
         return response;
     });
@@ -48,6 +61,20 @@ const ThemesPage = ({ token, setSnackbarState }: ThemesPagePropTypes) => {
         const response = await getOwnMoney(token);
         setMoney(response.data);
         return response.data;
+    });
+
+    const [buyRankState, buyRank] = useAsyncFn(async (rankId: string) => {
+        const response = await postRankPurchase(token, rankId, "STATS");
+        const result = await response.data;
+        setSnackbarState({
+            autoHideDuration: 3000,
+            message: "Successfully bought rank",
+            open: true,
+            severity: "success",
+        });
+        setUser(!user);
+
+        return result;
     });
 
     // useReducer
@@ -97,11 +124,6 @@ const ThemesPage = ({ token, setSnackbarState }: ThemesPagePropTypes) => {
         cash: true,
     });
 
-    // useState
-    const [money, setMoney] = useState(0);
-    const [itemsCategory, setItemsCategory] = useState("ranks");
-    const [shopItems, setShopItems] = useState<any>([]);
-
     // handlers
     const handleCategoryChange = (e: any, newValue: string) => {
         setItemsCategory(newValue);
@@ -112,14 +134,17 @@ const ThemesPage = ({ token, setSnackbarState }: ThemesPagePropTypes) => {
     };
 
     const handleBuy = (id: string, name: string) => {
-        // console.log(id);
-        // console.log(name);
-        return { id, name };
+        buyRank(id);
+    };
+
+    const handlePageChange = (event: any, page: number): void => {
+        setShopPage(page);
+        getRanks(page);
     };
 
     // useEffect
     useEffectOnce(() => {
-        getRanks();
+        getRanks(1);
         getMoney();
     });
 
@@ -144,6 +169,17 @@ const ThemesPage = ({ token, setSnackbarState }: ThemesPagePropTypes) => {
             });
         }
     }, [getRanksState, setSnackbarState]);
+
+    useEffect(() => {
+        if (buyRankState.error) {
+            setSnackbarState({
+                autoHideDuration: 3000,
+                message: "Failed to buy rank",
+                open: true,
+                severity: "error",
+            });
+        }
+    }, [buyRankState, setSnackbarState]);
 
     return (
         <Fragment>
@@ -250,6 +286,13 @@ const ThemesPage = ({ token, setSnackbarState }: ThemesPagePropTypes) => {
                                 )}
                             </div>
                         </div>
+                        <Pagination
+                            count={4}
+                            color="secondary"
+                            className={classes.pagination}
+                            onChange={handlePageChange}
+                            page={shopPage}
+                        />
                     </div>
                 </Grid>
                 <Grid item xs={9} className={classes.shopItems}>
@@ -353,14 +396,14 @@ const ThemesPage = ({ token, setSnackbarState }: ThemesPagePropTypes) => {
                                                             >
                                                                 {priceFluency.toString()}
                                                             </CustomIconWithTypography>
-                                                            <CustomIconWithTypography
+                                                            {/* <CustomIconWithTypography
                                                                 iconVariant={
                                                                     "money"
                                                                 }
                                                                 variant={"h4"}
                                                             >
                                                                 {priceEuro.toString()}
-                                                            </CustomIconWithTypography>
+                                                            </CustomIconWithTypography> */}
                                                         </div>
                                                     </CardContent>
                                                 </CardActionArea>
@@ -395,10 +438,12 @@ const ThemesPage = ({ token, setSnackbarState }: ThemesPagePropTypes) => {
 
 const mapStateToProps = (state: ReduxStateType) => ({
     token: selectToken(state),
+    user: selectUser(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
+    setUser: (value: any) => dispatch(setUserFlag(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemesPage);

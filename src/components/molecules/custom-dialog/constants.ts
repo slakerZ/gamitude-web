@@ -1,7 +1,12 @@
-import { NewTimerVariantObject } from "./types";
-
-export const NewTimerVariants: NewTimerVariantObject = {
+export const NewTimerVariants = {
     STOPWATCH: "STOPWATCH",
-    COUNTDOWN_STATIC: "COUNTDOWN_STATIC",
-    COUNTDOWN_DYNAMIC: "COUNTDOWN_DYNAMIC",
+    SIMPLE_COUNTDOWN: "SIMPLE_COUNTDOWN",
+    COMPLEX_COUNTDOWN: "COMPLEX_COUNTDOWN",
 };
+
+export const TimerSettingsNavTabs = {
+    NEW_TIMER: "NEW_TIMER",
+    EDIT_TIMERS: "EDIT_TIMERS",
+};
+
+export const CHANGE_INIT_VALUES = "CHANGE_INIT_VALUES";

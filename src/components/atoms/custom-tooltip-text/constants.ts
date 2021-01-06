@@ -233,6 +233,14 @@ const addProject = {
 
 // Rank
 
+const rankChange = {
+    title: "Change Rank",
+    bodyItems: [
+        "Select which rank you want to display",
+        "You can buy more ranks it Themes shop",
+    ],
+};
+
 const rankRequirements = {
     title: "Rank Requirements",
     bodyItems: [
@@ -295,6 +303,8 @@ export const targetToTooltipObject = (target: string): TooltipObjectType => {
             return profileSettings;
         case "projects":
             return projects;
+        case "rankChange":
+            return rankChange;
         case "rankRequirements":
             return rankRequirements;
         case "rankImage":

@@ -5,7 +5,6 @@ import { useEffectOnce, useAsyncFn } from "react-use";
 import IconButton from "@material-ui/core/IconButton";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
-import AddAlarm from "@material-ui/icons/AddAlarm";
 import TimerIcon from "@material-ui/icons/Timer";
 import Skeleton from "@material-ui/lab/Skeleton";
 
@@ -24,15 +23,18 @@ import { selectToken } from "redux/user/user.selectors";
 import { getTimers } from "api/timers/timers.api";
 import { TimerType } from "api/timers/types";
 
+import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
 import { a11yProps } from "components/atoms/tab-panel/tab-panel.component";
 import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import useMethodsStyles from "./styles";
 import { TimersPropType } from "./types";
 
-const NewTimerDialog = lazy(
+const TimerSettingsDialog = lazy(
     () =>
-        import("components/molecules/custom-dialog/new-timer-dialog.component"),
+        import(
+            "components/molecules/custom-dialog/timer-settings-dialog.component"
+        ),
 );
 
 const Methods = ({
@@ -54,7 +56,9 @@ const Methods = ({
 
     // useState
     const [timerIndex, setTimerIndex] = useState(defaultSelected);
-    const [isNewTimerDialogOpen, setIsNewTimerDialogOpen] = useState(false);
+    const [isTimerSettingsDialogOpen, setIsTimerSettingsDialogOpen] = useState(
+        false,
+    );
 
     // useAsyncFn
     const [getTimersListState, getTimersList] = useAsyncFn(async () => {
@@ -90,7 +94,7 @@ const Methods = ({
     };
 
     const handleOpenDialog = () => {
-        setIsNewTimerDialogOpen(true);
+        setIsTimerSettingsDialogOpen(true);
     };
 
     useEffect(() => {
@@ -153,16 +157,16 @@ const Methods = ({
                             className={classes.addMethod}
                             onClick={handleOpenDialog}
                         >
-                            <AddAlarm />
+                            <CustomIcon variant="settings" size="small" />
                         </IconButton>
                     </div>
                 </ToggleAbleTooltip>
             )}
             <Suspense fallback={<Fragment />}>
-                <NewTimerDialog
-                    open={isNewTimerDialogOpen}
-                    setOpen={setIsNewTimerDialogOpen}
-                    getMethodsList={getTimersList}
+                <TimerSettingsDialog
+                    open={isTimerSettingsDialogOpen}
+                    setOpen={setIsTimerSettingsDialogOpen}
+                    getTimersList={getTimersList}
                 />
             </Suspense>
         </div>

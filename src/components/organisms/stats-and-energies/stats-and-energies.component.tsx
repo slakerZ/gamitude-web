@@ -12,7 +12,7 @@ import { selectEnergies } from "redux/energies/energies.selectors";
 import { selectSessionsComplete } from "redux/session/session.selectors";
 import { setStats } from "redux/stats/stats.actions";
 import { selectStats } from "redux/stats/stats.selectors";
-import { selectToken } from "redux/user/user.selectors";
+import { selectToken, selectUser } from "redux/user/user.selectors";
 
 import { getStats, getEnergies } from "api/statistics/statistics.api";
 
@@ -29,6 +29,7 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
     stats,
     setStats,
     sessionsComplete,
+    user,
 }: StatsAndEnergiesType): ReactElement => {
     const classes = useStatsAndEnergiesStyles();
 
@@ -50,7 +51,7 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
     useUpdateEffect(() => {
         getStatsSubmit();
         getEnergiesSubmit();
-    }, [sessionsComplete]);
+    }, [sessionsComplete, user]);
 
     return (
         <Fragment>
@@ -185,6 +186,7 @@ const mapStateToProps = (state: any) => ({
     energies: selectEnergies(state),
     token: selectToken(state),
     sessionsComplete: selectSessionsComplete(state),
+    user: selectUser(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

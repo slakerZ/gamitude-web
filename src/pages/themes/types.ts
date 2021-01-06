@@ -1,6 +1,8 @@
 export interface ThemesPagePropTypes {
     token: string;
     setSnackbarState: any;
+    setUser: any;
+    user: boolean | null;
 }
 export interface FilterType {
     s: boolean;
