@@ -30,6 +30,13 @@ const useCustomDialogStyles = makeStyles((theme: Theme) => ({
         justifyContent: "center",
         borderRight: `1px solid ${theme.palette.divider}`,
         color: theme.palette.primary.contrastText,
+        minHeight: "70vh",
+    },
+    editTimerTabs: {
+        backgroundColor: theme.palette.primary.dark,
+        justifyContent: "center",
+        borderRight: `1px solid ${theme.palette.divider}`,
+        color: theme.palette.primary.contrastText,
         minHeight: "65vh",
     },
     navTabs: {

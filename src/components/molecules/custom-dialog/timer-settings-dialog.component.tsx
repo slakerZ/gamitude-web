@@ -619,7 +619,7 @@ const TimerSettingsDialog = ({
                             onChange={handleChangeEditedTimer}
                             orientation="vertical"
                             variant={"scrollable"}
-                            className={classes.tabs}
+                            className={classes.editTimerTabs}
                         >
                             {timers.map(({ id, name }) => {
                                 return <Tab key={id} label={name} value={id} />;
