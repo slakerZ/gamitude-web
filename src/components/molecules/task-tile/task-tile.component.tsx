@@ -15,8 +15,15 @@ import { grey } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import { setSelectedTask } from "redux/projectTasks/projectTasks.actions";
-import { setProjects } from "redux/projects/projects.actions";
+import {
+    setProjects,
+    setSelectedProject,
+} from "redux/projects/projects.actions";
 import { selectProjects } from "redux/projects/projects.selectors";
+import {
+    selectIsBreak,
+    selectSessionInProgress,
+} from "redux/session/session.selectors";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectToken } from "redux/user/user.selectors";
 
@@ -24,8 +31,7 @@ import {
     deleteProjectTaskById,
     putProjectTaskById,
 } from "api/projectTasks/projectTasks.api";
-
-import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
+import { ProjectType } from "api/projects/types";
 
 import useProjectTaskStyles from "./styles";
 import { ProjectTaskTilePropTypes } from "./types";
@@ -39,6 +45,10 @@ const TaskTile = ({
     projectTask,
     getProjectsList,
     setSelectedTask,
+    setSelectedProject,
+    sessionInProgress,
+    isBreak,
+    setSnackbarState,
 }: ProjectTaskTilePropTypes) => {
     const classes = useProjectTaskStyles();
 
@@ -112,14 +122,46 @@ const TaskTile = ({
     const handleSelectionChanged = (event: any) => {
         event.stopPropagation();
         setSelectedTask(projectTask);
+        if (!sessionInProgress && !isBreak) {
+            if (
+                projectTask.projectId !== "" &&
+                projectTask.projectId !== undefined &&
+                projectTask.projectId !== null
+            ) {
+                const selectedProject = projects.find(
+                    (project) => project.id === projectTask.projectId,
+                );
+                setSelectedProject(selectedProject);
+            } else {
+                setSelectedProject({});
+            }
+        } else if (isBreak) {
+            setSnackbarState({
+                severity: "info",
+                message:
+                    "Cannot change selected task when there's break available, either complete it or skip it",
+                open: true,
+                autoHideDuration: 3000,
+            });
+        } else if (sessionInProgress) {
+            setSnackbarState({
+                severity: "info",
+                message: "Cannot change selected task during session",
+                open: true,
+                autoHideDuration: 3000,
+            });
+        }
     };
     return (
-        <Accordion className={classes.task} square>
+        <Accordion
+            className={classes.task}
+            square
+            onChange={(event) => event.preventDefault()}
+        >
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="Task"
             >
-                <CustomIcon variant={"creativity"} size="medium" />
                 <FormControlLabel
                     aria-label="Select Task"
                     onClick={handleSelectionChanged}
@@ -134,6 +176,16 @@ const TaskTile = ({
                 >
                     {projectTask.note}
                 </Typography>
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.finish}
+                    onClick={() => deleteProjectTask(projectTask.id)}
+                >
+                    <Typography component="h6" variant="h6">
+                        {"Finish"}
+                    </Typography>
+                </Button>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
                 <TextField
@@ -159,7 +211,7 @@ const TaskTile = ({
                 />
                 <TextField
                     type="date"
-                    label={"Deadline"}
+                    label={""}
                     variant={"outlined"}
                     color={"secondary"}
                     fullWidth
@@ -188,7 +240,7 @@ const TaskTile = ({
                     onClick={() => deleteProjectTask(projectTask.id)}
                 >
                     <Typography component="h6" variant="h6">
-                        {"Delete Project"}
+                        {"Delete Task"}
                     </Typography>
                 </Button>
 
@@ -207,10 +259,15 @@ const TaskTile = ({
 const mapStateToProps = (state: any) => ({
     token: selectToken(state),
     projects: selectProjects(state),
+    sessionInProgress: selectSessionInProgress(state),
+    isBreak: selectIsBreak(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setSelectedTask: (value: any) => dispatch(setSelectedTask(value)),
+    setSelectedProject: (value: ProjectType) =>
+        dispatch(setSelectedProject(value)),
+    setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskTile);

@@ -14,6 +14,10 @@ const useProjectTaskStyles = makeStyles((theme) => ({
             margin: theme.spacing(1, 0),
         },
     },
+    finish: {
+        position: "absolute",
+        right: "50px",
+    },
 }));
 
 export default useProjectTaskStyles;

@@ -30,8 +30,8 @@ const NewPageDialog = ({
 
     const [pageName, setPageName] = useState("");
     const [pageIcon, setPageIcon] = useState("");
-    const [fromDay, setFromDay] = useState(0);
-    const [toDay, setToDay] = useState(0);
+    const [fromDay, setFromDay] = useState("");
+    const [toDay, setToDay] = useState("");
 
     const [createNewPageState, createNewPage] = useAsyncFn(async () => {
         const requestBody = {
@@ -39,9 +39,9 @@ const NewPageDialog = ({
 
             name: pageName,
 
-            fromDay: fromDay,
+            fromDay: parseInt(fromDay),
 
-            toDay: toDay,
+            toDay: parseInt(toDay),
 
             icon: pageIcon,
 
@@ -68,11 +68,11 @@ const NewPageDialog = ({
     };
 
     const handleChangeJournalFromDay = (e: any) => {
-        setFromDay(parseInt(e.target.value));
+        setFromDay(e.target.value);
     };
 
     const handleChangeJournalToDay = (e: any) => {
-        setToDay(parseInt(e.target.value));
+        setToDay(e.target.value);
     };
 
     useEffect(() => {

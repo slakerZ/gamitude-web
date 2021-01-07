@@ -1,6 +1,5 @@
 import { ProjectTaskType } from "api/projectTasks/types";
-
-import { ProjectType } from "pages/projects-desktop/types";
+import { ProjectType } from "api/projects/types";
 
 export interface ProjectTaskPropTypes {
     projects: ProjectType[];
@@ -14,4 +13,6 @@ export interface ProjectTaskPropTypes {
     handleOpenNewProjectTaskDialog: () => void;
     setSelectedProjectTask: any;
     selectedProjectTask: string;
+    isBreak: any;
+    sessionInProgress: any;
 }

@@ -1,8 +1,7 @@
 import { JournalType } from "api/bulletJournal/types";
 import { PageType } from "api/bulletPages/types";
 import { ProjectTaskType } from "api/projectTasks/types";
-
-import { ProjectType } from "pages/projects-desktop/types";
+import { ProjectType } from "api/projects/types";
 
 export interface BulletProps {
     token: string;

@@ -11,8 +11,7 @@ import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectToken } from "redux/user/user.selectors";
 
 import { postProjectTask } from "api/projectTasks/projectTasks.api";
-
-import { ProjectType } from "pages/projects-desktop/types";
+import { ProjectType } from "api/projects/types";
 
 import CustomDialog from "./custom-dialog.component";
 import useCustomDialogStyles from "./styles";
@@ -152,7 +151,7 @@ const NewProjectTaskDialog = ({
                     />
                     <TextField
                         type="date"
-                        label={"Deadline"}
+                        label={""}
                         variant={"outlined"}
                         fullWidth
                         value={deadline}

@@ -159,14 +159,14 @@ const BulletJournalPage = ({
                         variant="rect"
                         className={classes.tabsPlaceholder}
                     />
-                ) : (
+                ) : pagesCurrJournalId !== false ? (
                     <Page
                         pagesCurrJournalIndex={pagesCurrJournalId}
                         tasksCurrPageIndex={tasksCurrPageId}
                         handleChangeCurrentPage={handleChangeCurrentPage}
                         handleOpenNewPageDialog={handleOpenNewPageDialog}
                     />
-                )}
+                ) : null}
                 <div className={classes.restWrapper}>
                     {projectTasks.map((projectTask) => {
                         return (

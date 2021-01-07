@@ -10,12 +10,15 @@ import { setProjectTasks } from "redux/projectTasks/projectTasks.actions";
 import { selectProjectTasks } from "redux/projectTasks/projectTasks.selectors";
 import { setProjects } from "redux/projects/projects.actions";
 import { selectProjects } from "redux/projects/projects.selectors";
+import {
+    selectIsBreak,
+    selectSessionInProgress,
+} from "redux/session/session.selectors";
 import { selectToken } from "redux/user/user.selectors";
 
 import { getProjects } from "api/projects/projects.api";
 
 import { TabPanel } from "components/atoms/tab-panel/tab-panel.component";
-import ToggleableTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import TaskTile from "components/molecules/task-tile/task-tile.component";
 
@@ -31,6 +34,8 @@ const BulletTask = ({
     getProjectTasksList,
     selectedProjectTask,
     setSelectedProjectTask,
+    sessionInProgress,
+    isBreak,
     handleOpenNewProjectTaskDialog,
 }: ProjectTaskPropTypes) => {
     const classes = useProjectTaskStyles();
@@ -45,7 +50,9 @@ const BulletTask = ({
     const handleChangeSelectedTaskId = (
         event: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        setSelectedProjectTask((event.target as HTMLInputElement).value);
+        if (!sessionInProgress && !isBreak) {
+            setSelectedProjectTask((event.target as HTMLInputElement).value);
+        }
     };
 
     return (
@@ -78,6 +85,8 @@ const mapStateToProps = (state: any) => ({
     token: selectToken(state),
     projectTasks: selectProjectTasks(state),
     projects: selectProjects(state),
+    sessionInProgress: selectSessionInProgress(state),
+    isBreak: selectIsBreak(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

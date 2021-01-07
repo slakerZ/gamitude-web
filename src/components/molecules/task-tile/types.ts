@@ -1,6 +1,5 @@
 import { ProjectTaskType } from "api/projectTasks/types";
-
-import { ProjectType } from "pages/projects-desktop/types";
+import { ProjectType } from "api/projects/types";
 
 export interface ProjectTaskTilePropTypes {
     projects: ProjectType[];
@@ -11,4 +10,8 @@ export interface ProjectTaskTilePropTypes {
     projectTask: ProjectTaskType;
     getProjectsList: any;
     setSelectedTask: any;
+    setSelectedProject: any;
+    sessionInProgress: any;
+    isBreak: any;
+    setSnackbarState: any;
 }
