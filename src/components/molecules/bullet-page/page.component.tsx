@@ -55,6 +55,7 @@ const Page = ({
                                 <Tab
                                     key={id}
                                     label={name}
+                                    value={id}
                                     {...a11yProps(id)}
                                     icon={
                                         <CustomIcon

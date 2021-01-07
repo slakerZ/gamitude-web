@@ -47,10 +47,6 @@ const TaskTile = ({
     const [taskTags, setTaskTags] = useState("");
     const [taskDue, setTaskDue] = useState("");
     const [taskAssociatedProject, setTaskAssociatedProject] = useState("");
-    const [selectedValue, setSelectedValue] = useState(
-        "5ff43e02e012188cb031aa9c",
-    );
-
     const [editProjectTaskState, editProjectTask] = useAsyncFn(
         async (id) => {
             const requestBody = {
@@ -117,98 +113,95 @@ const TaskTile = ({
         event.stopPropagation();
         setSelectedTask(projectTask);
     };
-
     return (
-        <div>
-            <Accordion className={classes.task} square>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="Task"
+        <Accordion className={classes.task} square>
+            <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="Task"
+            >
+                <CustomIcon variant={"creativity"} size="medium" />
+                <FormControlLabel
+                    aria-label="Select Task"
+                    onClick={handleSelectionChanged}
+                    onFocus={(event) => event.stopPropagation()}
+                    control={<Radio />}
+                    label={projectTask.name}
+                    value={projectTask.id}
+                />
+                <Typography
+                    style={{ paddingTop: 8.5, color: "grey" }}
+                    align={"center"}
                 >
-                    <CustomIcon variant={"creativity"} size="medium" />
-                    <FormControlLabel
-                        aria-label="Select Task"
-                        onClick={handleSelectionChanged}
-                        onFocus={(event) => event.stopPropagation()}
-                        control={<Radio />}
-                        label={projectTask.name}
-                        value={projectTask.name}
-                    />
-                    <Typography
-                        style={{ paddingTop: 8.5, color: "grey" }}
-                        align={"center"}
-                    >
-                        {projectTask.note}
+                    {projectTask.note}
+                </Typography>
+            </AccordionSummary>
+            <AccordionDetails className={classes.details}>
+                <TextField
+                    label="TASK NAME"
+                    variant="outlined"
+                    value={taskName}
+                    onChange={handleTaskNameChange}
+                    fullWidth
+                />
+                <TextField
+                    label="NOTE"
+                    variant="outlined"
+                    value={taskNote}
+                    onChange={handleTaskNoteChange}
+                    fullWidth
+                />
+                <TextField
+                    label="TAGS"
+                    variant="outlined"
+                    value={taskTags}
+                    onChange={handleTaskTagsChange}
+                    fullWidth
+                />
+                <TextField
+                    type="date"
+                    label={"Deadline"}
+                    variant={"outlined"}
+                    color={"secondary"}
+                    fullWidth
+                    value={taskDue}
+                    onChange={handleTaskDueChange}
+                />
+                <TextField
+                    aria-label="Select Associated Project"
+                    label="ASSOCIATED PROJECT"
+                    select
+                    variant="outlined"
+                    value={taskAssociatedProject}
+                    onChange={handleTaskAssociatedProjectChange}
+                    fullWidth
+                >
+                    {projects.map(({ name, id }, index) => {
+                        return (
+                            <MenuItem key={index} value={id}>
+                                {name}
+                            </MenuItem>
+                        );
+                    })}
+                </TextField>
+                <Button
+                    variant="outlined"
+                    onClick={() => deleteProjectTask(projectTask.id)}
+                >
+                    <Typography component="h6" variant="h6">
+                        {"Delete Project"}
                     </Typography>
-                </AccordionSummary>
-                <AccordionDetails className={classes.details}>
-                    <TextField
-                        label="TASK NAME"
-                        variant="outlined"
-                        value={taskName}
-                        onChange={handleTaskNameChange}
-                        fullWidth
-                    />
-                    <TextField
-                        label="NOTE"
-                        variant="outlined"
-                        value={taskNote}
-                        onChange={handleTaskNoteChange}
-                        fullWidth
-                    />
-                    <TextField
-                        label="TAGS"
-                        variant="outlined"
-                        value={taskTags}
-                        onChange={handleTaskTagsChange}
-                        fullWidth
-                    />
-                    <TextField
-                        type="date"
-                        label={"Deadline"}
-                        variant={"outlined"}
-                        color={"secondary"}
-                        fullWidth
-                        value={taskDue}
-                        onChange={handleTaskDueChange}
-                    />
-                    <TextField
-                        aria-label="Select Associated Project"
-                        label="ASSOCIATED PROJECT"
-                        select
-                        variant="outlined"
-                        value={taskAssociatedProject}
-                        onChange={handleTaskAssociatedProjectChange}
-                        fullWidth
-                    >
-                        {projects.map(({ name, id }, index) => {
-                            return (
-                                <MenuItem key={index} value={id}>
-                                    {name}
-                                </MenuItem>
-                            );
-                        })}
-                    </TextField>
-                    <Button
-                        variant="outlined"
-                        onClick={() => deleteProjectTask(projectTask.id)}
-                    >
-                        <Typography component="h6" variant="h6">
-                            {"Delete Project"}
-                        </Typography>
-                    </Button>
+                </Button>
 
-                    <Button
-                        variant="outlined"
-                        onClick={() => editProjectTask(projectTask.id)}
-                    >
-                        <Typography component="h6" variant="h6">
-                            {"Save"}
-                        </Typography>
-                    </Button>
-                </AccordionDetails>
-            </Accordion>
-        </div>
+                <Button
+                    variant="outlined"
+                    onClick={() => editProjectTask(projectTask.id)}
+                >
+                    <Typography component="h6" variant="h6">
+                        {"Save"}
+                    </Typography>
+                </Button>
+            </AccordionDetails>
+        </Accordion>
     );
 };
 const mapStateToProps = (state: any) => ({

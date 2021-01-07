@@ -2,7 +2,7 @@ import { JournalType } from "api/bulletJournal/types";
 
 export interface JournalPropTypes {
     journals: JournalType[];
-    pagesCurrJournalIndex: number;
+    pagesCurrJournalIndex: string | boolean;
     handleChangeCurrentJournal: any;
     handleOpenNewJournalDialog: () => void;
 }

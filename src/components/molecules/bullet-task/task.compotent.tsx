@@ -29,11 +29,11 @@ const BulletTask = ({
     currPageId,
     projectTask,
     getProjectTasksList,
+    selectedProjectTask,
+    setSelectedProjectTask,
     handleOpenNewProjectTaskDialog,
 }: ProjectTaskPropTypes) => {
     const classes = useProjectTaskStyles();
-
-    const [selectedTask, setSelectedTask] = useState("");
 
     const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
         const response = await getProjects(token);
@@ -42,37 +42,34 @@ const BulletTask = ({
         return result;
     });
 
-    const handleChangeSelectedProject = (
-        event: React.ChangeEvent<any>,
-        newValue: any,
+    const handleChangeSelectedTaskId = (
+        event: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        setSelectedTask(newValue);
+        setSelectedProjectTask((event.target as HTMLInputElement).value);
     };
 
     return (
-        <div>
+        <div className={classes.task}>
             <TabPanel
                 value={tasksCurrPageIndex}
                 index={tasksCurrPageIndex}
-                role={"Tasks"}
-                id={"tasks"}
+                role={"menuitem"}
+                id={`tasks_${projectTask.id}`}
             >
-                <div className={classes.task}>
-                    <RadioGroup
-                        aria-label="selected_task"
-                        name="selected_task"
-                        value={selectedTask}
-                        onChange={handleChangeSelectedProject}
-                    >
-                        <TaskTile
-                            projectTask={projectTask}
-                            getProjectsList={getProjectsList}
-                            getProjectTasksList={getProjectTasksList}
-                            currJournalId={currJournalId}
-                            currPageId={currPageId}
-                        />
-                    </RadioGroup>
-                </div>
+                <RadioGroup
+                    aria-label={`selected_task_${projectTask.id}`}
+                    name={`selected_task_${projectTask.id}`}
+                    value={selectedProjectTask}
+                    onChange={handleChangeSelectedTaskId}
+                >
+                    <TaskTile
+                        projectTask={projectTask}
+                        getProjectsList={getProjectsList}
+                        getProjectTasksList={getProjectTasksList}
+                        currJournalId={currJournalId}
+                        currPageId={currPageId}
+                    />
+                </RadioGroup>
             </TabPanel>
         </div>
     );

@@ -135,7 +135,7 @@ const NewProjectTaskDialog = ({
                         onChange={handleTaskAssociatedProjectChange}
                         fullWidth
                     >
-                        {projects.map((project: ProjectType, index: number) => {
+                        {projects.map((project, index) => {
                             return (
                                 <MenuItem key={index} value={project.id}>
                                     {project.name}

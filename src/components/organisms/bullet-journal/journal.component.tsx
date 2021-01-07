@@ -52,18 +52,14 @@ const Journal = ({
                 onChange={handleChangeCurrentJournal}
                 className={classes.tabs}
             >
-                {journals.map((journal: JournalType) => {
+                {journals.map(({ id, name, icon }) => {
                     return (
                         <Tab
-                            key={journal.id}
-                            label={journal.name}
-                            {...a11yProps(journal.id)}
-                            icon={
-                                <CustomIcon
-                                    variant={journal.icon}
-                                    size="small"
-                                />
-                            }
+                            key={id}
+                            label={name}
+                            value={id}
+                            {...a11yProps(id)}
+                            icon={<CustomIcon variant={icon} size="small" />}
                         />
                     );
                 })}

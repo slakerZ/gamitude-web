@@ -1,5 +1,7 @@
 import { ProjectSessionType } from "configs/types";
 
+import { ProjectTaskType } from "api/projectTasks/types";
+
 import { ProjectType } from "pages/projects-desktop/types";
 
 interface ProjectInLogType extends ProjectType {
@@ -9,7 +11,7 @@ interface ProjectInLogType extends ProjectType {
 interface ProjectLogType {
     id: string;
     project: ProjectInLogType;
-    projectTask: any;
+    projectTask: ProjectTaskType;
     userId: string;
     log: string;
     timeSpend: number;

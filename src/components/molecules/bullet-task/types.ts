@@ -9,7 +9,9 @@ export interface ProjectTaskPropTypes {
     getProjectTasksList: any;
     currJournalId: string;
     currPageId: string;
-    tasksCurrPageIndex: number;
+    tasksCurrPageIndex: string | boolean;
     projectTask: ProjectTaskType;
     handleOpenNewProjectTaskDialog: () => void;
+    setSelectedProjectTask: any;
+    selectedProjectTask: string;
 }

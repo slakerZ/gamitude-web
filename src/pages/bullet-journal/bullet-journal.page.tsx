@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { useAsyncFn, useEffectOnce } from "react-use";
@@ -22,13 +23,13 @@ import { getPages } from "api/bulletPages/pages.api";
 import { getProjectTasksForPage } from "api/projectTasks/projectTasks.api";
 import { getProjects } from "api/projects/projects.api";
 
-import NewJournalDialog from "components/atoms/custom-dialog/new-journal-dialog.component";
-import NewPageDialog from "components/atoms/custom-dialog/new-page-dialog.component";
-import NewProjectTaskDialog from "components/atoms/custom-dialog/new-task-dialog.component";
 import ToggleableTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import Page from "components/molecules/bullet-page/page.component";
 import BulletTask from "components/molecules/bullet-task/task.compotent";
+import NewJournalDialog from "components/molecules/custom-dialog/new-journal-dialog.component";
+import NewPageDialog from "components/molecules/custom-dialog/new-page-dialog.component";
+import NewProjectTaskDialog from "components/molecules/custom-dialog/new-task-dialog.component";
 
 import Journal from "components/organisms/bullet-journal/journal.component";
 
@@ -55,28 +56,32 @@ const BulletJournalPage = ({
         setIsNewProjectTaskDialogOpen,
     ] = useState(false);
 
-    const [pagesCurrJournalIndex, setPagesCurrJournalIndex] = useState(-1);
-    const [tasksCurrPageIndex, setTasksCurrPageIndex] = useState(-1);
+    const [pagesCurrJournalId, setPagesCurrJournalId] = useState<
+        boolean | string
+    >(false);
+    const [tasksCurrPageId, setTasksCurrPageId] = useState<boolean | string>(
+        false,
+    );
 
-    const [currJournalId, setCurrJournalId] = useState("");
-    const [currPageId, setCurrPageId] = useState("");
+    const [selectedProjectTask, setSelectedProjectTask] = useState("");
 
     const [getJournalsListState, getJournalsList] = useAsyncFn(async () => {
         const response = await getJournals(token);
-        const result = response.data;
+        const result = await response.data;
         setJournals(result);
+        return result;
     });
 
     const [getPagesListState, getPagesList] = useAsyncFn(async (journalId) => {
         const response = await getPages(token, journalId);
-        const result = response.data;
+        const result = await response.data;
         setPages(result);
         return result;
     });
 
     const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
         const response = await getProjects(token);
-        const result = response.data;
+        const result = await response.data;
         setProjects(result);
         return result;
     });
@@ -95,60 +100,24 @@ const BulletJournalPage = ({
 
     useEffectOnce(() => {
         getProjectsList();
-        getCurrJournalId();
         getJournalsList();
-        //getPagesList(currJournalId);
-        //getCurrPageId();
-        //getProjectTasksList(currJournalId, currPageId);
     });
-
-    useEffect(() => {
-        getCurrJournalId();
-    }, [pagesCurrJournalIndex]);
-
-    useEffect(() => {
-        getPagesList(currJournalId);
-    }, [currJournalId]);
-
-    useEffect(() => {
-        getCurrPageId();
-    }, [tasksCurrPageIndex]);
-
-    useEffect(() => {
-        getProjectTasksList(currJournalId, currPageId);
-    }, [currJournalId, currPageId]);
-
-    const getCurrJournalId = () => {
-        journals.map(({ id }, index) => {
-            if (index === pagesCurrJournalIndex) {
-                setCurrJournalId(id);
-            }
-        });
-    };
-
-    const getCurrPageId = () => {
-        pages.map(({ id }, index) => {
-            if (index === tasksCurrPageIndex) {
-                setCurrPageId(() => {
-                    return id;
-                });
-            }
-        });
-    };
 
     const handleChangeCurrentJournal = (
         event: React.ChangeEvent<any>,
-        newValue: number,
+        newValue: string,
     ) => {
-        setPagesCurrJournalIndex(newValue);
-        setTasksCurrPageIndex(0);
+        setPagesCurrJournalId(newValue);
+        getPagesList(newValue);
+        setTasksCurrPageId(false);
     };
 
     const handleChangeCurrentPage = (
         event: React.ChangeEvent<any>,
-        newValue: number,
+        newValue: string,
     ) => {
-        setTasksCurrPageIndex(newValue);
+        setTasksCurrPageId(newValue);
+        getProjectTasksList(pagesCurrJournalId, newValue);
     };
 
     const handleOpenNewPageDialog = () => {
@@ -166,86 +135,94 @@ const BulletJournalPage = ({
     return !token ? (
         <Redirect to="/signInSignUp" />
     ) : (
-        <div className={classes.root}>
-            {getJournalsListState.loading ? (
-                <Skeleton
-                    animation="wave"
-                    variant="rect"
-                    className={classes.tabsPlaceholder}
+        <Fragment>
+            <Helmet>
+                <title>{"Gamitude | Bullet Journal"}</title>
+            </Helmet>
+            <div className={classes.root}>
+                {getJournalsListState.loading ? (
+                    <Skeleton
+                        animation="wave"
+                        variant="rect"
+                        className={classes.tabsPlaceholder}
+                    />
+                ) : (
+                    <Journal
+                        pagesCurrJournalIndex={pagesCurrJournalId}
+                        handleChangeCurrentJournal={handleChangeCurrentJournal}
+                        handleOpenNewJournalDialog={handleOpenNewJournalDialog}
+                    />
+                )}
+                {getPagesListState.loading ? (
+                    <Skeleton
+                        animation="wave"
+                        variant="rect"
+                        className={classes.tabsPlaceholder}
+                    />
+                ) : (
+                    <Page
+                        pagesCurrJournalIndex={pagesCurrJournalId}
+                        tasksCurrPageIndex={tasksCurrPageId}
+                        handleChangeCurrentPage={handleChangeCurrentPage}
+                        handleOpenNewPageDialog={handleOpenNewPageDialog}
+                    />
+                )}
+                <div className={classes.restWrapper}>
+                    {projectTasks.map((projectTask) => {
+                        return (
+                            <BulletTask
+                                key={projectTask.id}
+                                projectTask={projectTask}
+                                currJournalId={pagesCurrJournalId as string}
+                                currPageId={tasksCurrPageId as string}
+                                tasksCurrPageIndex={tasksCurrPageId}
+                                getProjectTasksList={getProjectTasksList}
+                                handleOpenNewProjectTaskDialog={
+                                    handleOpenNewProjectTaskDialog
+                                }
+                                setSelectedProjectTask={setSelectedProjectTask}
+                                selectedProjectTask={selectedProjectTask}
+                            />
+                        );
+                    })}
+                    {pagesCurrJournalId !== false ? (
+                        <div
+                            className={classes.fabWrapper}
+                            aria-label="Add Task"
+                        >
+                            <ToggleableTooltip target="Task">
+                                <Fab
+                                    color="secondary"
+                                    aria-label="add"
+                                    className={classes.add}
+                                    onClick={handleOpenNewProjectTaskDialog}
+                                >
+                                    <AddIcon />
+                                </Fab>
+                            </ToggleableTooltip>
+                        </div>
+                    ) : null}
+                </div>
+                <NewJournalDialog
+                    open={isNewJournalDialogOpen}
+                    setOpen={setIsNewJournalDialogOpen}
+                    getJournalsList={getJournalsList}
                 />
-            ) : (
-                <Journal
-                    pagesCurrJournalIndex={pagesCurrJournalIndex}
-                    handleChangeCurrentJournal={handleChangeCurrentJournal}
-                    handleOpenNewJournalDialog={handleOpenNewJournalDialog}
+                <NewPageDialog
+                    open={isNewPageDialogOpen}
+                    setOpen={setIsNewPageDialogOpen}
+                    getPagesList={getPagesList}
+                    journalId={pagesCurrJournalId as string}
                 />
-            )}
-            {getPagesListState.loading ? (
-                <Skeleton
-                    animation="wave"
-                    variant="rect"
-                    className={classes.tabsPlaceholder}
+                <NewProjectTaskDialog
+                    open={isNewProjectTaskDialogOpen}
+                    setOpen={setIsNewProjectTaskDialogOpen}
+                    getProjectTasksList={getProjectTasksList}
+                    journalId={pagesCurrJournalId as string}
+                    pageId={tasksCurrPageId as string}
                 />
-            ) : pagesCurrJournalIndex !== -1 ? (
-                <Page
-                    pagesCurrJournalIndex={pagesCurrJournalIndex}
-                    tasksCurrPageIndex={tasksCurrPageIndex}
-                    handleChangeCurrentPage={handleChangeCurrentPage}
-                    handleOpenNewPageDialog={handleOpenNewPageDialog}
-                />
-            ) : null}
-            <div className={classes.restWrapper}>
-                {tasksCurrPageIndex !== -1
-                    ? projectTasks.map((projectTask, index) => {
-                          return (
-                              <BulletTask
-                                  key={projectTask.id}
-                                  projectTask={projectTask}
-                                  currJournalId={currJournalId}
-                                  currPageId={currPageId}
-                                  tasksCurrPageIndex={tasksCurrPageIndex}
-                                  getProjectTasksList={getProjectTasksList}
-                                  handleOpenNewProjectTaskDialog={
-                                      handleOpenNewProjectTaskDialog
-                                  }
-                              />
-                          );
-                      })
-                    : null}
-                {pagesCurrJournalIndex !== -1 ? (
-                    <div className={classes.fabWrapper} aria-label="Add Task">
-                        <ToggleableTooltip target="Task">
-                            <Fab
-                                color="secondary"
-                                aria-label="add"
-                                className={classes.add}
-                                onClick={handleOpenNewProjectTaskDialog}
-                            >
-                                <AddIcon />
-                            </Fab>
-                        </ToggleableTooltip>
-                    </div>
-                ) : null}
             </div>
-            <NewJournalDialog
-                open={isNewJournalDialogOpen}
-                setOpen={setIsNewJournalDialogOpen}
-                getJournalsList={getJournalsList}
-            />
-            <NewPageDialog
-                open={isNewPageDialogOpen}
-                setOpen={setIsNewPageDialogOpen}
-                getPagesList={getPagesList}
-                journalId={currJournalId}
-            />
-            <NewProjectTaskDialog
-                open={isNewProjectTaskDialogOpen}
-                setOpen={setIsNewProjectTaskDialogOpen}
-                getProjectTasksList={getProjectTasksList}
-                journalId={currJournalId}
-                pageId={currPageId}
-            />
-        </div>
+        </Fragment>
     );
 };
 
@@ -261,7 +238,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     setJournals: (value: any) => dispatch(setJournals(value)),
     setPages: (value: any) => dispatch(setPages(value)),
     setProjectTasks: (value: any) => dispatch(setProjectTasks(value)),
-    setProject: (value: any) => dispatch(setProjects(value)),
+    setProjects: (value: any) => dispatch(setProjects(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BulletJournalPage);

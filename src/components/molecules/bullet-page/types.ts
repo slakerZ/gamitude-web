@@ -1,8 +1,8 @@
 import { PageType } from "api/bulletPages/types";
 
 export default interface PagePropTypes {
-    pagesCurrJournalIndex: number;
-    tasksCurrPageIndex: number;
+    pagesCurrJournalIndex: string | boolean;
+    tasksCurrPageIndex: string | boolean;
     handleChangeCurrentPage: any;
     handleOpenNewPageDialog: () => void;
     pages: PageType[];
