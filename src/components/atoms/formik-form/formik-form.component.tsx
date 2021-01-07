@@ -19,6 +19,7 @@ const FormikForm: FC<FormikFormPropType> = ({
     onSubmit,
     fields,
     state,
+    enableReinitialize = false,
 }: FormikFormPropType) => {
     const classes = useFormikFormStyles();
 
@@ -27,6 +28,9 @@ const FormikForm: FC<FormikFormPropType> = ({
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={schema}
+            enableReinitialize={enableReinitialize}
+            validateOnBlur={true}
+            validateOnChange={false}
         >
             {({ dirty, isValid }) => {
                 return (
@@ -40,7 +44,7 @@ const FormikForm: FC<FormikFormPropType> = ({
                                 {title}
                             </Typography>
                         ) : null}
-                        <Grid container spacing={2}>
+                        <Grid container spacing={1}>
                             {fields.map(
                                 ({ label, name, type, sm, xs }, index) => {
                                     return (
@@ -49,6 +53,7 @@ const FormikForm: FC<FormikFormPropType> = ({
                                                 label={label}
                                                 name={name}
                                                 type={type}
+                                                id={`${name}-${index}`}
                                             />
                                         </Grid>
                                     );
@@ -57,16 +62,34 @@ const FormikForm: FC<FormikFormPropType> = ({
                         </Grid>
                         <Button
                             disabled={!isValid || !dirty || state.loading}
-                            type="submit"
-                            variant="outlined"
+                            variant="contained"
+                            color="secondary"
                             className={classes.submit}
+                            type="submit"
+                            size="large"
                         >
                             {state.error ? (
-                                "RETRY"
+                                <Typography
+                                    variant="h5"
+                                    component="h5"
+                                    color={isValid ? "primary" : "secondary"}
+                                >
+                                    {"RETRY"}
+                                </Typography>
                             ) : state.loading ? (
                                 <CircularProgress />
                             ) : title ? (
-                                title
+                                <Typography
+                                    variant="h5"
+                                    component="h5"
+                                    color={
+                                        isValid && dirty
+                                            ? "primary"
+                                            : "secondary"
+                                    }
+                                >
+                                    {title}
+                                </Typography>
                             ) : (
                                 "SUBMIT"
                             )}

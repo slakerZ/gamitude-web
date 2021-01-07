@@ -1,25 +1,27 @@
+import { ProjectSessionTypes } from "configs/constants";
+
 import React, { ReactElement, Fragment } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
 
-import { SessionManagerPropType } from "./types";
-
 import useSessionManagerStyles from "./styles";
+import { SessionManagerPropType } from "./types";
 
 const SessionTypeSwitch = ({
     setSessionType,
     sessionType,
     setBoosted,
     setDominant,
+    disabled = false,
 }: SessionManagerPropType): ReactElement => {
     const classes = useSessionManagerStyles();
 
     const handleChangeSessionType = () => {
-        sessionType === "STAT"
-            ? setSessionType("ENERGY")
-            : setSessionType("STAT");
+        sessionType === ProjectSessionTypes.STAT
+            ? setSessionType(ProjectSessionTypes.ENERGY)
+            : setSessionType(ProjectSessionTypes.STAT);
         if (setBoosted && setDominant) {
             setBoosted([]);
             setDominant("");
@@ -42,6 +44,7 @@ const SessionTypeSwitch = ({
                             checked={sessionType === "STAT"}
                             onChange={handleChangeSessionType}
                             name="energiesStats"
+                            disabled={disabled}
                         />
                     </Grid>
                     <Grid item>

@@ -8,6 +8,7 @@ export interface ProjectsPropTypes {
     folders: FolderType[];
     setUser: any;
     sessionInProgress: any;
+    isBreak: boolean;
 }
 
 export interface ProjectType {

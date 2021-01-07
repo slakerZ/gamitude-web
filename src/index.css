@@ -33,3 +33,9 @@ code {
         font-size: 12px;
     }
 }
+video {
+    object-fit: cover;
+}
+a {
+    text-decoration: none;
+}

@@ -4,6 +4,10 @@ const useCustomIconStyles = makeStyles((theme) => ({
     error: {
         backgroundColor: theme.palette.error.contrastText,
     },
+    xsmall: {
+        width: "3vh",
+        height: "3vh",
+    },
     small: {
         width: "4vh",
         height: "4vh",
@@ -15,15 +19,6 @@ const useCustomIconStyles = makeStyles((theme) => ({
     large: {
         width: "6vh",
         height: "6vh",
-    },
-    bar: {
-        width: "60px",
-        height: "60px",
-        float: "left",
-        padding: "7px",
-        "&::after": {
-            clear: "both",
-        },
     },
     avatar: {
         width: "20vh",

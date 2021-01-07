@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { useWindowSize } from "react-use";
 
 import { selectToken } from "redux/user/user.selectors";
@@ -12,15 +11,9 @@ interface ProjectsPageProps {
     token: string;
 }
 
-const ProjectsPage = ({ token }: ProjectsPageProps) => {
+const ProjectsPage = () => {
     const { width } = useWindowSize();
-    return !token ? (
-        <Redirect to="/signInSignUp" />
-    ) : width < 600 ? (
-        <ProjectsMobilePage />
-    ) : (
-        <ProjectsDesktopPage />
-    );
+    return width < 600 ? <ProjectsMobilePage /> : <ProjectsDesktopPage />;
 };
 
 const mapStateToProps = (state: any) => ({

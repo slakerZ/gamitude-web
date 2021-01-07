@@ -1,16 +1,16 @@
-import { EnergyType } from "types";
-import { StatType } from "types";
+import { EnergyType, ProjectSessionType } from "configs/types";
+import { StatType } from "configs/types";
 
-export interface FullProjectType {
+export interface ProjectType {
     id: string;
     name: string;
     folderId: string;
     defaultTimerId: string;
-    projectType: string;
+    projectType: ProjectSessionType;
     dominantStat: StatType | EnergyType;
     stats: StatType[] | EnergyType[];
     totalTimeSpend: number;
-    totalTimeSpendBreak: number;
+    timeSpendBreak: number;
     daysPerWeek: number;
     hoursPerDay: number;
     dayInterval: number;
@@ -30,6 +30,6 @@ export interface ProjectRequestBodyType {
 }
 
 export interface ProjectResponseBodyType {
-    data: FullProjectType[] | FullProjectType;
+    data: ProjectType[] | ProjectType;
     success: boolean;
 }

@@ -9,3 +9,8 @@ export const setTooltipToggle = (value: any) => ({
     type: UserActionTypes.SET_TOOLTIP_TOGGLE,
     payload: value,
 });
+
+export const setUserFlag = (value: any) => ({
+    type: UserActionTypes.SET_USER_FLAG,
+    payload: value,
+});

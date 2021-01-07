@@ -1,11 +1,26 @@
 {
     "short_name": "Gamitude",
-    "name": "Gamitude",
+    "name": "Gamitude - Manage your Energy not your time",
     "icons": [
         {
             "src": "favicon.ico",
-            "sizes": "64x64 32x32 24x24 16x16",
+            "sizes": "16x16",
             "type": "image/x-icon"
+        },
+        {
+            "src": "favicon-16x16.png",
+            "sizes": "16x16",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "favicon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "logo80.png",
+            "type": "image/png",
+            "sizes": "80x80"
         },
         {
             "src": "logo192.png",

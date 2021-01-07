@@ -19,10 +19,7 @@ import userReducer from "./user/user.reducer";
 const persistConfig = {
     key: "root",
     storage,
-    whitelist:
-        process.env.NODE_ENV === "development"
-            ? ["user"]
-            : ["user", "projects", "stats", "energies"],
+    whitelist: process.env.NODE_ENV === "development" ? ["user"] : ["user"],
 };
 
 const rootReducer = combineReducers({

@@ -12,7 +12,7 @@ import { selectEnergies } from "redux/energies/energies.selectors";
 import { selectSessionsComplete } from "redux/session/session.selectors";
 import { setStats } from "redux/stats/stats.actions";
 import { selectStats } from "redux/stats/stats.selectors";
-import { selectToken } from "redux/user/user.selectors";
+import { selectToken, selectUser } from "redux/user/user.selectors";
 
 import { getStats, getEnergies } from "api/statistics/statistics.api";
 
@@ -29,6 +29,7 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
     stats,
     setStats,
     sessionsComplete,
+    user,
 }: StatsAndEnergiesType): ReactElement => {
     const classes = useStatsAndEnergiesStyles();
 
@@ -50,7 +51,7 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
     useUpdateEffect(() => {
         getStatsSubmit();
         getEnergiesSubmit();
-    }, [sessionsComplete]);
+    }, [sessionsComplete, user]);
 
     return (
         <Fragment>
@@ -75,30 +76,42 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
                                 </Button>
                             ) : (
                                 <Fragment>
-                                    <ToggleAbleTooltip target={"body"}>
+                                    <ToggleAbleTooltip
+                                        target={"body"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
-                                            variant={"body"}
+                                            iconVariant={"body"}
                                         >
                                             {energies.body.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"emotions"}>
+                                    <ToggleAbleTooltip
+                                        target={"emotions"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
-                                            variant={"emotions"}
+                                            iconVariant={"emotions"}
                                         >
                                             {energies.emotions.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"mind"}>
+                                    <ToggleAbleTooltip
+                                        target={"mind"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
-                                            variant={"mind"}
+                                            iconVariant={"mind"}
                                         >
                                             {energies.mind.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"soul"}>
+                                    <ToggleAbleTooltip
+                                        target={"soul"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
-                                            variant={"soul"}
+                                            iconVariant={"soul"}
                                         >
                                             {energies.soul.toString()}
                                         </CustomIconWithTypography>
@@ -118,30 +131,42 @@ const StatsAndEnergies: FC<StatsAndEnergiesType> = ({
                                 </Button>
                             ) : (
                                 <Fragment>
-                                    <ToggleAbleTooltip target={"strength"}>
+                                    <ToggleAbleTooltip
+                                        target={"strength"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
-                                            variant={"strength"}
+                                            iconVariant={"strength"}
                                         >
                                             {stats.strength.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"creativity"}>
+                                    <ToggleAbleTooltip
+                                        target={"creativity"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
-                                            variant={"creativity"}
+                                            iconVariant={"creativity"}
                                         >
                                             {stats.creativity.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"intelligence"}>
+                                    <ToggleAbleTooltip
+                                        target={"intelligence"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
-                                            variant={"intelligence"}
+                                            iconVariant={"intelligence"}
                                         >
                                             {stats.intelligence.toString()}
                                         </CustomIconWithTypography>
                                     </ToggleAbleTooltip>
-                                    <ToggleAbleTooltip target={"fluency"}>
+                                    <ToggleAbleTooltip
+                                        target={"fluency"}
+                                        placement={"left"}
+                                    >
                                         <CustomIconWithTypography
-                                            variant={"fluency"}
+                                            iconVariant={"fluency"}
                                         >
                                             {stats.fluency.toString()}
                                         </CustomIconWithTypography>
@@ -161,6 +186,7 @@ const mapStateToProps = (state: any) => ({
     energies: selectEnergies(state),
     token: selectToken(state),
     sessionsComplete: selectSessionsComplete(state),
+    user: selectUser(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

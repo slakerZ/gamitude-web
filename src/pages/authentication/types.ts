@@ -1,6 +1,10 @@
 export interface AuthenticationType {
     setUser: any;
-    editMessage: any;
-    editSeverity: any;
-    setSnackbarOpen: any;
+    setSnackbarState: any;
+}
+
+export interface EmailVerifyUrlParams {
+    name: string;
+    token: string;
+    newEmail: string;
 }

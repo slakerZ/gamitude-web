@@ -1,4 +1,4 @@
-import { TooltipObjectType } from './types'
+import { TooltipObjectType } from "./types";
 
 // Stats and energies
 
@@ -101,50 +101,74 @@ const selectDominantStats = {
 
 // Session
 
-const sessionTimer = {
-    title: "Session Timer",
+const sessionCountdown = {
+    title: "Countdown",
     bodyItems: [
-        "Flexible timer that will either act as a countdown timer or stopwatch",
-        "Click on it to begin session it will notify you twice:",
+        "Click on it to begin a session it will notify you twice:",
         "When there's a minute left",
         "When the session was finished",
-        "Doesn't apply to stopwatch"
-    ]
-}
+        "Click again to cancel session",
+    ],
+};
 
-const add5 = {
-    title: "Add 5",
+const sessionStopwatch = {
+    title: "Stopwatch",
+    bodyItems: ["Click on it to begin a session", "Click to finish session"],
+};
+
+const overtime = {
+    title: "Overtime",
     bodyItems: [
-        "Prolong your session by 5 minutes",
-        'Used when you want to "just finish this one quickly"'
-    ]
-}
+        "Prolong your session by time displayed in minutes",
+        'Used when you want to "just finish this one quickly"',
+    ],
+};
+
+const shortBreak = {
+    title: "Short break",
+    bodyItems: [
+        "Timer will set it's time to this value on session end",
+        "Unless you've set long break time and its interval is hit",
+    ],
+};
+
+const longBreak = {
+    title: "Long break",
+    bodyItems: [
+        "Longer break timer that timer will set to if",
+        "number of sessions complete satisfies break interval",
+    ],
+};
+
+const breakInterval = {
+    title: "Break Interval",
+    bodyItems: ["Shows session complete needed for long break to trigger"],
+};
 
 const sessionTypeSwitch = {
     title: "Session Type Switch",
     bodyItems: [
         "Switch type of your session between energy and stat",
         "Stat session type increases your stats while energy sesion type replenishes energies",
-        "You can think of them like: Stat = actual work done Energy = activities done during breaks"
-    ]
-}
+        "You can think of them like: Stat = actual work done Energy = activities done during breaks",
+    ],
+};
 
-const method = {
-    title: 'Session Method',
+const timers = {
+    title: "Timers",
     bodyItems: [
         "This sets session time displayed on timer above",
-        "Infinity sign means that instead of countdown timer stopwatch will be used"
-    ]
-}
+        "Can be either countdown - fixed session time",
+        "Or stopwatch - count up from 0 and end session at will",
+    ],
+};
 
 // Menu
 
 const logout = {
     title: "Logout",
-    bodyItems: [
-        "See you soon!"
-    ]
-}
+    bodyItems: ["See you soon!"],
+};
 
 const bulletJournal = {
     title: "Bullet Journal",
@@ -179,23 +203,43 @@ const projects = {
     ],
 };
 
+const themes = {
+    title: "Themes",
+    bodyItems: ["Buy new ranks and customize application appearance"],
+};
+
 // Activities
 
 const project = {
     title: "Project",
+    bodyItems: ["Work on your project with the method that suits your best"],
+};
+
+const folders = {
+    title: "Folders",
     bodyItems: [
-        "Work on your project with the method that suits your best",
+        "Organize your projects into folders to keep your fields of effort separated",
     ],
 };
 
-const folder = {
-    title: 'Folder',
+const addProject = {
+    title: "Add Project",
     bodyItems: [
-        "Organize your projects into folders to keep your fields of effort separated"
-    ]
-}
+        "Create new energy or stat project",
+        "Select up to 4 boosted stats and 1 that's boosted the most - dominant",
+        "Then assign in to a folder and choose default work method",
+    ],
+};
 
 // Rank
+
+const rankChange = {
+    title: "Change Rank",
+    bodyItems: [
+        "Select which rank you want to display",
+        "You can buy more ranks it Themes shop",
+    ],
+};
 
 const rankRequirements = {
     title: "Rank Requirements",
@@ -230,14 +274,10 @@ const rankTier = {
 
 const tooltipNotFound = {
     title: "Not Found",
-    bodyItems: [
-        "Mapping funciton wasn't able to match string to an object"
-    ]
-}
+    bodyItems: ["Mapping funciton wasn't able to match string to an object"],
+};
 
-export const targetToTooltipObject = (
-    target: string,
-):TooltipObjectType => {
+export const targetToTooltipObject = (target: string): TooltipObjectType => {
     switch (target) {
         case "body":
             return body;
@@ -263,6 +303,8 @@ export const targetToTooltipObject = (
             return profileSettings;
         case "projects":
             return projects;
+        case "rankChange":
+            return rankChange;
         case "rankRequirements":
             return rankRequirements;
         case "rankImage":
@@ -285,16 +327,28 @@ export const targetToTooltipObject = (
             return logout;
         case "project":
             return project;
-        case "folder":
-            return folder;
-        case "add5":
-            return add5;
-        case "method":
-            return method;
-        case "sessionTimer":
-            return sessionTimer;
+        case "addProject":
+            return addProject;
+        case "folders":
+            return folders;
+        case "overtime":
+            return overtime;
+        case "shortBreak":
+            return shortBreak;
+        case "longBreak":
+            return longBreak;
+        case "breakInterval":
+            return breakInterval;
+        case "timers":
+            return timers;
+        case "sessionCountdown":
+            return sessionCountdown;
+        case "sessionStopwatch":
+            return sessionStopwatch;
         case "sessionTypeSwitch":
-            return sessionTypeSwitch
+            return sessionTypeSwitch;
+        case "themes":
+            return themes;
         default:
             return tooltipNotFound;
     }

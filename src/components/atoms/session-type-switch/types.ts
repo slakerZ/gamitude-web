@@ -3,4 +3,5 @@ export interface SessionManagerPropType {
     setSessionType: any;
     setBoosted?: any;
     setDominant?: any;
+    disabled?: boolean;
 }

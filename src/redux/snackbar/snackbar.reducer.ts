@@ -4,6 +4,7 @@ const INITIAL_STATE = {
     message: "",
     severity: "info",
     open: false,
+    autoHideDuration: null,
 };
 
 const snackbarReducer = (state = INITIAL_STATE, action: any) => {

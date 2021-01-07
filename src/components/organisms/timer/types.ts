@@ -1,10 +1,24 @@
+import { ProjectType } from "api/projects/types";
+import { TimerType } from "api/timers/types";
+
 export interface TimerPropTypes {
-    selectedProject: any;
-    selectedTimer: any;
+    selectedProject: ProjectType;
+    selectedTimer: TimerType;
     setSelectedTimer: any;
-    timers: any;
+    timers: TimerType[];
     setSessionInProgress: any;
-    sessionInProgress: any;
-    token: any;
+    sessionInProgress: boolean;
+    token: string;
     incrementSessionsComplete: any;
+    setSessionType: any;
+    setSnackbarState: any;
+    sessionsComplete: number;
+    isBreak: boolean;
+    toggleIsBreak: any;
+    setIsBreak: any;
+}
+
+export interface MsToMinutesType {
+    minutes: number;
+    seconds: number;
 }

@@ -1,12 +1,13 @@
-import { ProjectSessionType } from "types";
-
 export interface AppType {
     token: string;
     setUser: (props: SetUserProps) => null;
     tooltipToggle: boolean;
     setTooltipToggle: (props: SetTooltipToggleProps) => null;
-    sessionType: ProjectSessionType;
-    setSessionType: (props: any) => null;
+    sessionType: string;
+    setSessionType: any;
+    dateExpires: any;
+    isBreak: boolean;
+    sessionInProgress: boolean;
 }
 export interface LinkType {
     to: string;

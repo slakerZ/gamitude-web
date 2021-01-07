@@ -1,17 +1,20 @@
-import { EnergyType } from "types";
-import { StatType } from "types";
+import { ProjectSessionType } from "configs/types";
 
-interface FullProjectLogType {
-    id: string;
-    projectId: string;
-    projectTaskId: string;
+import { ProjectType } from "pages/projects-desktop/types";
+
+interface ProjectInLogType extends ProjectType {
     userId: string;
-    projectType: any;
+}
+
+interface ProjectLogType {
+    id: string;
+    project: ProjectInLogType;
+    projectTask: any;
+    userId: string;
     log: string;
     timeSpend: number;
-    dominantStat: EnergyType | StatType;
-    stats: EnergyType[] | StatType[];
     dateCreated: string;
+    type: ProjectSessionType;
 }
 
 export interface ProjectLogRequestBodyType {
@@ -19,12 +22,10 @@ export interface ProjectLogRequestBodyType {
     projectTaskId: string | null;
     log: string;
     timeSpend: number;
-    dominantStat: EnergyType | StatType;
-    stats: EnergyType[] | StatType[];
-    projectType: any;
+    type: ProjectSessionType;
 }
 
 export interface ProjectLogResponseBodyType {
-    data: FullProjectLogType[] | FullProjectLogType;
+    data: ProjectLogType[] | ProjectLogType;
     success: boolean;
 }
