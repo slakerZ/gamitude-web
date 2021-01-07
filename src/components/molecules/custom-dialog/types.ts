@@ -1,3 +1,4 @@
+import { JournalType } from "api/bulletJournal/types";
 import { FolderType } from "api/folders/types";
 import { ProjectType } from "api/projects/types";
 import { TimerType } from "api/timers/types";
@@ -75,6 +76,7 @@ export interface NewJournalDialogPropTypes {
     getJournalsList: any;
     setSnackbarState: any;
     projects: ProjectType[];
+    journals: JournalType[];
 }
 
 export interface NewPageDialogPropTypes {

@@ -70,7 +70,7 @@ export const putJournalById = async (
     return result;
 };
 
-export const deleteFolderById = async (
+export const deleteJournalById = async (
     token: string,
     journalId: string,
 ): Promise<null> => {

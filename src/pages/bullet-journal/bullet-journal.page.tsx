@@ -168,24 +168,30 @@ const BulletJournalPage = ({
                     />
                 ) : null}
                 <div className={classes.restWrapper}>
-                    {projectTasks.map((projectTask) => {
-                        return (
-                            <BulletTask
-                                key={projectTask.id}
-                                projectTask={projectTask}
-                                currJournalId={pagesCurrJournalId as string}
-                                currPageId={tasksCurrPageId as string}
-                                tasksCurrPageIndex={tasksCurrPageId}
-                                getProjectTasksList={getProjectTasksList}
-                                handleOpenNewProjectTaskDialog={
-                                    handleOpenNewProjectTaskDialog
-                                }
-                                setSelectedProjectTask={setSelectedProjectTask}
-                                selectedProjectTask={selectedProjectTask}
-                            />
-                        );
-                    })}
-                    {pagesCurrJournalId !== false ? (
+                    {tasksCurrPageId !== false
+                        ? projectTasks.map((projectTask) => {
+                              return (
+                                  <BulletTask
+                                      key={projectTask.id}
+                                      projectTask={projectTask}
+                                      currJournalId={
+                                          pagesCurrJournalId as string
+                                      }
+                                      currPageId={tasksCurrPageId as string}
+                                      tasksCurrPageIndex={tasksCurrPageId}
+                                      getProjectTasksList={getProjectTasksList}
+                                      handleOpenNewProjectTaskDialog={
+                                          handleOpenNewProjectTaskDialog
+                                      }
+                                      setSelectedProjectTask={
+                                          setSelectedProjectTask
+                                      }
+                                      selectedProjectTask={selectedProjectTask}
+                                  />
+                              );
+                          })
+                        : null}
+                    {tasksCurrPageId !== false ? (
                         <div
                             className={classes.fabWrapper}
                             aria-label="Add Task"
