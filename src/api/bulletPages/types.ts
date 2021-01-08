@@ -3,8 +3,7 @@ export interface PageType {
     userId: string;
     name: string;
     journalId: string;
-    fromDay: number;
-    toDay: number;
+    beetwenDays: { fromDay: number; toDay: number } | null;
     icon: string;
     pageType: string;
     dateCreated: string;
@@ -19,7 +18,6 @@ export interface PageRequestBodyType {
     journalId: string;
     name: string;
     icon: string;
-    fromDay: number;
-    toDay: number;
+    beetwenDays: { fromDay: number; toDay: number } | null;
     pageType: string;
 }

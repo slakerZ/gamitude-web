@@ -83,6 +83,7 @@ const NewJournalDialog = ({
         // Reset
         setJournalName("");
         setJournalIcon("");
+        setTaskAssociatedProject("");
 
         return result;
     }, [journalName, journalIcon]);

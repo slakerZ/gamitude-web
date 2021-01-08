@@ -86,6 +86,7 @@ export interface NewPageDialogPropTypes {
     getPagesList: any;
     setSnackbarState: any;
     journalId: string;
+    pages: any;
 }
 
 export interface NewProjectTaskDialogPropTypes {
