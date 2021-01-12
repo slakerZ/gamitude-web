@@ -45,7 +45,12 @@ const NewPageDialog = ({
 }: NewPageDialogPropTypes): ReactElement => {
     const classes = useCustomDialogStyles();
 
+    //useState
     const [settingsPageTab, setSettingsPageTab] = useState("newPage");
+    const [pageName, setPageName] = useState("");
+    const [pageIcon, setPageIcon] = useState("");
+    const [fromDay, setFromDay] = useState("");
+    const [toDay, setToDay] = useState("");
 
     const [currPageId, setCurrPageId] = useState(
         pages[0] ? pages[0].id : false,
@@ -67,11 +72,7 @@ const NewPageDialog = ({
             : "",
     );
 
-    const [pageName, setPageName] = useState("");
-    const [pageIcon, setPageIcon] = useState("");
-    const [fromDay, setFromDay] = useState("");
-    const [toDay, setToDay] = useState("");
-
+    //useAsync
     const [createNewPageState, createNewPage] = useAsyncFn(async () => {
         const requestBody =
             fromDay !== "" || toDay !== ""
@@ -162,7 +163,8 @@ const NewPageDialog = ({
         return result;
     }, [currPageId, pages]);
 
-    const handleChangeCurrentPage = (e: any, newId: any) => {
+    //handlers
+    const handleChangeCurrentPage = (e: any, newId: string) => {
         const currPage =
             pages.find((page: PageType) => page.id === newId) || pages[0];
         setCurrPageId(newId);
@@ -186,7 +188,7 @@ const NewPageDialog = ({
         setCurrPageName(e.target.value);
     };
 
-    const handleChangeCurrPageIcon = (e: any, newIcon: any) => {
+    const handleChangeCurrPageIcon = (e: any, newIcon: string) => {
         setCurrPageIcon(newIcon);
     };
 
@@ -197,7 +199,7 @@ const NewPageDialog = ({
         setCurrPageToDay(e.target.value);
     };
 
-    const handleIconChange = (e: any, newIcon: any) => {
+    const handleIconChange = (e: any, newIcon: string) => {
         setPageIcon(newIcon);
     };
 
@@ -213,6 +215,7 @@ const NewPageDialog = ({
         setToDay(e.target.value);
     };
 
+    //useEfects
     useEffect(() => {
         if (createNewPageState.error) {
             setSnackbarState({
@@ -222,6 +225,26 @@ const NewPageDialog = ({
             });
         }
     }, [createNewPageState, setSnackbarState]);
+
+    useEffect(() => {
+        if (editPageState.error) {
+            setSnackbarState({
+                message: "Failed to edit page",
+                severity: "error",
+                open: true,
+            });
+        }
+    }, [editPageState, setSnackbarState]);
+
+    useEffect(() => {
+        if (deletePageState.error) {
+            setSnackbarState({
+                message: "Failed to delete page",
+                severity: "error",
+                open: true,
+            });
+        }
+    }, [deletePageState, setSnackbarState]);
 
     return (
         <Fragment>

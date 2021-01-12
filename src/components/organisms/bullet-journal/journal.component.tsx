@@ -1,8 +1,5 @@
-import { CONTROL_PANEL_WIDTH } from "App/constants";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { useAsyncFn, useEffectOnce, useSetState } from "react-use";
 
 import IconButton from "@material-ui/core/IconButton";
 import Tab from "@material-ui/core/Tab";
@@ -19,20 +16,12 @@ import { setProjects } from "redux/projects/projects.actions";
 import { selectProjects } from "redux/projects/projects.selectors";
 import { selectToken } from "redux/user/user.selectors";
 
-import { JournalType } from "api/bulletJournal/types";
-
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
+import { a11yProps } from "components/atoms/tab-panel/tab-panel.component";
 import ToggleableTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import useJournalStyles from "./styles";
 import { JournalPropTypes } from "./types";
-
-function a11yProps(index: any) {
-    return {
-        id: `vertical-tab-${index}`,
-        "aria-controls": `vertical-tabpanel-${index}`,
-    };
-}
 
 const Journal = ({
     journals,
@@ -58,7 +47,7 @@ const Journal = ({
                             key={id}
                             label={name}
                             value={id}
-                            {...a11yProps(id)}
+                            {...a11yProps(id, "journals-with-pages")}
                             icon={<CustomIcon variant={icon} size="small" />}
                         />
                     );

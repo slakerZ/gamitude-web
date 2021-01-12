@@ -10,7 +10,6 @@ export interface ProjectTaskPropTypes {
     currPageId: string;
     tasksCurrPageIndex: string | boolean;
     projectTask: ProjectTaskType;
-    handleOpenNewProjectTaskDialog: () => void;
     setSelectedProjectTask: any;
     selectedProjectTask: string;
     isBreak: any;

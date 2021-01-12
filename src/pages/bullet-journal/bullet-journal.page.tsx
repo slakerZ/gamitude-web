@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -9,13 +9,10 @@ import AddIcon from "@material-ui/icons/Add";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 import { setPages } from "redux/bulletPages/pages.actions";
-import { selectPages } from "redux/bulletPages/pages.selectors";
 import { setJournals } from "redux/journals/journals.actions";
-import { selectJournals } from "redux/journals/journals.selectors";
 import { setProjectTasks } from "redux/projectTasks/projectTasks.actions";
 import { selectProjectTasks } from "redux/projectTasks/projectTasks.selectors";
 import { setProjects } from "redux/projects/projects.actions";
-import { selectProjects } from "redux/projects/projects.selectors";
 import { selectToken } from "redux/user/user.selectors";
 
 import { getJournals } from "api/bulletJournal/journals.api";
@@ -38,17 +35,15 @@ import { BulletProps } from "./types";
 
 const BulletJournalPage = ({
     token,
-    journals,
-    pages,
     projectTasks,
     setJournals,
     setPages,
     setProjectTasks,
     setProjects,
-    projects,
 }: BulletProps) => {
     const classes = useBulletJournalStyles();
 
+    //useState
     const [isNewJournalDialogOpen, setIsNewJournalDialogOpen] = useState(false);
     const [isNewPageDialogOpen, setIsNewPageDialogOpen] = useState(false);
     const [
@@ -62,9 +57,9 @@ const BulletJournalPage = ({
     const [tasksCurrPageId, setTasksCurrPageId] = useState<boolean | string>(
         false,
     );
-
     const [selectedProjectTask, setSelectedProjectTask] = useState("");
 
+    //useAsync
     const [getJournalsListState, getJournalsList] = useAsyncFn(async () => {
         const response = await getJournals(token);
         const result = await response.data;
@@ -98,11 +93,7 @@ const BulletJournalPage = ({
         },
     );
 
-    useEffectOnce(() => {
-        getProjectsList();
-        getJournalsList();
-    });
-
+    //handlers
     const handleChangeCurrentJournal = (
         event: React.ChangeEvent<any>,
         newValue: string,
@@ -132,6 +123,12 @@ const BulletJournalPage = ({
         setIsNewProjectTaskDialogOpen(true);
     };
 
+    //useEffect
+    useEffectOnce(() => {
+        getProjectsList();
+        getJournalsList();
+    });
+
     return !token ? (
         <Redirect to="/signInSignUp" />
     ) : (
@@ -140,7 +137,8 @@ const BulletJournalPage = ({
                 <title>{"Gamitude | Bullet Journal"}</title>
             </Helmet>
             <div className={classes.root}>
-                {getJournalsListState.loading ? (
+                {getJournalsListState.loading ||
+                getProjectsListState.loading ? (
                     <Skeleton
                         animation="wave"
                         variant="rect"
@@ -168,29 +166,30 @@ const BulletJournalPage = ({
                     />
                 ) : null}
                 <div className={classes.restWrapper}>
-                    {tasksCurrPageId !== false
-                        ? projectTasks.map((projectTask) => {
-                              return (
-                                  <BulletTask
-                                      key={projectTask.id}
-                                      projectTask={projectTask}
-                                      currJournalId={
-                                          pagesCurrJournalId as string
-                                      }
-                                      currPageId={tasksCurrPageId as string}
-                                      tasksCurrPageIndex={tasksCurrPageId}
-                                      getProjectTasksList={getProjectTasksList}
-                                      handleOpenNewProjectTaskDialog={
-                                          handleOpenNewProjectTaskDialog
-                                      }
-                                      setSelectedProjectTask={
-                                          setSelectedProjectTask
-                                      }
-                                      selectedProjectTask={selectedProjectTask}
-                                  />
-                              );
-                          })
-                        : null}
+                    {getProjectTasksListState.loading ? (
+                        <Skeleton
+                            animation="wave"
+                            variant="rect"
+                            className={classes.tabsPlaceholder}
+                        />
+                    ) : tasksCurrPageId !== false ? (
+                        projectTasks.map((projectTask) => {
+                            return (
+                                <BulletTask
+                                    key={projectTask.id}
+                                    projectTask={projectTask}
+                                    currJournalId={pagesCurrJournalId as string}
+                                    currPageId={tasksCurrPageId as string}
+                                    tasksCurrPageIndex={tasksCurrPageId}
+                                    getProjectTasksList={getProjectTasksList}
+                                    setSelectedProjectTask={
+                                        setSelectedProjectTask
+                                    }
+                                    selectedProjectTask={selectedProjectTask}
+                                />
+                            );
+                        })
+                    ) : null}
                     {tasksCurrPageId !== false ? (
                         <div
                             className={classes.fabWrapper}
@@ -234,10 +233,7 @@ const BulletJournalPage = ({
 
 const mapStateToProps = (state: any) => ({
     token: selectToken(state),
-    journals: selectJournals(state),
-    pages: selectPages(state),
     projectTasks: selectProjectTasks(state),
-    projects: selectProjects(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

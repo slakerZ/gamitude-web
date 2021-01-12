@@ -9,18 +9,14 @@ import AddIcon from "@material-ui/icons/Add";
 import { selectPages } from "redux/bulletPages/pages.selectors";
 
 import CustomIcon from "components/atoms/custom-icon/custom-icon.component";
-import { TabPanel } from "components/atoms/tab-panel/tab-panel.component";
+import {
+    a11yProps,
+    TabPanel,
+} from "components/atoms/tab-panel/tab-panel.component";
 import ToggleableTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import usePageStyles from "./styles";
 import PagePropTypes from "./types";
-
-function a11yProps(index: any) {
-    return {
-        id: `vertical-tab-${index}`,
-        "aria-controls": `vertical-tabpanel-${index}`,
-    };
-}
 
 const Page = ({
     pagesCurrJournalIndex,
@@ -56,7 +52,7 @@ const Page = ({
                                     key={id}
                                     label={name}
                                     value={id}
-                                    {...a11yProps(id)}
+                                    {...a11yProps(id, "pages-with-tasks")}
                                     icon={
                                         <CustomIcon
                                             variant={icon}

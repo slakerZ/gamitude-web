@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
 
-import Fab from "@material-ui/core/Fab";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import AddIcon from "@material-ui/icons/Add";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 import { setProjectTasks } from "redux/projectTasks/projectTasks.actions";
 import { selectProjectTasks } from "redux/projectTasks/projectTasks.selectors";
@@ -36,10 +35,10 @@ const BulletTask = ({
     setSelectedProjectTask,
     sessionInProgress,
     isBreak,
-    handleOpenNewProjectTaskDialog,
 }: ProjectTaskPropTypes) => {
     const classes = useProjectTaskStyles();
 
+    //useAsync
     const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
         const response = await getProjects(token);
         const result = response.data;
@@ -47,6 +46,7 @@ const BulletTask = ({
         return result;
     });
 
+    //handlers
     const handleChangeSelectedTaskId = (
         event: React.ChangeEvent<HTMLInputElement>,
     ) => {
@@ -69,13 +69,17 @@ const BulletTask = ({
                     value={selectedProjectTask}
                     onChange={handleChangeSelectedTaskId}
                 >
-                    <TaskTile
-                        projectTask={projectTask}
-                        getProjectsList={getProjectsList}
-                        getProjectTasksList={getProjectTasksList}
-                        currJournalId={currJournalId}
-                        currPageId={currPageId}
-                    />
+                    {getProjectsListState.loading ? (
+                        <Skeleton animation="wave" variant="rect" />
+                    ) : (
+                        <TaskTile
+                            projectTask={projectTask}
+                            getProjectsList={getProjectsList}
+                            getProjectTasksList={getProjectTasksList}
+                            currJournalId={currJournalId}
+                            currPageId={currPageId}
+                        />
+                    )}
                 </RadioGroup>
             </TabPanel>
         </div>

@@ -11,7 +11,6 @@ import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectToken } from "redux/user/user.selectors";
 
 import { postProjectTask } from "api/projectTasks/projectTasks.api";
-import { ProjectType } from "api/projects/types";
 
 import CustomDialog from "./custom-dialog.component";
 import useCustomDialogStyles from "./styles";
@@ -29,12 +28,14 @@ const NewProjectTaskDialog = ({
 }: NewProjectTaskDialogPropTypes): ReactElement => {
     const classes = useCustomDialogStyles();
 
+    //useState
     const [projectTaskName, setprojectTaskName] = useState("");
     const [note, setNote] = useState("");
     const [tags, setTags] = useState("");
     const [deadline, setDeadline] = useState("");
     const [taskAssociatedProject, setTaskAssociatedProject] = useState("");
 
+    //useAsync
     const [
         createNewProjectTaskState,
         createNewProjectTask,
@@ -68,6 +69,7 @@ const NewProjectTaskDialog = ({
         return result;
     }, [projectTaskName, taskAssociatedProject, note, tags, deadline]);
 
+    //handlers
     const handleProjectTaskNameChange = (e: any) => {
         setprojectTaskName(e.target.value);
     };
@@ -87,6 +89,7 @@ const NewProjectTaskDialog = ({
         setTaskAssociatedProject(e.target.value);
     };
 
+    //useEffect
     useEffect(() => {
         if (createNewProjectTaskState.error) {
             setSnackbarState({

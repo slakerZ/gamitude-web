@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn, useEffectOnce } from "react-use";
 
@@ -11,14 +11,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Radio from "@material-ui/core/Radio";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import { grey } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import { setSelectedTask } from "redux/projectTasks/projectTasks.actions";
-import {
-    setProjects,
-    setSelectedProject,
-} from "redux/projects/projects.actions";
+import { setSelectedProject } from "redux/projects/projects.actions";
 import { selectProjects } from "redux/projects/projects.selectors";
 import {
     selectIsBreak,
@@ -52,11 +48,14 @@ const TaskTile = ({
 }: ProjectTaskTilePropTypes) => {
     const classes = useProjectTaskStyles();
 
+    //useState
     const [taskName, setTaskName] = useState("");
     const [taskNote, setTaskNote] = useState("");
     const [taskTags, setTaskTags] = useState("");
     const [taskDue, setTaskDue] = useState("");
     const [taskAssociatedProject, setTaskAssociatedProject] = useState("");
+
+    //useAsync
     const [editProjectTaskState, editProjectTask] = useAsyncFn(
         async (id) => {
             const requestBody = {
@@ -87,10 +86,6 @@ const TaskTile = ({
         [taskName, taskAssociatedProject, taskNote, taskTags, taskDue],
     );
 
-    useEffectOnce(() => {
-        getProjectsList();
-    });
-
     const [deleteProjectTaskState, deleteProjectTask] = useAsyncFn(
         async (id) => {
             const response = await deleteProjectTaskById(token, id);
@@ -99,6 +94,7 @@ const TaskTile = ({
         },
     );
 
+    //handlers
     const handleTaskNameChange = (event: any) => {
         setTaskName(event.target.value);
     };
@@ -152,6 +148,32 @@ const TaskTile = ({
             });
         }
     };
+
+    //useEffect
+    useEffectOnce(() => {
+        getProjectsList();
+    });
+
+    useEffect(() => {
+        if (editProjectTaskState.error) {
+            setSnackbarState({
+                message: "Failed to edit task",
+                severity: "error",
+                open: true,
+            });
+        }
+    }, [editProjectTaskState, setSnackbarState]);
+
+    useEffect(() => {
+        if (deleteProjectTaskState.error) {
+            setSnackbarState({
+                message: "Failed to delete task",
+                severity: "error",
+                open: true,
+            });
+        }
+    }, [deleteProjectTaskState, setSnackbarState]);
+
     return (
         <Accordion
             className={classes.task}

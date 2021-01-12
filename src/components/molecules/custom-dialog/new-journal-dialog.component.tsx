@@ -46,7 +46,11 @@ const NewJournalDialog = ({
 }: NewJournalDialogPropTypes): ReactElement => {
     const classes = useCustomDialogStyles();
 
+    //useState
     const [settingsJournalTab, setSettingsJournalTab] = useState("newJournal");
+    const [journalName, setJournalName] = useState("");
+    const [journalIcon, setJournalIcon] = useState("");
+    const [taskAssociatedProject, setTaskAssociatedProject] = useState("");
 
     const [currJournalId, setCurrJournalId] = useState(
         journals[0] ? journals[0].id : false,
@@ -63,10 +67,7 @@ const NewJournalDialog = ({
             : "",
     );
 
-    const [journalName, setJournalName] = useState("");
-    const [journalIcon, setJournalIcon] = useState("");
-    const [taskAssociatedProject, setTaskAssociatedProject] = useState("");
-
+    //useAsync
     const [createNewJournalState, createNewJournal] = useAsyncFn(async () => {
         const requestBody = {
             projectId: null,
@@ -119,7 +120,8 @@ const NewJournalDialog = ({
         return result;
     }, [currJournalId, journals]);
 
-    const handleChangeCurrentJournal = (e: any, newId: any) => {
+    //handlers
+    const handleChangeCurrentJournal = (e: any, newId: string) => {
         const currJournal =
             journals.find((journal) => journal.id === newId) || journals[0];
         setCurrJournalId(newId);
@@ -136,7 +138,7 @@ const NewJournalDialog = ({
         setCurrJournalName(e.target.value);
     };
 
-    const handleChangeCurrJournalIcon = (e: any, newIcon: any) => {
+    const handleChangeCurrJournalIcon = (e: any, newIcon: string) => {
         setCurrJournalIcon(newIcon);
     };
 
@@ -144,7 +146,7 @@ const NewJournalDialog = ({
         setCurrJournalProject(e.target.value);
     };
 
-    const handleIconChange = (e: any, newIcon: any) => {
+    const handleIconChange = (e: any, newIcon: string) => {
         setJournalIcon(newIcon);
     };
 
@@ -156,6 +158,7 @@ const NewJournalDialog = ({
         setTaskAssociatedProject(e.target.value);
     };
 
+    //useEffects
     useEffect(() => {
         if (createNewJournalState.error) {
             setSnackbarState({
@@ -165,6 +168,26 @@ const NewJournalDialog = ({
             });
         }
     }, [createNewJournalState, setSnackbarState]);
+
+    useEffect(() => {
+        if (editJournalState.error) {
+            setSnackbarState({
+                message: "Failed to edit journal",
+                severity: "error",
+                open: true,
+            });
+        }
+    }, [editJournalState, setSnackbarState]);
+
+    useEffect(() => {
+        if (deleteJournalState.error) {
+            setSnackbarState({
+                message: "Failed to delete journal",
+                severity: "error",
+                open: true,
+            });
+        }
+    }, [deleteJournalState, setSnackbarState]);
 
     return (
         <Fragment>
