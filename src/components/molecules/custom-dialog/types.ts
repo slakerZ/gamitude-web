@@ -1,4 +1,6 @@
+import { JournalType } from "api/bulletJournal/types";
 import { FolderType } from "api/folders/types";
+import { ProjectType } from "api/projects/types";
 import { TimerType } from "api/timers/types";
 
 import { FieldType } from "components/atoms/formik-form/types";
@@ -65,4 +67,35 @@ export interface FormikInfoType {
     initialValues: any;
     validationSchema: any;
     formFields: FieldType[];
+}
+
+export interface NewJournalDialogPropTypes {
+    token: string;
+    open: boolean;
+    setOpen: any;
+    getJournalsList: any;
+    setSnackbarState: any;
+    projects: ProjectType[];
+    journals: JournalType[];
+}
+
+export interface NewPageDialogPropTypes {
+    token: string;
+    open: boolean;
+    setOpen: any;
+    getPagesList: any;
+    setSnackbarState: any;
+    journalId: string;
+    pages: any;
+}
+
+export interface NewProjectTaskDialogPropTypes {
+    token: string;
+    open: boolean;
+    setOpen: any;
+    getProjectTasksList: any;
+    setSnackbarState: any;
+    journalId: string;
+    pageId: string;
+    projects: ProjectType[];
 }

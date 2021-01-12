@@ -10,12 +10,3 @@ export interface ProjectsPropTypes {
     sessionInProgress: any;
     isBreak: boolean;
 }
-
-export interface ProjectType {
-    id: number;
-    name: string;
-    primaryMethod: string;
-    projectFolder: number;
-    dominantStat: string;
-    stats: string[];
-}
