@@ -20,6 +20,7 @@ import { getPages } from "api/bulletPages/pages.api";
 import { getProjectTasksForPage } from "api/projectTasks/projectTasks.api";
 import { getProjects } from "api/projects/projects.api";
 
+import ComingSoon from "components/atoms/coming-soon/coming-soon.component";
 import ToggleableTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import Page from "components/molecules/bullet-page/page.component";
@@ -131,6 +132,8 @@ const BulletJournalPage = ({
 
     return !token ? (
         <Redirect to="/signInSignUp" />
+    ) : true ? (
+        <ComingSoon />
     ) : (
         <Fragment>
             <Helmet>
