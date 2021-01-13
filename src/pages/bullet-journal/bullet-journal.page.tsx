@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { useAsyncFn, useEffectOnce } from "react-use";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -20,7 +21,6 @@ import { getPages } from "api/bulletPages/pages.api";
 import { getProjectTasksForPage } from "api/projectTasks/projectTasks.api";
 import { getProjects } from "api/projects/projects.api";
 
-import ComingSoon from "components/atoms/coming-soon/coming-soon.component";
 import ToggleableTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
 
 import Page from "components/molecules/bullet-page/page.component";
@@ -132,8 +132,6 @@ const BulletJournalPage = ({
 
     return !token ? (
         <Redirect to="/signInSignUp" />
-    ) : true ? (
-        <ComingSoon />
     ) : (
         <Fragment>
             <Helmet>
@@ -170,11 +168,9 @@ const BulletJournalPage = ({
                 ) : null}
                 <div className={classes.restWrapper}>
                     {getProjectTasksListState.loading ? (
-                        <Skeleton
-                            animation="wave"
-                            variant="rect"
-                            className={classes.tabsPlaceholder}
-                        />
+                        <div className={classes.center}>
+                            <CircularProgress />
+                        </div>
                     ) : tasksCurrPageId !== false ? (
                         projectTasks.map((projectTask) => {
                             return (

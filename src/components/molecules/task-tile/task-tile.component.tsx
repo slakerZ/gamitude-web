@@ -45,6 +45,7 @@ const TaskTile = ({
     sessionInProgress,
     isBreak,
     setSnackbarState,
+    getProjectsListState,
 }: ProjectTaskTilePropTypes) => {
     const classes = useProjectTaskStyles();
 
@@ -149,6 +150,50 @@ const TaskTile = ({
         }
     };
 
+    const handleFinishTask = () => {
+        if (!sessionInProgress && !isBreak) {
+            deleteProjectTask(projectTask.id);
+            setSelectedProject({});
+        } else if (isBreak) {
+            setSnackbarState({
+                severity: "info",
+                message:
+                    "Cannot finish task when there's break available, either complete it or skip it",
+                open: true,
+                autoHideDuration: 3000,
+            });
+        } else if (sessionInProgress) {
+            setSnackbarState({
+                severity: "info",
+                message: "Cannot finish task during session",
+                open: true,
+                autoHideDuration: 3000,
+            });
+        }
+    };
+
+    const handleEditTask = () => {
+        if (!sessionInProgress && !isBreak) {
+            editProjectTask(projectTask.id);
+            setSelectedProject({});
+        } else if (isBreak) {
+            setSnackbarState({
+                severity: "info",
+                message:
+                    "Cannot edit task when there's break available, either complete it or skip it",
+                open: true,
+                autoHideDuration: 3000,
+            });
+        } else if (sessionInProgress) {
+            setSnackbarState({
+                severity: "info",
+                message: "Cannot edit task during session",
+                open: true,
+                autoHideDuration: 3000,
+            });
+        }
+    };
+
     //useEffect
     useEffectOnce(() => {
         getProjectsList();
@@ -202,7 +247,7 @@ const TaskTile = ({
                     variant="outlined"
                     color="secondary"
                     className={classes.finish}
-                    onClick={() => deleteProjectTask(projectTask.id)}
+                    onClick={handleFinishTask}
                 >
                     <Typography component="h6" variant="h6">
                         {"Finish"}
@@ -249,27 +294,23 @@ const TaskTile = ({
                     onChange={handleTaskAssociatedProjectChange}
                     fullWidth
                 >
-                    {projects.map(({ name, id }, index) => {
-                        return (
-                            <MenuItem key={index} value={id}>
-                                {name}
-                            </MenuItem>
-                        );
-                    })}
+                    {getProjectsListState.loading
+                        ? null
+                        : projects.map(({ name, id }, index) => {
+                              return (
+                                  <MenuItem key={index} value={id}>
+                                      {name}
+                                  </MenuItem>
+                              );
+                          })}
                 </TextField>
-                <Button
-                    variant="outlined"
-                    onClick={() => deleteProjectTask(projectTask.id)}
-                >
+                <Button variant="outlined" onClick={handleFinishTask}>
                     <Typography component="h6" variant="h6">
                         {"Delete Task"}
                     </Typography>
                 </Button>
 
-                <Button
-                    variant="outlined"
-                    onClick={() => editProjectTask(projectTask.id)}
-                >
+                <Button variant="outlined" onClick={handleEditTask}>
                     <Typography component="h6" variant="h6">
                         {"Save"}
                     </Typography>

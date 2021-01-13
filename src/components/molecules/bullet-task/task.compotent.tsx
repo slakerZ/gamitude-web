@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { useAsyncFn } from "react-use";
 
 import RadioGroup from "@material-ui/core/RadioGroup";
-import Skeleton from "@material-ui/lab/Skeleton";
 
 import { setProjectTasks } from "redux/projectTasks/projectTasks.actions";
 import { selectProjectTasks } from "redux/projectTasks/projectTasks.selectors";
@@ -69,17 +68,14 @@ const BulletTask = ({
                     value={selectedProjectTask}
                     onChange={handleChangeSelectedTaskId}
                 >
-                    {getProjectsListState.loading ? (
-                        <Skeleton animation="wave" variant="rect" />
-                    ) : (
-                        <TaskTile
-                            projectTask={projectTask}
-                            getProjectsList={getProjectsList}
-                            getProjectTasksList={getProjectTasksList}
-                            currJournalId={currJournalId}
-                            currPageId={currPageId}
-                        />
-                    )}
+                    <TaskTile
+                        projectTask={projectTask}
+                        getProjectsList={getProjectsList}
+                        getProjectTasksList={getProjectTasksList}
+                        currJournalId={currJournalId}
+                        currPageId={currPageId}
+                        getProjectsListState={getProjectsListState}
+                    />
                 </RadioGroup>
             </TabPanel>
         </div>

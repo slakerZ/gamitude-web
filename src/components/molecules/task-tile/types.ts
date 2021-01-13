@@ -14,4 +14,5 @@ export interface ProjectTaskTilePropTypes {
     sessionInProgress: any;
     isBreak: any;
     setSnackbarState: any;
+    getProjectsListState: any;
 }

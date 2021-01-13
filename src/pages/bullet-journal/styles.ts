@@ -53,6 +53,13 @@ const useBulletJournalStyles = makeStyles((theme: Theme) => ({
         width: "161px",
         height: "877px",
     },
+    center: {
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
 }));
 
 export default useBulletJournalStyles;
