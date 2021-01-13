@@ -294,15 +294,17 @@ const TaskTile = ({
                     onChange={handleTaskAssociatedProjectChange}
                     fullWidth
                 >
-                    {getProjectsListState.loading
-                        ? null
-                        : projects.map(({ name, id }, index) => {
-                              return (
-                                  <MenuItem key={index} value={id}>
-                                      {name}
-                                  </MenuItem>
-                              );
-                          })}
+                    {getProjectsListState.loading ? (
+                        <MenuItem value={"loading"}>{"LOADING...."}</MenuItem>
+                    ) : (
+                        projects.map(({ name, id }, index) => {
+                            return (
+                                <MenuItem key={index} value={id}>
+                                    {name}
+                                </MenuItem>
+                            );
+                        })
+                    )}
                 </TextField>
                 <Button variant="outlined" onClick={handleFinishTask}>
                     <Typography component="h6" variant="h6">
