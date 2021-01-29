@@ -14,8 +14,11 @@ import {
     setFoldersSettingsDialogOpen,
     setTimerSettingsDialogOpen,
 } from "redux/dialogs/dialogs.actions";
+import { setSelectedProject } from "redux/projects/projects.actions";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { SnackbarStateType } from "redux/snackbar/snackbar.types";
+
+import { ProjectType } from "api/projects/types";
 
 import { SUPPORTED_LOCATIONS, SUPPORTED_DIALOGS } from "./constants";
 import { VoiceCommandManagerPropTypes } from "./types";
@@ -25,6 +28,7 @@ const VoiceCommandManager = ({
     setAddProjectDialogOpen,
     setFoldersSettingsDialogOpen,
     setTimerSettingsDialogOpen,
+    setSelectedProject,
 }: VoiceCommandManagerPropTypes): ReactElement | null => {
     const location = useLocation();
 
@@ -38,6 +42,25 @@ const VoiceCommandManager = ({
         {
             command: "command *",
             callback: (command: string) => handleAPICommands(command),
+        },
+        {
+            command: "select *",
+            callback: (command: string) =>
+                setSelectedProject({
+                    dateCreated: "2021-01-07T13:29:25.096Z",
+                    dayInterval: 0,
+                    daysPerWeek: 0,
+                    defaultTimerId: "5ff5f5c6f2675e5fa5283cdf",
+                    dominantStat: "STRENGTH",
+                    folderId: "5ff45815a85b1f68d50cf3e4",
+                    hoursPerDay: 0,
+                    id: "5ff70cb5bf4c7be51c9d7530",
+                    name: "Lifting",
+                    projectType: "STAT",
+                    stats: ["STRENGTH"],
+                    timeSpendBreak: 0,
+                    totalTimeSpend: 0,
+                }),
         },
         {
             command: "open :dialogName",
@@ -138,6 +161,8 @@ const mapDispatchToProps = (dispatch: any) => ({
         dispatch(setFoldersSettingsDialogOpen(value)),
     setTimerSettingsDialogOpen: (value: boolean) =>
         dispatch(setTimerSettingsDialogOpen(value)),
+    setSelectedProject: (value: ProjectType) =>
+        dispatch(setSelectedProject(value)),
 });
 
 export default connect(null, mapDispatchToProps)(VoiceCommandManager);

@@ -5,4 +5,5 @@ export interface VoiceCommandManagerPropTypes {
     setAddProjectDialogOpen: (isOpen: boolean) => null;
     setFoldersSettingsDialogOpen: (isOpen: boolean) => null;
     setTimerSettingsDialogOpen: (isOpen: boolean) => null;
+    setSelectedProject: any;
 }

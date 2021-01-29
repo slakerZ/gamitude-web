@@ -21,8 +21,14 @@ import {
 } from "redux/dialogs/dialogs.selectors";
 import { setFolders } from "redux/folders/folders.actions";
 import { selectFolders } from "redux/folders/folders.selectors";
-import { setProjects } from "redux/projects/projects.actions";
-import { selectProjects } from "redux/projects/projects.selectors";
+import {
+    setProjects,
+    setSelectedProject,
+} from "redux/projects/projects.actions";
+import {
+    selectProjects,
+    selectSelectedProject,
+} from "redux/projects/projects.selectors";
 import {
     selectIsBreak,
     selectSessionInProgress,
@@ -69,11 +75,12 @@ const ProjectsDesktopPage = ({
     isAddProjectDialogOpen,
     isFolderSettingsDialogOpen,
     setFoldersSettingsDialogOpen,
+    selectedProject,
+    setSelectedProject,
 }: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
 
     // This is only for front components to mark the right radio button
-    const [selectedProject, setSelectedProject] = useState("");
     const [projectsCurrFolderIndex, setProjectsCurrFolderIndex] = useState(0);
 
     const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
@@ -188,32 +195,32 @@ const ProjectsDesktopPage = ({
                     role="menu"
                     className={classes.projectsWrapper}
                 >
-                    {projects.map((project: ProjectType, index: number) => {
-                        const { folderId } = project;
-                        return (
-                            <TabPanel
-                                key={index}
-                                value={projectsCurrFolderIndex}
-                                index={folders.findIndex((folder) => {
-                                    return folder.id === folderId;
-                                })}
-                                role={"menuitem"}
-                                id={`project-${project.id}`}
-                            >
-                                <RadioGroup
-                                    aria-label={`selected_project_${index}`}
-                                    name="selected_project"
-                                    value={selectedProject}
-                                    onChange={handleChangeSelectedProject}
+                    <RadioGroup
+                        aria-label={`selected_project`}
+                        name="selected_project"
+                        value={selectedProject ? selectedProject.id : ""}
+                        onChange={handleChangeSelectedProject}
+                    >
+                        {projects.map((project: ProjectType, index: number) => {
+                            const { folderId } = project;
+                            return (
+                                <TabPanel
+                                    key={index}
+                                    value={projectsCurrFolderIndex}
+                                    index={folders.findIndex((folder) => {
+                                        return folder.id === folderId;
+                                    })}
+                                    role={"menuitem"}
+                                    id={`project-${project.id}`}
                                 >
                                     <ProjectTile
                                         index={index}
                                         getProjectsList={getProjectsList}
                                     />
-                                </RadioGroup>
-                            </TabPanel>
-                        );
-                    })}
+                                </TabPanel>
+                            );
+                        })}
+                    </RadioGroup>
                 </div>
             )}
 
@@ -254,6 +261,7 @@ const mapStateToProps = (state: any) => ({
     isBreak: selectIsBreak(state),
     isAddProjectDialogOpen: selectIsAddProjectDialogOpen(state),
     isFolderSettingsDialogOpen: selectIsFolderSettingsDialogOpen(state),
+    selectedProject: selectSelectedProject(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -264,6 +272,7 @@ const mapDispatchToProps = (dispatch: any) => ({
         dispatch(setAddProjectDialogOpen(value)),
     setFoldersSettingsDialogOpen: (value: boolean) =>
         dispatch(setFoldersSettingsDialogOpen(value)),
+    setSelectedProject: (value: any) => setSelectedProject(value),
 });
 
 export default connect(
