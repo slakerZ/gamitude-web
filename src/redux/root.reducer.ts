@@ -3,6 +3,7 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import pagesReducer from "./bulletPages/pages.reducer";
+import dialogsReducer from "./dialogs/dialogs.reducer";
 import energiesReducer from "./energies/energies.reducer";
 import foldersReducer from "./folders/folders.reducer";
 import journalsReducer from "./journals/journals.reducer";
@@ -13,8 +14,6 @@ import snackbarReducer from "./snackbar/snackbar.reducer";
 import statsReducer from "./stats/stats.reducer";
 import timersReducer from "./timers/timers.reducer";
 import userReducer from "./user/user.reducer";
-
-// Reducers
 
 const persistConfig = {
     key: "root",
@@ -34,6 +33,7 @@ const rootReducer = combineReducers({
     projectTasks: projectTasksReducer,
     timers: timersReducer,
     snackbar: snackbarReducer,
+    dialogs: dialogsReducer,
 });
 
 export type ReduxStateType = ReturnType<typeof rootReducer>;

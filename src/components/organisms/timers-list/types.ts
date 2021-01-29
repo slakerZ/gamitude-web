@@ -9,4 +9,6 @@ export interface TimersPropType {
     setSnackbarState: any;
     sessionInProgress: boolean;
     isBreak: boolean;
+    isTimerSettingsDialogOpen: boolean;
+    setTimerSettingsDialogOpen: any;
 }

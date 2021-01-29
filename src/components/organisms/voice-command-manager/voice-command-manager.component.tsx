@@ -9,14 +9,22 @@ import IconButton from "@material-ui/core/IconButton";
 import MicIcon from "@material-ui/icons/Mic";
 import MicOffIcon from "@material-ui/icons/MicOff";
 
+import {
+    setAddProjectDialogOpen,
+    setFoldersSettingsDialogOpen,
+    setTimerSettingsDialogOpen,
+} from "redux/dialogs/dialogs.actions";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { SnackbarStateType } from "redux/snackbar/snackbar.types";
 
-import { SUPPORTED_LOCATIONS } from "./constants";
+import { SUPPORTED_LOCATIONS, SUPPORTED_DIALOGS } from "./constants";
 import { VoiceCommandManagerPropTypes } from "./types";
 
 const VoiceCommandManager = ({
     setSnackbarState,
+    setAddProjectDialogOpen,
+    setFoldersSettingsDialogOpen,
+    setTimerSettingsDialogOpen,
 }: VoiceCommandManagerPropTypes): ReactElement | null => {
     const location = useLocation();
 
@@ -27,6 +35,20 @@ const VoiceCommandManager = ({
 
     // Voice recognition
     const commands = [
+        {
+            command: "command *",
+            callback: (command: string) => handleAPICommands(command),
+        },
+        {
+            command: "open :dialogName",
+            callback: (dialogName: string) =>
+                handleOpenDialogs(dialogName, true),
+        },
+        {
+            command: "close :dialogName",
+            callback: (dialogName: string) =>
+                handleOpenDialogs(dialogName, false),
+        },
         {
             command: "reset",
             callback: () => resetTranscript(),
@@ -41,10 +63,36 @@ const VoiceCommandManager = ({
     });
 
     //handlers
+    const handleAPICommands = (command: string) => {
+        console.log(command);
+        resetTranscript();
+    };
+
+    const handleOpenDialogs = (dialogName: string, open: boolean) => {
+        if (SUPPORTED_DIALOGS.includes(dialogName.toLowerCase())) {
+            switch (dialogName.toLowerCase()) {
+                case "projects":
+                case "project":
+                    setAddProjectDialogOpen(open);
+                    break;
+                case "folders":
+                    setFoldersSettingsDialogOpen(open);
+                    break;
+                case "timers":
+                    setTimerSettingsDialogOpen(open);
+                    break;
+                default:
+                    break;
+            }
+        }
+        resetTranscript();
+    };
+
     const handleVoiceManagerOnOff = () => {
         if (listening) {
             SpeechRecognition.stopListening();
         } else {
+            resetTranscript();
             SpeechRecognition.startListening({
                 continuous: true,
                 language: "en-US",
@@ -84,6 +132,12 @@ const VoiceCommandManager = ({
 const mapDispatchToProps = (dispatch: any) => ({
     setSnackbarState: (value: SnackbarStateType) =>
         dispatch(setSnackbarState(value)),
+    setAddProjectDialogOpen: (value: boolean) =>
+        dispatch(setAddProjectDialogOpen(value)),
+    setFoldersSettingsDialogOpen: (value: boolean) =>
+        dispatch(setFoldersSettingsDialogOpen(value)),
+    setTimerSettingsDialogOpen: (value: boolean) =>
+        dispatch(setTimerSettingsDialogOpen(value)),
 });
 
 export default connect(null, mapDispatchToProps)(VoiceCommandManager);

@@ -8,6 +8,8 @@ import Tabs from "@material-ui/core/Tabs";
 import TimerIcon from "@material-ui/icons/Timer";
 import Skeleton from "@material-ui/lab/Skeleton";
 
+import { setTimerSettingsDialogOpen } from "redux/dialogs/dialogs.actions";
+import { selectIsTimerSettingsDialogOpen } from "redux/dialogs/dialogs.selectors";
 import { ReduxStateType } from "redux/root.reducer";
 import {
     selectIsBreak,
@@ -46,6 +48,8 @@ const Methods = ({
     setSnackbarState,
     sessionInProgress,
     isBreak,
+    isTimerSettingsDialogOpen,
+    setTimerSettingsDialogOpen,
 }: TimersPropType) => {
     const classes = useMethodsStyles();
 
@@ -56,9 +60,6 @@ const Methods = ({
 
     // useState
     const [timerIndex, setTimerIndex] = useState(defaultSelected);
-    const [isTimerSettingsDialogOpen, setIsTimerSettingsDialogOpen] = useState(
-        false,
-    );
 
     // useAsyncFn
     const [getTimersListState, getTimersList] = useAsyncFn(async () => {
@@ -94,7 +95,7 @@ const Methods = ({
     };
 
     const handleOpenDialog = () => {
-        setIsTimerSettingsDialogOpen(true);
+        setTimerSettingsDialogOpen(true);
     };
 
     useEffect(() => {
@@ -165,7 +166,7 @@ const Methods = ({
             <Suspense fallback={<Fragment />}>
                 <TimerSettingsDialog
                     open={isTimerSettingsDialogOpen}
-                    setOpen={setIsTimerSettingsDialogOpen}
+                    setOpen={setTimerSettingsDialogOpen}
                     getTimersList={getTimersList}
                 />
             </Suspense>
@@ -179,12 +180,15 @@ const mapStateToProps = (state: ReduxStateType) => ({
     token: selectToken(state),
     sessionInProgress: selectSessionInProgress(state),
     isBreak: selectIsBreak(state),
+    isTimerSettingsDialogOpen: selectIsTimerSettingsDialogOpen(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setTimers: (value: TimerType[]) => dispatch(setTimers(value)),
     setSelectedTimer: (value: number) => dispatch(setSelectedTimer(value)),
     setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
+    setTimerSettingsDialogOpen: (value: boolean) =>
+        dispatch(setTimerSettingsDialogOpen(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Methods);

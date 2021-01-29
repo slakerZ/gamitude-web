@@ -9,4 +9,8 @@ export interface ProjectsPropTypes {
     setUser: any;
     sessionInProgress: any;
     isBreak: boolean;
+    setAddProjectDialogOpen: any;
+    isAddProjectDialogOpen: boolean;
+    setFoldersSettingsDialogOpen: any;
+    isFolderSettingsDialogOpen: boolean;
 }

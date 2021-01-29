@@ -11,6 +11,14 @@ import Tabs from "@material-ui/core/Tabs";
 import AddIcon from "@material-ui/icons/Add";
 import Skeleton from "@material-ui/lab/Skeleton";
 
+import {
+    setAddProjectDialogOpen,
+    setFoldersSettingsDialogOpen,
+} from "redux/dialogs/dialogs.actions";
+import {
+    selectIsAddProjectDialogOpen,
+    selectIsFolderSettingsDialogOpen,
+} from "redux/dialogs/dialogs.selectors";
 import { setFolders } from "redux/folders/folders.actions";
 import { selectFolders } from "redux/folders/folders.selectors";
 import { setProjects } from "redux/projects/projects.actions";
@@ -57,11 +65,12 @@ const ProjectsDesktopPage = ({
     setUser,
     sessionInProgress,
     isBreak,
+    setAddProjectDialogOpen,
+    isAddProjectDialogOpen,
+    isFolderSettingsDialogOpen,
+    setFoldersSettingsDialogOpen,
 }: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
-
-    const [isNewProjectFormOpen, setIsNewProjectFormOpen] = useState(false);
-    const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = useState(false);
 
     // This is only for front components to mark the right radio button
     const [selectedProject, setSelectedProject] = useState("");
@@ -101,11 +110,11 @@ const ProjectsDesktopPage = ({
         }
     };
     const handleOpenNewProjectDialog = () => {
-        setIsNewProjectFormOpen(true);
+        setAddProjectDialogOpen(true);
     };
 
     const handleOpenNewFolderDialog = () => {
-        setIsNewFolderDialogOpen(true);
+        setFoldersSettingsDialogOpen(true);
     };
 
     useEffect(() => {
@@ -223,13 +232,13 @@ const ProjectsDesktopPage = ({
 
             <Suspense fallback={<Fragment />}>
                 <FolderSettingsDialog
-                    open={isNewFolderDialogOpen}
-                    setOpen={setIsNewFolderDialogOpen}
+                    open={isFolderSettingsDialogOpen}
+                    setOpen={setFoldersSettingsDialogOpen}
                     getFoldersList={getFoldersList}
                 />
                 <NewProjectDialog
-                    open={isNewProjectFormOpen}
-                    setOpen={setIsNewProjectFormOpen}
+                    open={isAddProjectDialogOpen}
+                    setOpen={setAddProjectDialogOpen}
                     getProjectsList={getProjectsList}
                 />
             </Suspense>
@@ -243,12 +252,18 @@ const mapStateToProps = (state: any) => ({
     token: selectToken(state),
     folders: selectFolders(state),
     isBreak: selectIsBreak(state),
+    isAddProjectDialogOpen: selectIsAddProjectDialogOpen(state),
+    isFolderSettingsDialogOpen: selectIsFolderSettingsDialogOpen(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setProjects: (value: any) => dispatch(setProjects(value)),
     setFolders: (value: any) => dispatch(setFolders(value)),
     setUser: (value: any) => dispatch(setUser(value)),
+    setAddProjectDialogOpen: (value: boolean) =>
+        dispatch(setAddProjectDialogOpen(value)),
+    setFoldersSettingsDialogOpen: (value: boolean) =>
+        dispatch(setFoldersSettingsDialogOpen(value)),
 });
 
 export default connect(
