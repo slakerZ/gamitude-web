@@ -193,6 +193,7 @@ const AuthenticationPage = ({
                                 fields={signUpFields}
                                 title={"Sign Up"}
                                 state={signUpState}
+                                blurValidation={true}
                             />
                             <Typography
                                 className={classes.link}

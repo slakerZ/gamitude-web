@@ -20,6 +20,7 @@ const FormikForm: FC<FormikFormPropType> = ({
     fields,
     state,
     enableReinitialize = false,
+    blurValidation = false,
 }: FormikFormPropType) => {
     const classes = useFormikFormStyles();
 
@@ -29,8 +30,8 @@ const FormikForm: FC<FormikFormPropType> = ({
             onSubmit={onSubmit}
             validationSchema={schema}
             enableReinitialize={enableReinitialize}
-            validateOnBlur={true}
-            validateOnChange={false}
+            validateOnBlur={blurValidation}
+            validateOnChange={!blurValidation}
         >
             {({ dirty, isValid }) => {
                 return (
