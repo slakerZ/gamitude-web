@@ -1,7 +1,7 @@
 import { ProjectsActionTypes } from "./projects.types";
 
 const INITIAL_STATE = {
-    projects: [],
+    projects: [{ id: "" }],
     selectedProject: {
         id: "",
     },
@@ -69,6 +69,14 @@ const projectsReducer = (state = INITIAL_STATE, action: any) => {
             return {
                 ...state,
                 selectedProject: action.payload,
+            };
+        case ProjectsActionTypes.SET_SELECTED_PROJECT_BY_ID:
+            return {
+                ...state,
+                selectedProject:
+                    state.projects.find(
+                        (project) => project.id === action.payload,
+                    ) || state.selectedProject,
             };
         default:
             return state;
