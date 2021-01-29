@@ -15,4 +15,6 @@ export interface ProjectsPropTypes {
     isFolderSettingsDialogOpen: boolean;
     selectedProject: any;
     setSelectedProject: any;
+    setSelectedFolder: any;
+    selectedFolder: any;
 }

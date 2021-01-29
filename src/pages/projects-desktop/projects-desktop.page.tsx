@@ -19,8 +19,14 @@ import {
     selectIsAddProjectDialogOpen,
     selectIsFolderSettingsDialogOpen,
 } from "redux/dialogs/dialogs.selectors";
-import { setFolders } from "redux/folders/folders.actions";
-import { selectFolders } from "redux/folders/folders.selectors";
+import {
+    setFolders,
+    setSelectedFolderById,
+} from "redux/folders/folders.actions";
+import {
+    selectFolders,
+    selectSelectedFolder,
+} from "redux/folders/folders.selectors";
 import {
     setProjects,
     setSelectedProject,
@@ -77,11 +83,10 @@ const ProjectsDesktopPage = ({
     setFoldersSettingsDialogOpen,
     selectedProject,
     setSelectedProject,
+    selectedFolder,
+    setSelectedFolder,
 }: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
-
-    // This is only for front components to mark the right radio button
-    const [projectsCurrFolderIndex, setProjectsCurrFolderIndex] = useState(0);
 
     const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
         const response = await getProjects(token);
@@ -103,9 +108,9 @@ const ProjectsDesktopPage = ({
 
     const handleChangeCurrentFolder = (
         event: React.ChangeEvent<any>,
-        newValue: number,
+        newValue: string,
     ) => {
-        setProjectsCurrFolderIndex(newValue);
+        setSelectedFolder(newValue);
     };
 
     const handleChangeSelectedProject = (
@@ -152,11 +157,13 @@ const ProjectsDesktopPage = ({
                             aria-label="Folders navigation"
                             orientation="vertical"
                             variant="scrollable"
-                            value={projectsCurrFolderIndex}
+                            value={
+                                selectedFolder.id ? selectedFolder.id : false
+                            }
                             onChange={handleChangeCurrentFolder}
                             className={classes.tabs}
                         >
-                            {folders.map(({ name, icon }, index) => {
+                            {folders.map(({ name, icon, id }, index) => {
                                 return (
                                     <Tab
                                         key={index}
@@ -171,6 +178,7 @@ const ProjectsDesktopPage = ({
                                                 size="small"
                                             />
                                         }
+                                        value={id}
                                     />
                                 );
                             })}
@@ -206,10 +214,8 @@ const ProjectsDesktopPage = ({
                             return (
                                 <TabPanel
                                     key={index}
-                                    value={projectsCurrFolderIndex}
-                                    index={folders.findIndex((folder) => {
-                                        return folder.id === folderId;
-                                    })}
+                                    value={selectedFolder.id}
+                                    index={folderId}
                                     role={"menuitem"}
                                     id={`project-${project.id}`}
                                 >
@@ -262,6 +268,7 @@ const mapStateToProps = (state: any) => ({
     isAddProjectDialogOpen: selectIsAddProjectDialogOpen(state),
     isFolderSettingsDialogOpen: selectIsFolderSettingsDialogOpen(state),
     selectedProject: selectSelectedProject(state),
+    selectedFolder: selectSelectedFolder(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -272,7 +279,8 @@ const mapDispatchToProps = (dispatch: any) => ({
         dispatch(setAddProjectDialogOpen(value)),
     setFoldersSettingsDialogOpen: (value: boolean) =>
         dispatch(setFoldersSettingsDialogOpen(value)),
-    setSelectedProject: (value: any) => setSelectedProject(value),
+    setSelectedProject: (value: any) => dispatch(setSelectedProject(value)),
+    setSelectedFolder: (value: any) => dispatch(setSelectedFolderById(value)),
 });
 
 export default connect(

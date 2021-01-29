@@ -14,8 +14,11 @@ import {
     setFoldersSettingsDialogOpen,
     setTimerSettingsDialogOpen,
 } from "redux/dialogs/dialogs.actions";
+import { setSelectedFolderById } from "redux/folders/folders.actions";
 import { setSelectedProject } from "redux/projects/projects.actions";
+import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
+import { selectOpen } from "redux/snackbar/snackbar.selectors";
 import { SnackbarStateType } from "redux/snackbar/snackbar.types";
 
 import { ProjectType } from "api/projects/types";
@@ -29,6 +32,8 @@ const VoiceCommandManager = ({
     setFoldersSettingsDialogOpen,
     setTimerSettingsDialogOpen,
     setSelectedProject,
+    snackBarOpen,
+    setSelectedFolderById,
 }: VoiceCommandManagerPropTypes): ReactElement | null => {
     const location = useLocation();
 
@@ -61,6 +66,11 @@ const VoiceCommandManager = ({
                     timeSpendBreak: 0,
                     totalTimeSpend: 0,
                 }),
+        },
+        {
+            command: "folder :folderName",
+            callback: (folderName: string) =>
+                setSelectedFolderById("5ff45815a85b1f68d50cf3e4"),
         },
         {
             command: "open :dialogName",
@@ -135,6 +145,12 @@ const VoiceCommandManager = ({
         }
     }, [transcript, setSnackbarState]);
 
+    useEffect(() => {
+        if (!snackBarOpen && transcript.length > 0) {
+            resetTranscript();
+        }
+    }, [snackBarOpen]);
+
     return speechAPIAvailable && allowSpeechRecognition ? (
         <Fragment>
             <IconButton
@@ -152,6 +168,10 @@ const VoiceCommandManager = ({
     ) : null;
 };
 
+const mapStateToProps = (state: ReduxStateType) => ({
+    snackBarOpen: selectOpen(state),
+});
+
 const mapDispatchToProps = (dispatch: any) => ({
     setSnackbarState: (value: SnackbarStateType) =>
         dispatch(setSnackbarState(value)),
@@ -163,6 +183,11 @@ const mapDispatchToProps = (dispatch: any) => ({
         dispatch(setTimerSettingsDialogOpen(value)),
     setSelectedProject: (value: ProjectType) =>
         dispatch(setSelectedProject(value)),
+    setSelectedFolderById: (value: any) =>
+        dispatch(setSelectedFolderById(value)),
 });
 
-export default connect(null, mapDispatchToProps)(VoiceCommandManager);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(VoiceCommandManager);
