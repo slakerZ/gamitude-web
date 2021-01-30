@@ -12,6 +12,7 @@ import React, {
 } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
+import { useSpeechRecognition } from "react-speech-recognition";
 
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -324,6 +325,26 @@ const Timer = ({
         toggleIsBreak,
         token,
     ]);
+
+    // voice rec
+    const commands = [
+        {
+            command: "start (session)",
+            callback: handleSession,
+        },
+        {
+            command: "overtime",
+            callback: handleOvertime,
+        },
+        {
+            command: "end (session)",
+            callback: handleGiveUp,
+        },
+    ];
+
+    useSpeechRecognition({
+        commands,
+    });
 
     // useEffect
     useEffect(() => {
