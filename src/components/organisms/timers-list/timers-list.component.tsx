@@ -1,4 +1,4 @@
-import React, { Fragment, lazy, Suspense, useEffect, useState } from "react";
+import React, { Fragment, lazy, Suspense, useEffect } from "react";
 import { connect } from "react-redux";
 import { useEffectOnce, useAsyncFn } from "react-use";
 
@@ -16,7 +16,7 @@ import {
     selectSessionInProgress,
 } from "redux/session/session.selectors";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
-import { setSelectedTimer } from "redux/timers/timers.actions";
+import { setSelectedTimerById } from "redux/timers/timers.actions";
 import { setTimers } from "redux/timers/timers.actions";
 import { selectTimers } from "redux/timers/timers.selectors";
 import { selectSelectedTimer } from "redux/timers/timers.selectors";
@@ -41,7 +41,7 @@ const TimerSettingsDialog = lazy(
 
 const Methods = ({
     timers,
-    setSelectedTimer,
+    setSelectedTimerById,
     selectedTimer,
     token,
     setTimers,
@@ -53,29 +53,20 @@ const Methods = ({
 }: TimersPropType) => {
     const classes = useMethodsStyles();
 
-    const defaultSelected =
-        timers.indexOf(selectedTimer) !== -1
-            ? timers.indexOf(selectedTimer)
-            : 0;
-
-    // useState
-    const [timerIndex, setTimerIndex] = useState(defaultSelected);
-
     // useAsyncFn
     const [getTimersListState, getTimersList] = useAsyncFn(async () => {
         const response = await getTimers(token);
         const timers = response.data;
         setTimers(timers);
-        setSelectedTimer(timers[0]);
+        setSelectedTimerById(timers[0].id);
         return response;
     });
 
     // handlers
     // eslint-disable-next-line @typescript-eslint/ban-types
-    const handleMethodChange = (e: React.ChangeEvent<{}>, newValue: number) => {
+    const handleMethodChange = (e: React.ChangeEvent<{}>, newValue: string) => {
         if (!sessionInProgress && !isBreak) {
-            setTimerIndex(newValue);
-            setSelectedTimer(timers[newValue]);
+            setSelectedTimerById(newValue);
         } else if (isBreak) {
             setSnackbarState({
                 severity: "info",
@@ -97,13 +88,6 @@ const Methods = ({
     const handleOpenDialog = () => {
         setTimerSettingsDialogOpen(true);
     };
-
-    useEffect(() => {
-        const methodIndex = timers.indexOf(selectedTimer);
-        if (methodIndex !== -1) {
-            setTimerIndex(methodIndex);
-        }
-    }, [selectedTimer, timers]);
 
     useEffect(() => {
         if (getTimersListState.error) {
@@ -134,14 +118,14 @@ const Methods = ({
                         <Tabs
                             selectionFollowsFocus
                             aria-label="list of custom timers"
-                            value={timerIndex}
+                            value={selectedTimer.id}
                             onChange={handleMethodChange}
                             variant="scrollable"
                             scrollButtons="on"
                             indicatorColor="primary"
                             textColor="primary"
                         >
-                            {timers.map(({ label }, index) => {
+                            {timers.map(({ label, id }, index) => {
                                 return (
                                     <Tab
                                         className={classes.tab}
@@ -149,6 +133,7 @@ const Methods = ({
                                         label={label}
                                         {...a11yProps(index, "custom-timer")}
                                         icon={<TimerIcon />}
+                                        value={id}
                                     />
                                 );
                             })}
@@ -185,7 +170,8 @@ const mapStateToProps = (state: ReduxStateType) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
     setTimers: (value: TimerType[]) => dispatch(setTimers(value)),
-    setSelectedTimer: (value: number) => dispatch(setSelectedTimer(value)),
+    setSelectedTimerById: (value: string) =>
+        dispatch(setSelectedTimerById(value)),
     setSnackbarState: (value: any) => dispatch(setSnackbarState(value)),
     setTimerSettingsDialogOpen: (value: boolean) =>
         dispatch(setTimerSettingsDialogOpen(value)),

@@ -14,3 +14,8 @@ export const setTimers = (value: any) => ({
     type: TimersActionTypes.SET_TIMERS,
     payload: value,
 });
+
+export const setSelectedTimerById = (value: string) => ({
+    type: TimersActionTypes.SET_SELECTED_TIMER_BY_ID,
+    payload: value,
+});

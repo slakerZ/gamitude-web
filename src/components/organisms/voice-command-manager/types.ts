@@ -8,4 +8,5 @@ export interface VoiceCommandManagerPropTypes {
     snackBarOpen: any;
     setSelectedFolderById: any;
     setSelectedProjectById: any;
+    setSelectedTimerById: (newTimerId: string) => null;
 }

@@ -20,6 +20,7 @@ import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectOpen } from "redux/snackbar/snackbar.selectors";
 import { SnackbarStateType } from "redux/snackbar/snackbar.types";
+import { setSelectedTimerById } from "redux/timers/timers.actions";
 
 import { SUPPORTED_LOCATIONS, SUPPORTED_DIALOGS } from "./constants";
 import { VoiceCommandManagerPropTypes } from "./types";
@@ -32,6 +33,7 @@ const VoiceCommandManager = ({
     snackBarOpen,
     setSelectedFolderById,
     setSelectedProjectById,
+    setSelectedTimerById,
 }: VoiceCommandManagerPropTypes): ReactElement | null => {
     const location = useLocation();
 
@@ -49,12 +51,17 @@ const VoiceCommandManager = ({
         {
             command: "project :projectName",
             callback: (projectName: string) =>
-                setSelectedProjectById("5ff70cb5bf4c7be51c9d7530"),
+                setSelectedProjectById("5fd7704e633fc5a539c9a989"),
         },
         {
             command: "folder :folderName",
             callback: (folderName: string) =>
-                setSelectedFolderById("5ff45815a85b1f68d50cf3e4"),
+                setSelectedFolderById("5fd7704e633fc5a539c9a985"),
+        },
+        {
+            command: "timer :timerName",
+            callback: (timerName: string) =>
+                setSelectedTimerById("5fd7704e633fc5a539c9a98b"),
         },
         {
             command: "open :dialogName",
@@ -130,10 +137,10 @@ const VoiceCommandManager = ({
     }, [transcript, setSnackbarState]);
 
     useEffect(() => {
-        if (!snackBarOpen && transcript.length > 0) {
+        if (!snackBarOpen) {
             resetTranscript();
         }
-    }, [snackBarOpen]);
+    }, [snackBarOpen, resetTranscript]);
 
     return speechAPIAvailable && allowSpeechRecognition ? (
         <Fragment>
@@ -143,9 +150,9 @@ const VoiceCommandManager = ({
                 onClick={handleVoiceManagerOnOff}
             >
                 {listening ? (
-                    <MicOffIcon fontSize="inherit" />
-                ) : (
                     <MicIcon fontSize="inherit" />
+                ) : (
+                    <MicOffIcon fontSize="inherit" />
                 )}
             </IconButton>
         </Fragment>
@@ -169,6 +176,8 @@ const mapDispatchToProps = (dispatch: any) => ({
         dispatch(setSelectedFolderById(value)),
     setSelectedProjectById: (value: any) =>
         dispatch(setSelectedProjectById(value)),
+    setSelectedTimerById: (value: string) =>
+        dispatch(setSelectedTimerById(value)),
 });
 
 export default connect(
