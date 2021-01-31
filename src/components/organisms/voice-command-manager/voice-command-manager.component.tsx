@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import SpeechRecognition, {
     useSpeechRecognition,
 } from "react-speech-recognition";
+import { useAsyncFn } from "react-use";
 
 import IconButton from "@material-ui/core/IconButton";
 import MicIcon from "@material-ui/icons/Mic";
@@ -15,12 +16,17 @@ import {
     setTimerSettingsDialogOpen,
 } from "redux/dialogs/dialogs.actions";
 import { setSelectedFolderById } from "redux/folders/folders.actions";
+import { selectFolders } from "redux/folders/folders.selectors";
 import { setSelectedProjectById } from "redux/projects/projects.actions";
+import { selectProjects } from "redux/projects/projects.selectors";
 import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
 import { selectOpen } from "redux/snackbar/snackbar.selectors";
 import { SnackbarStateType } from "redux/snackbar/snackbar.types";
 import { setSelectedTimerById } from "redux/timers/timers.actions";
+import { selectTimers } from "redux/timers/timers.selectors";
+
+import { postPredict } from "api/voiceRecognition/voiceRecognition.api";
 
 import { SUPPORTED_LOCATIONS, SUPPORTED_DIALOGS } from "./constants";
 import { VoiceCommandManagerPropTypes } from "./types";
@@ -34,9 +40,30 @@ const VoiceCommandManager = ({
     setSelectedFolderById,
     setSelectedProjectById,
     setSelectedTimerById,
+    folders,
+    timers,
+    projects,
 }: VoiceCommandManagerPropTypes): ReactElement | null => {
-    const location = useLocation();
+    const [makePredictionState, makePrediction] = useAsyncFn(
+        async (command: string) => {
+            console.log(command);
+            const requestBody = {
+                command: command,
+                entities: {
+                    projects: projects,
+                    folders: folders,
+                    timers: timers,
+                },
+            };
+            postPredict(requestBody).then((response) => {
+                console.log(response);
+                resetTranscript();
+            });
+        },
+        [projects, folders, timers],
+    );
 
+    const location = useLocation();
     const speechAPIAvailable = SpeechRecognition.browserSupportsSpeechRecognition();
     const allowSpeechRecognition = SUPPORTED_LOCATIONS.includes(
         location.pathname,
@@ -45,34 +72,34 @@ const VoiceCommandManager = ({
     // Voice recognition
     const commands = [
         {
-            command: "command *",
-            callback: (command: string) => handleAPICommands(command),
+            command: "listen * (please)",
+            callback: makePrediction,
         },
-        {
-            command: "project :projectName",
-            callback: (projectName: string) =>
-                setSelectedProjectById("5fd7704e633fc5a539c9a989"),
-        },
-        {
-            command: "folder :folderName",
-            callback: (folderName: string) =>
-                setSelectedFolderById("5fd7704e633fc5a539c9a985"),
-        },
-        {
-            command: "timer :timerName",
-            callback: (timerName: string) =>
-                setSelectedTimerById("5fd7704e633fc5a539c9a98b"),
-        },
-        {
-            command: "open :dialogName",
-            callback: (dialogName: string) =>
-                handleOpenDialogs(dialogName, true),
-        },
-        {
-            command: "close :dialogName",
-            callback: (dialogName: string) =>
-                handleOpenDialogs(dialogName, false),
-        },
+        // {
+        //     command: "project :projectName",
+        //     callback: (projectName: string) =>
+        //         setSelectedProjectById("5fd7704e633fc5a539c9a989"),
+        // },
+        // {
+        //     command: "folder :folderName",
+        //     callback: (folderName: string) =>
+        //         setSelectedFolderById("5fd7704e633fc5a539c9a985"),
+        // },
+        // {
+        //     command: "timer :timerName",
+        //     callback: (timerName: string) =>
+        //         setSelectedTimerById("5fd7704e633fc5a539c9a98b"),
+        // },
+        // {
+        //     command: "open :dialogName",
+        //     callback: (dialogName: string) =>
+        //         handleOpenDialogs(dialogName, true),
+        // },
+        // {
+        //     command: "close :dialogName",
+        //     callback: (dialogName: string) =>
+        //         handleOpenDialogs(dialogName, false),
+        // },
         {
             command: "reset",
             callback: () => resetTranscript(),
@@ -87,30 +114,26 @@ const VoiceCommandManager = ({
     });
 
     //handlers
-    const handleAPICommands = (command: string) => {
-        console.log(command);
-        resetTranscript();
-    };
 
-    const handleOpenDialogs = (dialogName: string, open: boolean) => {
-        if (SUPPORTED_DIALOGS.includes(dialogName.toLowerCase())) {
-            switch (dialogName.toLowerCase()) {
-                case "projects":
-                case "project":
-                    setAddProjectDialogOpen(open);
-                    break;
-                case "folders":
-                    setFoldersSettingsDialogOpen(open);
-                    break;
-                case "timers":
-                    setTimerSettingsDialogOpen(open);
-                    break;
-                default:
-                    break;
-            }
-        }
-        resetTranscript();
-    };
+    // const handleOpenDialogs = (dialogName: string, open: boolean) => {
+    //     if (SUPPORTED_DIALOGS.includes(dialogName.toLowerCase())) {
+    //         switch (dialogName.toLowerCase()) {
+    //             case "projects":
+    //             case "project":
+    //                 setAddProjectDialogOpen(open);
+    //                 break;
+    //             case "folders":
+    //                 setFoldersSettingsDialogOpen(open);
+    //                 break;
+    //             case "timers":
+    //                 setTimerSettingsDialogOpen(open);
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     }
+    //     resetTranscript();
+    // };
 
     const handleVoiceManagerOnOff = () => {
         if (listening) {
@@ -136,11 +159,11 @@ const VoiceCommandManager = ({
         }
     }, [transcript, setSnackbarState]);
 
-    useEffect(() => {
-        if (!snackBarOpen) {
-            resetTranscript();
-        }
-    }, [snackBarOpen, resetTranscript]);
+    // useEffect(() => {
+    //     if (!snackBarOpen) {
+    //         resetTranscript();
+    //     }
+    // }, [snackBarOpen, resetTranscript]);
 
     return speechAPIAvailable && allowSpeechRecognition ? (
         <Fragment>
@@ -161,6 +184,9 @@ const VoiceCommandManager = ({
 
 const mapStateToProps = (state: ReduxStateType) => ({
     snackBarOpen: selectOpen(state),
+    projects: selectProjects(state),
+    timers: selectTimers(state),
+    folders: selectFolders(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
