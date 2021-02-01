@@ -334,11 +334,19 @@ const Timer = ({
         },
         {
             command: "overtime",
-            callback: handleOvertime,
+            callback:
+                selectedTimer.timerType === "TIMER"
+                    ? handleOvertime
+                    : () => {
+                          return null;
+                      },
         },
         {
             command: "end (session)",
-            callback: handleGiveUp,
+            callback:
+                selectedTimer.timerType === "TIMER"
+                    ? handleGiveUp
+                    : handleSession,
         },
     ];
 

@@ -274,10 +274,14 @@ const rankTier = {
 const voiceRecognition = {
     title: "Voice Commands Recognition",
     bodyItems: [
-        "Click on microphone so that's it's not muted",
-        "What you say will now display in the snackbar at the bottom",
+        "Click to start using site without hands",
         "Say 'listen' then what you want to do",
+        "f.e 'listen select project projectName'",
         "Say 'stop listening' to turn it off",
+        "Say 'start' to begin session",
+        "Say 'end' to end session, this will cancel progress if using countdown",
+        "Say 'overtime' to add session time",
+        "Say 'reset' to clear text",
     ],
 };
 
