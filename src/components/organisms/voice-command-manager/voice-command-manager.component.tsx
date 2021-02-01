@@ -26,10 +26,17 @@ import { SnackbarStateType } from "redux/snackbar/snackbar.types";
 import { setSelectedTimerById } from "redux/timers/timers.actions";
 import { selectTimers } from "redux/timers/timers.selectors";
 
+import { ProjectType } from "api/projects/types";
 import { postPredict } from "api/voiceRecognition/voiceRecognition.api";
 
+import ToggleableTooltip from "components/atoms/toggleable-tooltip/toggleable-tooltip.component";
+
 import { SUPPORTED_LOCATIONS, SUPPORTED_DIALOGS } from "./constants";
-import { VoiceCommandManagerPropTypes } from "./types";
+import {
+    VoiceCommandManagerPropTypes,
+    VoiceCommandType,
+    TargetType,
+} from "./types";
 
 const VoiceCommandManager = ({
     setSnackbarState,
@@ -46,7 +53,6 @@ const VoiceCommandManager = ({
 }: VoiceCommandManagerPropTypes): ReactElement | null => {
     const [makePredictionState, makePrediction] = useAsyncFn(
         async (command: string) => {
-            console.log(command);
             const requestBody = {
                 command: command,
                 entities: {
@@ -55,10 +61,14 @@ const VoiceCommandManager = ({
                     timers: timers,
                 },
             };
-            postPredict(requestBody).then((response) => {
-                console.log(response);
-                resetTranscript();
-            });
+            const result = await postPredict(requestBody);
+            handleVoiceCommands(
+                result.command,
+                result.target_id,
+                result.target,
+            );
+            resetTranscript();
+            return result;
         },
         [projects, folders, timers],
     );
@@ -75,31 +85,16 @@ const VoiceCommandManager = ({
             command: "listen * (please)",
             callback: makePrediction,
         },
-        // {
-        //     command: "project :projectName",
-        //     callback: (projectName: string) =>
-        //         setSelectedProjectById("5fd7704e633fc5a539c9a989"),
-        // },
-        // {
-        //     command: "folder :folderName",
-        //     callback: (folderName: string) =>
-        //         setSelectedFolderById("5fd7704e633fc5a539c9a985"),
-        // },
-        // {
-        //     command: "timer :timerName",
-        //     callback: (timerName: string) =>
-        //         setSelectedTimerById("5fd7704e633fc5a539c9a98b"),
-        // },
-        // {
-        //     command: "open :dialogName",
-        //     callback: (dialogName: string) =>
-        //         handleOpenDialogs(dialogName, true),
-        // },
-        // {
-        //     command: "close :dialogName",
-        //     callback: (dialogName: string) =>
-        //         handleOpenDialogs(dialogName, false),
-        // },
+        {
+            command: "open :dialogName",
+            callback: (dialogName: string) =>
+                handleOpenDialogs(dialogName, true),
+        },
+        {
+            command: "close :dialogName",
+            callback: (dialogName: string) =>
+                handleOpenDialogs(dialogName, false),
+        },
         {
             command: "reset",
             callback: () => resetTranscript(),
@@ -115,25 +110,46 @@ const VoiceCommandManager = ({
 
     //handlers
 
-    // const handleOpenDialogs = (dialogName: string, open: boolean) => {
-    //     if (SUPPORTED_DIALOGS.includes(dialogName.toLowerCase())) {
-    //         switch (dialogName.toLowerCase()) {
-    //             case "projects":
-    //             case "project":
-    //                 setAddProjectDialogOpen(open);
-    //                 break;
-    //             case "folders":
-    //                 setFoldersSettingsDialogOpen(open);
-    //                 break;
-    //             case "timers":
-    //                 setTimerSettingsDialogOpen(open);
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     }
-    //     resetTranscript();
-    // };
+    const handleVoiceCommands = (
+        command: VoiceCommandType,
+        target_id: string,
+        target: TargetType,
+    ) => {
+        switch (command) {
+            case "select timer":
+                setSelectedTimerById(target_id);
+                break;
+            case "select project":
+                setSelectedFolderById((target as ProjectType).folderId);
+                setSelectedProjectById(target_id);
+                break;
+            case "select folder":
+                setSelectedFolderById(target_id);
+                break;
+            default:
+                break;
+        }
+    };
+
+    const handleOpenDialogs = (dialogName: string, open: boolean) => {
+        if (SUPPORTED_DIALOGS.includes(dialogName.toLowerCase())) {
+            switch (dialogName.toLowerCase()) {
+                case "projects":
+                case "project":
+                    setAddProjectDialogOpen(open);
+                    break;
+                case "folders":
+                    setFoldersSettingsDialogOpen(open);
+                    break;
+                case "timers":
+                    setTimerSettingsDialogOpen(open);
+                    break;
+                default:
+                    break;
+            }
+        }
+        resetTranscript();
+    };
 
     const handleVoiceManagerOnOff = () => {
         if (listening) {
@@ -159,25 +175,33 @@ const VoiceCommandManager = ({
         }
     }, [transcript, setSnackbarState]);
 
-    // useEffect(() => {
-    //     if (!snackBarOpen) {
-    //         resetTranscript();
-    //     }
-    // }, [snackBarOpen, resetTranscript]);
+    useEffect(() => {
+        if (makePredictionState.error) {
+            setSnackbarState({
+                message: "Failed to understand command",
+                severity: "error",
+                autoHideDuration: null,
+                open: true,
+            });
+            resetTranscript();
+        }
+    }, [makePredictionState, setSnackbarState, resetTranscript]);
 
     return speechAPIAvailable && allowSpeechRecognition ? (
         <Fragment>
-            <IconButton
-                aria-label="turn voice command manager on/off"
-                size="small"
-                onClick={handleVoiceManagerOnOff}
-            >
-                {listening ? (
-                    <MicIcon fontSize="inherit" />
-                ) : (
-                    <MicOffIcon fontSize="inherit" />
-                )}
-            </IconButton>
+            <ToggleableTooltip target="voiceRecognition">
+                <IconButton
+                    aria-label="turn voice command manager on/off"
+                    size="small"
+                    onClick={handleVoiceManagerOnOff}
+                >
+                    {listening ? (
+                        <MicIcon fontSize="inherit" />
+                    ) : (
+                        <MicOffIcon fontSize="inherit" />
+                    )}
+                </IconButton>
+            </ToggleableTooltip>
         </Fragment>
     ) : null;
 };

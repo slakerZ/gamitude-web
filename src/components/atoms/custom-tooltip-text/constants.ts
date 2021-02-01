@@ -270,6 +270,17 @@ const rankTier = {
     ],
 };
 
+// Voice recognition
+const voiceRecognition = {
+    title: "Voice Commands Recognition",
+    bodyItems: [
+        "Click on microphone so that's it's not muted",
+        "What you say will now display in the snackbar at the bottom",
+        "Say 'listen' then what you want to do",
+        "Say 'stop listening' to turn it off",
+    ],
+};
+
 // Error
 
 const tooltipNotFound = {
@@ -349,6 +360,8 @@ export const targetToTooltipObject = (target: string): TooltipObjectType => {
             return sessionTypeSwitch;
         case "themes":
             return themes;
+        case "voiceRecognition":
+            return voiceRecognition;
         default:
             return tooltipNotFound;
     }

@@ -17,3 +17,10 @@ export interface VoiceCommandManagerPropTypes {
     timers: TimerType[];
     folders: FolderType[];
 }
+
+export type VoiceCommandType =
+    | "select project"
+    | "select timer"
+    | "select folder";
+
+export type TargetType = TimerType | ProjectType | FolderType;
