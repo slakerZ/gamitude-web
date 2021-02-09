@@ -392,20 +392,20 @@ const Timer = ({
         handleStopwatch,
     ]);
 
+    useEffect(() => {
+        if (sessionInProgress) {
+            document.title = `${leftPad(
+                milisecondsToMinutes(sessionTime).minutes,
+            )}:${leftPad(milisecondsToMinutes(sessionTime).seconds)}`;
+        } else {
+            document.title = "Gamitude | Projects";
+        }
+    }, [sessionInProgress, sessionTime]);
+
     return (
         <div className={classes.root}>
             <Helmet>
-                {sessionInProgress ? (
-                    <title>
-                        {`${leftPad(
-                            milisecondsToMinutes(sessionTime).minutes,
-                        )}:${leftPad(
-                            milisecondsToMinutes(sessionTime).seconds,
-                        )}`}
-                    </title>
-                ) : (
-                    <title>{"Gamitude | Projects"}</title>
-                )}
+                <title>{"Gamitude | Projects"}</title>
             </Helmet>
             <Suspense fallback={<Fragment />}>
                 <GiveUpSessionDialog
