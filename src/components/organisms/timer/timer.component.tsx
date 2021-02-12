@@ -12,6 +12,7 @@ import React, {
 } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
+import { useSpeechRecognition } from "react-speech-recognition";
 
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -325,6 +326,34 @@ const Timer = ({
         token,
     ]);
 
+    // voice rec
+    const commands = [
+        {
+            command: "start (session)",
+            callback: handleSession,
+        },
+        {
+            command: "overtime",
+            callback:
+                selectedTimer.timerType === "TIMER"
+                    ? handleOvertime
+                    : () => {
+                          return null;
+                      },
+        },
+        {
+            command: "end (session)",
+            callback:
+                selectedTimer.timerType === "TIMER"
+                    ? handleGiveUp
+                    : handleSession,
+        },
+    ];
+
+    useSpeechRecognition({
+        commands,
+    });
+
     // useEffect
     useEffect(() => {
         const defaultTimer = timers.find(
@@ -363,20 +392,20 @@ const Timer = ({
         handleStopwatch,
     ]);
 
+    useEffect(() => {
+        if (sessionInProgress) {
+            document.title = `${leftPad(
+                milisecondsToMinutes(sessionTime).minutes,
+            )}:${leftPad(milisecondsToMinutes(sessionTime).seconds)}`;
+        } else {
+            document.title = "Gamitude | Projects";
+        }
+    }, [sessionInProgress, sessionTime]);
+
     return (
         <div className={classes.root}>
             <Helmet>
-                {sessionInProgress ? (
-                    <title>
-                        {`${leftPad(
-                            milisecondsToMinutes(sessionTime).minutes,
-                        )}:${leftPad(
-                            milisecondsToMinutes(sessionTime).seconds,
-                        )}`}
-                    </title>
-                ) : (
-                    <title>{"Gamitude | Projects"}</title>
-                )}
+                <title>{"Gamitude | Projects"}</title>
             </Helmet>
             <Suspense fallback={<Fragment />}>
                 <GiveUpSessionDialog

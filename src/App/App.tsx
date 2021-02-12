@@ -48,6 +48,8 @@ import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-to
 
 import CustomSnackbar from "components/molecules/custom-snackbar/custom-snackbar.component";
 
+import VoiceCommandManagerComponent from "components/organisms/voice-command-manager/voice-command-manager.component";
+
 import EmailVerfiedPage from "pages/authentication/email-verified.page";
 
 import { NAV_LINKS } from "./constants";
@@ -180,7 +182,9 @@ const App: FC<AppType> = ({
                             </ToggleAbleTooltip>
                         </div>
 
-                        <div className={classes.right}></div>
+                        <div className={classes.right}>
+                            <VoiceCommandManagerComponent />
+                        </div>
                     </Toolbar>
                 </AppBar>
             )}

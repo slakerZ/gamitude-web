@@ -14,7 +14,21 @@ const INITIAL_STATE = {
             workTime: 0,
         },
     },
-    timers: [],
+    timers: [
+        {
+            label: "",
+            id: "",
+            userId: "",
+            name: "",
+            countDownInfo: {
+                breakTime: 0,
+                longerBreakTime: 0,
+                breakInterval: 0,
+                overTime: 5,
+                workTime: 0,
+            },
+        },
+    ],
 };
 
 const timersReducer = (state = INITIAL_STATE, action: any) => {
@@ -33,6 +47,13 @@ const timersReducer = (state = INITIAL_STATE, action: any) => {
             return {
                 ...state,
                 timers: action.payload,
+            };
+        case TimersActionTypes.SET_SELECTED_TIMER_BY_ID:
+            return {
+                ...state,
+                selectedTimer:
+                    state.timers.find((timer) => timer.id === action.payload) ||
+                    state.selectedTimer,
             };
         default:
             return state;

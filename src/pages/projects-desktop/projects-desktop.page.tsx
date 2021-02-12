@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense, Fragment } from "react";
+import React, { useEffect, lazy, Suspense, Fragment } from "react";
 import { connect } from "react-redux";
 import { useAsyncFn, useEffectOnce } from "react-use";
 
@@ -11,10 +11,30 @@ import Tabs from "@material-ui/core/Tabs";
 import AddIcon from "@material-ui/icons/Add";
 import Skeleton from "@material-ui/lab/Skeleton";
 
-import { setFolders } from "redux/folders/folders.actions";
-import { selectFolders } from "redux/folders/folders.selectors";
-import { setProjects } from "redux/projects/projects.actions";
-import { selectProjects } from "redux/projects/projects.selectors";
+import {
+    setAddProjectDialogOpen,
+    setFoldersSettingsDialogOpen,
+} from "redux/dialogs/dialogs.actions";
+import {
+    selectIsAddProjectDialogOpen,
+    selectIsFolderSettingsDialogOpen,
+} from "redux/dialogs/dialogs.selectors";
+import {
+    setFolders,
+    setSelectedFolderById,
+} from "redux/folders/folders.actions";
+import {
+    selectFolders,
+    selectSelectedFolder,
+} from "redux/folders/folders.selectors";
+import {
+    setProjects,
+    setSelectedProject,
+} from "redux/projects/projects.actions";
+import {
+    selectProjects,
+    selectSelectedProject,
+} from "redux/projects/projects.selectors";
 import {
     selectIsBreak,
     selectSessionInProgress,
@@ -57,15 +77,16 @@ const ProjectsDesktopPage = ({
     setUser,
     sessionInProgress,
     isBreak,
+    setAddProjectDialogOpen,
+    isAddProjectDialogOpen,
+    isFolderSettingsDialogOpen,
+    setFoldersSettingsDialogOpen,
+    selectedProject,
+    setSelectedProject,
+    selectedFolder,
+    setSelectedFolder,
 }: ProjectsPropTypes) => {
     const classes = useProjectDesktopStyles();
-
-    const [isNewProjectFormOpen, setIsNewProjectFormOpen] = useState(false);
-    const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = useState(false);
-
-    // This is only for front components to mark the right radio button
-    const [selectedProject, setSelectedProject] = useState("");
-    const [projectsCurrFolderIndex, setProjectsCurrFolderIndex] = useState(0);
 
     const [getProjectsListState, getProjectsList] = useAsyncFn(async () => {
         const response = await getProjects(token);
@@ -87,9 +108,9 @@ const ProjectsDesktopPage = ({
 
     const handleChangeCurrentFolder = (
         event: React.ChangeEvent<any>,
-        newValue: number,
+        newValue: string,
     ) => {
-        setProjectsCurrFolderIndex(newValue);
+        setSelectedFolder(newValue);
     };
 
     const handleChangeSelectedProject = (
@@ -101,11 +122,11 @@ const ProjectsDesktopPage = ({
         }
     };
     const handleOpenNewProjectDialog = () => {
-        setIsNewProjectFormOpen(true);
+        setAddProjectDialogOpen(true);
     };
 
     const handleOpenNewFolderDialog = () => {
-        setIsNewFolderDialogOpen(true);
+        setFoldersSettingsDialogOpen(true);
     };
 
     useEffect(() => {
@@ -136,11 +157,13 @@ const ProjectsDesktopPage = ({
                             aria-label="Folders navigation"
                             orientation="vertical"
                             variant="scrollable"
-                            value={projectsCurrFolderIndex}
+                            value={
+                                selectedFolder.id ? selectedFolder.id : false
+                            }
                             onChange={handleChangeCurrentFolder}
                             className={classes.tabs}
                         >
-                            {folders.map(({ name, icon }, index) => {
+                            {folders.map(({ name, icon, id }, index) => {
                                 return (
                                     <Tab
                                         key={index}
@@ -155,6 +178,7 @@ const ProjectsDesktopPage = ({
                                                 size="small"
                                             />
                                         }
+                                        value={id}
                                     />
                                 );
                             })}
@@ -179,32 +203,30 @@ const ProjectsDesktopPage = ({
                     role="menu"
                     className={classes.projectsWrapper}
                 >
-                    {projects.map((project: ProjectType, index: number) => {
-                        const { folderId } = project;
-                        return (
-                            <TabPanel
-                                key={index}
-                                value={projectsCurrFolderIndex}
-                                index={folders.findIndex((folder) => {
-                                    return folder.id === folderId;
-                                })}
-                                role={"menuitem"}
-                                id={`project-${project.id}`}
-                            >
-                                <RadioGroup
-                                    aria-label={`selected_project_${index}`}
-                                    name="selected_project"
-                                    value={selectedProject}
-                                    onChange={handleChangeSelectedProject}
+                    <RadioGroup
+                        aria-label={`selected_project`}
+                        name="selected_project"
+                        value={selectedProject ? selectedProject.id : ""}
+                        onChange={handleChangeSelectedProject}
+                    >
+                        {projects.map((project: ProjectType, index: number) => {
+                            const { folderId } = project;
+                            return (
+                                <TabPanel
+                                    key={index}
+                                    value={selectedFolder.id}
+                                    index={folderId}
+                                    role={"menuitem"}
+                                    id={`project-${project.id}`}
                                 >
                                     <ProjectTile
                                         index={index}
                                         getProjectsList={getProjectsList}
                                     />
-                                </RadioGroup>
-                            </TabPanel>
-                        );
-                    })}
+                                </TabPanel>
+                            );
+                        })}
+                    </RadioGroup>
                 </div>
             )}
 
@@ -223,13 +245,13 @@ const ProjectsDesktopPage = ({
 
             <Suspense fallback={<Fragment />}>
                 <FolderSettingsDialog
-                    open={isNewFolderDialogOpen}
-                    setOpen={setIsNewFolderDialogOpen}
+                    open={isFolderSettingsDialogOpen}
+                    setOpen={setFoldersSettingsDialogOpen}
                     getFoldersList={getFoldersList}
                 />
                 <NewProjectDialog
-                    open={isNewProjectFormOpen}
-                    setOpen={setIsNewProjectFormOpen}
+                    open={isAddProjectDialogOpen}
+                    setOpen={setAddProjectDialogOpen}
                     getProjectsList={getProjectsList}
                 />
             </Suspense>
@@ -243,12 +265,22 @@ const mapStateToProps = (state: any) => ({
     token: selectToken(state),
     folders: selectFolders(state),
     isBreak: selectIsBreak(state),
+    isAddProjectDialogOpen: selectIsAddProjectDialogOpen(state),
+    isFolderSettingsDialogOpen: selectIsFolderSettingsDialogOpen(state),
+    selectedProject: selectSelectedProject(state),
+    selectedFolder: selectSelectedFolder(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setProjects: (value: any) => dispatch(setProjects(value)),
     setFolders: (value: any) => dispatch(setFolders(value)),
     setUser: (value: any) => dispatch(setUser(value)),
+    setAddProjectDialogOpen: (value: boolean) =>
+        dispatch(setAddProjectDialogOpen(value)),
+    setFoldersSettingsDialogOpen: (value: boolean) =>
+        dispatch(setFoldersSettingsDialogOpen(value)),
+    setSelectedProject: (value: any) => dispatch(setSelectedProject(value)),
+    setSelectedFolder: (value: any) => dispatch(setSelectedFolderById(value)),
 });
 
 export default connect(

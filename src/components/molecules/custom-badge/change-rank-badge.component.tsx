@@ -12,7 +12,7 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
 import { ReduxStateType } from "redux/root.reducer";
 import { setSnackbarState } from "redux/snackbar/snackbar.actions";
-import { selectToken } from "redux/user/user.selectors";
+import { selectToken, selectUser } from "redux/user/user.selectors";
 
 import { getUsersRanks, postRankSelection } from "api/rank/rank.api";
 
@@ -22,7 +22,7 @@ import ToggleAbleTooltip from "components/atoms/toggleable-tooltip/toggleable-to
 import CustomDialog from "../custom-dialog/custom-dialog.component";
 import useCustomBadgeStyles from "./styles";
 
-const ChangeRankBadge = ({ children, token, setRank }: any) => {
+const ChangeRankBadge = ({ children, token, setRank, user }: any) => {
     const classes = useCustomBadgeStyles();
 
     const [isRankChangeDialogOpen, setIsRankChangeDialogOpen] = useState(false);
@@ -79,6 +79,10 @@ const ChangeRankBadge = ({ children, token, setRank }: any) => {
             });
         }
     }, [changeRankState]);
+
+    useEffect(() => {
+        fetchUserRanks();
+    }, [user, fetchUserRanks]);
 
     return (
         <Fragment>
@@ -150,6 +154,7 @@ const ChangeRankBadge = ({ children, token, setRank }: any) => {
 
 const mapStateToProps = (state: ReduxStateType) => ({
     token: selectToken(state),
+    user: selectUser(state),
 });
 
 export default connect(mapStateToProps)(ChangeRankBadge);

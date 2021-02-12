@@ -16,4 +16,5 @@ export interface FormikFormPropType {
     state: any;
     title?: string;
     enableReinitialize?: boolean;
+    blurValidation?: boolean;
 }
