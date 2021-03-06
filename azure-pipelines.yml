@@ -9,7 +9,7 @@ queue:
 trigger:
 - master
 variables:
-  DockerImageName: 'gentle-ally-270120/front'
+  DockerImageName: 'gamitude/web'
 
 
 steps:
@@ -17,32 +17,26 @@ steps:
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
+- task: DockerInstaller@0
+  inputs:
+    dockerVersion: '17.09.0-ce'
 
 - script: |
     npm install
     npm run build
   displayName: 'npm install and build'
 
-- task: CmdLine@1
-  displayName: 'Lock image version in deployment.yaml'
+- task: Bash@3
   inputs:
-    filename: /bin/bash
-    arguments: '-c "awk ''{gsub(\"FRONT_IMAGE\", \"gcr.io/$(DockerImageName):$(Build.BuildId)\", $0); print}'' deployment.yaml > $(build.artifactstagingdirectory)/deployment.yaml"'
+    targetType: 'inline'
+    script: 'docker build -f Dockerfile -t $DockerImageName:latest .'
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: docker save --output $(build.artifactstagingdirectory)/gamitude_web.tar $DockerImageName'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
-- task: Docker@0
-  displayName: 'Build image'
-  inputs:
-    containerregistrytype: 'Container Registry'
-    dockerRegistryConnection: 'gcr-gamitude-pipeline'
-    imageName: '$(DockerImageName):$(Build.BuildId)'
-- task: Docker@0
-  displayName: 'Publish image'
-  inputs:
-    containerregistrytype: 'Container Registry'
-    dockerRegistryConnection: 'gcr-gamitude-pipeline'
-    action: 'Push an image'
-    imageName: '$(DockerImageName):$(Build.BuildId)'
